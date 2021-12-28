@@ -1,0 +1,15 @@
+<div class="p-col-12 p-md-4">
+    <h1 [translate]="'Tracker.Add Project Type'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1><br>
+    <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+        <input #typeName="ngModel" [class.is-invalid]="typeName.invalid && typeName.touched"
+            [class.is-valid]="typeName.valid" required minlength="3" type="text" pInputText
+            [placeholder]="'Tracker.Project Type Name' | translate" [(ngModel)]="ProjectTypeObj.typeName">
+    </div>
+    <small [hidden]="typeName.valid || typeName.untouched" id="helpId" class="text-muted"
+        [translate]="'Tracker.messege'"></small>
+</div>
+<div class="p-col-12 p-md-4">
+    <button class="btn btn-info" style="margin-top: 20px;float: right;" (click)="Add()" [translate]="'Tracker.Add'">
+    </button>
+</div>

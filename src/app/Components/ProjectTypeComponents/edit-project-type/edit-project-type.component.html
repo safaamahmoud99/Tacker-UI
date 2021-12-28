@@ -1,0 +1,47 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<div class="container">
+    <form #frm="ngForm" (ngSubmit)="update()">
+        <h1 [translate]="'Tracker.Edit Project Type'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1><br>
+        <div class="form-row">
+            <div class="col-md-6">
+                <label for="name" [translate]="'Tracker.Project Type Name'"></label>
+                <input type="text" #ProjectType="ngModel"
+                    [class.is-invalid]="ProjectType.invalid && ProjectType.touched" [class.is-valid]="ProjectType.valid"
+                    [(ngModel)]="ProjectTypeObj.typeName" required minlength="3" name="ProjectType" id="ProjectType"
+                    class="form-control" [placeholder]="'Tracker.Project Type Name' | translate"
+                    aria-describedby="helpId">  
+                              <small [hidden]="ProjectType.valid || ProjectType.untouched" id="helpId" class="text-muted"
+            [translate]="'Tracker.messege'"></small>
+            </div>
+
+        </div>
+        <br>
+        <button id="Add" type="submit" [disabled]="frm.invalid" class="btn btn-primary"
+            [translate]="'Tracker.Update'"></button>
+    </form>
+</div>

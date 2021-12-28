@@ -1,0 +1,169 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+<p-toast position="top-right" key="tr"></p-toast>
+
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<div class="container card">
+
+    <h1 [translate]="'Tracker.Create Requests'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+    <br>
+    <br>
+    <div class="row">
+        <div class="p-field col-md-3">
+            <label for="Project Name" name="name" class="labelMarginRight">{{'Tracker.Request Name'|translate}}
+            </label><br>
+            <input id="name" name="name" class="form-control" required minlength="4"
+                [placeholder]=" 'Tracker.Enter Request Name'|translate" [(ngModel)]="reqObj.requestName" #name="ngModel"
+                pInputText>
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+
+                <div *ngIf="name.errors.required">
+                    Name is required.
+                </div>
+                <div *ngIf="name.errors.minlength">
+                    Name must be at least 4 characters long.
+                </div>
+            </div>
+
+        </div>
+        <div class="p-field col-md-3">
+            <label for="Project Type" class="labelMarginRight"> {{'Tracker.Project Name'|translate}}</label><br>
+            <p-dropdown [options]="lstProjects" [(ngModel)]="reqObj.projectId"
+                [placeholder]=" 'Tracker.Select Project Name'|translate" optionLabel="projectName" optionValue="id"
+                (onChange)="onChange($event)">
+            </p-dropdown>
+        </div>
+        <div class="p-field col-md-3">
+            <label for="requestType" class="labelMarginRight">{{'Tracker.Request Type'|translate}} </label><br>
+
+            <p-dropdown [options]="lstProjectTeams" [(ngModel)]="reqObj.teamId"
+                [placeholder]="'Tracker.Select Request Type'|translate" optionLabel="teamName" optionValue="teamId"
+                (onChange)="GetProjectTeamId($event)">
+            </p-dropdown>
+        </div>
+        <div class="p-field col-md-3">
+            <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Sub Category'|translate}} </label><br>
+            <p-dropdown [options]="lstReqSubCategories" [(ngModel)]="reqObj.requestSubCategoryId"
+                [placeholder]="'Tracker.Select Sub Category'|translate" optionLabel="subCategoryName" optionValue="id">
+            </p-dropdown>
+        </div>
+    </div>
+    <div class="row">
+    </div> <br>
+    <div class="row">
+
+
+        <div class="p-field col-md-3">
+            <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Periority'|translate}} </label><br>
+            <p-dropdown [options]="lstReqPeriorities" [(ngModel)]="reqObj.requestPeriorityId"
+                [placeholder]="'Tracker.Select Request Periority'|translate" optionLabel="periorty" optionValue="id">
+            </p-dropdown>
+        </div>
+        <div class="p-field col-md-3">
+            <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Asset'|translate}} </label><br>
+            <p-dropdown [options]="lstReqAssets" [(ngModel)]="reqObj.assetId"
+                [placeholder]="'Tracker.Select Request Asset'|translate" optionLabel="assetName" optionValue="id">
+            </p-dropdown>
+        </div>
+        <div class="row">
+            <div class="p-field col-md-3">
+                <label for="description">{{ 'Tracker.Description' | translate }}</label><br>
+                <textarea id="description" [(ngModel)]="reqObj.description" pInputTextarea required rows="3"
+                    cols="63"></textarea>
+            </div>
+
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-md-3" hidden>
+            <label for="Request Date" class="labelMarginRight">{{ 'Tracker.Request Date' | translate }}</label><br>
+            <p-calendar [(ngModel)]="reqObj.requestDate" dateFormat="dd/mm/yy"></p-calendar>
+            <small class="p-invalid"></small>
+        </div>
+        <div class="col-md-3" hidden>
+            <label for="Request Date" class="labelMarginRight">{{ 'Tracker.Request Time' | translate }}</label><br>
+
+            <p-calendar [(ngModel)]="reqObj.requestTime" [timeOnly]="true" inputId="timeonly"></p-calendar>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <button id="Add" type="submit" [disabled]="disabledButton==true" (click)="AddRequest()" class="btn btn-primary"
+            [translate]="'Tracker.Submit'"></button>
+    </div>
+
+    <br>
+</div>
+
+<br />
+<!-- <hr style="width:100%;text-align:left;margin-left:0"> -->
+<br />
+<div class="container card">
+<div class="p-field col-md-9 mt-3">
+    <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+    <button type="button" class="btn btn-success" [disabled]="disabledButton==false" (click)="file.click()">{{
+        'Tracker.Upload Request Images' | translate }}</button>
+
+</div>
+<div class="p-field col-md-9">
+    <div class="col">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{{ 'Tracker.Request Image Name' | translate }}</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let i of lstRequestImages">
+
+                    <td>{{i.imageName}}</td>
+
+                </tr>
+                <tr>
+
+                </tr>
+                <tr *ngIf="lstRequestImages.length == 0">
+                    <td colspan="4" style="color: rgb(102, 97, 23);">{{ 'Tracker.No images found' | translate }}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+        <button class="btn btn-warning mb-3" [disabled]="lstRequestImages.length == 0" (click)="SaveimageToDB()">
+            {{ 'Tracker.Add List' | translate }}
+        </button>
+    </div>
+</div>
+</div>
+
+<p-dialog [header]="'Tracker.Confirmation'|translate" [(visible)]="displayBasic" [style]="{width: '50vw'}"
+    [baseZIndex]="10000">
+    <p>{{"Tracker.Do you Want To Upload Decuments ?"|translate}}</p>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayBasic=false" (click)="file.click()"
+            [label]="'Tracker.Yes' | translate" styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-times" (click)="Redirect()" [label]="'Tracker.No' | translate"></p-button>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,22 @@
+button{
+    margin:0 30px 30px 0;
+    color: black;
+   }
+   a{
+       margin-left: 20px;
+       font-weight: bold;
+   }
+   .menu{
+       color:red;
+   }
+   p-menubar{
+       color: chartreuse;
+   }
+   /* .nav-bar {
+    position: fixed;
+    top: 0;
+    z-index: 99;
+    }
+    .spacer {
+    flex: 1 1 auto;
+    } */

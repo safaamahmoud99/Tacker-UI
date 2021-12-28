@@ -1,0 +1,111 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<br><br>
+<div class="container">
+    <p-table id="my-table" class="container card" #dt dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[5,10,50]" styleClass="p-datatable-customers" [paginator]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+        [globalFilterFields]="['supplierName']" [value]="lstSuppliers">
+        <ng-template pTemplate="caption">
+            <h1 style="margin-bottom: 20px; font-size: 2em;color: #2674a8;">{{'Tracker.Suppliers' | translate}}</h1>
+            <div class="row">
+                <div class="table-header col-md-10">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search"/>
+                    </span>
+                </div>
+                <div class="col-md-2">
+                    <button id="addEmpBtn" (click)="NewDialog()" class="btn btn-outline-primary btn-md btn-block">
+                        <span class="pi pi-plus">Add</span> </button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr style="height: 5px !important; ">
+                <th pSortableColumn="supplierName"><span>Supplier Name</span>
+                    <p-sortIcon field="supplierName"></p-sortIcon>
+                </th>
+                <th>Controls</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-Supplier>
+            <tr style="height: 5px !important;font-size: 17px;">
+                <td>{{Supplier.supplierName}}</td>
+                <td>
+                    <span class="pi pi-compass" style="cursor: pointer;" aria-hidden="true"
+                        (click)="showBasicDialog(Supplier.id)"></span>
+                    <span class="pi pi-pencil" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"
+                        (click)="EditDialog(Supplier.id)"></span>
+                    <!-- <span class="pi pi-times" style="cursor: pointer;margin-left: 15px;" (click)="confirm(Supplier.id)" aria-hidden="true"></span> -->
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Supplier Details</h1>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Supplier Name : </span></th>
+        <td>{{SuppliersObj.supplierName}}</td>
+    </tr>
+</p-dialog>
+
+<form>
+    <p-dialog [(visible)]="Editboolean" [style]="{width: '50vw'}" [baseZIndex]="10000">
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Update Supplier</h1>
+        <div class="row">
+            <span class="col-md-4" for="time">Supplier Name</span>
+            <input name="supplierName" pInputText type="text" class="col-md-6 form-control"
+                [(ngModel)]="SuppliersObj.supplierName" inputId="date">
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button (onClick)="update(SuppliersObj.id)" type="submit" icon="pi pi-check"
+                styleClass="p-button-text">Submit</p-button>
+            <p-button icon="pi pi-times" (click)="Editboolean=false">Cancel</p-button>
+        </ng-template>
+
+    </p-dialog>
+</form>
+
+<form #frm="ngForm">
+    <p-dialog [(visible)]="NewDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Add Supplier</h1>
+        <div class="row">
+            <span class="col-md-4" for="time">Supplier Name</span>
+            <input name="supplierName" pInputText type="text" class="col-md-6 form-control"
+                [(ngModel)]="SuppliersObj.supplierName" inputId="date">
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button (onClick)="add()" [disabled]="frm.invalid" type="submit" icon="pi pi-check"
+                styleClass="p-button-text">Submit
+            </p-button>
+            <p-button icon="pi pi-times" (click)="NewDialogbool=false">Cancel</p-button>
+        </ng-template>
+
+    </p-dialog>
+</form>

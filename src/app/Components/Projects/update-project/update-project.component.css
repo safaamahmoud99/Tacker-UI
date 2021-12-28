@@ -1,0 +1,31 @@
+.labelMarginRight{
+    margin-right: 10px;
+}
+/* :host ::ng-deep .p-dropdown {
+    width: 12rem;
+  } */
+  button {
+    min-width: 10rem;
+    margin-right: .5rem;
+}
+:host ::ng-deep .p-dropdown{
+  /* width: 12rem; */
+width: 100%
+}
+:host ::ng-deep .p-multiSelect{
+  /* width: 12rem; */
+width: 100%;
+}
+  :host ::ng-deep .p-calendar{
+  /* width: 12rem; */
+width: 100%;
+}
+input{
+  width: 100%;
+}
+.mat-datepicker-close-button {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+}

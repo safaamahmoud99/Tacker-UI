@@ -1,0 +1,775 @@
+
+<p-toast position="center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="top-right" key="tr" [baseZIndex]="5000"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<div class="container card">
+    <br>
+    <div class="row">
+        <div class="col-9" style="margin-left: 20px;">
+            <h1 [translate]="'Tracker.All Project'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+        </div>
+        <div *ngIf="role=='SuperAdmin'|| role=='PMO'" class="col-2" style="margin-left: 6%;">
+        </div>
+        <div *ngIf="role=='SuperAdmin'|| role=='Client'" class="col-2" style="margin-left: 6%;">
+            <p-button icon="pi pi-external-link" [label]="'Tracker.Requests' | translate"
+                routerLink="/home/ClientManagerRequests" class="create">
+            </p-button>
+        </div>
+    </div>
+    <!-- Basic Data -->
+    <ng-template pTemplate="header">
+        <h1 [translate]="'Tracker.All Project'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+
+        <i class="pi pi-fw pi-home"></i>
+        <span style="margin-left: 10px;" [translate]="'Tracker.Basic Data'"></span>
+    </ng-template>
+
+
+
+           <p-table id="my-table"  #dt dataKey="id"  [rows]="5" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[5,10,50]"  styleClass="p-datatable-responsive-demo" [paginator]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+            rowExpandMode="single" [value]="projects">
+            <ng-template pTemplate="header">     
+                <tr style="text-align: inherit;">
+                    <th style="width: 3rem"></th>
+                    <th pSortableColumn="projectName" style="font-size: 12px;text-align: inherit;">{{ 'Tracker.Project Name' | translate }}
+                        <p-sortIcon field="projectName"></p-sortIcon>
+                        <p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="type" style="font-size: 12px;text-align: inherit;"> {{ 'Tracker.Project Type Name' | translate }}
+                        <p-sortIcon field="type"></p-sortIcon>
+                        <p-columnFilter type="text" field="type" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="organizationName" style="font-size: 12px;text-align: inherit;"> {{
+                        'Tracker.Organization' |translate }}<p-sortIcon field="organizationName"></p-sortIcon>
+                        <p-columnFilter type="text" field="organizationName" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="projectCode" style="font-size: 12px;text-align: inherit;"> 
+                        {{ 'Tracker.Project Code' | translate }}
+                        <p-sortIcon field="projectCode"></p-sortIcon>
+                        <p-columnFilter type="text" field="projectCode" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="actualStartDate" style="font-size: 12px;text-align: inherit;"> {{
+                        'Tracker.Start Date' | translate }}
+                        <p-sortIcon field="actualStartDate"></p-sortIcon>
+                        <p-columnFilter type="date" field="actualStartDate" display="menu"></p-columnFilter>
+
+                    </th>
+                    <th pSortableColumn="actualEndDate" style="font-size: 12px;text-align: inherit;"> {{ 'Tracker.End Date' | translate }}
+                        <p-sortIcon field="actualEndDate"></p-sortIcon>
+                        <p-columnFilter type="date" field="actualEndDate" display="menu"></p-columnFilter>
+                    </th>
+                    <th style="text-align: inherit;">{{ 'Tracker.Controls' | translate }}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-project let-expanded="expanded"> 
+                <tr [pSelectableRow]="project">
+                    <td>
+                        <button  (click)="ShowRequets(project.id)" pTooltip="Show requests" type="button"
+                          pButton pRipple [pRowToggler]="project" 
+                          class="p-button-text p-button-rounded p-button-plain"                         
+                          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'">
+                          </button >  
+  
+                  </td>
+                    <td>
+                        <span class="p-column-title"></span>
+                        {{project.projectName}}
+                    </td>
+                    <td>
+                        <span class="p-column-title"></span>
+                        <span class="image-text">{{project.projectTypeName}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title"></span>
+                        <span [class]="'customer-badge type-' + project.type">{{project.organizationName }}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title"></span>
+                        <span [class]="'customer-badge type-' + project.projectCode">{{project.projectCode}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title"></span>
+                        <span [class]="'customer-badge type-' + project.actualStartDate">{{project.actualStartDate|date:'dd/MM/yyyy'}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title"></span>
+                        <span [class]="'customer-badge type-' + project.actualEndDate">{{project.actualEndDate|date:'dd/MM/yyyy'}}</span>
+                    </td>
+                    <td>
+                        <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;color: cornflowerblue;"
+                            (click)="showMaximizableDialog(project.id)" pTooltip="Show projects details"></span>
+                        <span  class="p-button-icon pi pi-ticket ml-3"style="cursor: pointer;color:green;"
+                            aria-hidden="true" [routerLink]="['/home/ClientManagerRequests',project.id]" pTooltip="Show requests"></span>
+                    </td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-opportunity let-expanded>
+                <tr style="border: 2px solid #cae6fc;border-radius: 5px;" >
+                    <td colspan="8">
+                        <p-table [value]="lstRequests" styleClass="p-datatable-responsive-demo">
+                            <ng-template pTemplate="caption">
+                                <div class="row">
+                                    <div class="p-d-flex p-ai-center p-jc-between col-md-10">
+                                        <h1 [translate]="'Tracker.Clients Requests'"
+                                            style="margin-bottom: 20px;margin-left:20px; font-size: 2em;color: #2674a8;"></h1>
+                    
+                                        <!-- <span class="h3Header"> routerLink="/home/Requests" {{ 'Tracker.Clients Requests' | translate }}</span> -->
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button id="addEmpBtn" (click)="OpendialogAddRequest()"
+                                            class="btn btn-outline-primary btn-md btn-block">
+                                            <span class="pi pi-plus"> {{ 'Tracker.Add' | translate }}</span> </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr >
+                                    <!-- <th>Image</th> -->
+                                    <th> {{'Tracker.Request Name'|translate}}
+                                        <p-columnFilter type="text" field="requestName" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th>{{'Tracker.Code'|translate}}
+                                        <p-columnFilter type="text" field="requestCode" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th>{{'Tracker.Site Name'|translate}}
+                                        <p-columnFilter type="text" field="sitename" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th>{{'Tracker.Asset Name'|translate}}
+                                        <p-columnFilter type="text" field="assetName" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th>{{'Tracker.Asset Serial'|translate}}
+                                        <p-columnFilter type="text" field="serialNumber" display="menu"></p-columnFilter>
+                                    </th>
+                                    <!-- <th>{{'Tracker.Project Name'|translate}}
+                                        <p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
+                                    </th> -->
+                                    <th>{{'Tracker.Date'|translate}}
+                                        <p-columnFilter type="text" field="requestDate" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th> {{'Tracker.Status'|translate}}
+                                        <p-columnFilter type="text" field="requestStatus" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th>{{'Tracker.Problem'|translate}}
+                                        <p-columnFilter type="text" field="problemName" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th>{{'Tracker.Operation'|translate}} </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-request>
+                                <tr>
+                                    <td>
+                                        {{request.requestName}}
+                                    </td>
+                                    <td>
+                                        {{request.requestCode}}
+                                    </td>
+                                    <td>
+                                        {{request.sitename}}
+                                    </td>
+                                    <td>
+                                        {{request.assetName}}
+                                    </td>
+                                    <td>
+                                        {{request.serialNumber}}
+                                    </td>
+                                    <!-- <td>
+                                        {{request.projectName}}
+                                    </td> -->
+                                    <td>
+                                        <!-- {{request.requestTime | slice:0:5}} -->
+                                        {{request.requestDate | date:'dd/MM/yyyy h:mm:ss a'}}
+                                    </td>
+                                    <td style="font-weight: bolder;color: #b3c20e;" *ngIf="request.requestStatus=='Open'">
+                                        {{request.requestStatus}}
+                                    </td>
+                                    <td style="font-weight: bolder;color: #5c6305;" *ngIf="request.requestStatus=='InProgress'">
+                                        {{request.requestStatus}}
+                                    </td>
+                                    <td style="font-weight: bolder;color: #1e5c13;" *ngIf="request.requestStatus=='Solved'">
+                                        {{request.requestStatus}}
+                                    </td>
+                                    <td style="font-weight: bolder;color: #5a6359;" *ngIf="request.requestStatus=='Closed'">
+                                        {{request.requestStatus}}
+                                    </td>
+                                    <td>
+                                        {{request.requestSubCategoryName}}
+                                    </td>
+                                    <td>
+                                        <span class="pi pi-file-o" (click)="ViewImages(request.id)" pTooltip="Show Documents"
+                                            style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
+                                        <span (click)="ViewMoreDesc(request.id)" class="pi pi-list" pTooltip="Descriptions"
+                                            style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="summary">
+                                <div class="p-d-flex p-ai-center p-jc-between">
+                                    {{ 'Tracker.In total there are ' | translate }} {{lstRequests ? lstRequests.length : 0 }} {{
+                                    'Tracker.Requests' | translate }}
+                                </div>
+                            </ng-template>
+                    
+                        </p-table>
+                    </td>
+                </tr>
+            </ng-template>
+
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4" [translate]="'Tracker.No data found'"></td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <p-dialog class="data" [(visible)]="dialogAddRequest" 
+         [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
+        [draggable]="false" [style]="{width: '60vw'}"  [resizable]="true">
+        <p-toast position="top-right" key="tr" [baseZIndex]="5000"></p-toast>
+        <!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+            {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+          </button> -->
+        <mat-horizontal-stepper [linear]="isLinear" #stepper>
+            <mat-step [stepControl]="firstFormGroup">
+                  <ng-template matStepLabel>{{'Tracker.Add request'| translate}}</ng-template>
+                  <div class="container card">
+                      <br>
+                    <div class="row">
+                        <div class="p-field col-md-4">
+                            <label for="Project Name" class="labelMarginRight"> {{'Tracker.Project Name'|translate}}</label><br>
+                            <input id="projectname" disabled name="projectname" class="form-control"  minlength="4"
+                            [placeholder]=" 'Tracker.Enter Request Name'|translate" [(ngModel)]="projectName" [ngModelOptions]="{standalone: true}"
+                            #name="ngModel" pInputText>
+                        </div>
+                        <div class="p-field col-md-4">
+                            <label for="Request Name" name="name" class="labelMarginRight">{{'Tracker.Request Name'|translate}}
+                            </label><br>
+                            <input id="name" name="name" class="form-control" required minlength="4"
+                                [placeholder]=" 'Tracker.Enter Request Name'|translate" [(ngModel)]="reqObj.requestName" [ngModelOptions]="{standalone: true}"
+                                #name="ngModel" pInputText>
+        
+                            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+        
+                                <div *ngIf="name.errors.required">
+                                    Name is required.
+                                </div>
+                                <div *ngIf="name.errors.minlength">
+                                    Name must be at least 4 characters long.
+                                </div>
+                            </div>
+                        </div>
+        
+        
+                        <div class="p-field col-md-4">
+                            <label for="clientName" class="labelMarginRight">{{'Tracker.Client Name'|translate}} </label><br>
+        
+                            <p-dropdown [options]="lstClientsByProjectId" [(ngModel)]="reqObj.clientId" [ngModelOptions]="{standalone: true}"
+                                [placeholder]=" 'Tracker.Select Client Name'|translate" optionLabel="clientName"
+                                optionValue="id">
+                            </p-dropdown>
+                        </div>
+        
+                    </div>
+                    <div class="row">
+                        <div class="p-field col-md-4">
+                            <label for="requestType" class="labelMarginRight">{{'Tracker.Request Type'|translate}} </label><br>
+         
+                            <p-dropdown [options]="lstProjectTeams" [(ngModel)]="reqObj.teamId" [ngModelOptions]="{standalone: true}"
+                                [placeholder]="'Tracker.Select Request Type'|translate" optionLabel="teamName"
+                                optionValue="teamId" (onChange)="GetProjectTeamId($event)">
+                            </p-dropdown>
+                        </div>
+                        <div class="p-field col-md-4">
+                            <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Sub Category'|translate}}
+                            </label><br>
+                            <p-dropdown [options]="lstReqSubCategories" [(ngModel)]="reqObj.requestSubCategoryId" [ngModelOptions]="{standalone: true}"
+                                [placeholder]="'Tracker.Select Sub Category'|translate" optionLabel="subCategoryName"
+                                optionValue="id">
+                            </p-dropdown>
+                        </div>
+                        <div class="p-field col-md-4">
+                            <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Periority'|translate}}
+                            </label><br>
+                            <p-dropdown [options]="lstReqPeriorities" [(ngModel)]="reqObj.requestPeriorityId" [ngModelOptions]="{standalone: true}"
+                                [placeholder]="'Tracker.Select Request Periority'|translate" optionLabel="periorty"
+                                optionValue="id">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                        <br>
+                    <div class="row">
+                            <div class="p-field col-md-4">
+                                <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Mode'|translate}}
+                                </label><br>
+                                <p-dropdown [options]="lstRequestMode" [(ngModel)]="reqObj.requestModeId" [ngModelOptions]="{standalone: true}"
+                                    [placeholder]="'Tracker.Select Mode'|translate" optionLabel="mode" optionValue="id">
+                                </p-dropdown>
+                            </div>
+                            <div class="p-field col-md-4">
+                                <label for="asset Type" class="labelMarginRight">{{'Tracker.Request Asset'|translate}}
+                                </label><br>
+                                <p-dropdown [options]="lstAssetsByProject" [(ngModel)]="reqObj.assetId" (onChange)="onChangeAsset($event)"
+                                    [placeholder]="'Tracker.Select Request Asset'|translate" optionLabel="assetName" [ngModelOptions]="{standalone: true}"
+                                    optionValue="assetId">
+                                </p-dropdown>
+                            </div>
+                             <div class="p-field col-md-4">
+                                <label for="Asset Serial" class="labelMarginRight">{{'Tracker.Asset Serial'|translate}}
+                                </label><br>
+                                <p-dropdown [options]="lstAssetsSerialsByAsset"  (onChange)="onChangeSerial($event)"
+                                    [placeholder]="'Tracker.Select Request Asset'|translate" optionLabel="serialNumber" [ngModelOptions]="{standalone: true}"
+                                    optionValue="id">
+                                </p-dropdown>
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3" hidden>
+                            <label for="Request Date" class="labelMarginRight">Request Date</label><br>
+                            <p-calendar [(ngModel)]="reqObj.requestDate" [ngModelOptions]="{standalone: true}" dateFormat="dd/mm/yy"></p-calendar>
+                            <small class="p-invalid"></small>
+                        </div>
+                        <div class="col-md-3" hidden>
+                            <label for="Request Date" class="labelMarginRight">Request Time</label><br>
+        
+                            <p-calendar [(ngModel)]="reqObj.requestTime" [timeOnly]="true" inputId="timeonly" [ngModelOptions]="{standalone: true}"></p-calendar>
+                        </div>
+        
+                        <div class="row">
+                            <div class="p-field col-md-9" style="margin-left: 13px;">
+                                <label for="description">{{ 'Tracker.Description' | translate }}</label><br>
+                                <textarea id="description" [(ngModel)]="reqObj.description" pInputTextarea required rows="3" [ngModelOptions]="{standalone: true}"
+                                    cols="63"></textarea>
+                            </div>
+
+                        </div>
+                    </div><br>              
+                  <div class="row">
+                      <div class="col-md-2"></div>
+                      <div class="col-md-7"></div>
+                      <div class="col-md-3">
+                        <button mat-stroked-button [disabled]="IsSaveProject" (click)="AddRequest()" color="primary" mat-button >{{'Tracker.Submit'|translate}}</button>
+                        <button mat-stroked-button [disabled]="disabledButton==false" color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                      </div>
+                  </div>  
+                  <br>
+                </div>
+              </mat-step>
+
+              <mat-step [stepControl]="secondFormGroup">    
+                <ng-template matStepLabel>{{'Tracker.Add Document'| translate}}</ng-template>  
+                 <div class="container card">
+                 <br>                       
+                    <div class="p-field col-md-9 mt-3">
+                        <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)"
+                            style="display:none;">
+                        <button type="button" class="btn btn-success" 
+                            (click)="file.click()">{{'Tracker.Upload Request Images'|translate}}</button>
+        
+                    </div>
+                    <br />
+                    <br />
+                    <div class="p-field col-md-9">
+                        <div class="col">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th> {{'Tracker.Request Image Name'|translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+        
+                                    <tr *ngFor="let i of lstRequestImages">
+        
+                                        <td>{{i.imageName}}</td>
+        
+                                    </tr>
+                                    <tr>
+        
+                                    </tr>
+                                    <tr *ngIf="lstRequestImages.length == 0">
+                                        <td colspan="4" style="color: rgb(102, 97, 23);">{{'Tracker.No images found'|translate}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+        
+                            </table>
+        
+                            <button class="btn btn-warning mb-3" style="margin-left: -30px;" [disabled]="lstRequestImages.length == 0"
+                                (click)="SaveimageToDB()">
+                                {{'Tracker.Add List'|translate}}</button>
+                        </div>
+                    </div>
+                  <div class="row">
+                      <div class="col-md-3">
+                        <button mat-stroked-button color="primary" mat-button matStepperPrevious> {{'Tracker.Back'|translate}}</button>
+                      </div>
+                      <div class="col-md-7"></div>
+                      <div class="col-md-2">
+                        <button mat-stroked-button color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                      </div>
+                  </div>
+                  <br>
+                </div> 
+              </mat-step>
+              <mat-step>
+                <ng-template matStepLabel>{{'Tracker.FINISH'|translate}}</ng-template>
+                <p>{{'Tracker.You are now done.'|translate}}</p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <button mat-stroked-button color="primary" mat-button matStepperPrevious>{{'Tracker.Back'|translate}}</button>
+                    </div>
+                    <div class="col-md-8"></div>
+                    <div class="col-md-2">
+                        <button mat-stroked-button (click)="stepper.reset()" (click)="CloseStipper()" color="primary" mat-button>{{'Tracker.FINISH'|translate}}</button>
+                    </div>
+                </div>
+              </mat-step>
+        </mat-horizontal-stepper>
+    </p-dialog>  
+    <p-dialog [(visible)]="NewdecDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
+        <div class="row">
+            <h1 [translate]="'Tracker.Descriptions'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+            <p-table [value]="lstRequestDesc">
+                <ng-template pTemplate="header">
+
+                    <tr>
+                        <th style="color: #2674a8; font-size: 20px; font: bold; text-align: center;">
+                            {{'Tracker.Descriptions'| translate}} </th>
+                        <th style="color: #2674a8; font-size: 20px; font: bold; text-align: center;">
+                            {{'Tracker.UserName'|
+                            translate}}</th>
+                        <th style="color: #2674a8; font-size: 20px; font: bold; text-align: center;">{{'Tracker.Date'|
+                            translate}}</th>
+                    </tr>
+
+                </ng-template>
+                <ng-template pTemplate="body" let-i>
+                    <tr>
+                        <td style="font-size: large;text-align: center;">
+                            {{i.description}}
+
+                        </td>
+                        <td style="font-size: large;text-align: center;">
+                            {{i.userName}}
+
+                        </td>
+                        <td style="font-size: large;text-align: center;">
+                            {{i.descriptionDate | date :'dd/MM/yyyy h:mm a'}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <!-- <ng-template pTemplate="footer">
+            <p-button icon="pi pi-times" (click)="NewdecDialogbool=false" label="No"></p-button>
+        </ng-template> -->
+
+    </p-dialog>
+    <p-dialog [(visible)]="NewclientDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
+        <div class="row">
+            <h1 [translate]="'Tracker.Documents'"
+                style="margin-bottom: 20px;margin-left:20px; font-size: 2em;color: #2674a8;"></h1>
+            <p-table [value]="reqImages">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="color: #2674a8; font-size: 20px; font: bold; ">{{'Tracker.Document Name'|translate}}
+                        </th>
+                        <th></th>
+                    </tr>
+
+                </ng-template>
+                <ng-template pTemplate="body" let-i>
+                    <tr>
+                        <td style="color: rgb(187, 12, 12);font-size: large;">{{i.imageName}}
+                        </td>
+                        <td>
+                            <button class="btn btn-info" style="text-align:right;"
+                                (click)="viewSingleDoc(i)">{{'Tracker.View'|translate}} </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <!-- <ng-template pTemplate="footer">
+            <p-button icon="pi pi-times" (click)="NewclientDialogbool=false" label="No"></p-button>
+        </ng-template> -->
+
+    </p-dialog>
+    <p-dialog id="PopupWindow" [(visible)]="displayMaximizable" [modal]="true" [style]="{'width': '60vw'}"
+    [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <div>
+        <h1 [translate]="'Tracker.Project Data'" style="font-size: 2em;color: #2674a8;margin-left:-10px"></h1>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-4 form-control">
+            <span style="font-weight: bold;">{{'Tracker.Project Name'|translate}} :
+            </span>&nbsp;{{project1.projectName}}
+        </div>
+        <div class="col-md-4 form-control"><span style="font-weight: bold;">{{'Tracker.Project Code'|translate}}
+                :
+            </span>&nbsp;{{project1.projectCode}}
+        </div>
+        <div class="col-md-4 form-control"><span style="font-weight: bold;">{{'Tracker.Project Cost'|translate}}
+                :
+            </span>&nbsp;{{project1.cost}}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4 form-control"><span style="font-weight: bold;">{{'Tracker.Project Type Name'|translate}} :
+            </span>&nbsp;{{project1.projectTypeName}}
+        </div>
+        <div class="col-md-4 form-control"><span style="font-weight: bold;">{{'Tracker.Organization Name'|translate}} :
+            </span>&nbsp;{{project1.organizationName}}
+        </div>
+        <div class="col-md-4 form-control"><span style="font-weight: bold;">{{'Tracker.Project Period'|translate}} :
+            </span>&nbsp;{{project1.projectPeriod}}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-3 form-control"><span style="font-weight: bold;">{{'Tracker.Plannded Start Date'|translate}} :
+            </span>&nbsp;{{project1.planndedStartDate | date:'dd/MM/yyyy'}}
+        </div>
+        <div class="col-md-3 form-control"><span style="font-weight: bold;">{{'Tracker.Actual Start Date'|translate}} :
+            </span>&nbsp;{{project1.actualStartDate | date:'dd/MM/yyyy'}}
+        </div>
+        <div class="col-md-3 form-control"><span style="font-weight: bold;">{{'Tracker.Plannded End Date'|translate}} :
+            </span>&nbsp;{{project1.planndedEndDate | date:'dd/MM/yyyy'}}
+        </div>
+        <div class="col-md-3 form-control"><span style="font-weight: bold;">{{'Tracker.Actual End Date'|translate}} :
+            </span>&nbsp;{{project1.actualEndDate | date:'dd/MM/yyyy'}}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12 form-control"><span style="font-weight: bold;">{{'Tracker.Description'|translate}}:</span>&nbsp;{{project1.description}}
+        </div>
+    </div>
+    <br>
+    <!--Clients-->
+    <div class="row">
+        <div>
+            <h1 [translate]="'Tracker.Client'" style="font-size: 2em;color: #2674a8;"></h1>
+        </div>
+        <p-table [value]="lstClientsByProjectId">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>{{ 'Tracker.ClientName' | translate }}</th>
+                    <th>{{ 'Tracker.Phone' | translate }}</th>
+                    <th>{{ 'Tracker.Email' | translate }}</th>
+                    <th>{{ 'Tracker.Address' | translate }}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-i>
+                <tr>
+                    <td>{{i.clientName}}</td>
+                    <td>{{i.phone}}</td>
+                    <td>{{i.email}}</td>
+                    <td>{{i.address}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+    </div>
+    <br>
+    <!--Parteners-->
+    <div class="row">
+        <div>
+            <h1 [translate]="'Tracker.Parteners'" style="font-size: 2em;color: #2674a8;"></h1>
+        </div>
+        <p-table [value]="project1.listOfStackholders">
+            <ng-template pTemplate="header">
+                <tr>
+                    <!-- style="color: #2674a8; font-size: 20px; font: bold;" -->
+                    <th>{{'Tracker.Partener Name'| translate}}</th>
+                    <th>{{'Tracker.Mobile' | translate}}</th>
+                    <th>{{'Tracker.Rank' | translate}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-i>
+                <tr>
+                    <td>{{i.stackeholderName}}</td>
+                    <td>{{i.mobile}}</td>
+                    <td>{{i.rank}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <!-- <div class="col">
+                <label style="color: #2674a8; font-size: 25px; font: bold;"
+                    [translate]="'Tracker.Parteners'"></label>
+                <input *ngFor="let i of project1.listOfStackholders" type="text" class="form-control"
+                    placeholder="{{i.stackeholderName}}" readonly>
+            </div> -->
+    </div>
+    <br>
+    <!--MileStones-->
+    <div class="row">
+        <div>
+            <h1 [translate]="'Tracker.MileStones'" style="font-size: 2em;color: #2674a8;"></h1>
+        </div>
+        <p-table [value]="project1.listOfmilestones">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [translate]="'Tracker.Title'"></th>
+                    <th [translate]="'Tracker.Start Date'"></th>
+                    <th [translate]="'Tracker.End Date'"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-i>
+                <tr>
+                    <td>
+                        {{i.title}}
+                    </td>
+                    <td>
+                        {{i.startDate | date:'dd/MM/yyyy'}}
+                    </td>
+                    <td>
+                        {{i.endDate | date:'dd/MM/yyyy'}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <br>
+    <!--Teams-->
+    <div class="row">
+        <div>
+            <h1 [translate]="'Tracker.Teams'" style="font-size: 2em;color: #2674a8;"></h1>
+        </div>
+        <p-table [value]="project1.listofprojectteam">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [translate]="'Tracker.Position Name'"></th>
+                    <th [translate]="'Tracker.Employee Name'"></th>
+                    <th [translate]="'Tracker.Department Name'"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-i>
+                <tr>
+                    <!-- <td>{{teamname}}</td> -->
+                    <td>
+                        {{i.projectPositionName}}
+                    </td>
+                    <td>
+                        {{i.employeeName}}
+                    </td>
+                    <td>
+                        {{i.departmentName}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <br>
+    <!--Documents-->
+    <div class="row">
+        <div>
+            <h1 [translate]="'Tracker.Documents'" style="font-size: 2em;color: #2674a8;"></h1>
+        </div>
+        <p-table [value]="project1.listOfdocuments">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [translate]="'Tracker.Document Name'">
+                    </th>
+                    <th [translate]="'Tracker.Document File'">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-i>
+                <tr>
+                    <td>{{i.documentName}}</td>
+                    <td (click)="downloadFile(i.documentFile)"
+                        style="color: blue; cursor: pointer; text-decoration: blue  underline;">
+                        {{i.documentFile}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!--Assets-->
+    <div class="row">
+        <div>
+            <h1 [translate]="'Tracker.Assets'" style="font-size: 2em;color: #2674a8;"></h1>
+        </div>
+        <p-table [value]="listProjectSiteAssetClients" [scrollable]="true"  scrollHeight="400px" scrollDirection="both">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>{{'Tracker.Site Name' | translate}}
+                        <p-columnFilter type="text" field="sitename" display="menu"></p-columnFilter>
+                    </th> 
+                    <th>{{'Tracker.Asset Name' | translate}}
+                        <p-columnFilter type="text" field="assetName" display="menu"></p-columnFilter>
+                    </th>
+                    <th>{{'Tracker.Asset Serial' | translate}}
+                        <p-columnFilter type="text" field="serialNumber" display="menu">
+                        </p-columnFilter>
+                    </th>
+                    <th>{{'Tracker.DueDate' | translate}}
+                        <p-columnFilter type="text" field="days" display="menu"></p-columnFilter>
+                    </th>
+                    <th>{{'Tracker.Warranty Period' | translate}}
+                        <p-columnFilter type="text" field="warrantyPeriod" display="menu">
+                        </p-columnFilter>
+                    </th>
+                    <th>{{'Tracker.Warranty Start Date' | translate}}
+                        <p-columnFilter type="date" field="warrantyStartDate" display="menu">
+                        </p-columnFilter>
+                    </th>
+                    <th>{{'Tracker.Supplier Name' | translate}}
+                        <p-columnFilter type="text" field="supplierName" display="menu">
+                        </p-columnFilter>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-i> 
+                <tr>
+                    <td>{{i.sitename}}</td>
+                    <td>{{i.assetName}}</td>
+                    <td>{{i.serialNumber}}</td>
+                    <td>{{i.days}} Days</td>
+                    <td>{{i.warrantyPeriod}} Years</td>
+                    <td>{{i.warrantyStartDate | date:'MM/dd/yyyy'}}</td>
+                    <td>{{i.supplierName}}</td>
+                </tr>
+                <tr *ngIf="listProjectSiteAssetClients.length == 0">
+                    <td colspan="4" style="color: rgb(102, 97, 23);"
+                        [translate]="'Tracker.No data found'">.
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <h1 [translate]="'Tracker.End'" style="font-size: 2em;color: #2674a8;"></h1>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayMaximizable=false" [label]="'Tracker.Ok' | translate"
+            styleClass="p-button-text">
+        </p-button>
+    </ng-template>
+</p-dialog>
+</div>

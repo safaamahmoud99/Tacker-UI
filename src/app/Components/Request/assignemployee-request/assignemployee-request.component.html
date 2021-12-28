@@ -1,0 +1,26 @@
+<div class="container card">
+<h2 style="text-align: center; color: rgb(101, 101, 199);">{{'Tracker.Re_Request To TeamLeader'|translate}}</h2>
+<div class="row">
+    <div class="col">
+
+        <h4 class="labelstyle">{{'Tracker.Problem Name'|translate}}</h4>
+        <select [(ngModel)]="requestProblemObj.problemId" name="problemName" class="form-control"
+        (change)="getProblemId(($event.target.value))">
+            <option *ngFor="let th of lstProblems" value="{{th.id}}">{{th.problemName}}</option>
+        </select>
+    </div>
+</div>
+<br />
+<br />
+<div class="row">
+
+    <div class="col mt-3 mb-3">
+       
+        <h4 for="description">{{'Tracker.Description'|translate}}</h4>
+        <textarea id="description" [(ngModel)]="reqDescriptionObj.description" pInputTextarea required rows="5"
+            cols="137"></textarea>
+        <br>
+        <button class="btn btn-warning" (click)="AssignedEmployeeRequest()">{{'Tracker.Save'|translate}}</button>
+    </div>
+</div>
+</div>

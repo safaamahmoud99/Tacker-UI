@@ -1,0 +1,14 @@
+.labelMarginRight{
+    margin-right: 10px;
+}
+:host ::ng-deep .p-dropdown {
+    width: 100%;
+  }
+  input{
+      width: 100%;
+  }
+  button {
+    min-width: 10rem;
+    margin-right: .5rem;
+}
+

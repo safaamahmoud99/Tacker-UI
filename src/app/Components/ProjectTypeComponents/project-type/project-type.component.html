@@ -1,0 +1,135 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<p-table class="container card" #dt [value]="lstProjectTypes" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5,10,50]" [loading]="loading" styleClass="p-datatable-customers" [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+    [globalFilterFields]="['typeName']">
+    <ng-template pTemplate="caption">
+        <h1 [translate]="'Tracker.All Project Types'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+        <div class="row">
+            <div class="table-header col-md-10">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    [placeholder]="'Tracker.Global Search' | translate"
+                    />
+                </span>
+            </div>
+            <div class="col-md-2">
+                <button id="addDepBtn" (click)="NewDialog()"
+                    class="btn btn-outline-primary btn-md btn-block">
+                    <span class="pi pi-plus" [translate]="'Tracker.Add'"></span> </button>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th [translate]="'Tracker.Project Type Name'" style="text-align: inherit;"></th>
+            <th [translate]="'Tracker.Controls'" ></th>
+        </tr>
+        <tr>
+
+            <th>
+                <input pInputText style="width: 100%;" type="text"
+                    (input)="dt.filter($event.target.value, 'typeName', 'startsWith')"
+                    [placeholder]="'Tracker.Project Type Name' | translate" class="p-column-filter">
+            </th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-ProjectType>
+        <tr>
+            <td style="text-align: inherit;">
+                {{ProjectType.typeName}}
+            </td>
+            <td>
+                <!-- <span class="pi pi-compass" aria-hidden="true" (click)="showBasicDialog(ProjectType.id)"></span>
+                &nbsp; -->
+                <span class="p-button-icon pi pi-pencil" aria-hidden="true"
+                  (click)="EditDialog(ProjectType.id)"></span>&nbsp;
+                <span class="p-button-icon pi pi-times" (click)="confirm(ProjectType.id)" aria-hidden="true"></span>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="6" [translate]="'Tracker.No data found'"></td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-dialog header="Details" [(visible)]="displayBasic" [style]="{width: '70vw'}" [baseZIndex]="10000">
+    <div class="row">
+        <div class="col-md-6 form-control"><span class="bold" [translate]="'Tracker.Project Type Name'"> :
+            </span>&nbsp;{{ProjectTypeObj.typeName}}
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="displayBasic=false" [label]="'Tracker.No' | translate"
+        ></p-button>
+    </ng-template>
+</p-dialog>
+<form>
+    <p-dialog [(visible)]="Editboolean" [style]="{width: '50vw'}" [baseZIndex]="10000">
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Update ProjectType</h1>
+        <div class="col-md-6">
+            <label for="name" [translate]="'Tracker.Project Type Name'"></label>
+            <input type="text" #ProjectType="ngModel"
+                [class.is-invalid]="ProjectType.invalid && ProjectType.touched" [class.is-valid]="ProjectType.valid"
+                [(ngModel)]="ProjectTypeObj.typeName" required minlength="3" name="ProjectType" id="ProjectType"
+                class="form-control" [placeholder]="'Tracker.Project Type Name' | translate"
+                aria-describedby="helpId">  
+                          <small [hidden]="ProjectType.valid || ProjectType.untouched" id="helpId" class="text-muted"
+        [translate]="'Tracker.messege'"></small>
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button (onClick)="update(ConsultantObj.id)" type="submit" icon="pi pi-check" styleClass="p-button-text">
+                Submit</p-button>
+            <p-button icon="pi pi-times" (click)="Editboolean=false">Cancel</p-button>
+        </ng-template>
+
+    </p-dialog>
+</form>
+
+<form #frm="ngForm">
+    <p-dialog [(visible)]="NewDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Add  ProjectType</h1>
+        <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+            <input #typeName="ngModel" [class.is-invalid]="typeName.invalid && typeName.touched"
+                [class.is-valid]="typeName.valid" required minlength="3" type="text" pInputText
+                [placeholder]="'Tracker.Project Type Name' | translate" [(ngModel)]="ProjectTypeObj.typeName">
+        </div>
+        <small [hidden]="typeName.valid || typeName.untouched" id="helpId" class="text-muted"
+            [translate]="'Tracker.messege'"></small>          
+        <ng-template pTemplate="footer">
+            <p-button (onClick)="add()" [disabled]="frm.invalid" type="submit" icon="pi pi-check"
+                styleClass="p-button-text">Submit
+            </p-button>
+            <p-button icon="pi pi-times" (click)="NewDialogbool=false">Cancel</p-button>
+        </ng-template>
+
+    </p-dialog>
+</form>

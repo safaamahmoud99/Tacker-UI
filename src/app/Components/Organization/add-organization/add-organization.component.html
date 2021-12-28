@@ -1,0 +1,131 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-right" key="tr" [baseZIndex]="9999"></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+<div class="container card">
+  <h1 [translate]="'Tracker.Add Organization'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+  <form #myForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group row">
+      <div class="col-md-6">
+        <label for="organizationName"> {{ 'Tracker.OrganizationName' | translate }}</label>
+        <input type="text" #OrganizationName="ngModel"
+          [class.is-invalid]="OrganizationName.invalid && OrganizationName.touched"
+          [class.is-valid]="OrganizationName.valid" [(ngModel)]="organizationObj.organizationName"
+          name="organizationName" required minlength="3" name="OrganizationNames" id="OrganizationName"
+          class="form-control" [placeholder]="'Tracker.Organization Name' | translate" aria-describedby="helpId">
+        <small [hidden]="OrganizationName.valid || OrganizationName.untouched" id="helpId" class="text-danger"
+          [translate]="'Name Must be more than 2'"></small>
+      </div>
+      <!-- //
+      <input type="text" placeholder="Card Owner Name" formControlName="UserName"  [class.is-invalid]="UserName.invalid && UserName.touched "  
+           class="form-control ">
+        <div *ngIf="UserName.invalid && UserName.touched">
+            <small class="text-danger" *ngIf="UserName.errors.required">name is required</small>
+        </div>
+        // -->
+      <div class="col-md-6">
+        <label for="organizationCode">{{ 'Tracker.Code' | translate }}</label>
+        <input type="text" #organizationCode="ngModel"
+          [class.is-invalid]="organizationCode.invalid && organizationCode.touched"
+          [class.is-valid]="organizationCode.valid" [(ngModel)]="organizationObj.organizationCode"
+          name="organizationCode" required minlength="2" name="organizationCodes" id="organizationCode"
+          class="form-control" [placeholder]="'Tracker.Code' | translate" aria-describedby="helpId" required>
+        <small [hidden]="organizationCode.valid || organizationCode.untouched" id="helpId" class="text-danger"
+          [translate]="' Code Must be more than 2'"></small>
+      </div>
+
+    </div>
+    <!-- <div class="form-group row">
+      <div class="col-md-6">
+        <label for="mobile">{{ 'Tracker.Mobile' | translate }}</label>
+        <input type="text" #mobile="ngModel" [class.is-invalid]="mobile.invalid && mobile.touched"
+          [class.is-valid]="mobile.valid" [(ngModel)]="organizationObj.mobile" name="mobile" required minlength="3"
+          name="mobiles" id="organizationCode" class="form-control" [placeholder]="'Tracker.Mobile' | translate"
+          aria-describedby="helpId">
+        <small [hidden]="mobile.valid || mobile.untouched" id="helpId" class="text-muted"
+          [translate]="'Tracker.messege'"></small>
+      </div>
+      <div class="col-md-6">
+        <label for="phone">{{ 'Tracker.Phone' | translate }}</label>
+        <input type="text" #Phone="ngModel" [class.is-invalid]="Phone.invalid && Phone.touched"
+          [class.is-valid]="Phone.valid" [(ngModel)]="organizationObj.phone" name="Phone" required minlength="3"
+          name="Phones" id="organizationCode" class="form-control" [placeholder]="'Tracker.Phone' | translate"
+          aria-describedby="helpId">
+        <small [hidden]="Phone.valid || Phone.untouched" id="helpId" class="text-muted"
+          [translate]="'Tracker.messege'"></small>
+      </div>
+
+    </div> -->
+    <div class="form-group row">
+      <!-- <div class="col-md-6">
+              <label for="ResponsiblePerson">{{ 'Tracker.ResponsiblePerson' | translate }}</label>
+      <input type="text" #ResponsiblePerson="ngModel"
+        [class.is-invalid]="ResponsiblePerson.invalid && ResponsiblePerson.touched"
+        [class.is-valid]="ResponsiblePerson.valid" [(ngModel)]="organizationObj.responsiblePerson"
+        name="ResponsiblePerson" required minlength="3" name="ResponsiblePersons" id="organizationCode"
+        class="form-control" [placeholder]="'Tracker.ResponsiblePerson' | translate" aria-describedby="helpId">
+      <small [hidden]="ResponsiblePerson.valid || ResponsiblePerson.untouched" id="helpId" class="text-muted"
+        [translate]="'Tracker.messege'"></small>
+      </div> -->
+      <div class="p-field col-md-6">
+        <label for="Client Name" class="labelMarginRight" [translate]="'Tracker.Client Name'"></label><br>
+        <p-multiSelect [options]="lstClients" [(ngModel)]="lstSelectedClients"
+            selectedItemsLabel="{0} columns selected" [style]="{'width':'100%'}" [ngModelOptions]="{standalone: true}"
+            [placeholder]="'Tracker.Client Name' | translate" optionLabel="clientName">
+        </p-multiSelect><br>
+    </div>
+      <div class="col-md-6">
+        <label for="address">{{ 'Tracker.Address' | translate }}</label>  
+        <input type="text" #Address="ngModel" [class.is-invalid]="Address.invalid && Address.touched"
+          [class.is-valid]="Address.valid" [(ngModel)]="organizationObj.address" name="Address" required minlength="3"
+          name="Addresss" id="Address" class="form-control" [placeholder]="'Tracker.Address' | translate"
+          aria-describedby="helpId">
+        <small [hidden]="Address.valid || Address.untouched" id="helpId" class="text-danger"
+          [translate]="'Address is required'"></small>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-6">
+        <label for="latitude">{{ 'Tracker.Latitude' | translate }}</label>
+        <!-- <input type="text" class="form-control" [(ngModel)]="organizationObj.lat" id="latitude" name="latitude"> -->
+        <input type="text" #latitude="ngModel" [class.is-invalid]="latitude.invalid && latitude.touched"
+          [class.is-valid]="latitude.valid" [(ngModel)]="organizationObj.lat" name="latitude" required minlength="3"
+          name="latitudes" id="organizationCode" class="form-control" [placeholder]="'Tracker.latitude' | translate"
+          aria-describedby="helpId">
+        <small [hidden]="latitude.valid || latitude.untouched" id="helpId" class="text-danger"
+          [translate]="'Tracker.messege'"></small>
+      </div>
+      <div class="col-md-6">
+        <label for="longitude">{{ 'Tracker.Longitude' | translate }}</label>
+        <!-- <input type="text" class="form-control" id="longitude" [(ngModel)]="organizationObj.lng" name="longitude"> -->
+  
+        <input type="text" #Longitude="ngModel" [class.is-invalid]="Longitude.invalid && Longitude.touched"
+          [class.is-valid]="Longitude.valid" [(ngModel)]="organizationObj.lng" name="Longitude" required minlength="3"
+          name="Longitudes" id="Longitude" class="form-control" [placeholder]="'Tracker.Longitude' | translate"
+          aria-describedby="helpId">
+        <small [hidden]="Longitude.valid || Longitude.untouched" id="helpId" class="text-danger"
+          [translate]="'Tracker.messege'"></small>
+      </div>
+    </div>
+    <br>
+    <div class="form-group">
+      <agm-map style="height: 500px;" [latitude]="organizationObj.lat" [longitude]="organizationObj.lng" [zoom]="20"
+        (mapClick)="mapClicked($event)" [disableDefaultUI]="false" [zoomControl]="false">
+        <agm-marker iconUrl={{curicon}} [latitude]="organizationObj.lat" [longitude]="organizationObj.lng">
+        </agm-marker>
+      </agm-map>
+    </div>
+    <p>{{ address }}</p>
+
+
+
+
+
+
+
+
+    <button type="submit"  class="btn btn-primary">Submit</button>
+  </form>
+</div>

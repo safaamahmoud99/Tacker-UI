@@ -1,0 +1,25 @@
+<div class="container-fluid">
+    <h2 style="text-align: center;color:  rgb(62, 62, 139);;">{{"Tracker.Requests"|translate}}</h2>
+    <div class="row" style="width: 1300px;">
+        <div class="col-md-2">
+            <h2 style="margin: 50px;color: rgb(62, 62, 139);"> {{"Tracker.Projects"|translate}}</h2>
+        </div>
+        <table class="table table-bordered col-md-10">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" *ngFor="let status of lstRequestStatus ">{{status.status}}</th>
+
+                </tr>
+            </thead>
+            <tbody *ngFor="let project of projects">
+                <tr>
+                    <th scope="row">{{project.projectName}}</th>
+                    <td>{{project.RequestOpenedLength}}</td>
+                    <td>{{project.RequestClosedLength}}</td>
+                    <td>{{project.RequestInProgressLength}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

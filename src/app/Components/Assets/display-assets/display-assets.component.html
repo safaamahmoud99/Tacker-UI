@@ -1,0 +1,227 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<p-table class="container card" #dt [value]="lstassets" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5,10,50]" [loading]="loading" styleClass="p-datatable-customers" [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+    [globalFilterFields]="['assetName']">
+    <ng-template pTemplate="caption">
+        <h1 [translate]="'Tracker.All Assets'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+        <div class="row">
+            <div class="table-header col-md-10">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                        [placeholder]="'Tracker.Global Search'|translate" />
+                </span>
+            </div>
+            <div class="col-md-2">
+                <button id="addDepBtn" (click)="NewDialog()" class="btn btn-outline-primary btn-md btn-block">
+                    <span class="pi pi-plus">{{'Tracker.Add'|translate}} </span> </button>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="text-align: inherit;">{{'Tracker.Asset Name'|translate}} </th>
+            <th style="text-align: inherit;">{{'Tracker.Code'|translate}} </th>
+            <th style="text-align: inherit;">{{'Tracker.Asset Model'|translate}} </th>
+            <th style="text-align: inherit;">{{'Tracker.Origin Name'|translate}} </th>
+            <th style="text-align: inherit;">{{'Tracker.Brand Name'|translate}} </th>
+
+            <th>{{'Tracker.Controls'|translate}} </th>
+        </tr>
+        <tr>
+
+            <th>
+                <input pInputText style="width: 100%;" type="text"
+                    (input)="dt.filter($event.target.value, 'assetName', 'startsWith')"
+                    [placeholder]="'Tracker.Name'|translate" class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText style="width: 100%;" type="text"
+                    (input)="dt.filter($event.target.value, 'code', 'startsWith')"
+                    [placeholder]="'Tracker.Code'|translate" class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText style="width: 100%;" type="text"
+                    (input)="dt.filter($event.target.value, 'code', 'startsWith')"
+                    [placeholder]="'Tracker.Asset Model'|translate" class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText style="width: 100%;" type="text"
+                    (input)="dt.filter($event.target.value, 'code', 'startsWith')"
+                    [placeholder]="'Tracker.Origin Name'|translate" class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText style="width: 100%;" type="text"
+                    (input)="dt.filter($event.target.value, 'code', 'startsWith')"
+                    [placeholder]="'Tracker.Brand Name'|translate" class="p-column-filter">
+            </th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-asset>
+        <tr>
+            <td style="text-align: inherit;">
+                {{asset.assetName}}
+            </td>
+            <td style="text-align: inherit;">
+                {{asset.assetCode}}
+            </td>
+            <td style="text-align: inherit;">
+                {{asset.assetModel}}
+            </td>
+            <td style="text-align: inherit;">
+                {{asset.originName}}
+            </td>
+            <td style="text-align: inherit;">
+                {{asset.brandName}}
+            </td>
+            <td>
+                <span class="pi pi-compass" aria-hidden="true" (click)="showBasicDialog(asset.id)"></span>
+                &nbsp;
+                <span class="p-button-icon pi pi-pencil" aria-hidden="true" (click)="EditDialog(asset.id)"></span>&nbsp;
+                <!-- (click)="DisplayToEditProject(project.id)" -->
+                <!-- <span class="p-button-icon pi pi-times" (click)="confirm(asset.id)" aria-hidden="true"></span> -->
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="6">No Assets found.</td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-dialog [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <h1 [translate]="'Tracker.Asset'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+    <div class="row">
+        <div class="col-md-12 form-control"><span class="bold">{{'Tracker.Asset Name'|translate}} :
+            </span>&nbsp;{{assetObj.assetName}}
+        </div>
+        <div class="col-md-12 form-control"><span class="bold">{{'Tracker.Code'|translate}} :
+            </span>&nbsp;{{assetObj.assetCode}}
+        </div>
+        <div class="col-md-12 form-control"><span class="bold">{{'Tracker.Asset Model'|translate}} :
+            </span>&nbsp;{{assetObj.assetModel}}
+        </div>
+        <div class="col-md-12 form-control"><span class="bold">{{'Tracker.Origin Name'|translate}} :
+            </span>&nbsp;{{assetObj.originName}}
+        </div>
+        <div class="col-md-12 form-control"><span class="bold">{{'Tracker.Brand Name'|translate}} :
+            </span>&nbsp;{{assetObj.brandName}}
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="displayBasic=false" [label]="'Tracker.Ok' | translate"></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="Editboolean" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Update Asset</h1>
+    <div class="row">
+        <div class="p-field col-md-12">
+            <label [translate]="'Tracker.Asset Name'"></label><br>
+            <input type="text" class="form-control" pInputText [placeholder]="'Tracker.Asset Name' |translate"
+                [ngModelOptions]="{standalone: true}" [(ngModel)]="assetObj.assetName">
+        </div>
+    </div>
+    <div class="row">
+        <div class="p-field col-md-12">
+            <label for="Asset Model" class="labelMarginRight" [translate]="'Tracker.Asset Model'"></label><br>
+            <input type="text" class="form-control " pInputText [placeholder]="'Tracker.Model Name' |translate"
+                [ngModelOptions]="{standalone: true}" [(ngModel)]="assetObj.assetModel">
+        </div>
+    </div>
+    <div class="row">
+        <div class="p-field col-md-12">
+            <label for="AOrigin Name" class="labelMarginRight" [translate]="'Tracker.Origin Name'"></label><br>
+            <select class="form-control col-md-12" [(ngModel)]="assetObj.originId"
+                [ngModelOptions]="{standalone: true}">
+                <option value="" selected disabled><span [translate]="'Tracker.Origin Name'"></span></option>
+                <option *ngFor="let item of lstOrigins" [selected]="assetObj.originId===item.id ? true : null"
+                    value="{{item.id}}">
+                    {{item.originName}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="p-field col-md-12">
+            <label for="Brand Name" class="labelMarginRight" [translate]="'Tracker.Brand Name'"></label><br>
+            <select class="form-control col-md-12" [(ngModel)]="assetObj.brandId" [ngModelOptions]="{standalone: true}">
+                <option value="" selected disabled><span [translate]="'Tracker.Brand Name'"></span></option>
+                <option *ngFor="let item of lstBrand" [selected]="assetObj.brandId===item.id ? true : null"
+                    value="{{item.id}}">
+                    {{item.brandName}}</option>
+            </select>
+
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button (onClick)="update(assetObj.id)" type="submit" icon="pi pi-check" styleClass="p-button-text">
+            Submit</p-button>
+        <p-button icon="pi pi-times" (click)="Editboolean=false">Cancel</p-button>
+    </ng-template>
+
+</p-dialog>
+
+<p-dialog [(visible)]="NewDialogbool" [style]="{width: '40vw'}" [baseZIndex]="1000">
+    <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Add Asset</h1>
+    <div class="row">
+        <div class="p-field col-md-12">
+            <label [translate]="'Tracker.Asset Name'"></label><br>
+            <input type="text" class="form-control" pInputText [placeholder]="'Tracker.Asset Name' |translate"
+                [ngModelOptions]="{standalone: true}" [(ngModel)]="assetObj.assetName">
+        </div>
+    </div>
+    <div class="row">
+        <div class="p-field col-md-12">
+            <label for="Asset Model" class="labelMarginRight" [translate]="'Tracker.Asset Model'"></label><br>
+            <input type="text" class="form-control " pInputText [placeholder]="'Tracker.Model Name' |translate"
+                [ngModelOptions]="{standalone: true}" [(ngModel)]="assetObj.assetModel">
+        </div>
+    </div>
+    <div class="row">
+        <div class="p-field col-md-12">
+            <label for="Origin Name" class="labelMarginRight" [translate]="'Tracker.Origin Name'"></label><br>
+            <p-dropdown [options]="lstOrigins" [style]="{'width':'100%'}" [(ngModel)]="assetObj.originId"
+                [placeholder]="'Tracker.Origin Name' | translate" optionLabel="originName" optionValue="id">
+            </p-dropdown>
+        </div>
+    </div>
+    <div class="row">
+        <div class="p-field col-md-12">
+            <label for="Brand Name" class="labelMarginRight" [translate]="'Tracker.Brand Name'"></label><br>
+            <p-dropdown [options]="lstBrand" [(ngModel)]="assetObj.brandId" [style]="{'width':'100%'}"
+                [placeholder]="'Tracker.Brand Name' | translate" optionLabel="brandName" optionValue="id">
+            </p-dropdown>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button (onClick)="add()" type="submit" icon="pi pi-check" styleClass="p-button-text">Submit
+        </p-button>
+        <p-button icon="pi pi-times" (click)="NewDialogbool=false">Cancel</p-button>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,140 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<h4 style="margin-left: 25px;">All Clients</h4>
+<p-table class="container card" #dt [value]="lstclients" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5,10,50]" [loading]="loading" styleClass="p-datatable-customers" [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+    [globalFilterFields]="['address','clientCode ','clientName','email','organizationName','phone']">
+    <ng-template pTemplate="caption">
+        <div class="row">
+            <div class="table-header col-md-10">
+                <!-- List of Employees -->
+
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                        placeholder='Global Search' />
+                </span>
+            </div>
+            <div class="col-md-2">
+                <button id="addEmpBtn" routerLink="/home/client" class="btn btn-outline-primary btn-md btn-block">
+                    <span class="pi pi-plus">Add</span> </button>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th> {{ 'Tracker.ClientName' | translate }}</th>
+            <th>ClientCode</th>
+            <th>OrganizationName</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Controls</th>
+        </tr>
+        <tr>
+            <th>
+                <input pInputText style="width: 100%;" type="text"
+                    (input)="dt.filter($event.target.value, 'clientName', 'startsWith')" placeholder='Name'
+                    class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText style="width: 100%;" type="text"
+                    (input)="dt.filter($event.target.value, 'clientCode', 'startsWith')" placeholder='Code'
+                    class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText type="text" style="width: 100%"
+                    (input)="dt.filter($event.target.value, 'organizationName', 'contains')" placeholder='org.Name'
+                    class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText type="text" style="width: 100%"
+                    (input)="dt.filter($event.target.value, 'address', 'contains')" placeholder='address'
+                    class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText type="text" style="width: 100%"
+                    (input)="dt.filter($event.target.value, 'phone', 'contains')" placeholder="Phone"
+                    class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText style="width: 100%;" type="email"
+                    (input)="dt.filter($event.target.value, 'email', 'startsWith')" placeholder="Email"
+                    class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText style="width: 100%;" type="email"
+                    (input)="dt.filter($event.target.value, 'gender', 'startsWith')" placeholder="gender"
+                    class="p-column-filter">
+            </th>
+<th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-client>
+        <tr>
+            <td>
+                {{client.clientName}}
+            </td>
+            <td>
+                {{client.clientCode}}
+            </td>
+            <td>
+                {{client.organizationName}}
+            </td>
+            <td>
+                {{client.address}}
+            </td>
+            <td>
+                {{client.phone}}
+            </td>
+            <td>
+                {{client.email}}
+            </td>
+            <td>
+                {{client.gender}}
+            </td>
+            <td>
+                <!-- <span class="pi pi-compass" aria-hidden="true" (click)="showBasicDialog(client.id)"></span>
+                &nbsp; -->
+                <span class="p-button-icon pi pi-pencil" aria-hidden="true"
+                    [routerLink]="['/home/editClient',client.id]"></span>&nbsp;
+                <span class="p-button-icon pi pi-times" (click)="confirm(client.id)" aria-hidden="true"></span>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="6">No clients found.</td>
+        </tr>
+        <tr>
+
+        </tr>
+    </ng-template>
+
+</p-table>
+

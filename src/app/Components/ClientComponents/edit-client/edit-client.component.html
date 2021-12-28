@@ -1,0 +1,103 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+
+<div class="container">
+    <h1 [translate]="'Tracker.Edit Client'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+    <br>
+    <form #frm="ngForm" (ngSubmit)="update()">
+
+        <div class="form-row">
+            <div class="col-md-6">
+                <label for="name"> {{ 'Tracker.ClientName' | translate }}</label>
+                <input type="text" #clientName="ngModel" [class.is-invalid]="clientName.invalid && clientName.touched"
+                    [class.is-valid]="clientName.valid" [(ngModel)]="clientObj.clientName" required minlength="3"
+                    name="clientNames" id="clientName" class="form-control" placeholder="Client Name"
+                    aria-describedby="helpId">
+            </div>
+            <div class="col-md-6">
+                <label for="Code"> {{ 'Tracker.Code' | translate }}</label>
+                <input type="text" #clientCode="ngModel" [class.is-invalid]="clientCode.invalid && clientCode.touched"
+                    [class.is-valid]="clientCode.valid" [(ngModel)]="clientObj.clientCode" required minlength="3"
+                    name="clientCode" id="code" class="form-control" placeholder="Client Code"
+                    aria-describedby="helpId">
+            </div>
+        </div>
+        <br>
+        <div class="form-row">
+            <div class="col-md-6">
+                <label for="address"> {{ 'Tracker.Address' | translate }}</label>
+                <input type="text" #address="ngModel" [class.is-invalid]="address.invalid && address.touched"
+                    [class.is-valid]="address.valid" [(ngModel)]="clientObj.address" required minlength="3"
+                    name="clsaddress" id="address" class="form-control" placeholder="Client Address"
+                    aria-describedby="helpId">
+            </div>
+            <div class="col-md-6">
+                <label for="Phone">{{ 'Tracker.Phone' | translate }}</label>
+                <input type="text" #Phone="ngModel" [class.is-invalid]="Phone.invalid && Phone.touched"
+                    [class.is-valid]="Phone.valid" [(ngModel)]="clientObj.phone" required minlength="3"
+                    name="ClientPhone" id="Phone" class="form-control" placeholder="Client Phone"
+                    aria-describedby="helpId">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="OrganizationName">{{ 'Tracker.OrganizationName' | translate }}</label>
+                <select [(ngModel)]="clientObj.organizationId" name="sel2" class="form-control">
+                    <option value="" selected disabled hidden>Organization</option>
+                    <option *ngFor="let item of organizations" value="{{item.id}}">{{item.organizationName}}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="name"> {{ 'Tracker.Email' | translate }}</label>
+                <input type="email" #Email="ngModel" [class.is-invalid]="Email.invalid && Email.touched"
+                    [class.is-valid]="Email.valid" [(ngModel)]="clientObj.email" required minlength="3"
+                    name="clientEmail" id="Email" class="form-control" placeholder="Client Email"
+                    aria-describedby="helpId">
+            </div>
+            <div class="col-md-4">
+                <label for="gender"> {{ 'Tracker.Gender' | translate }}</label><br>
+                <span class="p-field-radiobutton">
+                    <p-radioButton name="Male" value="Male" [(ngModel)]="clientObj.gender" inputId="Male">
+                    </p-radioButton>
+                    <label style="margin-bottom:25px" for="Male"> {{ 'Tracker.Male' | translate }}</label>
+                </span>&nbsp;&nbsp;
+                <span class="p-field-radiobutton">
+                    <p-radioButton name="Female" value="Female" [(ngModel)]="clientObj.gender" inputId="Female">
+                    </p-radioButton>
+                    <label for="Female"> {{ 'Tracker.Female' | translate }}</label>
+                </span>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+
+        </div>
+        <br>
+        <button id="Add" type="submit" [disabled]="frm.invalid" class="btn btn-primary"> {{ 'Tracker.Update' | translate
+            }}</button>
+    </form>
+</div>

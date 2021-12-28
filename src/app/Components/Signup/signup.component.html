@@ -1,0 +1,65 @@
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
+<p-toast position="bottom-center" key="c" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <!-- <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button> -->
+                </div>
+                <div class="p-col-6">
+                    <!-- <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button> -->
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<form [formGroup]="loginForm" (ngSubmit)="getData()">
+  <div id="login-box">
+    <div class="left">
+      <h1 style="margin-bottom: 50px; font-weight: bold; color: #16a085;">LOGIN</h1>
+
+      <input type="text" name="email" id="email" formControlName="email" placeholder="email" [(ngModel)]="email" />
+
+      <div *ngIf="loginForm.controls['email'].touched &&
+      loginForm.controls['email'].invalid" class="alert-danger">
+        <div *ngIf="loginForm.controls['email'].errors &&
+        loginForm.controls['email'].errors.required">
+          First name is required.</div>
+      </div>
+
+      <!-- <input type="text" name="email" placeholder="E-mail" /> -->
+      <input type="password" name="password" placeholder="Password" [(ngModel)]="password" formControlName="password" />
+      <div *ngIf="loginForm.controls['password'].touched &&
+      loginForm.controls['password'].invalid" class="alert-danger">
+        <div *ngIf="loginForm.controls['password'].errors &&
+      loginForm.controls['password'].errors.required">
+          password required.</div>
+      </div>
+      <div>
+        <span>
+          <button id="sub" pButton type="submit" name="signup_submit" value="Sign me up" icon="pi pi-check"
+            [disabled]="!loginForm.valid" label="Sign Me Up"></button></span>
+        &nbsp;
+        <span>
+        </span>
+      </div>
+    </div>
+
+    <div class="right">
+      <!-- <span class="loginwith">Sign in with<br />social network</span>
+      <button class="social-signin facebook">Log in with facebook</button>
+      <button class="social-signin twitter">Log in with Twitter</button>
+      <button class="social-signin google">Log in with Google+</button> -->
+    </div>
+  </div>
+
+</form>

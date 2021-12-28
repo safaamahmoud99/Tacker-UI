@@ -1,0 +1,45 @@
+<p-toast position="top-right" key="tr" [baseZIndex]="5000"></p-toast>
+
+<div class="container card">
+    <h1 [translate]="'Tracker.Assign Request'" style="margin-bottom: 20px;margin-top: 20px; font-size: 2em;color: #2674a8;"></h1>
+    <form #frm="ngForm" (ngSubmit)="saveAssignedRequest()"></form>
+    <!-- <h2>{{'Tracker.'|translate}}</h2> -->
+    <div class="row">
+        <div class="col">
+            <label class="labelstyle">{{'Tracker.Position Name'|translate}}</label>
+            <select [(ngModel)]="assignedReqObj.projectPositionId" name="sel2" class="form-control"
+                (change)="getTeamsByPositionId(($event.target.value))">
+                <option *ngFor="let th of lstProjectPosition" value="{{th.id}}">{{th.positionName}}</option>
+            </select>
+        </div>
+
+        <div class="col">
+            <label class="labelstyle">{{'Tracker.Select Team Name'|translate}}</label>
+            <select [(ngModel)]="assignedReqObj.teamId" name="sel2" class="form-control"
+                (change)="getEmp(($event.target.value))">
+                <option *ngFor="let th of lstProjectTeamAfterFilterBasedOnPosition" value="{{th.teamId}}">
+                    {{th.teamName}}</option>
+            </select>
+        </div>
+        <div class="col">
+            <label class="labelstyle">{{'Tracker.Select Employee Name'|translate}}</label>
+            <select [(ngModel)]="assignedReqObj.employeeId" name="sel2" class="form-control"
+                (change)="getEmpId(($event.target.value))">
+                <option *ngFor="let th of lstProjectTeamAfterFiltration" value="{{th.employeeId}}">{{th.employeeName}}
+                </option>
+            </select>
+        </div>
+
+    </div><br>
+    <div class="row">
+        <div class="col">
+            <h4 for="description">{{'Tracker.Description'|translate}}</h4>
+            <textarea id="description" [(ngModel)]="reqDescriptionObj.description" pInputTextarea required rows="5"
+                cols="138"></textarea>
+            <br>
+        </div>
+        <div class="col">
+            <button class="mt-3 mb-3"  mat-stroked-button color="primary" (click)="saveAssignedRequest()">{{'Tracker.Save'|translate}}</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,136 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<div class="container">
+    <form #frm="ngForm" (ngSubmit)="update()">
+        <h1 [translate]="'Tracker.Edit Employee'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+        <div class="form-row">
+            <div class="col-md-6">
+                <label for="name" [translate]="'Tracker.Employee Name'"></label>
+                <input type="text" #EmpName="ngModel" [class.is-invalid]="EmpName.invalid && EmpName.touched"
+                    [class.is-valid]="EmpName.valid" [(ngModel)]="Employee.employeeName" required minlength="3"
+                    name="EmpName" id="EmployeeName" class="form-control"
+                    [placeholder]="'Tracker.Employee Name' | translate" aria-describedby="helpId">
+                <small [hidden]="EmpName.valid || EmpName.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+            </div>
+            <div class="col-md-6">
+                <label for="Position" [translate]="'Tracker.Employee Position'"></label>
+                <input type="text" #position="ngModel" [class.is-invalid]="position.invalid && position.touched"
+                    [class.is-valid]="position.valid" [(ngModel)]="Employee.position" required minlength="3"
+                    name="position" id="positions" class="form-control"
+                    [placeholder]="'Tracker.Employee Position' | translate" aria-describedby="helpId">
+                    <small [hidden]="position.valid || position.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+
+            </div>
+        </div>
+        <br>
+        <div class="form-row">
+            <div class="col-md-6">
+                <label for="Code" [translate]="'Tracker.Employee Code'"> </label>
+                <input type="text" #Code="ngModel" [class.is-invalid]="Code.invalid && Code.touched"
+                    [class.is-valid]="Code.valid" [(ngModel)]="Employee.employeeCode" required minlength="3" name="Code"
+                    id="Codes" class="form-control" [placeholder]="'Tracker.Employee Code' | translate"
+                    aria-describedby="helpId">
+                    <small [hidden]="Code.valid || Code.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+
+            </div>
+            <div class="col-md-6">
+                <label for="Address" [translate]="'Tracker.Address'"></label>
+                <input type="text" #EmpAddress="ngModel" [class.is-invalid]="EmpAddress.invalid && EmpAddress.touched"
+                    [class.is-valid]="EmpAddress.valid" [(ngModel)]="Employee.address" required minlength="3"
+                    name="EmpAddress" id="EmpName" class="form-control" [placeholder]="'Tracker.Address' | translate"
+                    aria-describedby="helpId">
+                    <small [hidden]="EmpAddress.valid || EmpAddress.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="Address" [translate]="'Tracker.Department Name'"></label>
+                <select [(ngModel)]="Employee.departmentId" name="sel2" class="form-control">
+                    <option value="" selected disabled hidden>Department</option>
+                    <option *ngFor="let item of Departments" value="{{item.id}}">{{item.name}}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="gender" [translate]="'Tracker.gender'"></label>
+                <select name="gender" [(ngModel)]="Employee.gender" class="form-control">
+                    <option value="Male" [translate]="'Tracker.Male'"></option>
+                    <option value="Female" [translate]="'Tracker.Female'"></option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="MaritalStatus" [translate]="'Tracker.maritalStatus'"></label>
+                <select name="Mstatus" [(ngModel)]="Employee.maritalStatus" class="form-control">
+                    <option value="Single" [translate]="'Tracker.Single'"></option>
+                    <option value="married" [translate]="'Tracker.Married'"></option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="Email" [translate]="'Tracker.Email'"></label>
+                <input type="email" class="form-control" #Empmail="ngModel" [class.is-invalid]="Empmail.invalid && Empmail.touched"
+                [class.is-valid]="Empmail.valid" [(ngModel)]="Employee.Address" required minlength="3" name="email" [(ngModel)]="Employee.email"
+                    [placeholder]="'Tracker.Email' | translate">
+                    <small [hidden]="Empmail.valid || Empmail.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+
+            </div>
+            <div class="col-md-3">
+                <label for="Phone" [translate]="'Tracker.Phone'"></label>
+                <input mask="88888" class="form-control" type="number" #phone="ngModel" [class.is-invalid]="phone.invalid && phone.touched"
+                [class.is-valid]="phone.valid"  required minlength="3" name="phone" [(ngModel)]="Employee.phone"
+                    [placeholder]="'Tracker.Phone' | translate">
+                    <small [hidden]="phone.valid || phone.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+
+            </div>
+            <div class="col-md-3">
+                <label for="Mobile" [translate]="'Tracker.Mobile'"></label>
+                <input mask="99999" class="form-control" type="number" #mobile="ngModel" [class.is-invalid]="mobile.invalid && mobile.touched"
+                [class.is-valid]="mobile.valid"  required minlength="3" name="mobile" [(ngModel)]="Employee.mobile"
+                    [placeholder]="'Tracker.Mobile' | translate">
+                    <small [hidden]="mobile.valid || mobile.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+
+            </div>
+        </div>
+        <br>
+        <label for="Upload" [translate]="'Tracker.Upload Image'"></label><br>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFileAddon01" [translate]="'Tracker.Upload'"></span>
+            </div>
+            <div class="custom-file">
+                <input accept="image/*" (change)="onFileSelected($event.target.files)" type="file"
+                    class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="inputGroupFile01" [translate]="'Tracker.Choose file'"></label>
+            </div>
+        </div>
+        <br>
+        <button id="Add" type="submit" [disabled]="frm.invalid" class="btn btn-primary" [translate]="'Tracker.Update'"></button>
+    </form>
+</div>
+<br>

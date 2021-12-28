@@ -1,0 +1,169 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<p-table class="container card" #dt [value]="Employees" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5,10,50]" [loading]="loading" styleClass="p-datatable-customers" [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+    [globalFilterFields]="['employeeName','position ','departmentName','phone','Email']">
+    <ng-template pTemplate="caption">
+        <!-- <h2 style="text-align: center;" [translate]="'Tracker.All Employees'"></h2> -->
+        <h1 [translate]="'Tracker.All Employees'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+
+        <div class="row">
+            <div class="table-header col-md-10">
+                <!-- List of Employees -->
+
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                        [placeholder]="'Tracker.Global Search' | translate" />
+                </span>
+            </div>
+            <div class="col-md-2">
+                <button id="addEmpBtn" routerLink="/home/addemployee" class="btn btn-outline-primary btn-md btn-block">
+                    <span class="pi pi-plus" [translate]="'Tracker.Add'">Add</span> </button>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th [translate]="'Tracker.Image'"></th>
+            <th [translate]="'Tracker.Employee Name'"></th>
+            <th [translate]="'Tracker.Employee Position'"></th>
+            <th [translate]="'Tracker.Department Name'"></th>
+            <th [translate]="'Tracker.Phone'"></th>
+            <th [translate]="'Tracker.Email'"></th>
+            <th [translate]="'Tracker.Controls'"></th>
+        </tr>
+        <tr>
+            <th>
+                <label></label>
+            </th>
+            <th>
+                <input pInputText style="width: 100%;" type="text"
+                    (input)="dt.filter($event.target.value, 'employeeName', 'startsWith')"
+                    [placeholder]="'Tracker.Employee Name' | translate" class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText style="width: 100%;" type="text"
+                    (input)="dt.filter($event.target.value, 'position', 'startsWith')"
+                    [placeholder]="'Tracker.Employee Position' | translate" class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText type="text" style="width: 100%"
+                    (input)="dt.filter($event.target.value, 'departmentName', 'contains')"
+                    [placeholder]="'Tracker.Department Name' | translate" class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText type="text" style="width: 100%"
+                    (input)="dt.filter($event.target.value, 'phone', 'contains')"
+                    [placeholder]="'Tracker.Phone' | translate" class="p-column-filter">
+            </th>
+            <th>
+                <input pInputText style="width: 100%;" type="email"
+                    (input)="dt.filter($event.target.value, 'email', 'startsWith')"
+                    [placeholder]="'Tracker.Email' | translate" class="p-column-filter">
+            </th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-employee>
+        <tr>
+            <td>
+                <img class="img-thumbnail" src="{{getimage}}api/employees/getImage/{{employee.photo }}"
+                    alt="" width="50%" height="50%">
+            </td>
+            <td>
+                {{employee.employeeName}}
+            </td>
+            <td>
+                {{employee.position}}
+            </td>
+            <td>
+                {{employee.departmentName}}
+            </td>
+            <td>
+                {{employee.phone}}
+            </td>
+            <td>
+                {{employee.email}}
+            </td>
+            <td>
+                <span class="pi pi-compass" aria-hidden="true" (click)="showBasicDialog(employee.id)"></span>
+                &nbsp;
+                <span class="p-button-icon pi pi-pencil" aria-hidden="true"
+                    [routerLink]="['/home/editEmployee',employee.id]"></span>
+                <!-- (click)="DisplayToEditProject(project.id)" -->
+                <span class="p-button-icon pi pi-times" (click)="confirm(employee.id)" aria-hidden="true"></span>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="6" [translate]="'Tracker.No data found'"
+            ></td>
+        </tr>
+        <tr>
+
+        </tr>
+    </ng-template>
+
+</p-table>
+
+
+<p-dialog [header]="'Tracker.Details' | translate" [(visible)]="displayBasic" [style]="{width: '70vw'}" [baseZIndex]="10000">
+    <div class="row">
+        <div class="col-md-6 form-control"><span class="bold" [translate]="'Tracker.Employee Name'"> : </span>&nbsp;{{Employee.employeeName}}
+        </div>
+        <br>
+        <div class="col-md-6 form-control"><span class="bold" [translate]="'Tracker.Email'"> : </span>&nbsp; {{Employee.email}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 form-control"><span class="bold" [translate]="'Tracker.Department Name'"> : </span>&nbsp;{{Employee.departmentName}}
+        </div>
+        <div class="col-md-6 form-control"><span class="bold" [translate]="'Tracker.Phone'"> : </span>&nbsp;{{Employee.phone}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 form-control"><span class="bold" [translate]="'Tracker.Address'"> : </span>&nbsp;{{Employee.address}}
+        </div>
+        <div class="col-md-6 form-control"><span class="bold" [translate]="'Tracker.gender'"> : </span>&nbsp;{{Employee.gender}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 form-control"><span class="bold" [translate]="'Tracker.Employee Position'"> : </span>&nbsp;{{Employee.position}}
+        </div>
+        <div class="col-md-6 form-control"><span class="bold" [translate]="'Tracker.maritalStatus'"> : </span>&nbsp;{{Employee.maritalStatus}}
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" [routerLink]="['/home/editEmployee',Employee.id]" [label]="'Tracker.Update' | translate"
+
+            styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-times" (click)="displayBasic=false" [label]="'Tracker.No' | translate"
+        ></p-button>
+    </ng-template>
+</p-dialog>

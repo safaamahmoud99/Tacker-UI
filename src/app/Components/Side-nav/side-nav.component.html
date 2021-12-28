@@ -1,0 +1,214 @@
+<div class="wrapper" dir="{{textDir}}" >
+  <!-- Page Content Side Bar -->
+  <nav id="sidebar" *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'||role =='PM'" [ngStyle]="{'text-align': selectedlang === 'English' ? 'left': 'right'}">
+    <div class="sidebar-header">
+      <h3 style="font-size: 25px;">{{ 'Tracker.TRACKER SYSTEM' | translate }} </h3>
+    </div>
+    <div></div>
+
+    <ul class="list-unstyled components"  >
+      <li *ngIf="role=='SuperAdmin'" routerLinkActive="active">
+        <a class="active" class="pi pi-bars" routerLink='piechart'> {{ 'Tracker.DashBoard' |
+          translate}} </a><br>
+      </li>
+      <li *ngIf="role=='SuperAdmin'" routerLinkActive="active">
+        <a class="active" class="pi pi-globe" routerLink='organizations'> {{ 'Tracker.Organizations' |
+          translate}} </a><br>
+      </li>
+      <li *ngIf="role=='SuperAdmin'" routerLinkActive="active">
+        <a class="active pi pi-sitemap" routerLink='tabs'>
+          {{ 'Tracker.Projects' | translate }}</a><br>
+      </li>
+      <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'" routerLinkActive="active">
+        <!--  -->
+        <a class="active" class="pi pi-ticket" routerLink='AllManagersReq'> {{ 'Tracker.Clients Requests' | translate}}
+        </a><br>
+      </li>
+      <!-- 
+      <li *ngIf="role=='SuperAdmin'">
+        <a class="active" class="pi pi-globe" routerLink='organization'> {{ 'Tracker.Add Organization' | translate
+          }}</a><br>
+      </li> -->
+      <li *ngIf="role =='PM'" routerLinkActive="active">
+        <a class="active" class="pi pi-users" routerLink='projectManagerDashboard'> {{ 'Tracker.DashBoard' |
+          translate }}</a><br>
+      </li>
+      <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'||role =='PM'" routerLinkActive="active">
+        <a class="active" class="pi pi-briefcase" routerLink='ProjectTypes'> {{ 'Tracker.All Project Types' | translate
+          }}</a><br>
+      </li>
+      <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'||role =='PM'" routerLinkActive="active">
+        <a class="active" class="pi pi-desktop" routerLink='DisplayAssets'> {{ 'Tracker.All Assets' | translate
+          }}</a><br>
+      </li>
+      <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'||role =='PM'" routerLinkActive="active">
+        <!--  -->
+        <a class="active" class="pi pi-book" routerLink='DisplayCategories'> {{ 'Tracker.Client Requests Category' |
+          translate }}</a><br>
+      </li>
+      <li *ngIf="role =='PM'" routerLinkActive="active">
+        <a class="active" class="pi pi-users" routerLink='allclientsforprojectmanager'> {{ 'Tracker.Client' |
+          translate }}</a><br>
+      </li>
+      
+
+      <li *ngIf="role=='SuperAdmin'" routerLinkActive="active">
+        <a class="active" class="pi pi-table" routerLink='DisplayDepartments'> {{ 'Tracker.All Departments' | translate
+          }}</a><br>
+      </li>
+      <li *ngIf="role=='Client'" routerLinkActive="active">
+        <!--  -->
+        <a class="active" class="pi pi-user" routerLink='allClientReqts'> {{ 'Tracker.ClientRequests' | translate
+          }}</a><br>
+      </li>
+      <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle pi pi-cog"> {{
+          'Tracker.Settings' | translate}}</a>
+        <!-- <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle pi pi-cog">Settings</a> -->
+        <ul class="collapse list-unstyled" id="homeSubmenu">
+          <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
+            <a class="active" class="pi pi-user" routerLink='employee'> {{ 'Tracker.All Employees' | translate }}</a>
+          </li>
+          <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'" routerLinkActive="active">
+            <a class="active" class="pi pi-user" routerLink='DisplayAllClients'> {{ 'Tracker.Client' | translate }}</a>
+          </li>
+          <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
+            <a class="pi pi-times" class="active" class="pi pi-users" routerLink='AllUsers'> {{ 'Tracker.All Users' |
+              translate }}</a>
+          </li>
+          <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
+            <a class="pi pi-times" class="active" class="pi pi-globe" routerLink='Sites'> {{ 'Tracker.Sites' |
+              translate }}</a>
+          </li>
+          <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
+            <a class="pi pi-times" class="active" class="pi pi-th-large" routerLink='Origins'> {{ 'Tracker.Origins' |translate }}</a>
+          </li>
+           <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
+            <a class="pi pi-times" class="active" class="pi pi-id-card" routerLink='Suppliers'> {{ 'Tracker.Suppliers' |translate }}</a>
+          </li>
+           <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
+            <a class="pi pi-times" class="active" class="pi pi-calendar" routerLink='DueDateCategory'> {{ 'Tracker.DueDateCategory' |translate }}</a>
+          </li>
+          <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
+            <a class="pi pi-times" class="active" class="pi pi-shopping-cart" routerLink='Brand'> {{ 'Tracker.Brand' |translate }}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Page Content Nav Bar -->
+  <div id="content" [ngStyle]="{'text-align': selectedlang === 'English' ? 'left': 'right'}" style="background-color: #E0FBFC">
+
+    <nav class="navbar navbar-expand-lg navbar-light"  style="background-color: #E0FBFC">
+      <div class="container-fluid">
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+          <a class="navbar-brand" href="#">
+            <img src="../../assets/images/mostakbal.png" style="width: 70px;position: initial;" alt="RIS Image">
+          </a>
+
+          <ul class="navbar-nav">
+
+            <li style="margin-left: 20px; font-size: 20px; color: #2674a8;" *ngIf="role =='PM'||role== 'PMO'">
+              <a class="active" routerLink='projectsForProjectManager'>
+                {{ 'Tracker.Projects' | translate }} </a><br>
+            </li>
+            <li style="margin-left: 20px; font-size: 20px; color:#2674a8;" *ngIf="role=='SuperAdmin'||role== 'PMO'">
+              <a class="active" routerLink='tabs'>
+                {{ 'Tracker.Projects' | translate }}</a><br>
+            </li>
+            <li>
+              <a class="active" routerLink='teamLeaderDashboard'
+                style="margin-left: 20px; font-size: 20px; color: #2674a8;"
+                *ngIf="role=='TL'">{{'Tracker.DashBoard' | translate}}</a><br>
+            </li>
+            <li>
+              <!--  -->
+              <a class="active" routerLink='allTeamLeaderReqts'
+                style="margin-left: 20px; font-size: 20px; color: #2674a8;" *ngIf="role=='TL'">{{'Tracker.Clients Requests' | translate}}</a><br>
+            </li>
+
+            <li style="margin-left: 20px; font-size: 20px;color: #2674a8;"
+              *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'">
+              <!--  -->
+              <a class="active" routerLink='AllManagersReq'>{{ 'Tracker.Clients Requests' | translate }}</a><br>
+            </li>
+            <li style="margin-left: 20px; font-size: 20px;color:#2674a8;" *ngIf="role =='PM'">
+              <!--  -->
+              <a class="active" routerLink='projectmanagerRequests'> {{ 'Tracker.Clients Requests' | translate
+                }}</a><br>
+            </li>
+            <li style="margin-left: 20px; font-size: 20px;color:#2674a8;" *ngIf="role=='SuperAdmin'">
+              <a class="active" routerLink='organizations'> {{ 'Tracker.Organizations' | translate }} </a><br>
+            </li>
+          </ul>
+
+        </div>
+
+
+        <div class="row">
+
+          <div *ngIf="role == 'SuperAdmin' || role == 'Admin' || role == 'PMO' || role == 'PM'
+          || role == 'TL'|| role == 'Employee'" 
+          (click)="goToProfile()" style="cursor: pointer;">
+            <span style="font-size: large;color: brown;">{{loggedInUserName}}</span>
+            <img class="img-thumbnail" class="roounded" src="{{getimage}}api/employees/getImage/{{imgName }}" alt=""
+              width="50px" height="50px" style="border-radius: 50%;margin-left:10px">
+          </div>
+          <div *ngIf="role=='Client' || role == 'ClientManager'" (click)="goToProfile()" style="cursor: pointer; margin-top:8px">
+            <span style="font-size: large;color: brown;font-size:bold">{{loggedInUserName}}</span>
+             <!-- <img class="img-thumbnail" class="roounded" src="{{getimage}}api/Clients/getImage/{{clientImage }}" alt=""
+              width="50px" height="50px" style="border-radius: 50%;">  -->
+          </div>
+          <div class="col">
+            <!-- <a class="btn btn-warning" style="font-size: 15px;margin-right: 10px;margin-top: 3px;" (click)="logout()">{{
+              'Tracker.Logout' |
+              translate }}
+            </a> -->
+            <button mat-stroked-button color="primary" style="font-size: 15px;margin-right: 10px;margin-top: 3px;" (click)="logout()">
+              {{
+                'Tracker.Logout' |
+                translate }}
+            </button>
+          </div>
+        </div>
+        <div style="margin-top: 8px;" *ngIf="role=='Client' || role == 'ClientManager'">
+          <label>
+            <select #langSelect (change)="translate.use(langSelect.value)" class="btn btn-info dropdown-toggle">
+              <option *ngFor="let lang of translate.getLangs()" [value]="lang"
+                [selected]="lang === translate.currentLang">{{ lang }}</option>
+            </select>
+          </label>
+        </div>
+        <div *ngIf="role == 'SuperAdmin' || role == 'Admin' || role == 'PMO' || role == 'PM'
+          || role == 'TL'|| role == 'Employee'">
+          <label>
+            <select class="form-control" #selectedLang (change)="switchLang(selectedLang.value)" class="btn btn-info dropdown-toggle">
+              <option *ngFor="let lang of translate.getLangs()" [value]="lang"
+                 [selected]="lang === translate.currentLang">
+                 {{ lang }}
+              </option>
+           </select>
+          </label>
+
+          <!-- <label>
+            <select class="form-control" #selectedLang (change)="translate.use(selectedLang.value)">
+              <option *ngFor="let lang of translate.getLangs()" [value]="lang"
+                 [selected]="lang === translate.currentLang">
+                 {{ lang }}
+              </option>
+           </select>
+          </label> -->
+        </div>
+      </div>
+    </nav>
+    <div [ngStyle]="{'text-align': selectedlang === 'English' ? 'left': 'right'}">
+      <router-outlet></router-outlet>
+   </div>
+
+
+  </div>
+
+</div>
