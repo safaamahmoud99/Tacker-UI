@@ -15,6 +15,7 @@ export class SuppliersComponent implements OnInit {
   Editboolean: boolean;
   displayBasic: boolean;
   NewDialogbool: boolean;
+ isFound:boolean=false;
   constructor(private SuppliersService:SuppliersService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
@@ -23,6 +24,7 @@ export class SuppliersComponent implements OnInit {
       res=>{this.lstSuppliers=res},
       err=>console.log(err)
     )
+    this.checkName();
   }
   showBasicDialog(id) {
     this.displayBasic = true;
@@ -35,16 +37,7 @@ export class SuppliersComponent implements OnInit {
     this.NewDialogbool = true;
     this.SuppliersObj={id:0,supplierName:""}
   }
-  add() {
-    this.SuppliersService.insertSupplier(this.SuppliersObj).subscribe(
-      res => {
-        this.NewDialogbool = false;
-        this.ngOnInit(),
-        this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
-      },
-      error => console.log(error),
-    );
-  }
+ 
   EditDialog(id) {
     this.Editboolean = true;
     this.SuppliersService.GetSupplierById(id).subscribe(
@@ -119,6 +112,7 @@ export class SuppliersComponent implements OnInit {
 
   showSticky() {
     this.messageService.add({ severity: 'info', summary: 'Sticky', detail: 'Message Content', sticky: true });
+    
   }
 
   onConfirm() {
@@ -131,5 +125,61 @@ export class SuppliersComponent implements OnInit {
 
   clear() {
     this.messageService.clear();
-  }
+  } 
+  onsubmit()
+    { 
+      //if (this.organizationObj.organizationName == "") {
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Organization Name' });
+      if(this.SuppliersObj.supplierName.trim()=="" || this.SuppliersObj.supplierName.trim().length<3)
+      {
+        console.log("enter")
+        this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter valid supplier Name' });
+        
+      }
+      else if (this.checkName())
+      {
+      this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Supplier  Name aleardy exits' });
+      this.isFound=false;
+      }
+      else{
+       
+          this.SuppliersService.insertSupplier(this.SuppliersObj).subscribe(
+            res => {
+              this.NewDialogbool = false;
+              this.ngOnInit(),
+              this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
+            },
+            error => console.log(error),
+          );
+         this.messageService.clear();
+        }
+
+      } 
+      LOadSuppliers()
+      {
+        this.SuppliersService.GetAllSuppliers().subscribe(
+          res => { this.lstSuppliers=res},
+          err => console.log(err)
+        ) 
+      } 
+      checkName():boolean 
+      {
+        this.LOadSuppliers()
+        for (let index = 0; index < this.lstSuppliers.length; index++)
+        {
+            if(this.lstSuppliers[index].supplierName==this.SuppliersObj.supplierName)
+            {
+              console.log(this.lstSuppliers[index].supplierName);
+              
+            // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Supplier  Name aleardy exits' });
+              this.isFound=true;
+              break;
+            }
+        }
+        console.log( "supplier is "+ this.isFound);
+        return this.isFound;
+      
+          
+      }
+   
 }

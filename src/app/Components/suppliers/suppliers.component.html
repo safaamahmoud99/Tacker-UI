@@ -60,7 +60,7 @@
                         (click)="showBasicDialog(Supplier.id)"></span>
                     <span class="pi pi-pencil" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"
                         (click)="EditDialog(Supplier.id)"></span>
-                    <!-- <span class="pi pi-times" style="cursor: pointer;margin-left: 15px;" (click)="confirm(Supplier.id)" aria-hidden="true"></span> -->
+                     <span class="pi pi-times" style="cursor: pointer;margin-left: 15px;" (click)="confirm(Supplier.id)" aria-hidden="true"></span> 
                 </td>
             </tr>
         </ng-template>
@@ -92,7 +92,7 @@
     </p-dialog>
 </form>
 
-<form #frm="ngForm">
+<form #frm="ngForm"  (ngSubmit)="onsubmit()">
     <p-dialog [(visible)]="NewDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
         <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Add Supplier</h1>
         <div class="row">
