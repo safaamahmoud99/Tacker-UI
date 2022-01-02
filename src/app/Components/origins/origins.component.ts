@@ -15,6 +15,7 @@ export class OriginsComponent implements OnInit {
   Editboolean: boolean;
   displayBasic: boolean;
   NewDialogbool: boolean;
+  isFound:boolean=false;
   constructor(private OriginsService:OriginsService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
@@ -22,7 +23,8 @@ export class OriginsComponent implements OnInit {
     this.OriginsService.GetAllOrigins().subscribe(
       res=>{this.lstOrigins=res},
       err=>console.log(err)
-    )
+    ) 
+    this.checkName();
   }
   showBasicDialog(id) {
     this.displayBasic = true;
@@ -35,16 +37,16 @@ export class OriginsComponent implements OnInit {
     this.NewDialogbool = true;
     this.OriginsObj={id:0,originName:""}
   }
-  add() {
-    this.OriginsService.inserOrigin(this.OriginsObj).subscribe(
-      res => {
-        this.NewDialogbool = false;
-        this.ngOnInit(),
-        this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
-      },
-      error => console.log(error),
-    );
-  }
+  // add() {
+  //   this.OriginsService.inserOrigin(this.OriginsObj).subscribe(
+  //     res => {
+  //       this.NewDialogbool = false;
+  //       this.ngOnInit(),
+  //       this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
+  //     },
+  //     error => console.log(error),
+  //   );
+  // }
   EditDialog(id) {
     this.Editboolean = true;
     this.OriginsService.GetOriginById(id).subscribe(
@@ -53,7 +55,20 @@ export class OriginsComponent implements OnInit {
     )
   }
   update(id) {
-    console.log("id",id)
+    console.log("id",id) 
+    this.messageService.clear();
+    if(this.OriginsObj.originName.trim()=="" || this.OriginsObj.originName.trim().length<3)
+    {
+     
+      this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter valid Origin Name' });
+      
+    }
+    else if (this.checkName())
+    {
+    this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Origin  Name aleardy exits' });
+    this.isFound=false;
+    }
+  else {
     this.OriginsService.updateOrigin(id,this.OriginsObj).subscribe(
       data => { this.ngOnInit()
         this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });
@@ -62,6 +77,18 @@ export class OriginsComponent implements OnInit {
     );
     this.Editboolean = false;
   }
+}
+
+// this.SuppliersService.updateSupplier(id,this.SuppliersObj).subscribe(
+//   data => { this.ngOnInit()
+//     this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });
+//   },
+//   error => { console.log(error) }
+// );
+// this.Editboolean = false;  
+
+
+
   confirm(id) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
@@ -75,6 +102,8 @@ export class OriginsComponent implements OnInit {
       }
     });
   }
+
+ 
    //Toast
    showSuccess() {
     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
@@ -132,4 +161,64 @@ export class OriginsComponent implements OnInit {
   clear() {
     this.messageService.clear();
   }
+
+  onsubmit()
+  { 
+    this.messageService.clear(); 
+    //if (this.organizationObj.organizationName == "") {
+   // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Organization Name' });
+    if(this.OriginsObj.originName.trim()=="" || this.OriginsObj.originName.trim().length<3)
+    {
+      console.log("enter")
+      this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter valid Origin Name' });
+      
+    }
+    else if (this.checkName())
+    {
+    this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Origin Name aleardy exits' });
+    this.isFound=false;
+    }
+    else{
+     
+        this.OriginsService.inserOrigin(this.OriginsObj).subscribe(
+          res => {
+            this.NewDialogbool = false;
+            this.ngOnInit(),
+            this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
+          },
+          error => console.log(error),
+        );
+       this.messageService.clear();
+      }
+
+    } 
+
+    LOadOrigins()
+    {
+      this.OriginsService.GetAllOrigins().subscribe(
+        res => { this.lstOrigins=res},
+        err => console.log(err)
+      ) 
+    } 
+  
+    checkName():boolean 
+    {
+      this.LOadOrigins()
+      for (let index = 0; index < this.lstOrigins.length; index++)
+      {
+          if(this.lstOrigins[index].originName==this.OriginsObj.originName)
+          {
+            console.log(this.lstOrigins[index].originName);
+            
+          // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Supplier  Name aleardy exits' });
+            this.isFound=true;
+            break;
+          }
+      }
+      console.log( "Origin is  "+ this.isFound);
+      return this.isFound;
+    
+        
+    }
+
 }

@@ -23,6 +23,9 @@ export class SuppliersService {
   deleteSupplier(id: number): Observable<Suppliers> {
     return this.httpClient.delete<Suppliers>(`${environment.Suppliers}/` + id, this.httpHeader);
   }
+  // deleteOrigin(id:Origins):Observable<any>{ 
+  //  return this.httpClient.delete<any>(`${environment.Origins}${id}`,this.httpHeader);
+ // }
   updateSupplier(id: Number, Supplier: Suppliers): Observable<Suppliers> {
     return this.httpClient.put<Suppliers>(`${environment.Suppliers}/` + id, Supplier, this.httpHeader);
   }

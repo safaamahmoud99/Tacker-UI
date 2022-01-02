@@ -97,8 +97,9 @@
         <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Add Supplier</h1>
         <div class="row">
             <span class="col-md-4" for="time">Supplier Name</span>
-            <input name="supplierName" pInputText type="text" class="col-md-6 form-control"
-                [(ngModel)]="SuppliersObj.supplierName" inputId="date">
+            <input name="supplierName" required minlength="3"  pInputText type="text" class="col-md-6 form-control"
+                [(ngModel)]="SuppliersObj.supplierName" inputId="date" #supplierNameControl="ngModel">
+             
         </div>
         <ng-template pTemplate="footer">
             <p-button (onClick)="add()" [disabled]="frm.invalid" type="submit" icon="pi pi-check"

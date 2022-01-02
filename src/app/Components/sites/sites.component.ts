@@ -14,6 +14,7 @@ export class SitesComponent implements OnInit {
   Editboolean: boolean;
   displayBasic: boolean;
   NewDialogbool: boolean;
+  isFound:boolean=false;
   constructor(private SitesService:SitesService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
@@ -34,16 +35,16 @@ export class SitesComponent implements OnInit {
     this.NewDialogbool = true;
     this.SitesObj={id:0,sitename:""}
   }
-  add() {
-    this.SitesService.insertSite(this.SitesObj).subscribe(
-      res => {
-        this.NewDialogbool = false;
-        this.ngOnInit(),
-        this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
-      },
-      error => console.log(error),
-    );
-  }
+  // add() {
+  //   this.SitesService.insertSite(this.SitesObj).subscribe(
+  //     res => {
+  //       this.NewDialogbool = false;
+  //       this.ngOnInit(),
+  //       this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
+  //     },
+  //     error => console.log(error),
+  //   );
+  // }
   EditDialog(id) {
     this.Editboolean = true;
     this.SitesService.GetSiteById(id).subscribe(
@@ -52,6 +53,19 @@ export class SitesComponent implements OnInit {
     )
   }
   update(id) {
+    this.messageService.clear();
+    if(this.SitesObj.sitename.trim()=="" || this.SitesObj.sitename.trim().length<3)
+    {
+     
+      this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter valid Site Name' });
+      
+    }
+    else if (this.checkName())
+    {
+    this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Site Name aleardy exits' });
+    this.isFound=false;
+    }
+  else {
     console.log("id",id)
     this.SitesService.updateSite(id,this.SitesObj).subscribe(
       data => { this.ngOnInit()
@@ -60,6 +74,7 @@ export class SitesComponent implements OnInit {
       error => { console.log(error) }
     );
     this.Editboolean = false;
+  }
   }
   confirm(id) {
     this.confirmationService.confirm({
@@ -131,4 +146,61 @@ export class SitesComponent implements OnInit {
   clear() {
     this.messageService.clear();
   }
+  onsubmit()
+    { 
+      this.messageService.clear(); 
+      //if (this.organizationObj.organizationName == "") {
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Organization Name' });
+      if(this.SitesObj.sitename.trim()=="" || this.SitesObj.sitename.trim().length<3)
+      {
+        console.log("enter")
+        this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter valid Site Name' });
+        
+      }
+      else if (this.checkName())
+      {
+      this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Site Name aleardy exits' });
+      this.isFound=false;
+      }
+      else{
+       
+          this.SitesService.insertSite(this.SitesObj).subscribe(
+            res => {
+              this.NewDialogbool = false;
+              this.ngOnInit(),
+              this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
+            },
+            error => console.log(error),
+          );
+         this.messageService.clear();
+        }
+
+      } 
+      LOadSits()
+      {
+        this.SitesService.GetAllSites().subscribe(
+          res => { this.lstSites=res},
+          err => console.log(err)
+        ) 
+      } 
+      checkName():boolean 
+      {
+        this.LOadSits()
+        for (let index = 0; index < this.lstSites.length; index++)
+        {
+            if(this.lstSites[index].sitename==this.SitesObj.sitename)
+            {
+              console.log(this.lstSites[index].sitename);
+              
+            // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Supplier  Name aleardy exits' });
+              this.isFound=true;
+              break;
+            }
+        }
+        console.log( "Site is "+ this.isFound);
+        return this.isFound;
+      
+          
+      }
+   
 }

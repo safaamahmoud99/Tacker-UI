@@ -45,16 +45,30 @@ export class SuppliersComponent implements OnInit {
       error => { console.log(error) }
     )
   }
-  update(id) {
-    console.log("id",id)
+  update(id) { 
+   // console.log("id",id) 
+   this.messageService.clear();
+      if(this.SuppliersObj.supplierName.trim()=="" || this.SuppliersObj.supplierName.trim().length<3)
+      {
+       
+        this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter valid supplier Name' });
+        
+      }
+      else if (this.checkName())
+      {
+      this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Supplier  Name aleardy exits' });
+      this.isFound=false;
+      }
+    else {
     this.SuppliersService.updateSupplier(id,this.SuppliersObj).subscribe(
       data => { this.ngOnInit()
         this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });
       },
       error => { console.log(error) }
     );
-    this.Editboolean = false;
+    this.Editboolean = false;  
   }
+}
   confirm(id) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
@@ -128,6 +142,7 @@ export class SuppliersComponent implements OnInit {
   } 
   onsubmit()
     { 
+      this.messageService.clear(); 
       //if (this.organizationObj.organizationName == "") {
      // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Organization Name' });
       if(this.SuppliersObj.supplierName.trim()=="" || this.SuppliersObj.supplierName.trim().length<3)

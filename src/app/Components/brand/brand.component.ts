@@ -14,6 +14,7 @@ export class BrandComponent implements OnInit {
   Editboolean: boolean;
   displayBasic: boolean;
   NewDialogbool: boolean;
+  isFound:boolean=false;
   constructor(private BrandService:BrandService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
@@ -34,16 +35,16 @@ export class BrandComponent implements OnInit {
     this.NewDialogbool = true;
     this.BrandObj={id:0,brandName:""}
   }
-  add() {
-    this.BrandService.insertBrand(this.BrandObj).subscribe(
-      res => {
-        this.NewDialogbool = false;
-        this.ngOnInit(),
-        this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
-      },
-      error => console.log(error),
-    );
-  }
+  // add() {
+  //   this.BrandService.insertBrand(this.BrandObj).subscribe(
+  //     res => {
+  //       this.NewDialogbool = false;
+  //       this.ngOnInit(),
+  //       this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
+  //     },
+  //     error => console.log(error),
+  //   );
+  // }
   EditDialog(id) {
     this.Editboolean = true;
     this.BrandService.GetBrandById(id).subscribe(
@@ -52,6 +53,19 @@ export class BrandComponent implements OnInit {
     )
   }
   update(id) {
+    this.messageService.clear();
+    if(this.BrandObj.brandName.trim()=="" || this.BrandObj.brandName.trim().length<3)
+    {
+     
+      this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter valid Brand Name' });
+      
+    }
+    else if (this.checkName())
+    {
+    this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Brand  Name aleardy exits' });
+    this.isFound=false;
+    }
+  else {
     this.BrandService.updateBrand(id,this.BrandObj).subscribe(
       data => { this.ngOnInit()
         this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });
@@ -59,6 +73,7 @@ export class BrandComponent implements OnInit {
       error => { console.log(error) }
     );
     this.Editboolean = false;
+  }
   }
   confirm(id) {
     this.confirmationService.confirm({
@@ -130,5 +145,61 @@ export class BrandComponent implements OnInit {
   clear() {
     this.messageService.clear();
   }
+  onsubmit()
+  { 
+    this.messageService.clear(); 
+    //if (this.organizationObj.organizationName == "") {
+   // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Organization Name' });
+    if(this.BrandObj.brandName.trim()=="" || this. BrandObj.brandName.trim().length<3)
+    {
+      console.log("enter")
+      this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter valid Brand Name' });
+      
+    }
+    else if (this.checkName())
+    {
+    this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Brand Name aleardy exits' });
+    this.isFound=false;
+    }
+    else{
+     
+        this.BrandService.insertBrand(this.BrandObj).subscribe(
+          res => {
+            this.NewDialogbool = false;
+            this.ngOnInit(),
+            this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
+          },
+          error => console.log(error),
+        );
+       this.messageService.clear();
+      }
+
+    } 
+    LOadBrands()
+    {
+      this.BrandService.GetAllBrands().subscribe(
+        res => { this.lstBrand=res},
+        err => console.log(err)
+      ) 
+    } 
+    checkName():boolean 
+    {
+      this.LOadBrands()
+      for (let index = 0; index < this.lstBrand.length; index++)
+      {
+          if(this.lstBrand[index].brandName==this. BrandObj.brandName)
+          {
+            console.log(this.lstBrand[index].brandName);
+            
+          // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Supplier  Name aleardy exits' });
+            this.isFound=true;
+            break;
+          }
+      }
+      console.log( "Brand is "+ this.isFound);
+      return this.isFound;
+    
+        
+    }
 }
 
