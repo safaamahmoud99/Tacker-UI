@@ -49,7 +49,7 @@
         <tr>
             <th>{{ 'Tracker.ClientName' | translate }}</th>
             <th>{{ 'Tracker.ClientCode' | translate }}</th>
-            <th>{{ 'Tracker.OrganizationName' | translate }}</th>
+            <!-- <th>{{ 'Tracker.OrganizationName' | translate }}</th> -->
             <th>{{ 'Tracker.Address' | translate }}</th>
             <th>{{ 'Tracker.Phone' | translate }}</th>
             <th>{{ 'Tracker.Email' | translate }}</th>
@@ -67,11 +67,11 @@
                     (input)="dt.filter($event.target.value, 'clientCode', 'startsWith')" [placeholder]="'Tracker.Code' | translate"
                     class="p-column-filter">
             </th>
-            <th>
+            <!-- <th>
                 <input pInputText type="text" style="width: 100%"
                     (input)="dt.filter($event.target.value, 'organizationName', 'contains')"[placeholder]="'Tracker.OrganizationName' | translate"
                     class="p-column-filter">
-            </th>
+            </th> -->
             <th>
                 <input pInputText type="text" style="width: 100%"
                     (input)="dt.filter($event.target.value, 'address', 'contains')" [placeholder]="'Tracker.Address' | translate"
@@ -103,9 +103,9 @@
             <td>
                 {{client.clientCode}}
             </td>
-            <td>
+            <!-- <td>
                 {{client.organizationName}}
-            </td>
+            </td> -->
             <td>
                 {{client.address}}
             </td>
