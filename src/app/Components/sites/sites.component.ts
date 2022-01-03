@@ -186,9 +186,9 @@ export class SitesComponent implements OnInit {
       checkName():boolean 
       {
         this.LOadSits()
-        for (let index = 0; index < this.lstSites.length; index++)
+        for (let index = 0; index < this.lstSites.length; index++ )
         {
-            if(this.lstSites[index].sitename==this.SitesObj.sitename)
+            if(this.lstSites[index].sitename==this.SitesObj.sitename && this.lstSites[index].id!=this.SitesObj.id)
             {
               console.log(this.lstSites[index].sitename);
               

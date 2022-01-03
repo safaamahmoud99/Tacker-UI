@@ -12,6 +12,7 @@ export class SuppliersComponent implements OnInit {
 
   lstSuppliers: Suppliers[];
   SuppliersObj:Suppliers;
+  supp:Suppliers;
   Editboolean: boolean;
   displayBasic: boolean;
   NewDialogbool: boolean;
@@ -44,9 +45,11 @@ export class SuppliersComponent implements OnInit {
       data => { this.SuppliersObj = data},
       error => { console.log(error) }
     )
-  }
+  } 
   update(id) { 
    // console.log("id",id) 
+     supp:Suppliers;
+   
    this.messageService.clear();
       if(this.SuppliersObj.supplierName.trim()=="" || this.SuppliersObj.supplierName.trim().length<3)
       {
@@ -182,7 +185,7 @@ export class SuppliersComponent implements OnInit {
         this.LOadSuppliers()
         for (let index = 0; index < this.lstSuppliers.length; index++)
         {
-            if(this.lstSuppliers[index].supplierName==this.SuppliersObj.supplierName)
+            if(this.lstSuppliers[index].supplierName==this.SuppliersObj.supplierName && this.lstSuppliers[index].id!=this.SuppliersObj.id)
             {
               console.log(this.lstSuppliers[index].supplierName);
               

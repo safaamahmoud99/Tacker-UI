@@ -152,7 +152,7 @@ export class AddOrganizationComponent implements OnInit {
     this.LOadOrs();
     for (let index = 0; index < this.Orgs.length; index++)
     {
-        if(this.Orgs[index].organizationName==this.organizationObj.organizationName)
+        if(this.Orgs[index].organizationName==this.organizationObj.organizationName && this.Orgs[index].id!=this.organizationObj.id)
         {
           console.log(this.Orgs[index].organizationName);
           

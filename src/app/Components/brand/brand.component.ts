@@ -187,7 +187,7 @@ export class BrandComponent implements OnInit {
       this.LOadBrands()
       for (let index = 0; index < this.lstBrand.length; index++)
       {
-          if(this.lstBrand[index].brandName==this. BrandObj.brandName)
+          if(this.lstBrand[index].brandName==this.BrandObj.brandName && this.lstBrand[index].id!=this.BrandObj.id)
           {
             console.log(this.lstBrand[index].brandName);
             

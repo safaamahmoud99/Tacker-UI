@@ -206,7 +206,7 @@ export class OriginsComponent implements OnInit {
       this.LOadOrigins()
       for (let index = 0; index < this.lstOrigins.length; index++)
       {
-          if(this.lstOrigins[index].originName==this.OriginsObj.originName)
+          if(this.lstOrigins[index].originName==this.OriginsObj.originName && this.lstOrigins[index].id!=this.OriginsObj.id)
           {
             console.log(this.lstOrigins[index].originName);
             

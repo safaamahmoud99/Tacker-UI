@@ -105,7 +105,7 @@ export class EditOrganizationComponent implements OnInit {
     // if (this.organizationObj.organizationName == "") {
     //   this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Organization Name' });
     // }   
-    if(this.organizationObj.organizationName.trim()=="" ||this.organizationObj.organizationName.trim().length<3)
+    if(this.organizationObj.organizationName =="" ||this.organizationObj.organizationName.trim().length<3)
       {
         console.log("enter");
         this.messageService.add({  key :'tr',severity: 'error', summary: 'Attention !!!', sticky:true, detail: 'Plz enter valid Organization Name' });        
@@ -117,7 +117,7 @@ export class EditOrganizationComponent implements OnInit {
       //   this.messageService.add({ key:'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Organization Name aleardy exits' });
       //   this.ISfound=false;
       // }
-    if  (this.organizationObj.organizationCode.trim() == "" ||this.organizationObj.organizationCode.trim().length<2 ) {
+    if  (this.organizationObj.organizationCode== "" ||this.organizationObj.organizationCode.trim().length<2 ) {
       this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Valid Organization Code' });
     }
     if (this.OrganizationClientsObj.clients.length == 0) {
@@ -166,7 +166,7 @@ export class EditOrganizationComponent implements OnInit {
     this.LOadOrs();
     for (let index = 0; index < this.Orgs.length; index++)
     {
-        if(this.Orgs[index].organizationName==this.organizationObj.organizationName)
+        if(this.Orgs[index].organizationName==this.organizationObj.organizationName && this.Orgs[index].id!=this.organizationObj.id)
         {
           console.log(this.Orgs[index].organizationName);
           
