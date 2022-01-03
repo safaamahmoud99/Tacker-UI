@@ -360,6 +360,7 @@ export class CreateProjectComponent implements OnInit {
     this.diffDays = Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));
   }
   AddProject() {
+    this.messageService.clear();
     this.IsSaveProject = true
     if (this.projectObj.projectName != ""&& this.projectObj.projectName.length>=3&& this.projectObj.projectCode != "" &&this.projectObj.projectCode.length>=2&&
       this.projectObj.projectTypeId != 0 && this.projectObj.organizationId != 0
