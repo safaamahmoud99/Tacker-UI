@@ -198,9 +198,7 @@ export class SitesComponent implements OnInit {
             }
         }
         console.log( "Site is "+ this.isFound);
-        return this.isFound;
-      
-          
+        return this.isFound;          
       }
    
 }

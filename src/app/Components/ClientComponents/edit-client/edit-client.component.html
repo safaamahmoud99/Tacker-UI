@@ -64,13 +64,13 @@
         </div>
         <br>
         <div class="row">
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <label for="OrganizationName">{{ 'Tracker.OrganizationName' | translate }}</label>
                 <select [(ngModel)]="clientObj.organizationId" name="sel2" class="form-control">
                     <option value="" selected disabled hidden>Organization</option>
                     <option *ngFor="let item of organizations" value="{{item.id}}">{{item.organizationName}}</option>
                 </select>
-            </div>
+            </div> -->
             <div class="col-md-4">
                 <label for="name"> {{ 'Tracker.Email' | translate }}</label>
                 <input type="email" #Email="ngModel" [class.is-invalid]="Email.invalid && Email.touched"

@@ -28,6 +28,7 @@ export class AddOrganizationComponent implements OnInit {
   OrganizationId: number;
   lstClients: client[];
   ISfound:boolean=false;
+   
 
   constructor(private router: Router, private organizationService: OrganizationService,
     private ngZone: NgZone, private messageService: MessageService
@@ -53,51 +54,47 @@ export class AddOrganizationComponent implements OnInit {
       err => console.log(err)
     )
     this.LOadOrs();
-
-   
   }
 
   // this.organizationService.GetAllOrganizations().subscribe(result => {
   //   this.lstOrganizationMarkers = result;
   // } 
-
-   
-
-
-
-
   onSubmit() {
-    console.log("this.Orgs|",this.Orgs);
-  for (let index = 0; index < this.Orgs.length; index++)
-  {
-      if(this.Orgs[index].organizationName==this.organizationObj.organizationName)
-      {
-        console.log(this.Orgs[index].organizationName);
-        this.ISfound=true;
-        this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Organization Name aleardy exits' });
-      }
-  }
-    
+      console.log("this.Orgs|",this.Orgs);
+    this.messageService.clear();
     this.OrganizationClientsObj.clients=this.lstSelectedClients
-    if (this.organizationObj.organizationName == "") {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Organization Name' });
-    }   
-    if (this.organizationObj.organizationCode == "") {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Organization Code' });
+    // if (this.organizationObj.organizationName == "") {
+    //   this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Organization Name' });
+    // }   
+    if(this.organizationObj.organizationName.trim()=="" ||this.organizationObj.organizationName.trim().length<3)
+      {
+        console.log("enter")
+        this.messageService.add({  key :'tr',severity: 'error', summary: 'Attention !!!', sticky:true, detail: 'Plz enter valid Organization Name' });
+        
+      }
+      if (this.checkName())
+      {
+        this.messageService.add({ key:'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Organization Name aleardy exits' });
+        this.ISfound=false;
+      }
+    if  (this.organizationObj.organizationCode.trim() == "" ||this.organizationObj.organizationCode.trim().length<2 ) {
+      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Valid Organization Code' });
     }
     if (this.OrganizationClientsObj.clients.length == 0) {
       this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz select client' });
     }
-    if (this.organizationObj.address == "") {
+
+    if (this.organizationObj.address == "" ) {
       this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Address' });
-    }
-    if (this.organizationObj.organizationName != ""&& this.organizationObj.organizationName.length>=3 && this.organizationObj.organizationCode != "" 
-    && this.OrganizationClientsObj.clients.length!=0 &&this.organizationObj.address.length>=3&& this.organizationObj.organizationCode.length>=3) {
+     }
+    if (this.organizationObj.organizationName != ""&& this.organizationObj.organizationName.trim().length>=3 && this.checkName()!=true&&this.organizationObj.organizationCode != "" 
+    && this.OrganizationClientsObj.clients.length!=0 &&this.organizationObj.address.trim().length>=3&& this.organizationObj.organizationCode.trim().length>=2)
+     {
       console.log(this.organizationObj);
       this.organizationObj.lat = Number(this.organizationObj.lat);
       this.organizationObj.lng = Number(this.organizationObj.lng);
       this.organizationService.AddOrganization(this.organizationObj).subscribe((item) => {
-       // console.log("item",item)
+      
         this.OrganizationId = Number(item)
         this.OrganizationClientsObj.organizationId=  this.OrganizationId
         this.organizationClientsService.insertOrganizationClient(this.OrganizationClientsObj).subscribe(
@@ -150,7 +147,23 @@ export class AddOrganizationComponent implements OnInit {
     ) 
   }   
 
-    
+  checkName():boolean 
+  {
+    this.LOadOrs();
+    for (let index = 0; index < this.Orgs.length; index++)
+    {
+        if(this.Orgs[index].organizationName==this.organizationObj.organizationName)
+        {
+          console.log(this.Orgs[index].organizationName);
+          
+        // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Supplier  Name aleardy exits' });
+          this.ISfound=true;
+          break;
+        }
+    }
+   
+    return this.ISfound;    
+  }
     
 
   }

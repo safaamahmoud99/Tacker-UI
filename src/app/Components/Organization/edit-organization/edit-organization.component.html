@@ -1,4 +1,9 @@
 <div class="container">
+  <p-toast></p-toast>
+<p-toast position="top-right" key="tr" [baseZIndex]="9999"></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
   <h1 [translate]="'Tracker.Edit Organization'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
 
   <form #myForm="ngForm" (ngSubmit)="onSubmit()" class="container card">
