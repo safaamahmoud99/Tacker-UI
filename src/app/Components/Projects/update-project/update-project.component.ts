@@ -383,6 +383,7 @@ export class UpdateProjectComponent implements OnInit {
     this.projectObj.actualEndDate = this.ActualEndtDate
   }
   addEventwarantryStartDate(event: MatDatepickerInputEvent<Date>) {
+    console.log("ggggg",this.ProjectSiteAssetObj)
     this.warantryStartDate = this.datepipe.transform(event.value, 'yyyy-MM-dd');
     this.ProjectSiteAssetObj.warrantyStartDate = this.warantryStartDate
   }
@@ -501,6 +502,7 @@ export class UpdateProjectComponent implements OnInit {
   }
   onChangeSerial(event) {
     console.log("serialNumber",event.target.value)
+    console.log("this.ProjectSiteAssetObj",this.ProjectSiteAssetObj)
     this.serialNumber = event.target.value
     this.ProjectSiteAssetService.GetProjectSiteAssetBySerialNumber(this.serialNumber).subscribe(
       res=>{
