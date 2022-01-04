@@ -1,4 +1,9 @@
 <div class="container card" style="margin-left: 15px;">
+    <p-toast></p-toast>
+    <p-toast position="top-right" key="tr" [baseZIndex]="9999"></p-toast>
+    <p-toast position="top-left" key="tl"></p-toast>
+    <p-toast position="top-center" key="tc"></p-toast>
+    <p-toast position="bottom-center" key="bc"></p-toast>
     <br>
    <h1 [translate]="'Tracker.Add Client'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
    <br>
@@ -10,7 +15,7 @@
                [class.is-valid]="clientName.valid" [(ngModel)]="client.clientName" required minlength="3"
                name="clientNames" id="clientName" class="form-control" [placeholder]="'Tracker.name' | translate"
                aria-describedby="helpId">
-           <small [hidden]="clientName.valid || clientName.untouched" id="helpId" class="text-muted"
+           <small [hidden]="clientName.valid || clientName.untouched" id="helpId" class="text-danger"
                [translate]="'Tracker.messege'"></small>
 
        </div>
@@ -23,10 +28,10 @@
        <div class="col-4">
            <label for="Code"> {{ 'Tracker.Code' | translate }}</label>
            <input type="text" #clientCode="ngModel" [class.is-invalid]="clientCode.invalid && clientCode.touched"
-               [class.is-valid]="clientCode.valid" [(ngModel)]="client.clientCode" required minlength="3"
+               [class.is-valid]="clientCode.valid" [(ngModel)]="client.clientCode" required minlength="2"
                name="clientCode" id="code" class="form-control" [placeholder]="'Tracker.Code' | translate"
                aria-describedby="helpId">
-           <small [hidden]="clientCode.valid || clientCode.untouched" id="helpId" class="text-muted"
+           <small [hidden]="clientCode.valid || clientCode.untouched" id="helpId" class="text-danger"
                [translate]="'Tracker.messege'"></small>
 
        </div>
@@ -36,7 +41,7 @@
                [class.is-valid]="address.valid" [(ngModel)]="client.address" required minlength="3" name="clsaddress"
                id="address" class="form-control" [placeholder]="'Tracker.Address' | translate"
                aria-describedby="helpId">
-           <small [hidden]="address.valid || address.untouched" id="helpId" class="text-muted"
+           <small [hidden]="address.valid || address.untouched" id="helpId" class="text-danger"
                [translate]="'Tracker.messege'"></small>
 
        </div>
@@ -45,11 +50,11 @@
        <div class="col-4">
            <label for="Phone">{{ 'Tracker.Phone' | translate }}</label>
            <input type="text" #Phone="ngModel" [class.is-invalid]="Phone.invalid && Phone.touched"
-               [class.is-valid]="Phone.valid" [(ngModel)]="client.phone" required minlength="3" name="ClientPhone"
+               [class.is-valid]="Phone.valid" [(ngModel)]="client.phone" required  pattern="^01[0-2,5]{1}[0-9]{8}$" name="ClientPhone"
                id="Phone" class="form-control" [placeholder]="'Tracker.Phone' | translate" aria-describedby="helpId">
-           <small [hidden]="clientCode.Phone || Phone.untouched" id="helpId" class="text-muted"
-               [translate]="'Tracker.messege'"></small>
-
+           <small [hidden]="Phone.valid || Phone.untouched" id="helpId" class="text-danger validation"
+           >enter valid phone number </small>
+                
        </div>
        <!-- <div class="col-4">
        <span class="p-float-label">
@@ -60,10 +65,17 @@
        <div class="col-4">
            <label for="name"> {{ 'Tracker.Email' | translate }}</label>
            <input type="email" #Email="ngModel" [class.is-invalid]="Email.invalid && Email.touched"
-               [class.is-valid]="Email.valid" [(ngModel)]="client.email" required minlength="3" name="clientEmail"
+               [class.is-valid]="Email.valid" [(ngModel)]="client.email" required
+               pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" name="clientEmail"   
                id="Email" class="form-control" [placeholder]="'Tracker.Email' | translate" aria-describedby="helpId">
-           <small [hidden]="Email.valid || Email.untouched" id="helpId" class="text-muted"
-               [translate]="'Tracker.messege'"></small>
+           <!-- <small [hidden]="Email.valid || Email.untouched" id="helpId" class="text-muted"
+               [translate]="'Tracker.messege'"></small>  -->
+               <!-- <div *ngIf="Email.errors"> 		   
+                <div *ngIf="Email.errors.pattern" class="text-danger"> 
+                     Email not valid.
+                </div>	
+             </div>  -->
+             <small class="text-danger validation" [class.d-none]="Email.untouched || Email.valid" >Email requires & must be like test@gmail.com</small>
 
        </div>
        <!-- <div class="p-field col-md-4">

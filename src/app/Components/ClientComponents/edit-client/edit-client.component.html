@@ -40,7 +40,7 @@
             <div class="col-md-6">
                 <label for="Code"> {{ 'Tracker.Code' | translate }}</label>
                 <input type="text" #clientCode="ngModel" [class.is-invalid]="clientCode.invalid && clientCode.touched"
-                    [class.is-valid]="clientCode.valid" [(ngModel)]="clientObj.clientCode" required minlength="3"
+                    [class.is-valid]="clientCode.valid" [(ngModel)]="clientObj.clientCode" required minlength="2"
                     name="clientCode" id="code" class="form-control" placeholder="Client Code"
                     aria-describedby="helpId">
             </div>
@@ -57,9 +57,12 @@
             <div class="col-md-6">
                 <label for="Phone">{{ 'Tracker.Phone' | translate }}</label>
                 <input type="text" #Phone="ngModel" [class.is-invalid]="Phone.invalid && Phone.touched"
-                    [class.is-valid]="Phone.valid" [(ngModel)]="clientObj.phone" required minlength="3"
+                    [class.is-valid]="Phone.valid" [(ngModel)]="clientObj.phone" required  pattern="^01[0-2,5]{1}[0-9]{8}$" 
                     name="ClientPhone" id="Phone" class="form-control" placeholder="Client Phone"
                     aria-describedby="helpId">
+                    <small [hidden]="Phone.valid || Phone.untouched" id="helpId" class="text-danger validation"
+           > enter valid phone number </small>
+
             </div>
         </div>
         <br>
@@ -76,7 +79,8 @@
                 <input type="email" #Email="ngModel" [class.is-invalid]="Email.invalid && Email.touched"
                     [class.is-valid]="Email.valid" [(ngModel)]="clientObj.email" required minlength="3"
                     name="clientEmail" id="Email" class="form-control" placeholder="Client Email"
-                    aria-describedby="helpId">
+                    aria-describedby="helpId" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$">
+                    <small class="text-danger validation" [class.d-none]="Email.untouched || Email.valid" >Email requires & must be like test@gmail.com</small>
             </div>
             <div class="col-md-4">
                 <label for="gender"> {{ 'Tracker.Gender' | translate }}</label><br>

@@ -34,9 +34,13 @@ export class EditClientComponent implements OnInit {
       
     })
   }
+
   update() {
+
     console.log(this.clientObj);
     this.clientObj.organizationId=Number(this.clientObj.organizationId);
+    if(this.clientObj.clientName!="" && this.clientObj.clientCode.trim().length>=2 && this.clientObj.address.trim().length>=3 && this.clientObj.phone.length>=3 &&this.isEmail()&&this.isPhone())
+    { 
     this.clientService.Updateclient(this.clientId, this.clientObj).subscribe(
       res => {
         this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });
@@ -45,6 +49,7 @@ export class EditClientComponent implements OnInit {
       error => console.log(error),
     );
   }
+}
   showSuccess() {
     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
   }
@@ -100,6 +105,28 @@ export class EditClientComponent implements OnInit {
 
   clear() {
     this.messageService.clear();
+  }
+
+
+  isEmail():boolean
+  { 
+      var serchfind:boolean;
+      var regexp;
+      regexp =/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      serchfind = regexp.test(this.clientObj.email);
+
+      console.log(serchfind)
+      return serchfind
+  }
+  isPhone():boolean
+  {
+    var serchfind:boolean;
+    var regexp;
+    regexp =/^01[0-2,5]{1}[0-9]{8}$/;
+    serchfind = regexp.test(this.clientObj.phone);
+
+    console.log(serchfind)
+    return serchfind
   }
 
 }

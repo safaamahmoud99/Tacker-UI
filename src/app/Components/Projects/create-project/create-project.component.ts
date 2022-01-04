@@ -593,6 +593,7 @@ export class CreateProjectComponent implements OnInit {
     )
   }
   saveSiteAssetToDB() {
+    this.messageService.clear();
     this.ProjectSiteAssetObj.assetId = this.projectSiteClientObj.assetId
     this.ProjectSiteAssetObj.days = this.projectSiteClientObj.days
     this.ProjectSiteAssetObj.serialNumber = this.projectSiteClientObj.serialNumber

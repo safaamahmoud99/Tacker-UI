@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { from } from 'rxjs';
-import { Gender } from 'src/Shared/Models/Gender'
-import { MaritalStatus } from 'src/Shared/Models/marital-status'
+import { Gender } from 'src/Shared/Models/Gender';
+import { MaritalStatus } from 'src/Shared/Models/marital-status';
 import { SelectItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { DatePipe } from '@angular/common';
@@ -48,6 +48,8 @@ export class AddEmployeeComponent implements OnInit {
     );
   }
   add() {
+    if(this.isEmail() && this.isPhone() && this.Employee.employeeName.trim().length>=3)
+    {
     console.log(typeof (this.Employee.departmentId));
     this.Employee.departmentId = Number(this.Employee.departmentId);
     console.log(this.Employee);
@@ -55,6 +57,7 @@ export class AddEmployeeComponent implements OnInit {
       res => { this.router.navigate(['home/employee']); },
       error => console.log(error),
     );
+  }
   }
 
 
@@ -100,4 +103,28 @@ export class AddEmployeeComponent implements OnInit {
       this.uploadedFiles.push(file);
     }
   }
+  isEmail():boolean
+  { 
+      var serchfind:boolean;
+      var regexp;
+      regexp =/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      serchfind = regexp.test(this.Employee.email);
+
+      console.log(serchfind)
+      return serchfind
+  }
+  isPhone():boolean
+  {
+    var serchfind:boolean;
+    var regexp;
+    regexp =/^01[0-2,5]{1}[0-9]{8}$/;
+    serchfind =(regexp.test(this.Employee.phone) && regexp.test(this.Employee.mobile));
+  
+    console.log(serchfind)
+    return serchfind
+  }
+
+
+
+
 }
