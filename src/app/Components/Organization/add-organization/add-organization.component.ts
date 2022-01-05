@@ -70,22 +70,27 @@ export class AddOrganizationComponent implements OnInit {
       {
         console.log("enter")
         this.messageService.add({  key :'tr',severity: 'error', summary: 'Attention !!!', sticky:true, detail: 'Plz enter valid Organization Name' });
+        return false;
         
       }
       if (this.checkName())
       {
         this.messageService.add({ key:'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Organization Name aleardy exits' });
         this.ISfound=false;
+        return false;
       }
     if  (this.organizationObj.organizationCode.trim() == "" ||this.organizationObj.organizationCode.trim().length<2 ) {
       this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Valid Organization Code' });
+      return false;
     }
     if (this.OrganizationClientsObj.clients.length == 0) {
       this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz select client' });
+      return false;
     }
 
     if (this.organizationObj.address == "" ) {
       this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Address' });
+         return false; 
      }
     if (this.organizationObj.organizationName != ""&& this.organizationObj.organizationName.trim().length>=3 && this.checkName()!=true&&this.organizationObj.organizationCode != "" 
     && this.OrganizationClientsObj.clients.length!=0 &&this.organizationObj.address.trim().length>=3&& this.organizationObj.organizationCode.trim().length>=2)
