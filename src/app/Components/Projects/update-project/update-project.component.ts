@@ -383,6 +383,7 @@ export class UpdateProjectComponent implements OnInit {
     this.projectObj.actualEndDate = this.ActualEndtDate
   }
   addEventwarantryStartDate(event: MatDatepickerInputEvent<Date>) {
+    console.log("ggggg",this.ProjectSiteAssetObj)
     this.warantryStartDate = this.datepipe.transform(event.value, 'yyyy-MM-dd');
     this.ProjectSiteAssetObj.warrantyStartDate = this.warantryStartDate
   }
@@ -501,6 +502,7 @@ export class UpdateProjectComponent implements OnInit {
   }
   onChangeSerial(event) {
     console.log("serialNumber",event.target.value)
+    console.log("this.ProjectSiteAssetObj",this.ProjectSiteAssetObj)
     this.serialNumber = event.target.value
     this.ProjectSiteAssetService.GetProjectSiteAssetBySerialNumber(this.serialNumber).subscribe(
       res=>{
@@ -593,7 +595,7 @@ export class UpdateProjectComponent implements OnInit {
     this.ProjectSiteAssetObj.ProjectSiteId = this.projectSiteId
     this.ProjectSiteAssetService.insertProjectSiteAsset(this.ProjectSiteAssetObj).subscribe(
       res => {
-        //  this.SiteClientsService.insertSiteClient(this.SiteClientsObj).subscribe(           
+        //  this.SiteClientsService.insertSiteClient(this.SiteClientsObj).subscribe(
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
       }
     )
@@ -644,6 +646,12 @@ export class UpdateProjectComponent implements OnInit {
     )
   }
   edit() {
+    this.messageService.clear();
+
+    if (this.projectObj.projectName != ""&& this.projectObj.projectName.length>=3&& this.projectObj.projectCode != "" &&this.projectObj.projectCode.length>=2&&
+      this.projectObj.projectTypeId != 0 && this.projectObj.organizationId != 0
+       && this.projectObj.employeeId != 0 && this.selectedSitesColumns.length!=0)
+      {
     this.projectService.updateProject(this.projectid, this.projectObj).subscribe(res => {
       this.ProjectSitesObj.projectId = this.id
       this.ProjectSitesObj.lstSites = this.selectedSitesColumns
@@ -654,14 +662,42 @@ export class UpdateProjectComponent implements OnInit {
       )
     }), err => console.log(err)
   }
+  else 
+  {
+    this.IsSaveProject = false
+    this.activeIndex = this.activeIndex
+    this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+  }
+  }
 
   Savetolist_Stackholders() {
-    this.stackholderInLst.projectId = Number(this.stackholderInLst.projectId)
-    this.lstOfStackholder.push(this.stackholderInLst);
-    this.stackholderInLst = {
-      description: '', id: 0, mobile: '', projectId: this.id, rank: '', stackeholderName: ''
+    this.messageService.clear();
+    if (this.stackholderInLst.stackeholderName.trim().length>=3 && this.isPhone() && this.stackholderInLst.rank != "") {
+      this.stackholderInLst.mobile = String(this.stackholderInLst.mobile);
+      this.lstOfStackholder.push(this.stackholderInLst);
+      this.stackholderInLst = {
+        description: '', id: 0, mobile: '', projectId:this.id, rank: '', stackeholderName: ''
+      }
+    }
+    else {
+      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+
     }
   }
+  /*
+   this.messageService.clear();
+    if (this.stackholderInLst.stackeholderName.trim().length>=3 && this.isPhone() && this.stackholderInLst.rank != "") {
+      this.stackholderInLst.mobile = String(this.stackholderInLst.mobile);
+      this.lstOfStackholder.push(this.stackholderInLst);
+      this.stackholderInLst = {
+        description: '', id: 0, mobile: '', projectId: this.projectID, rank: '', stackeholderName: ''
+      }
+    }
+    else {
+      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+
+    }
+  */
   SaveToDB_Stackholders() {
     this.stackholderService.insertListOfStackholders(this.lstOfStackholder).subscribe(e => {
       this.lstOfStackholder = []
@@ -672,13 +708,21 @@ export class UpdateProjectComponent implements OnInit {
     })
   }
   Savetolist_Milestones() {
+    this.messageService.clear();
+    if (this.milestonInLst.title.trim().length>=3 && this.milestonInLst.startDate != "" && this.milestonInLst.endDate != "") {
     this.milestonInLst.projectId = Number(this.stackholderInLst.projectId)
     this.lstOfMilestones.push(this.milestonInLst);
     this.milestonInLst = {
       description: '', id: 0, endDate: "", projectId: 0, startDate: "", title: ''
     }
   }
+  else
+  {
+    this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+  }
+  }
   SaveToDB_Milestones() {
+
     this.milestoneservice.insertListOfMilestoness(this.lstOfMilestones).subscribe(e => {
       this.lstOfMilestones = []
       this.milestoneservice.GetAllMileStonesByProjectID(this.id).subscribe(m => {
@@ -741,6 +785,9 @@ export class UpdateProjectComponent implements OnInit {
     this.displaydoc = true
   }
   Savetolist_Teams() {
+    this.messageService.clear();
+    if (this.team.Name.trim().length>=1&& this.ProjectTeam.projectPositionId != 0 && this.ProjectTeam.employeeId != 0
+      && this.ProjectTeam.departmentId != 0) {
 
     this.ProjectTeam.projectId = Number(this.id)
     this.ProjectTeam.departmentId = Number(this.ProjectTeam.departmentId)
@@ -763,6 +810,11 @@ export class UpdateProjectComponent implements OnInit {
         }
       })
     })
+  }
+  else
+  {
+    this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+  }
   }
   Idteam: any
 
@@ -791,10 +843,22 @@ export class UpdateProjectComponent implements OnInit {
       });
   }
   Savedoctolist() {
-    this.lstoddocproj.push(this.docproject);
-    this.docproject = {
-      Description: '', documentName: '', id: 0, documentFile: '', projectId: this.id
-    };
+    // this.lstoddocproj.push(this.docproject);
+    // this.docproject = {
+    //   Description: '', documentName: '', id: 0, documentFile: '', projectId: this.id
+    // };
+       this.messageService.clear();
+    if (this.docproject.documentName.trim().length>=1 && this.docproject.documentFile != "") {
+      this.lstoddocproj.push(this.docproject);
+      this.docproject = {
+        Description: '', documentName: '', id: 0, documentFile: '', projectId: this.id
+      };
+      console.log(this.lstoddocproj);
+    }
+    else {
+      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+
+    }
   }
   public message: string;
   public uploadFile = (files) => {
@@ -893,4 +957,18 @@ export class UpdateProjectComponent implements OnInit {
   clear() {
     this.messageService.clear();
   }
+  isPhone():boolean
+  {
+    var serchfind:boolean;
+    var regexp;
+    regexp =/^01[0-2,5]{1}[0-9]{8}$/;
+    serchfind =(regexp.test(this.stackholderInLst.mobile));
+
+    console.log(serchfind)
+    return serchfind
+  }
+
+
+
+
 }

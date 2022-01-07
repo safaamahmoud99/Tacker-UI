@@ -6,7 +6,7 @@
 <p-toast position="bottom-center" key="bc"></p-toast> 
 <div class="card container">
     <h1 [translate]="'Tracker.Add Project'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
-    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <mat-horizontal-stepper [linear]="isLinear" #stepper >
         <mat-step [stepControl]="ProjectdataFormGroup">
             <ng-template matStepLabel>{{'Tracker.Project Data'| translate}}</ng-template>
             <div class="row">
@@ -15,7 +15,7 @@
                     </label><br>
                     <input minlength="3" #ProjectName="ngModel" [placeholder]="'Tracker.Project Name' | translate"
                         [class.is-invalid]="ProjectName.invalid && ProjectName.touched" [class.is-valid]="ProjectName.valid"
-                         minlength="3" type="text" [(ngModel)]="projectObj.projectName" pInputText id="name"
+                          type="text" [(ngModel)]="projectObj.projectName" pInputText id="name"
                         required [disabled]="IsDisabled" />
                     <br> <small [hidden]="ProjectName.valid || ProjectName.untouched" id="helpId" class="text-danger"
                         [translate]="'Tracker.messege'"></small>
@@ -138,11 +138,14 @@
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-6"></div>
-                <div class="col-md-2">
+                <!-- <div class="col-md-2">
                   <button mat-stroked-button [disabled]="IsSaveProject" (click)="AddProject()" color="primary" mat-button >{{'Tracker.Submit'|translate}}</button>
-                </div>
-                <div class="col-md-2">
+                </div> -->
+                <!-- <div class="col-md-2">
                     <button mat-stroked-button [disabled]="disabledButton==false" color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                </div> -->
+                <div class="col-md-2">
+                    <button mat-stroked-button [disabled]="IsSaveProject"  (click)="AddProject()" color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
                 </div>
             </div>  
         </mat-step>
@@ -1302,4 +1305,3 @@
         </div>
     </div>
     <br> -->
-

@@ -44,6 +44,8 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   update() {
+    if(this.isEmail() && this.isPhone() && this.Employee.employeeName.trim().length>=3)
+    {
     console.log(this.Employee);
     this.Employee.departmentId=Number(this.Employee.departmentId);
     this.empService.UpdateEmployee(this.EmployeeID, this.Employee).subscribe(
@@ -53,6 +55,7 @@ export class EditEmployeeComponent implements OnInit {
       },
       error => console.log(error),
     );
+    }
   }
   onFileSelected(files: FileList) {
 
@@ -146,6 +149,26 @@ export class EditEmployeeComponent implements OnInit {
 
   clear() {
     this.messageService.clear();
+  }
+  isEmail():boolean
+  { 
+      var serchfind:boolean;
+      var regexp;
+      regexp =/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      serchfind = regexp.test(this.Employee.email);
+
+      console.log(serchfind)
+      return serchfind
+  }
+  isPhone():boolean
+  {
+    var serchfind:boolean;
+    var regexp;
+    regexp =/^01[0-2,5]{1}[0-9]{8}$/;
+    serchfind =(regexp.test(this.Employee.phone) && regexp.test(this.Employee.mobile));
+  
+    console.log(serchfind)
+    return serchfind
   }
 
 }

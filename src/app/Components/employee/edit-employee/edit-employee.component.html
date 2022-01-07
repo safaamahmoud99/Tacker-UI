@@ -95,25 +95,30 @@
             <div class="col-md-6">
                 <label for="Email" [translate]="'Tracker.Email'"></label>
                 <input type="email" class="form-control" #Empmail="ngModel" [class.is-invalid]="Empmail.invalid && Empmail.touched"
-                [class.is-valid]="Empmail.valid" [(ngModel)]="Employee.Address" required minlength="3" name="email" [(ngModel)]="Employee.email"
+                [class.is-valid]="Empmail.valid" [(ngModel)]="Employee.Address" required pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" name="email" [(ngModel)]="Employee.email"
                     [placeholder]="'Tracker.Email' | translate">
-                    <small [hidden]="Empmail.valid || Empmail.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+                    <!-- <small [hidden]="Empmail.valid || Empmail.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small> -->
+                    <small class="text-danger validation" [class.d-none]="Empmail.untouched || Empmail.valid" >Email requires & must be like test@gmail.com</small>
 
             </div>
             <div class="col-md-3">
                 <label for="Phone" [translate]="'Tracker.Phone'"></label>
-                <input mask="88888" class="form-control" type="number" #phone="ngModel" [class.is-invalid]="phone.invalid && phone.touched"
-                [class.is-valid]="phone.valid"  required minlength="3" name="phone" [(ngModel)]="Employee.phone"
+                <input mask="88888" class="form-control" type="text" #phone="ngModel" [class.is-invalid]="phone.invalid && phone.touched"
+                [class.is-valid]="phone.valid"  required pattern="^01[0-2,5]{1}[0-9]{8}$" name="phone" [(ngModel)]="Employee.phone"
                     [placeholder]="'Tracker.Phone' | translate">
-                    <small [hidden]="phone.valid || phone.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+                    <!-- <small [hidden]="phone.valid || phone.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small> -->
+                    <small [hidden]="phone.valid || phone.untouched" id="helpId" class="text-danger validation"
+                    > enter valid phone number </small>
 
             </div>
             <div class="col-md-3">
                 <label for="Mobile" [translate]="'Tracker.Mobile'"></label>
-                <input mask="99999" class="form-control" type="number" #mobile="ngModel" [class.is-invalid]="mobile.invalid && mobile.touched"
-                [class.is-valid]="mobile.valid"  required minlength="3" name="mobile" [(ngModel)]="Employee.mobile"
+                <input mask="99999" class="form-control" type="text" #mobile="ngModel" [class.is-invalid]="mobile.invalid && mobile.touched"
+                [class.is-valid]="mobile.valid"  required pattern="^01[0-2,5]{1}[0-9]{8}$" name="mobile" [(ngModel)]="Employee.mobile"
                     [placeholder]="'Tracker.Mobile' | translate">
-                    <small [hidden]="mobile.valid || mobile.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+                    <!-- <small [hidden]="mobile.valid || mobile.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small> -->
+                    <small [hidden]="mobile.valid || mobile.untouched" id="helpId" class="text-danger validation"
+                    > enter valid phone number </small>
 
             </div>
         </div>

@@ -412,6 +412,7 @@ export class CreateProjectComponent implements OnInit {
   }
 
   Savetolist_Stackholders() {
+    this.messageService.clear();
     if (this.stackholderInLst.stackeholderName != "" && this.stackholderInLst.mobile != "" && this.stackholderInLst.rank != "") {
       this.stackholderInLst.mobile = String(this.stackholderInLst.mobile);
       this.lstOfStackholder.push(this.stackholderInLst);
@@ -593,6 +594,7 @@ export class CreateProjectComponent implements OnInit {
     )
   }
   saveSiteAssetToDB() {
+    this.messageService.clear();
     this.ProjectSiteAssetObj.assetId = this.projectSiteClientObj.assetId
     this.ProjectSiteAssetObj.days = this.projectSiteClientObj.days
     this.ProjectSiteAssetObj.serialNumber = this.projectSiteClientObj.serialNumber
