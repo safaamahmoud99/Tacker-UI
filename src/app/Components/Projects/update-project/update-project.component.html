@@ -40,7 +40,7 @@
                         [class.is-invalid]="ProjectName.invalid && ProjectName.touched"
                         [class.is-valid]="ProjectName.valid" type="text" [(ngModel)]="projectObj.projectName" pInputText
                         id="name" required />
-                    <br> <small [hidden]="ProjectName.valid || ProjectName.untouched" id="helpId" class="text-muted"
+                    <br> <small [hidden]="ProjectName.valid || ProjectName.untouched" id="helpId" class="text-danger"
                         [translate]="'Tracker.messege'"></small>
                 </div>
                 <div class="p-field col-md-3">
@@ -49,7 +49,7 @@
                         [placeholder]="'Tracker.Project Code' | translate"
                         [class.is-invalid]="ProCode.invalid && ProCode.touched" [class.is-valid]="ProCode.valid"
                         required minlength="3" [(ngModel)]="projectObj.projectCode" pInputText id="Code" required />
-                    <br> <small [hidden]="ProCode.valid || ProCode.untouched" id="helpId" class="text-muted"
+                    <br> <small [hidden]="ProCode.valid || ProCode.untouched" id="helpId" class="text-danger"
                         [translate]="'Tracker.messege'"></small>
                 </div>
                 <div class="p-field col-md-3">
@@ -65,7 +65,7 @@
                         #Procost="ngModel" name="ProjectCost" [class.is-invalid]="Procost.invalid && Procost.touched"
                         [placeholder]="'Tracker.Project Cost' | translate" [class.is-valid]="Procost.valid" required
                         minlength="3" />
-                    <br> <small [hidden]="Procost.valid || Procost.untouched" id="helpId" class="text-muted"
+                    <br> <small [hidden]="Procost.valid || Procost.untouched" id="helpId" class="text-danger"
                         [translate]="'Tracker.messegeNumber'"></small>
                 </div>
             </div>
@@ -126,7 +126,7 @@
                         [placeholder]="'Tracker.Project Period' | translate" min="1"
                         [class.is-invalid]="ProPeriod.invalid && ProPeriod.touched" [class.is-valid]="ProPeriod.valid"
                         required minlength="3" [(ngModel)]="projectObj.projectPeriod" pInputText id="Period" required />
-                    <br> <small [hidden]="ProPeriod.valid || ProPeriod.untouched" id="helpId" class="text-muted"
+                    <br> <small [hidden]="ProPeriod.valid || ProPeriod.untouched" id="helpId" class="text-danger"
                         [translate]="'Tracker.messegeNumber'"></small>
                 </div>
                 <div class="p-field col-md-3">
@@ -235,9 +235,9 @@
                                             <p-columnFilter type="text" field="serialNumber" display="menu">
                                             </p-columnFilter>
                                         </th>
-                                        <th>{{'Tracker.DueDate' | translate}}
+                                        <!-- <th>{{'Tracker.DueDate' | translate}}
                                             <p-columnFilter type="text" field="days" display="menu"></p-columnFilter>
-                                        </th>
+                                        </th> -->
                                         <th>{{'Tracker.Warranty Period' | translate}}
                                             <p-columnFilter type="text" field="warrantyPeriod" display="menu">
                                             </p-columnFilter>
@@ -263,7 +263,7 @@
                                         <!-- <td>{{i.siteName}}</td> -->
                                         <td>{{asset.assetName}}</td>
                                         <td>{{asset.serialNumber}}</td>
-                                        <td>{{asset.days}} Days</td>
+                                        <!-- <td>{{asset.days}} Days</td> -->
                                         <td>{{asset.warrantyPeriod}} Years</td>
                                         <td>{{asset.warrantyStartDate | date:'dd/MM/yyyy'}}</td>
                                         <td>{{asset.supplierName}}</td>
@@ -527,29 +527,42 @@
         [baseZIndex]="10000">
         <div class="row">
             <div class="col">
-                <div class="p-col-12 p-md-4">
-                    <div class="p-inputgroup">
-                        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                        <input type="text" pInputText [placeholder]="'Tracker.Partener Name' | translate"
-                            [(ngModel)]="stackholderInLst.stackeholderName">
-                    </div>
+              <div class="p-col-12 p-md-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                    <input #PartnerName="ngModel" class="form-control"
+                        [class.is-invalid]="PartnerName.invalid && PartnerName.touched"
+                        [class.is-valid]="PartnerName.valid" required minlength="3" type="text" pInputText
+                        [placeholder]="'Tracker.Partener Name' | translate"
+                        [(ngModel)]="stackholderInLst.stackeholderName">
                 </div>
+                <small [hidden]="PartnerName.valid || PartnerName.untouched" id="helpId" class="text-danger"
+                    [translate]="'Tracker.messege'"></small>
+            </div>
                 <div class="p-col-12 p-md-4">
-                    <div class="p-inputgroup">
-                        <span class="p-inputgroup-addon"></span>
-                        <input type="text" pInputText [placeholder]="'Tracker.Mobile' | translate"
-                            [(ngModel)]="stackholderInLst.mobile">
-                        <span class="p-inputgroup-addon"></span>
-                    </div>
+                  <div class="p-inputgroup">
+                      <span class="p-inputgroup-addon"></span>
+                      <input #Partenermobile="ngModel" class="form-control"
+                          [class.is-invalid]="Partenermobile.invalid && Partenermobile.touched"
+                          [class.is-valid]="Partenermobile.valid" required  pattern="^01[0-2,5]{1}[0-9]{8}$" type="text" pInputText
+                          [placeholder]="'Tracker.Mobile' | translate" [(ngModel)]="stackholderInLst.mobile">
+                      <span class="p-inputgroup-addon"></span>
+                  </div>
+                  <small [hidden]="Partenermobile.valid || Partenermobile.untouched" id="helpId" class="text-danger validation"
+                [translate]="'Tracker.phoneNumber'"  >  </small>
+              </div>
+              <div class="p-col-12 p-md-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"></span>
+                    <input #Partenerrank="ngModel" class="form-control"
+                        [class.is-invalid]="Partenerrank.invalid && Partenerrank.touched"
+                        [class.is-valid]="Partenerrank.valid" required minlength="3" type="text" pInputText
+                        [placeholder]="'Tracker.Rank' | translate" [(ngModel)]="stackholderInLst.rank">
+                    <span class="p-inputgroup-addon"></span>
                 </div>
-                <div class="p-col-12 p-md-4">
-                    <div class="p-inputgroup">
-                        <span class="p-inputgroup-addon"></span>
-                        <input type="text" pInputText [placeholder]="'Tracker.Rank' | translate"
-                            [(ngModel)]="stackholderInLst.rank">
-                        <span class="p-inputgroup-addon"></span>
-                    </div>
-                </div>
+                <small [hidden]="Partenerrank.valid || Partenerrank.untouched" id="helpId" class="text-danger"
+                    [translate]="'Tracker.messege'"></small>
+            </div>
                 <div class="p-col-12 p-md-4">
                     <div>
                         <textarea pInputTextarea [placeholder]="'Tracker.Description' | translate" style="width: 100%;"
@@ -629,7 +642,7 @@
                         <p-calendar [(ngModel)]="milestonInLst.startDate" dateFormat="dd/mm/yy" appendTo="body">
                         </p-calendar>
 
-                        <!-- <br> <small [hidden]="Name.valid || Name.untouched" id="helpId" class="text-muted">Must more than 3
+                        <!-- <br> <small [hidden]="Name.valid || Name.untouched" id="helpId" class="text-danger">Must more than 3
         letters</small> -->
                     </div>
                     <div class="p-field col-md-6">
@@ -637,7 +650,7 @@
                         </label><br>
                         <p-calendar [(ngModel)]="milestonInLst.endDate" dateFormat="dd/mm/yy" appendTo="body">
                         </p-calendar>
-                        <!-- <br> <small [hidden]="Name.valid || Name.untouched" id="helpId" class="text-muted">Must more than 3
+                        <!-- <br> <small [hidden]="Name.valid || Name.untouched" id="helpId" class="text-danger">Must more than 3
         letters</small> -->
                     </div>
                 </div>
@@ -882,21 +895,22 @@
                 <input [ngModelOptions]="{standalone: true}" (blur)="onChangeSerial($event)" [(ngModel)]="projectSiteClientObj.serialNumber" type="text"
                     pInputText name="serialNumber" [placeholder]="'Tracker.Asset Serial' | translate" />
             </div>
-            <div class="p-field col-md-4">
+            <!-- <div class="p-field col-md-4">
                 <label for="Due Date" class="labelMarginRight">
                     {{'Tracker.DueDate' | translate}}{{'Tracker./Days' | translate}}
                 </label><br>
                 <input [ngModelOptions]="{standalone: true}" [(ngModel)]="projectSiteClientObj.days" type="number"
                     name="days" pInputText min="1" [placeholder]="'Tracker.DueDate' | translate" />
-            </div>
+            </div> -->
+            <div class="p-field col-md-4">
+              <label for="WstartDate">{{'Tracker.Warranty Start Date' | translate}}</label>
+              <p-calendar dateFormat="dd/mm/yy" [(ngModel)]="projectSiteClientObj.warrantyStartDate" appendTo="body"
+                  [placeholder]="'Tracker.Warranty Start Date' | translate" #ProWarrantyStartDate="ngModel"
+                  name="WarrantyStartDate"></p-calendar>
+          </div>
         </div><br>
         <div class="row">
-            <div class="p-field col-md-4">
-                <label for="WstartDate">{{'Tracker.Warranty Start Date' | translate}}</label>
-                <p-calendar dateFormat="dd/mm/yy" [(ngModel)]="projectSiteClientObj.warrantyStartDate" appendTo="body"
-                    [placeholder]="'Tracker.Warranty Start Date' | translate" #ProWarrantyStartDate="ngModel"
-                    name="WarrantyStartDate"></p-calendar>
-            </div>
+
             <div class="p-field col-md-4">
                 <label for="Wperiod">{{'Tracker.Warranty Period' | translate}}{{'Tracker./Days' | translate}}</label>
                 <input [(ngModel)]="projectSiteClientObj.warrantyPeriod" type="number" min="1" pInputText
@@ -948,7 +962,7 @@
                 [placeholder]="'Tracker.Warranty Start Date' | translate" #ProWarrantyStartDate="ngModel"
                 name="WarrantyStartDate"></p-calendar> -->
                 <mat-form-field class="example-full-width" appearance="fill">
-                    <input matInput [matDatepicker]="pickerwarantrydate" 
+                    <input matInput [matDatepicker]="pickerwarantrydate"
                         [value]="ProjectSiteAssetObj.warrantyStartDate | date:'yyyy-MM-dd'" [placeholder]="'Tracker.Warranty Start Date' | translate"
                         (dateChange)="addEventwarantryStartDate($event)">
                     <mat-datepicker-toggle matSuffix [for]="pickerwarantrydate"></mat-datepicker-toggle>
@@ -991,7 +1005,7 @@
             <input minlength="3" #ProjectName="ngModel" autofocus [placeholder]="'Tracker.Project Name' | translate"
                 [class.is-invalid]="ProjectName.invalid && ProjectName.touched" [class.is-valid]="ProjectName.valid"
                 type="text" [(ngModel)]="projectObj.projectName" pInputText id="name" required />
-            <br> <small [hidden]="ProjectName.valid || ProjectName.untouched" id="helpId" class="text-muted"
+            <br> <small [hidden]="ProjectName.valid || ProjectName.untouched" id="helpId" class="text-danger"
                 [translate]="'Tracker.messege'"></small>
         </div>
         <div class="p-field col-md-3">
@@ -1000,7 +1014,7 @@
                 [placeholder]="'Tracker.Project Code' | translate"
                 [class.is-invalid]="ProCode.invalid && ProCode.touched" [class.is-valid]="ProCode.valid" required
                 minlength="3" [(ngModel)]="projectObj.projectCode" pInputText id="Code" required />
-            <br> <small [hidden]="ProCode.valid || ProCode.untouched" id="helpId" class="text-muted"
+            <br> <small [hidden]="ProCode.valid || ProCode.untouched" id="helpId" class="text-danger"
                 [translate]="'Tracker.messege'"></small>
         </div>
         <div class="p-field col-md-3">
@@ -1016,7 +1030,7 @@
                 #Procost="ngModel" name="ProjectCost" [class.is-invalid]="Procost.invalid && Procost.touched"
                 [placeholder]="'Tracker.Project Cost' | translate" [class.is-valid]="Procost.valid" required
                 minlength="3" />
-            <br> <small [hidden]="Procost.valid || Procost.untouched" id="helpId" class="text-muted"
+            <br> <small [hidden]="Procost.valid || Procost.untouched" id="helpId" class="text-danger"
                 [translate]="'Tracker.messegeNumber'"></small>
         </div>
     </div>
@@ -1077,7 +1091,7 @@
                 [placeholder]="'Tracker.Project Period' | translate" min="1"
                 [class.is-invalid]="ProPeriod.invalid && ProPeriod.touched" [class.is-valid]="ProPeriod.valid"
                 required minlength="3" [(ngModel)]="projectObj.projectPeriod" pInputText id="Period" required />
-            <br> <small [hidden]="ProPeriod.valid || ProPeriod.untouched" id="helpId" class="text-muted"
+            <br> <small [hidden]="ProPeriod.valid || ProPeriod.untouched" id="helpId" class="text-danger"
                 [translate]="'Tracker.messegeNumber'"></small>
         </div>
         <div class="p-field col-md-3">
@@ -1346,7 +1360,7 @@
         <div class="row">
             <div class="col-md-10"></div>
             <div class="col-md-2  mb-2">
-                <p-button (click)="showdocDialog()" icon="pi pi-external-link" 
+                <p-button (click)="showdocDialog()" icon="pi pi-external-link"
                     [label]="'Tracker.Add Document'|translate" [style]="{'margin-left':'.5rem','padding':'.4rem .40rem'}">
                 </p-button>
             </div>

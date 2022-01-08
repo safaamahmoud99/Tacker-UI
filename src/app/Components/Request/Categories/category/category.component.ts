@@ -52,23 +52,29 @@ export class CategoryComponent implements OnInit {
     })
   }
   SaveSubCatToDB() {
+    if(this.subCategory.subCategoryName.trim().length>=3)
+    {
     this.subCategory.RequestCategoryId = Number(this.subCategory.RequestCategoryId)
     console.log(this.subCategory)
     this.SubCategService.inserSubCategory(this.subCategory).subscribe(e => {
-      this.router.navigate(['home/DisplayCategories']); 
+      this.router.navigate(['home/DisplayCategories']);
       console.log(e)
     })
+  }
   }
   showMaximizableDialog() {
     this.displayMaximizable = true;
   }
   SaveCatToDB() {
     console.log(this.category)
+    if(this.category.categoryName.trim().length>=3)
+    {
     this.category.departmentId = Number(this.category.departmentId)
-
     this.CategService.inserCategory(this.category).subscribe(e=>{
       console.log(e)
     })
+    }
+
     this.displayMaximizable = false
   }
 }

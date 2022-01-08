@@ -13,18 +13,18 @@ export class DepartmentService {
   constructor(private httpClient : HttpClient) { }
   httpHeader={headers: new HttpHeaders({
     'content-type':'application/json',
-    'Accept': '*/*'  
+    'Accept': '*/*'
   })};
   GetAllDepartmens(): Observable <department[]>{
     return this.httpClient.get<department[]> (`${environment.department}`,this.httpHeader) ;
   }
-  
+
   getDepartmentByEmpID(empID:number)
   {
     return this.httpClient.get<department>(`${environment.getDepartmentByEmpID}${empID}`,this.httpHeader) ;
   }
   inserDepartment(dep:department): Observable <any>{
-    return this.httpClient.post<any> (`${environment.department}`,dep,this.httpHeader) ;
+    return this.httpClient.post<any>(`${environment.department}`,dep,this.httpHeader) ;
   }
   getDepartmentByID(id: number): Observable<department> {
     return this.httpClient.get<department>(`${environment.department}${id}`, this.httpHeader);
@@ -32,7 +32,7 @@ export class DepartmentService {
   updateDepartment(id:Number,department:department):Observable<department>{
     return this.httpClient.put<department>(`${environment.department}`+ id,department,this.httpHeader);
   }
-  deleteDepartment(id:number):Observable<any>{ 
+  deleteDepartment(id:number):Observable<any>{
     return this.httpClient.delete<any>(`${environment.department}${id}`,this.httpHeader);
   }
 

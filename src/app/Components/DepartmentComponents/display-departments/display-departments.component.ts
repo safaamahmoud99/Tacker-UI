@@ -46,7 +46,8 @@ export class DisplayDepartmentsComponent implements OnInit {
             res => {
                 this.NewDialogbool = false;
                 this.ngOnInit(),
-                    this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
+                console.log("objectdept",this.departmentObj)
+                this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
             },
             error => console.log(error),
         );
@@ -60,7 +61,7 @@ export class DisplayDepartmentsComponent implements OnInit {
     }
     update(id) {
         console.log("id", id)
-        this.depService.updateDepartment(id, this.departmentObj).subscribe(
+        this.depService.updateDepartment(id,this.departmentObj).subscribe(
             data => {
                 this.ngOnInit()
                 this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });

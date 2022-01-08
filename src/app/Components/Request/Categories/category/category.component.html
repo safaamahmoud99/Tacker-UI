@@ -8,9 +8,11 @@
                 <div class="p-col-12 p-md-4">
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                        <input type="text" pInputText [placeholder]="'Tracker.SubCategory Name'|translate "
-                            [(ngModel)]="subCategory.subCategoryName">
+                        <input type="text" pInputText  [placeholder]="'Tracker.SubCategory Name'|translate "
+                            [(ngModel)]="subCategory.subCategoryName" #sup ="ngModel" class="form-control"  [class.is-invalid]="sup.invalid && sup.touched" required minlength="3" [class.is-valid]="sup.valid" >
                     </div>
+                    <small [hidden]="sup.valid || sup.untouched" id="helpId" class="text-danger validation"
+                            [translate]="'Tracker.messege'" > </small>
                 </div>
 
                 <div class="p-col-12 p-md-4">
@@ -42,8 +44,10 @@
                             <div class="p-inputgroup">
                                 <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
                                 <input type="text" name="categoryName" pInputText [placeholder]="'Tracker.Category Name' | translate"
-                                    [(ngModel)]="category.categoryName">
+                                    [(ngModel)]="category.categoryName" #sup ="ngModel" class="form-control" #cat="ngModel"  [class.is-invalid]="cat.invalid && cat.touched" required minlength="3" [class.is-valid]="cat.valid">
                             </div>
+                            <small [hidden]="cat.valid || cat.untouched" id="helpId" class="text-danger validation"
+                            [translate]="'Tracker.messege'" > </small>
                         </div>
 
                         <div class="col">

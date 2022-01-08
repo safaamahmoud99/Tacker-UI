@@ -361,10 +361,11 @@ export class CreateProjectComponent implements OnInit {
   }
   AddProject() {
     this.messageService.clear();
-    this.IsSaveProject = true
+
     if (this.projectObj.projectName != ""&& this.projectObj.projectName.length>=3&& this.projectObj.projectCode != "" &&this.projectObj.projectCode.length>=2&&
       this.projectObj.projectTypeId != 0 && this.projectObj.organizationId != 0
-       && this.projectObj.employeeId != 0 && this.selectedSitesColumns.length!=0) {
+       && this.projectObj.employeeId != 0 && this.selectedSitesColumns.length!=0)
+      {
       var date1: any = new Date(this.projectObj.planndedStartDate);
       var date2: any = new Date(this.projectObj.planndedEndDate);
       this.diffDays = Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));
@@ -389,7 +390,7 @@ export class CreateProjectComponent implements OnInit {
                   console.log("lstSites", this.lstSites)
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
                   this.activeIndex = this.activeIndex + 1
-                  this.IsDisabled = true
+                 this.IsDisabled = true
                  this.IsSaveProject = true
                  this.disabledButton = true
                 }
@@ -413,7 +414,7 @@ export class CreateProjectComponent implements OnInit {
 
   Savetolist_Stackholders() {
     this.messageService.clear();
-    if (this.stackholderInLst.stackeholderName != "" && this.stackholderInLst.mobile != "" && this.stackholderInLst.rank != "") {
+    if (this.stackholderInLst.stackeholderName.trim().length>=3 && this.isPhone() && this.stackholderInLst.rank != "") {
       this.stackholderInLst.mobile = String(this.stackholderInLst.mobile);
       this.lstOfStackholder.push(this.stackholderInLst);
       this.stackholderInLst = {
@@ -428,19 +429,22 @@ export class CreateProjectComponent implements OnInit {
   }
 
   SaveToDB_Stackholders() {
+    this.messageService.clear();
     this.stackholderService.insertListOfStackholders(this.lstOfStackholder).subscribe(e => {
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Partener Added' });
     })
   }
 
   SaveToDB_Milestones() {
+    this.messageService.clear();
     this.milestoneService.insertListOfMilestoness(this.lstOfMilestones).subscribe(e => {
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Milestone Added' });
 
     })
   }
   Savetolist_Milestones() {
-    if (this.milestonInLst.title != "" && this.milestonInLst.startDate != "" && this.milestonInLst.endDate != "") {
+    this.messageService.clear();
+    if (this.milestonInLst.title.trim().length>=3 && this.milestonInLst.startDate != "" && this.milestonInLst.endDate != "") {
       this.milestonInLst.projectId = this.projectID;
       console.log("this.projectID", this.projectID)
       this.lstOfMilestones.push(this.milestonInLst);
@@ -472,6 +476,7 @@ export class CreateProjectComponent implements OnInit {
   }
   tasneem: number;
   SaveToDB_ProjectTeams() {
+    this.messageService.clear();
     var addTeamObj = new CreateTeamVM();
     addTeamObj.name = this.team.Name;
     addTeamObj.projectTeams = this.lstOfProjectTeams;
@@ -486,7 +491,8 @@ export class CreateProjectComponent implements OnInit {
 
   }
   Savetolist_Teams() {
-    if (this.team.Name != "" && this.ProjectTeam.projectPositionId != 0 && this.ProjectTeam.employeeId != 0
+    this.messageService.clear();
+    if (this.team.Name.trim().length>=1&& this.ProjectTeam.projectPositionId != 0 && this.ProjectTeam.employeeId != 0
       && this.ProjectTeam.departmentId != 0) {
       this.ProjectTeam.projectId = this.projectID
       this.ProjectTeam.departmentId = Number(this.ProjectTeam.departmentId)
@@ -533,6 +539,7 @@ export class CreateProjectComponent implements OnInit {
     }
   }
   saveSiteAssettoList() {
+    this.messageService.clear();
     for (let index = 0; index < this.projectSiteClientObj.clients.length; index++) {
       const element = this.projectSiteClientObj.clients[index];
       console.log("element", element)
@@ -624,7 +631,8 @@ export class CreateProjectComponent implements OnInit {
 
   }
   Savedoctolist() {
-    if (this.docproject.documentName != "" && this.docproject.documentFile != "") {
+    this.messageService.clear();
+    if (this.docproject.documentName.trim().length>=1 && this.docproject.documentFile != "") {
       this.lstoddocproj.push(this.docproject);
       this.docproject = {
         Description: '', documentName: '', id: 0, documentFile: '', projectId: this.projectID
@@ -716,4 +724,16 @@ export class CreateProjectComponent implements OnInit {
   onReject() {
     this.messageService.clear('c');
   }
+
+  isPhone():boolean
+  {
+    var serchfind:boolean;
+    var regexp;
+    regexp =/^01[0-2,5]{1}[0-9]{8}$/;
+    serchfind =(regexp.test(this.stackholderInLst.mobile));
+
+    console.log(serchfind)
+    return serchfind
+  }
+
 }
