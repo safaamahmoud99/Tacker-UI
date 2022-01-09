@@ -46,7 +46,9 @@ export class EditClientComponent implements OnInit {
         this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });
         this.router.navigate(['home/DisplayAllClients']);
       },
-      error => console.log(error),
+      error=>{
+        this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail:error.error.message });
+      }
     );
   }
 }
