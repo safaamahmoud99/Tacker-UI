@@ -25,10 +25,13 @@ export class AddProjectTypeComponent implements OnInit {
       )
     }
     Add(){
+      //console.log("AAAAAAd")
       this.projectTypeService.AddprojectType(this.ProjectTypeObj).subscribe(e=>{
-        console.log(this.ProjectTypeObj),
+       // console.log("eeeee",this.ProjectTypeObj),
         this.router.navigate(['home/ProjectTypes']);
-  
+      },
+      error=>{
+        console.log("error in add",error.error.message)
       })
     }
     showSuccess() {

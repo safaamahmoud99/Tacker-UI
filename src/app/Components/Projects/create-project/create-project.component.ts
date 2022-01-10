@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { observable } from 'rxjs';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 
@@ -55,6 +55,8 @@ import { element } from 'protractor';
 import { SiteClientsService } from 'src/Shared/Services/site-clients.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-create-project',
@@ -62,6 +64,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./create-project.component.css']
 })
 export class CreateProjectComponent implements OnInit {
+  @ViewChild('stepper', { static: false }) stepper: MatStepper;
   projectObj: project;
   lstClients: client[];
   lstOrganizations: organization[];
@@ -110,6 +113,10 @@ export class CreateProjectComponent implements OnInit {
   NewDialogbool: boolean;
   projectSiteId: number;
   IsDisabled: boolean = false
+  isDisabled1: boolean = false
+  isDisabled2: boolean = false
+  isDisabled3: boolean = false
+  isDisabled4: boolean = false
   minDate: Date;
   plannedStartdate: Date;
   ActualStartDate: Date;
@@ -122,7 +129,7 @@ export class CreateProjectComponent implements OnInit {
   TeamFormGroup: FormGroup;
   DocumentsFormGroup: FormGroup;
   isLinear = false;
-  disabledButton: boolean;
+  disabledButton: boolean=true;
   serialNumber: any;
   milestonStartDate: Date;
   constructor(
@@ -138,6 +145,7 @@ export class CreateProjectComponent implements OnInit {
     private BrandService: BrandService, private OriginsService: OriginsService, private DueDateCategoryService: DueDateCategoryService,
     private ProjectSitesService: ProjectSitesService, private ProjectSiteAssetService: ProjectSiteAssetService,
     private SiteClientsService: SiteClientsService, private translate: TranslateService, private _formBuilder: FormBuilder,
+    private datePipe: DatePipe,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -203,7 +211,8 @@ export class CreateProjectComponent implements OnInit {
     }
     ];
     this.minDate = new Date();
-    this.disabledButton = false
+    console.log('button',this.disabledButton)
+    // this.disabledButton = false
     this.IsSaveProject = false
     this.lstSelectedClients = []
     this.listProjectSiteAssetClients = []
@@ -347,10 +356,13 @@ export class CreateProjectComponent implements OnInit {
     this.milestonInLst.startDate = $event
   }
   GetplanndedStartDate($event) {
+    console.log("$event.value",$event)
     this.plannedStartdate = $event
     this.projectObj.actualStartDate = $event
+    
   }
   GetActualStartDate($event) {
+    console.log("GetActualStartDate",$event)
     this.ActualStartDate = $event
     this.projectObj.actualEndDate = $event
   }
@@ -362,25 +374,30 @@ export class CreateProjectComponent implements OnInit {
   AddProject() {
     this.messageService.clear();
 
+    // this.projectObj.actualStartDate=new Date();
     if (this.projectObj.projectName != ""&& this.projectObj.projectName.length>=3&& this.projectObj.projectCode != "" &&this.projectObj.projectCode.length>=2&&
       this.projectObj.projectTypeId != 0 && this.projectObj.organizationId != 0
        && this.projectObj.employeeId != 0 && this.selectedSitesColumns.length!=0)
       {
+        if(this.projectObj.planndedEndDate==""
+        && this.projectObj.actualEndDate=="" && this.projectObj.planndedStartDate=="" && this.projectObj.actualStartDate=="")
+        {
+           this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz complete All Dates Info' });
+        }
+        console.log('button',this.disabledButton)
+        // this.disabledButton = true
       var date1: any = new Date(this.projectObj.planndedStartDate);
       var date2: any = new Date(this.projectObj.planndedEndDate);
       this.diffDays = Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));
-      console.log("diffDays", this.diffDays)
       this.projectObj.projectPeriod = this.diffDays
-      console.log("Before", this.projectObj)
+      console.log("this.projectObj",this.projectObj)
       this.projectService.AddProject(this.projectObj).subscribe(
         res => {
+          
           this.projectID = Number(res)
           this.stackholderInLst.projectId = this.projectID
           this.docproject.projectId = this.projectID
           this.ProjectSitesObj.projectId = Number(res)
-          console.log("projectID1", this.projectID)
-          console.log("projectID2", res)
-          console.log("selectedSitesColumns", this.selectedSitesColumns)
           this.ProjectSitesObj.lstSites = this.selectedSitesColumns
           this.ProjectSitesService.insertProjectSite(this.ProjectSitesObj).subscribe(
             result => {
@@ -389,10 +406,15 @@ export class CreateProjectComponent implements OnInit {
                   this.lstSites = sites
                   console.log("lstSites", this.lstSites)
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
-                  this.activeIndex = this.activeIndex + 1
+                  this.activeIndex +=1
                  this.IsDisabled = true
+                 this.isDisabled1 = true
+                 this.isDisabled2 = true
+                 this.isDisabled3 = true
+                 this.isDisabled4 = true
                  this.IsSaveProject = true
-                 this.disabledButton = true
+                 this.stepper.next();
+                 this.disabledButton = false
                 }
               )
             }
@@ -403,7 +425,8 @@ export class CreateProjectComponent implements OnInit {
     }
     else {
       this.IsSaveProject = false
-      this.activeIndex = this.activeIndex
+     // this.activeIndex = this.activeIndex
+      console.log('active index',this.activeIndex)
       this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
     }
   }

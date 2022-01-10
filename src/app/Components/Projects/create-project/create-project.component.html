@@ -16,8 +16,8 @@
                     <input minlength="3" #ProjectName="ngModel" [placeholder]="'Tracker.Project Name' | translate"
                         [class.is-invalid]="ProjectName.invalid && ProjectName.touched" [class.is-valid]="ProjectName.valid"
                           type="text" [(ngModel)]="projectObj.projectName" pInputText id="name"
-                        required [disabled]="IsDisabled" />
-                    <br> <small [hidden]="ProjectName.valid || ProjectName.untouched" id="helpId" class="text-danger"
+                        required [readonly]="IsDisabled" />
+                    <br> <small [hidden]="(ProjectName.valid || ProjectName.untouched)" id="helpId" class="text-danger"
                         [translate]="'Tracker.messege'"></small>
 
                 </div>
@@ -40,7 +40,7 @@
           [translate]="' Code Must be more than 2'"></small> -->
                 <div class="p-field col-md-3">
                     <label for="Project Code" class="labelMarginRight" [translate]="'Tracker.Project Code'"></label><br>
-                    <input type="text" #ProCode="ngModel" name="ProjectCode" [disabled]="IsDisabled"
+                    <input type="text" #ProCode="ngModel" name="ProjectCode" [readonly]="IsDisabled"
                         [placeholder]="'Tracker.Project Code' | translate"
                         [class.is-invalid]="ProCode.invalid && ProCode.touched" [class.is-valid]="ProCode.valid"
                         minlength="2" [(ngModel)]="projectObj.projectCode" pInputText id="Code" required />
@@ -50,7 +50,7 @@
                 <div class="p-field col-md-3">
                     <label for="Project Type" class="labelMarginRight"
                         [translate]="'Tracker.Project Type Name'"></label><br>
-                    <p-dropdown [options]="lstProjectTypes" [(ngModel)]="projectObj.projectTypeId" [disabled]="IsDisabled"
+                    <p-dropdown [options]="lstProjectTypes" [(ngModel)]="projectObj.projectTypeId" [readonly]="IsDisabled"
                         [placeholder]="'Tracker.Project Type Name' | translate" optionLabel="typeName" optionValue="id">
                     </p-dropdown>
                 </div>
@@ -58,7 +58,7 @@
                     <label for="Project Cost" class="labelMarginRight" [translate]="'Tracker.Project Cost'">
                     </label><br>
                     <input type="number" min="1" [(ngModel)]="projectObj.cost" pInputText id="Cost" #Procost="ngModel"
-                        name="ProjectCost" [placeholder]="'Tracker.Project Cost' | translate" [disabled]="IsDisabled" />
+                        name="ProjectCost" [placeholder]="'Tracker.Project Cost' | translate" [readonly]="IsDisabled" />
                     <br> <small [hidden]="Procost.valid || Procost.untouched" id="helpId" class="text-danger"
                         [translate]="'Tracker.messegeNumber'"></small>
                 </div>
@@ -68,42 +68,44 @@
                     <label for="Plannded Start Date" class="labelMarginRight"
                         [translate]="'Tracker.Plannded Start Date'"></label><br>
                     <p-calendar (onSelect)="GetplanndedStartDate($event)" appendTo="body"
-                        [(ngModel)]="projectObj.planndedStartDate" dateFormat="dd/mm/yy" [disabled]="IsDisabled"
-                        [placeholder]="'Tracker.Plannded Start Date' | translate" #ProplanndedStartDate="ngModel"
-                        name="planndedStartDate"></p-calendar>
-                    <br> <small [hidden]="ProplanndedStartDate.valid || ProplanndedStartDate.untouched" id="helpId"
-                        class="text-danger" [translate]="'Tracker.messegeDate'"></small>
+                        [(ngModel)]="projectObj.planndedStartDate" dateFormat="yy-mm-dd" 
+                        [placeholder]="'Tracker.Plannded Start Date' | translate" #planndedStartDate="ngModel"
+                        name="planndedStartDate" [disabled]="isDisabled1"
+                        [class.is-invalid]="planndedStartDate.touched"
+                        [class.is-valid]="planndedStartDate.valid"></p-calendar>
+                    <!-- <br> <small [hidden]="planndedStartDate.valid || planndedStartDate.untouched" id="helpId"
+                        class="text-danger" [translate]="'Tracker.messegeDate'"></small> -->
                 </div>
                 <div class="p-field col-md-3">
                     <label for="Actual Start Date" class="labelMarginRight"
                         [translate]="'Tracker.Actual Start Date'"></label><br>
                     <p-calendar (onSelect)="GetActualStartDate($event)" appendTo="body"
-                        [(ngModel)]="projectObj.actualStartDate" dateFormat="dd/mm/yy" [disabled]="IsDisabled"
-                        [placeholder]="'Tracker.Actual Start Date' | translate" #ProActualStartDate="ngModel"
-                        name="ProActualStartDate"></p-calendar>
-                    <br> <small [hidden]="ProActualStartDate.valid || ProActualStartDate.untouched" id="helpId"
-                        class="text-danger" [translate]="'Tracker.messegeDate'"></small>
-
+                        [(ngModel)]="projectObj.actualStartDate" dateFormat="dd/mm/yy" 
+                        [placeholder]="'Tracker.Actual Start Date' | translate" #actualStartDate="ngModel"
+                        name="actualStartDate" [readonlyInput] ="isDisabled2" [disabled]="isDisabled2"></p-calendar>
+                    <!-- <br> <small [hidden]="actualStartDate.valid || actualStartDate.untouched" id="helpId1"
+                        class="text-danger" [translate]="'Tracker.messegeDate'"></small> -->
                 </div>
                 <div class="p-field col-md-3">
                     <label for="Plannded End Date" class="labelMarginRight"
                         [translate]="'Tracker.Plannded End Date'"></label><br>
                     <p-calendar [minDate]="plannedStartdate" [(ngModel)]="projectObj.planndedEndDate" dateFormat="dd/mm/yy"
-                        [disabled]="IsDisabled" [placeholder]="'Tracker.Plannded End Date' | translate" appendTo="body"
-                        #ProplanndedEndDate="ngModel" name="ProplanndedEndDate" (onSelect)="GetDifferentDate($event)">
+                          [placeholder]="'Tracker.Plannded End Date' | translate"
+                         appendTo="body" #ProplanndedEndDate="ngModel" name="ProplanndedEndDate" 
+                         (onSelect)="GetDifferentDate($event)"  [readonlyInput] ="isDisabled3" [disabled]="isDisabled3" >
                     </p-calendar>
-                    <br> <small [hidden]="ProplanndedEndDate.valid || ProplanndedEndDate.untouched" id="helpId"
-                        class="text-danger" [translate]="'Tracker.messegeDate'"></small>
+                    <!-- <br> <small [hidden]="ProplanndedEndDate.valid || ProplanndedEndDate.untouched" id="helpId2"
+                        class="text-danger" [translate]="'Tracker.messegeDate'"></small> -->
 
                 </div>
                 <div class="p-field col-md-3">
                     <label for="Actual End Date" class="labelMarginRight"
                         [translate]="'Tracker.Actual End Date'"></label><br>
                     <p-calendar [minDate]="ActualStartDate" [(ngModel)]="projectObj.actualEndDate" dateFormat="dd/mm/yy"
-                        #ProactualEndDate="ngModel" [placeholder]="'Tracker.Actual End Date' | translate" appendTo="body"
-                        name="ProactualEndDate" [disabled]="IsDisabled"></p-calendar>
-                    <br> <small [hidden]="ProactualEndDate.valid || ProactualEndDate.untouched" id="helpId"
-                        class="text-danger" [translate]="'Tracker.messegeDate'"></small>
+                        #actualEndDate="ngModel" [placeholder]="'Tracker.Actual End Date' | translate" appendTo="body"
+                        name="actualEndDate" [readonlyInput] ="isDisabled4" [disabled]="isDisabled4"></p-calendar>
+                    <!-- <br> <small [hidden]="actualEndDate.valid || actualEndDate.untouched" id="helpId3"
+                        class="text-danger" [translate]="'Tracker.messegeDate'"></small> -->
 
                 </div>
             </div> <br>
@@ -117,7 +119,7 @@
                 <div class="p-field col-md-3">
                     <label for="organization Name" class="labelMarginRight"
                         [translate]="'Tracker.Organization Name'"></label><br>
-                    <p-dropdown [options]="lstOrganizations" [(ngModel)]="projectObj.organizationId" [disabled]="IsDisabled"
+                    <p-dropdown [options]="lstOrganizations" [(ngModel)]="projectObj.organizationId" [readonly]="IsDisabled"
                         [placeholder]="'Tracker.Organization Name' | translate" optionLabel="organizationName"
                         optionValue="id">
                     </p-dropdown>
@@ -125,7 +127,7 @@
                 <div class="p-field col-md-3">
                     <label for="Project Manager" class="labelMarginRight" [translate]="'Tracker.Project Manager'">
                     </label><br>
-                    <p-dropdown [options]="lstEmployees" [(ngModel)]="projectObj.employeeId" [disabled]="IsDisabled"
+                    <p-dropdown [options]="lstEmployees" [(ngModel)]="projectObj.employeeId" [readonly]="IsDisabled"
                         [placeholder]="'Tracker.Project Manager' | translate" optionLabel="employeeName" optionValue="id">
                     </p-dropdown>
                 </div>
@@ -134,14 +136,14 @@
                     <p-multiSelect [options]="lstAllSites" name="inputlstSites" [ngModelOptions]="{standalone: true}"
                         [(ngModel)]="selectedSitesColumns" optionLabel="sitename" [style]="{'width':'100%'}"
                         selectedItemsLabel="{0} columns selected" [placeholder]="'Tracker.Site Name'| translate"
-                        [disabled]="IsDisabled"></p-multiSelect>
+                        [readonly]="IsDisabled"></p-multiSelect>
                 </div>
             </div><br>
             <div class="row">
                 <div class="p-field col-md-6">
                     <label for="description" [translate]="'Tracker.Description'"></label><br>
                     <textarea id="description" [(ngModel)]="projectObj.description" pInputTextarea required rows="3"
-                        cols="63" [disabled]="IsDisabled"></textarea>
+                        cols="63" [readonly]="IsDisabled"></textarea>
                 </div>
             </div>
             <div class="row">
@@ -151,10 +153,10 @@
                   <button mat-stroked-button [disabled]="IsSaveProject" (click)="AddProject()" color="primary" mat-button >{{'Tracker.Submit'|translate}}</button>
                 </div>
                 <div class="col-md-2">
-                    <button mat-stroked-button [disabled]="disabledButton==false" color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                    <button mat-stroked-button [disabled]="disabledButton" color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
                 </div>
                 <!-- <div class="col-md-2">
-                    <button mat-stroked-button [disabled]="ProjectdataFormGroup.invalid"  (click)="AddProject()" color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                    <button mat-stroked-button [disabled]="disabledButton"  (click)="AddProject()" color="primary" mat-button>{{'Tracker.NEXT'|translate}}</button>
                 </div> -->
             </div>
         </mat-step>

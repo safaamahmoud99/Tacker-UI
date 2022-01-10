@@ -98,14 +98,14 @@
             <label for="name" [translate]="'Tracker.Project Type Name'"></label>
             <input type="text" #ProjectType="ngModel"
                 [class.is-invalid]="ProjectType.invalid && ProjectType.touched" [class.is-valid]="ProjectType.valid"
-                [(ngModel)]="ProjectTypeObj.typeName" required minlength="3" name="ProjectType" id="ProjectType"
+                [(ngModel)]="ProjectTypeObj.typeName" [ngModelOptions]="{standalone: true}" required minlength="3" name="ProjectType" id="ProjectType"
                 class="form-control" [placeholder]="'Tracker.Project Type Name' | translate"
                 aria-describedby="helpId">  
-                          <small [hidden]="ProjectType.valid || ProjectType.untouched" id="helpId" class="text-muted"
-        [translate]="'Tracker.messege'"></small>
+                <small [hidden]="ProjectType.valid || ProjectType.untouched" id="helpId" class="text-danger"
+                   [translate]="'Tracker.messege'"></small>
         </div>
         <ng-template pTemplate="footer">
-            <p-button (onClick)="update(ConsultantObj.id)" type="submit" icon="pi pi-check" styleClass="p-button-text">
+            <p-button (onClick)="update(ProjectTypeObj.id)" type="submit" icon="pi pi-check" styleClass="p-button-text">
                 Submit</p-button>
             <p-button icon="pi pi-times" (click)="Editboolean=false">Cancel</p-button>
         </ng-template>
@@ -120,10 +120,11 @@
             <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
             <input #typeName="ngModel" [class.is-invalid]="typeName.invalid && typeName.touched"
                 [class.is-valid]="typeName.valid" required minlength="3" type="text" pInputText
-                [placeholder]="'Tracker.Project Type Name' | translate" [(ngModel)]="ProjectTypeObj.typeName">
+                [placeholder]="'Tracker.Project Type Name' | translate" [(ngModel)]="ProjectTypeObj.typeName"
+                [ngModelOptions]="{standalone: true}">
         </div>
-        <small [hidden]="typeName.valid || typeName.untouched" id="helpId" class="text-muted"
-            [translate]="'Tracker.messege'"></small>          
+        <small [hidden]="typeName.valid || typeName.untouched" id="helpId3"
+            [translate]="'Tracker.messege'" class="text-danger"></small>          
         <ng-template pTemplate="footer">
             <p-button (onClick)="add()" [disabled]="frm.invalid" type="submit" icon="pi pi-check"
                 styleClass="p-button-text">Submit

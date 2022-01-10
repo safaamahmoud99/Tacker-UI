@@ -35,8 +35,8 @@
                     [(ngModel)]="ProjectTypeObj.typeName" required minlength="3" name="ProjectType" id="ProjectType"
                     class="form-control" [placeholder]="'Tracker.Project Type Name' | translate"
                     aria-describedby="helpId">  
-                              <small [hidden]="ProjectType.valid || ProjectType.untouched" id="helpId" class="text-muted"
-            [translate]="'Tracker.messege'"></small>
+                <small [hidden]="ProjectType.valid || ProjectType.untouched" id="helpId" class="text-muted"
+                 [translate]="'Tracker.messege'"></small>
             </div>
 
         </div>
