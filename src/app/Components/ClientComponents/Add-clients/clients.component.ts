@@ -46,7 +46,12 @@ organization:organization
     {
       this.clientService.inserClient(this.client).subscribe(e=>{
         this.router.navigate(['home/DisplayAllClients']);
-      })
+      },
+      error=>{
+        this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: error.error.message });
+
+      }
+      )
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
     }
     else
