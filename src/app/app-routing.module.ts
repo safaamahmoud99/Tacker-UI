@@ -59,6 +59,7 @@ import { AuthGuard } from './helpers/auth.guard';
 import { AuthGuard2 } from './helpers/auth2.guard';
 import { Admin } from './helpers/Admin.guard';
 import { all } from './helpers/All.guard';
+import { basic } from './helpers/basic.guard';
 // import { PiechartComponent } from './Components/Pichart/piechart/piechart.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -80,10 +81,10 @@ const routes: Routes = [
       { path: 'editProjectType/:id', component: EditProjectTypeComponent,canActivate:[AuthGuard] },
       { path: 'Requests', component: CreateRequesteComponent },
       { path: 'allTeamLeaderReqts', component: AllTeamLeaderRequestsComponent },  // data: { roles: ['SuperAdmin', 'Admin', 'Registration'] }
-      { path: 'createProject', component: CreateProjectComponent,canActivate:[AuthGuard2]},
+      { path: 'createProject', component: CreateProjectComponent,canActivate:[basic]},
       { path: 'updateproject/:id', component: UpdateProjectComponent,canActivate:[AuthGuard2]},
       { path: 'AllUsers', component: AllUsersComponent,canActivate:[AuthGuard] },
-      { path: 'DisplayAllClients', component: DisplayAllClientsComponent,canActivate:[AuthGuard2]},
+      { path: 'DisplayAllClients', component: DisplayAllClientsComponent,canActivate:[basic]},
       { path: 'AllManagersReq', component: AllManagerRequestsComponent,canActivate:[AuthGuard2] },
       { path: 'AllClientsReq', component: ClientCreateRequestComponent },
       { path: 'assignReq/:reqId', component: AssignRequestsComponent },

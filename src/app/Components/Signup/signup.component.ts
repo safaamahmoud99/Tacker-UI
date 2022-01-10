@@ -50,7 +50,7 @@ export class SignupComponent implements OnInit {
           localStorage.setItem("loginedUserId", res['loginedUserId']);
           this.role= localStorage.getItem("roles")
           // console.log(localStorage.getItem("email"))
-          if (this.role == 'SuperAdmin'||this.role == 'PMO') {
+          if (this.role == 'SuperAdmin'||this.role == 'PMO' || this.role=='Admin') {
             this.routee.navigate(['/home/piechart'])
             console.log(this.role)
           }
