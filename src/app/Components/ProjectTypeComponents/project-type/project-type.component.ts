@@ -42,14 +42,19 @@ add() {
             this.ngOnInit(),
                 this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
         },
-        error => console.log(error),
+         error =>{
+            //  console.log("error",error.error.message),
+        //this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+    }
+        
     );
 }
 EditDialog(id) {
     this.Editboolean = true;
     this.projectTypeService.GetprojectTypeByID(id).subscribe(
         data => { this.ProjectTypeObj = data },
-        error => { console.log(error) }
+        error => {// console.log("error",error.error.message)
+         }
     )
 }
 update(id) {
@@ -58,10 +63,11 @@ update(id) {
         data => {
             this.ngOnInit()
             this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });
+            this.Editboolean = false;
         },
-        error => { console.log(error) }
+        error => { console.log("error",error.error.message) }
     );
-    this.Editboolean = false;
+    
 }
   showBasicDialog(id) {
     this.displayBasic = true;

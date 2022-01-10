@@ -120,6 +120,7 @@ export class UpdateProjectComponent implements OnInit {
   selectedsite: Sites;
   SiteClientsObj: SiteClients
   ProjectSiteAssetObj: ProjectSiteAsset
+  ProjectSiteAssetObjInEdit: ProjectSiteAsset
   isshowBtn: boolean;
   ProjectdataFormGroup: FormGroup;
   AssetFormGroup: FormGroup;
@@ -234,6 +235,11 @@ export class UpdateProjectComponent implements OnInit {
       id: 0, projectId: 0, projectName: '', siteId: 0, siteName: '', lstSites: []
     }
     this.ProjectSiteAssetObj = {
+      id: 0, days: 0, supplierName: '', ProjectSiteId: 0, assetId: 0, assetName: '',
+      serialNumber: '', supplierId: 0, warrantyPeriod: 0, warrantyStartDate: ""
+    }
+    this.ProjectSiteAssetObjInEdit=
+    {
       id: 0, days: 0, supplierName: '', ProjectSiteId: 0, assetId: 0, assetName: '',
       serialNumber: '', supplierId: 0, warrantyPeriod: 0, warrantyStartDate: ""
     }
@@ -507,7 +513,8 @@ export class UpdateProjectComponent implements OnInit {
     this.ProjectSiteAssetService.GetProjectSiteAssetBySerialNumber(this.serialNumber).subscribe(
       res=>{
         this.ProjectSiteAssetObj=res
-        if(this.ProjectSiteAssetObj!=null)
+        console.log("this.ProjectSiteAssetObj",this.ProjectSiteAssetObj)
+        if(this.ProjectSiteAssetObj!==null)
         {
           this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'this serial already exist , plz write another' });
           this.projectSiteClientObj.serialNumber=""
@@ -524,11 +531,10 @@ export class UpdateProjectComponent implements OnInit {
 
     this.ProjectSiteAssetService.GetProjectSiteAssetBySerialNumber(this.serialNumberInEdit).subscribe(
       res=>{
-        this.ProjectSiteAssetObj=res
-       console.log("ProjectSiteAssetObj",this.ProjectSiteAssetObj)
+        this.ProjectSiteAssetObjInEdit=res
       }
-    )
-    if(this.ProjectSiteAssetObj!=null && this.ProjectSiteAssetObj.serialNumber == this.serialNumberInEdit)
+      )
+    if(this.ProjectSiteAssetObjInEdit!=null && this.ProjectSiteAssetObjInEdit.serialNumber == this.serialNumberInEdit)
     {
       this.ProjectSiteAssetService.GetProjectSiteAssetById(this.ProjectSiteAssetId).subscribe(
         res => {
@@ -539,9 +545,6 @@ export class UpdateProjectComponent implements OnInit {
     }
   }
   saveSiteAssettoList() {
-
-    console.log("projectSiteClientObj", this.projectSiteClientObj)
-
     // this.projectSiteClientObj.clients=this.lstSelectedClients
     for (let index = 0; index < this.lstSelectedClients.length; index++) {
       const element = this.lstSelectedClients[index];

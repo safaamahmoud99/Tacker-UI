@@ -25,3 +25,9 @@ input{
 {
   pointer-events: none !important;
 }
+.ng-valid[required] {
+  border: 1px solid silver;
+  border-left: 5px solid #42A948;
+  background-image: none;
+  padding-right: 0%;
+}

@@ -56,6 +56,7 @@ import { SiteClientsService } from 'src/Shared/Services/site-clients.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-create-project',
@@ -113,6 +114,9 @@ export class CreateProjectComponent implements OnInit {
   projectSiteId: number;
   IsDisabled: boolean = false
   isDisabled1: boolean = false
+  isDisabled2: boolean = false
+  isDisabled3: boolean = false
+  isDisabled4: boolean = false
   minDate: Date;
   plannedStartdate: Date;
   ActualStartDate: Date;
@@ -125,7 +129,7 @@ export class CreateProjectComponent implements OnInit {
   TeamFormGroup: FormGroup;
   DocumentsFormGroup: FormGroup;
   isLinear = false;
-  disabledButton: boolean;
+  disabledButton: boolean=true;
   serialNumber: any;
   milestonStartDate: Date;
   constructor(
@@ -141,6 +145,7 @@ export class CreateProjectComponent implements OnInit {
     private BrandService: BrandService, private OriginsService: OriginsService, private DueDateCategoryService: DueDateCategoryService,
     private ProjectSitesService: ProjectSitesService, private ProjectSiteAssetService: ProjectSiteAssetService,
     private SiteClientsService: SiteClientsService, private translate: TranslateService, private _formBuilder: FormBuilder,
+    private datePipe: DatePipe,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -351,10 +356,13 @@ export class CreateProjectComponent implements OnInit {
     this.milestonInLst.startDate = $event
   }
   GetplanndedStartDate($event) {
+    console.log("$event.value",$event)
     this.plannedStartdate = $event
     this.projectObj.actualStartDate = $event
+    
   }
   GetActualStartDate($event) {
+    console.log("GetActualStartDate",$event)
     this.ActualStartDate = $event
     this.projectObj.actualEndDate = $event
   }
@@ -366,10 +374,16 @@ export class CreateProjectComponent implements OnInit {
   AddProject() {
     this.messageService.clear();
 
+    // this.projectObj.actualStartDate=new Date();
     if (this.projectObj.projectName != ""&& this.projectObj.projectName.length>=3&& this.projectObj.projectCode != "" &&this.projectObj.projectCode.length>=2&&
       this.projectObj.projectTypeId != 0 && this.projectObj.organizationId != 0
        && this.projectObj.employeeId != 0 && this.selectedSitesColumns.length!=0)
       {
+        if(this.projectObj.planndedEndDate==""
+        && this.projectObj.actualEndDate=="" && this.projectObj.planndedStartDate=="" && this.projectObj.actualStartDate=="")
+        {
+           this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz complete All Dates Info' });
+        }
         console.log('button',this.disabledButton)
         // this.disabledButton = true
       var date1: any = new Date(this.projectObj.planndedStartDate);
@@ -395,9 +409,12 @@ export class CreateProjectComponent implements OnInit {
                   this.activeIndex +=1
                  this.IsDisabled = true
                  this.isDisabled1 = true
+                 this.isDisabled2 = true
+                 this.isDisabled3 = true
+                 this.isDisabled4 = true
                  this.IsSaveProject = true
                  this.stepper.next();
-                // this.disabledButton = true
+                 this.disabledButton = false
                 }
               )
             }
