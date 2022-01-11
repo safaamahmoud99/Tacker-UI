@@ -34,6 +34,7 @@ export class SignupComponent implements OnInit {
     this.OrganizationClientsObj={id:0,organizationId:0,organizationName:'',clients:[]}
   }
   getData() {
+    this.messageService.clear();
 
     this.loginSer.login(this.email, this.password)
       .subscribe(
