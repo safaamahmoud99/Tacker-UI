@@ -69,7 +69,7 @@ const routes: Routes = [
       { path: 'tabs', component: AllProjectsComponent,canActivate:[Admin,basic] },
       { path: 'Category', component: CategoryComponent,canActivate:[basic] },
       { path: 'client', component: ClientsComponent,canActivate:[basic] },
-      { path: 'piechart', component: PiechartComponent ,canActivate:[Admin,basic] },
+      { path: 'piechart', component: PiechartComponent ,canActivate:[basic,AuthGuard2] },
       { path: 'editClient/:id', component: EditClientComponent,canActivate:[AuthGuard,basic]  },
       { path: 'editClient/:id', component: EditClientComponent,canActivate:[AuthGuard,basic] },
     { path: 'department', component: DepartmentComponent,canActivate:[basic] },
