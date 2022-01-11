@@ -53,7 +53,7 @@
                [class.is-valid]="Phone.valid" [(ngModel)]="client.phone" required  pattern="^01[0-2,5]{1}[0-9]{8}$" name="ClientPhone"
                id="Phone" class="form-control" [placeholder]="'Tracker.Phone' | translate" aria-describedby="helpId">
            <small [hidden]="Phone.valid || Phone.untouched" id="helpId" class="text-danger validation"
-           >enter valid phone number </small>
+           [translate]="'Tracker.phoneNumber'"  >  </small>
                 
        </div>
        <!-- <div class="col-4">
@@ -75,7 +75,7 @@
                      Email not valid.
                 </div>	
              </div>  -->
-             <small class="text-danger validation" [class.d-none]="Email.untouched || Email.valid" >Email requires & must be like test@gmail.com</small>
+             <small class="text-danger validation" [class.d-none]="Email.untouched || Email.valid" [translate]="'Tracker.EmailValid'" ></small>
 
        </div>
        <!-- <div class="p-field col-md-4">

@@ -98,7 +98,7 @@
                 [class.is-valid]="Empmail.valid" [(ngModel)]="Employee.Address" required pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" name="email" [(ngModel)]="Employee.email"
                     [placeholder]="'Tracker.Email' | translate">
                     <!-- <small [hidden]="Empmail.valid || Empmail.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small> -->
-                    <small class="text-danger validation" [class.d-none]="Empmail.untouched || Empmail.valid" >Email requires & must be like test@gmail.com</small>
+                    <small class="text-danger validation" [class.d-none]="Empmail.untouched || Empmail.valid" [translate]="'Tracker.EmailValid'"> </small>
 
             </div>
             <div class="col-md-3">
@@ -108,7 +108,7 @@
                     [placeholder]="'Tracker.Phone' | translate">
                     <!-- <small [hidden]="phone.valid || phone.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small> -->
                     <small [hidden]="phone.valid || phone.untouched" id="helpId" class="text-danger validation"
-                    > enter valid phone number </small>
+                    [translate]="'Tracker.phoneNumber'"   >   </small>
 
             </div>
             <div class="col-md-3">
@@ -118,7 +118,7 @@
                     [placeholder]="'Tracker.Mobile' | translate">
                     <!-- <small [hidden]="mobile.valid || mobile.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small> -->
                     <small [hidden]="mobile.valid || mobile.untouched" id="helpId" class="text-danger validation"
-                    > enter valid phone number </small>
+                    [translate]="'Tracker.phoneNumber'" >  </small>
 
             </div>
         </div>

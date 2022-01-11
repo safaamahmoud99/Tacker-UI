@@ -61,12 +61,12 @@
                     name="ClientPhone" id="Phone" class="form-control" placeholder="Client Phone"
                     aria-describedby="helpId">
                     <small [hidden]="Phone.valid || Phone.untouched" id="helpId" class="text-danger validation"
-           > enter valid phone number </small>
+                    [translate]="'Tracker.phoneNumber'" >  </small>
 
             </div>
         </div>
         <br>
-        <div class="row">
+        <div class="row"> 
             <!-- <div class="col-md-4">
                 <label for="OrganizationName">{{ 'Tracker.OrganizationName' | translate }}</label>
                 <select [(ngModel)]="clientObj.organizationId" name="sel2" class="form-control">
@@ -80,7 +80,7 @@
                     [class.is-valid]="Email.valid" [(ngModel)]="clientObj.email" required minlength="3"
                     name="clientEmail" id="Email" class="form-control" placeholder="Client Email"
                     aria-describedby="helpId" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$">
-                    <small class="text-danger validation" [class.d-none]="Email.untouched || Email.valid" >Email requires & must be like test@gmail.com</small>
+                    <small class="text-danger validation" [class.d-none]="Email.untouched || Email.valid" [translate]="'Tracker.EmailValid'" > </small>
             </div>
             <div class="col-md-4">
                 <label for="gender"> {{ 'Tracker.Gender' | translate }}</label><br>

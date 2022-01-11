@@ -73,7 +73,7 @@
                 [class.is-valid]="Empmail.valid" [(ngModel)]="Employee.Address" required pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"   name="email" [(ngModel)]="Employee.email"
                     [placeholder]="'Tracker.Email' | translate" >
                     <!-- <small [hidden]="Empmail.valid || Empmail.untouched" id="helpId" class="text-" [translate]="'Tracker.messege'"></small> -->
-                    <small class="text-danger validation" [class.d-none]="Empmail.untouched || Empmail.valid" >Email requires & must be like test@gmail.com</small>
+                    <small class="text-danger validation" [class.d-none]="Empmail.untouched || Empmail.valid" [translate]="'Tracker.EmailValid'" ></small>
 
             </div>
             <div class="col-md-3">
@@ -81,8 +81,8 @@
                 <input mask="88888" class="form-control" type="text" #phone="ngModel" [class.is-invalid]="phone.invalid && phone.touched"
                 [class.is-valid]="phone.valid" required  pattern="^01[0-2,5]{1}[0-9]{8}$" name="phone" [(ngModel)]="Employee.phone"
                     [placeholder]="'Tracker.Phone' | translate">
-                    <small [hidden]="phone.valid || phone.untouched" id="helpId" class="text-danger validation"
-                     > enter valid phone number </small>
+                    <small [hidden]="phone.valid || phone.untouched" id="helpId" class="text-danger validation" [translate]="'Tracker.phoneNumber'"
+                     >   </small>
                     <!-- <small [hidden]="phone.valid || phone.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messege'"></small> -->
 
             </div>
