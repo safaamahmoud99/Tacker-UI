@@ -217,6 +217,7 @@ export class AllClientRequestsComponent implements OnInit {
   }
 
   AddRequest() {
+   this.messageService.clear();
     this.reqObj.requestStatusId = 1  //open
     this.reqObj.requestModeId = 5  //by client
 

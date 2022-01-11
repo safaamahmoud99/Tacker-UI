@@ -66,7 +66,7 @@ const routes: Routes = [
   { path: 'login', component: SignupComponent },
   {
     path: 'home', component: HomeComponent, children: [
-      { path: 'tabs', component: AllProjectsComponent,canActivate:[Admin,basic] },
+      { path: 'tabs', component: AllProjectsComponent,canActivate:[AuthGuard2,basic] },
       { path: 'Category', component: CategoryComponent,canActivate:[basic] },
       { path: 'client', component: ClientsComponent,canActivate:[basic] },
       { path: 'piechart', component: PiechartComponent ,canActivate:[basic,AuthGuard2] },
@@ -81,7 +81,7 @@ const routes: Routes = [
       { path: 'editProjectType/:id', component: EditProjectTypeComponent,canActivate:[AuthGuard,basic] },
       { path: 'Requests', component: CreateRequesteComponent ,canActivate:[basic]},
       { path: 'allTeamLeaderReqts', component: AllTeamLeaderRequestsComponent,canActivate:[basic] },  // data: { roles: ['SuperAdmin', 'Admin', 'Registration'] }
-      { path: 'createProject', component: CreateProjectComponent,canActivate:[basic,AuthGuard2]},
+      { path: 'createProject', component: CreateProjectComponent,canActivate:[AuthGuard2,basic]},
       { path: 'updateproject/:id', component: UpdateProjectComponent,canActivate:[AuthGuard2,basic]},
       { path: 'AllUsers', component: AllUsersComponent,canActivate:[AuthGuard,basic] },
       { path: 'DisplayAllClients', component: DisplayAllClientsComponent,canActivate:[basic,AuthGuard2]},
