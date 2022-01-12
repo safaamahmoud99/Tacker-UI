@@ -60,32 +60,33 @@ import { AuthGuard2 } from './helpers/auth2.guard';
 import { Admin } from './helpers/Admin.guard';
 import { all } from './helpers/All.guard';
 import { basic } from './helpers/basic.guard';
+import { Roles } from '../Shared/Models/Roles';
 // import { PiechartComponent } from './Components/Pichart/piechart/piechart.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'login', component: SignupComponent },
   {
     path: 'home', component: HomeComponent, children: [
-      { path: 'tabs', component: AllProjectsComponent,canActivate:[Admin,basic] },
-      { path: 'Category', component: CategoryComponent,canActivate:[basic] },
-      { path: 'client', component: ClientsComponent,canActivate:[basic] },
-      { path: 'piechart', component: PiechartComponent ,canActivate:[basic,AuthGuard2] },
-      { path: 'editClient/:id', component: EditClientComponent,canActivate:[AuthGuard,basic]  },
-      { path: 'editClient/:id', component: EditClientComponent,canActivate:[AuthGuard,basic] },
-    { path: 'department', component: DepartmentComponent,canActivate:[basic] },
+      { path: 'tabs', component: AllProjectsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO,Roles.PM,Roles.ClientManager]}},
+      { path: 'Category', component: CategoryComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
+      { path: 'client', component: ClientsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
+      { path: 'piechart', component: PiechartComponent ,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.PMO,Roles.PM,Roles.ClientManager]}},
+      { path: 'editClient/:id', component: EditClientComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin]}  },
+      // { path: 'editClient/:id', component: EditClientComponent,canActivate:[AuthGuard,basic] },
+      { path: 'department', component: DepartmentComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]}  },
       { path: 'changePassword', component: ChangePaswwordComponent,canActivate:[basic] },
-      { path: 'DisplayDepartments', component: DisplayDepartmentsComponent,canActivate:[Admin,basic] },
-      { path: 'editDepartment/:id', component: EditDepartmentComponent,canActivate:[basic,AuthGuard2] },
-      { path: 'ProjectTypes', component: ProjectTypeComponent,canActivate:[all,basic] },
-      { path: 'addProjectType', component: AddProjectTypeComponent,canActivate:[AuthGuard,basic] },
-      { path: 'editProjectType/:id', component: EditProjectTypeComponent,canActivate:[AuthGuard,basic] },
-      { path: 'Requests', component: CreateRequesteComponent ,canActivate:[basic]},
-      { path: 'allTeamLeaderReqts', component: AllTeamLeaderRequestsComponent,canActivate:[basic] },  // data: { roles: ['SuperAdmin', 'Admin', 'Registration'] }
-      { path: 'createProject', component: CreateProjectComponent,canActivate:[basic,AuthGuard2]},
-      { path: 'updateproject/:id', component: UpdateProjectComponent,canActivate:[AuthGuard2,basic]},
-      { path: 'AllUsers', component: AllUsersComponent,canActivate:[AuthGuard,basic] },
-      { path: 'DisplayAllClients', component: DisplayAllClientsComponent,canActivate:[basic,AuthGuard2]},
-      { path: 'AllManagersReq', component: AllManagerRequestsComponent,canActivate:[AuthGuard2,basic] },
+      { path: 'DisplayDepartments', component: DisplayDepartmentsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
+      { path: 'editDepartment/:id', component: EditDepartmentComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin]} },
+      { path: 'ProjectTypes', component: ProjectTypeComponent,canActivate:[basic] , data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO,Roles.PM]}},
+      { path: 'addProjectType', component: AddProjectTypeComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
+      { path: 'editProjectType/:id', component: EditProjectTypeComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
+      { path: 'Requests', component: CreateRequesteComponent ,canActivate:[basic], data:{roles:[Roles.SuperAdmin]}},
+      { path: 'allTeamLeaderReqts', component: AllTeamLeaderRequestsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.TL]} },  // data: { roles: ['SuperAdmin', 'Admin', 'Registration'] }
+      { path: 'createProject', component: CreateProjectComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO]}},
+      { path: 'updateproject/:id', component: UpdateProjectComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO]}},
+      { path: 'AllUsers', component: AllUsersComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
+      { path: 'DisplayAllClients', component: DisplayAllClientsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO]}},
+      { path: 'AllManagersReq', component: AllManagerRequestsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO]} },
       { path: 'AllClientsReq', component: ClientCreateRequestComponent,canActivate:[basic] },
       { path: 'assignReq/:reqId', component: AssignRequestsComponent,canActivate:[basic] },
       { path: 'employee', component: DisplayAllEmployeesComponent,canActivate:[AuthGuard] },

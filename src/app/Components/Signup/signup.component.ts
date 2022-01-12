@@ -39,10 +39,10 @@ export class SignupComponent implements OnInit {
     this.loginSer.login(this.email, this.password)
       .subscribe(
         res => {
+          localStorage.setItem("User",JSON.stringify(res))
+          console.log("localStorage",localStorage.getItem("User"))
           localStorage.setItem("clientId", res["clientId"])
           this.clientId=res["clientId"]
-          console.log("res is ", res)
-          console.log("clientId", res["clientId"])
           localStorage.setItem("token", res["token"])
           localStorage.setItem("email", res["email"])
           localStorage.setItem("roles", res["roles"])
@@ -50,26 +50,20 @@ export class SignupComponent implements OnInit {
           localStorage.setItem("id", res['id']);
           localStorage.setItem("loginedUserId", res['loginedUserId']);
           this.role= localStorage.getItem("roles")
-          // console.log(localStorage.getItem("email"))
           if (this.role == 'SuperAdmin'||this.role == 'PMO' || this.role=='Admin') {
             this.routee.navigate(['/home/piechart'])
-            console.log(this.role)
           }
           if(this.role =='PM'){
             this.routee.navigate(['/home/projectManagerDashboard'])
-            console.log(this.role)
           }
            if (this.role == 'Client') {
             this.routee.navigate(['/home/allClientReqts'])
-            console.log(this.role)
           }
           if (this.role == 'TL') {
             this.routee.navigate(['/home/allTeamLeaderReqts'])
-            console.log(this.role)
           }
           if (this.role == 'Employee') {
             this.routee.navigate(['/home/allEmpAssignedRequests'])
-            console.log(this.role)
           }
           if(this.role == 'ClientManager')
           {
@@ -90,7 +84,6 @@ export class SignupComponent implements OnInit {
           }
           // else {
           //   this.routee.navigate(['/home/tabs'])
-          //   console.log(this.role)
           // }
         },
           error => {console.log(error),
@@ -111,7 +104,6 @@ export class SignupComponent implements OnInit {
     this.messageService.add({ key: 'tc', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'User Name or password is incorrect' });
   }
   changePassword(){
-    console.log(this.email)
     // routerLink="/changePassword"
   }
 
