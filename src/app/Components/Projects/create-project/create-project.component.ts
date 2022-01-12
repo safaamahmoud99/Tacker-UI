@@ -375,14 +375,23 @@ export class CreateProjectComponent implements OnInit {
     this.messageService.clear();
 
     // this.projectObj.actualStartDate=new Date();
-    if (this.projectObj.projectName != ""&& this.projectObj.projectName.length>=3&& this.projectObj.projectCode != "" &&this.projectObj.projectCode.length>=2&&
+    if (this.projectObj.projectName != ""&& this.projectObj.projectName.trim().length>=3&& this.projectObj.projectCode != "" &&this.projectObj.projectCode.trim().length>=2&&
       this.projectObj.projectTypeId != 0 && this.projectObj.organizationId != 0
        && this.projectObj.employeeId != 0 && this.selectedSitesColumns.length!=0)
       {
         if(this.projectObj.planndedEndDate==""
         && this.projectObj.actualEndDate=="" && this.projectObj.planndedStartDate=="" && this.projectObj.actualStartDate=="")
         {
-           this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz complete All Dates Info' });
+          if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه ', sticky:false, detail: 'من فضلك ادخل معلومات جميع التواريخ  كامله ' });
+
+          }
+         // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: false, detail: 'Plz complete All Dates Info' });       
         }
         console.log('button',this.disabledButton)
         // this.disabledButton = true
@@ -426,8 +435,18 @@ export class CreateProjectComponent implements OnInit {
     else {
       this.IsSaveProject = false
      // this.activeIndex = this.activeIndex
-      console.log('active index',this.activeIndex)
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+      console.log('active index',this.activeIndex);
+      if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه ', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
+      
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
     }
   }
   Finish() {
@@ -445,7 +464,16 @@ export class CreateProjectComponent implements OnInit {
       }
     }
     else {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
 
     }
 
@@ -476,7 +504,16 @@ export class CreateProjectComponent implements OnInit {
       }
     }
     else {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
 
     }
 
@@ -540,7 +577,16 @@ export class CreateProjectComponent implements OnInit {
       })
     }
     else {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
 
     }
     // console.log("projteam before show", this.ProjectTeam)
@@ -599,7 +645,16 @@ export class CreateProjectComponent implements OnInit {
       this.saveSiteAssetToDB();
     }
     else {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+    //  this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+    if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
     }
 
   }
@@ -663,7 +718,16 @@ export class CreateProjectComponent implements OnInit {
       console.log(this.lstoddocproj);
     }
     else {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
 
     }
 
@@ -701,9 +765,20 @@ export class CreateProjectComponent implements OnInit {
   NextStep() {
     if (this.activeIndex == 0) {
       if (this.projectObj.projectName == "" && this.projectObj.projectCode == "" &&
-        this.projectObj.projectTypeId == 0 && this.projectObj.organizationId == 0 && this.projectObj.employeeId == 0) {
-        this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
-        this.activeIndex = 0
+        this.projectObj.projectTypeId == 0 && this.projectObj.organizationId == 0 && this.projectObj.employeeId == 0)
+      {
+      //  this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+      
+       if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
+           this.activeIndex = 0
       }
       else {
         this.activeIndex = this.activeIndex + 1

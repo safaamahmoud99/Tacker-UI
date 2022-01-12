@@ -33,7 +33,7 @@
           name="organizationCode" required minlength="2" name="organizationCodes" id="organizationCode"
           class="form-control" [placeholder]="'Tracker.Code' | translate" aria-describedby="helpId" required>
         <small [hidden]="organizationCode.valid || organizationCode.untouched" id="helpId" class="text-danger"
-          [translate]="' Code Must be more than 2'"></small>
+          [translate]="'Tracker.messegecode'"></small>
       </div>
 
     </div>
@@ -83,7 +83,7 @@
           name="Addresss" id="Address" class="form-control" [placeholder]="'Tracker.Address' | translate"
           aria-describedby="helpId">
         <small [hidden]="Address.valid || Address.untouched" id="helpId" class="text-danger"
-          [translate]="'Address is required'"></small>
+        [translate]="'Tracker.messege'"></small>
       </div>
     </div>
     <div class="form-group row">
@@ -125,6 +125,6 @@
 
 
 
-    <button type="submit"  class="btn btn-primary">Submit</button>
+    <button type="submit"  class="btn btn-primary" [translate]="'Tracker.Submit'" [disabled]="myForm.invalid"> </button>
   </form>
 </div>

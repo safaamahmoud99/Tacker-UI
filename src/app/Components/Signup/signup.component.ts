@@ -108,7 +108,7 @@ export class SignupComponent implements OnInit {
   }
 
   showTopCenter() {
-    this.messageService.add({ key: 'tc', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'User Name or password is incorrect' });
+    this.messageService.add({ key: 'tc', severity: 'error', summary: 'Attention !!!', sticky:true, detail: 'User Name or password is incorrect' });
   }
   changePassword(){
     console.log(this.email)

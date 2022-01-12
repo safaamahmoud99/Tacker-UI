@@ -17,7 +17,7 @@
           name="organizationName" required minlength="3" name="OrganizationNames" id="OrganizationName"
           class="form-control" [placeholder]="'Tracker.OrganizationName' | translate" aria-describedby="helpId">
         <small [hidden]="OrganizationName.valid || OrganizationName.untouched" id="helpId" class="text-danger"
-          [translate]="'Name Must be  more than 3 '"></small>
+          [translate]="'Tracker.messege'"></small>
       </div>
       <div class="col-md-6">
         <label for="organizationCode">{{ 'Tracker.Code' | translate }}</label>
@@ -27,7 +27,7 @@
           name="organizationCode" required minlength="2" name="organizationCodes" id="organizationCode"
           class="form-control" [placeholder]="'Tracker.Code' | translate" aria-describedby="helpId">
         <small [hidden]="organizationCode.valid || organizationCode.untouched" id="helpId" class="text-danger"
-          [translate]="'Tracker.messege'"></small>
+          [translate]="'Tracker.messegecode'"></small>
       </div>
     </div>
 
@@ -104,7 +104,7 @@
         name="Addresss" id="Address" class="form-control" [placeholder]="'Tracker.Address' | translate"
         aria-describedby="helpId">
       <small [hidden]="Address.valid || Address.untouched" id="helpId" class="text-danger"
-        [translate]="'Address is required '"></small>
+        [translate]="'Tracker.messege'"></small>
     </div>
   </div>
 
@@ -117,7 +117,7 @@
     </div>
     <p>{{ address }}</p>
 <div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary" [translate]="'Tracker.Submit'" [disabled]="myForm.invalid"></button>
 </div>
 <br>
   </form>
