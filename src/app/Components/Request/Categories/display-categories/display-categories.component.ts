@@ -20,9 +20,12 @@ export class DisplayCategoriesComponent implements OnInit {
   category: requestCategory
   lstSubCategories: requestSubCategory[]
   subCategory: requestSubCategory
-  departments: department[]
+  getsubCategory: requestSubCategory
+  departments: department[];
+  categories:requestCategory[];
   loading: boolean = true;
   displayBasic: boolean;
+  displayEditSubCategoryDialog:boolean=false
   constructor(
     private httpClient: HttpClient,
     private CategService: RequestCategoryService,
@@ -40,11 +43,14 @@ export class DisplayCategoriesComponent implements OnInit {
       categoryName: '', departmentId: 0, departmentName: '', id: 0
     }
     this.subCategory = {
-      RequestCategoryId: 0, id: 0, requestCategoryName: '', subCategoryName: ''
+      requestCategoryId: 0, id: 0, requestCategoryName: '', subCategoryName: ''
+    }
+    this.getsubCategory = {
+      requestCategoryId: 0, id: 0, requestCategoryName: '', subCategoryName: ''
     }
     this.CategService.GetAllCategory().subscribe(e => {
       this.lstCategories = e
-      this.subCategory.RequestCategoryId = Number(this.subCategory.RequestCategoryId)
+      this.subCategory.requestCategoryId = Number(this.subCategory.requestCategoryId)
 
     })
     this.SubCategService.GetAllSubCategorys().subscribe(e => {
@@ -55,7 +61,6 @@ export class DisplayCategoriesComponent implements OnInit {
   }
 
   confirm(subcategoryId) {
-   
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
@@ -68,6 +73,36 @@ export class DisplayCategoriesComponent implements OnInit {
       }
     });
     console.log("subcategoryId", subcategoryId)
+  }
+  GetSubCategory(id)
+  {
+    this.SubCategService.getSubCategoryById(id).subscribe(subCategory=>{
+      this.getsubCategory=subCategory,
+      console.log("sub",this.getsubCategory)
+    })
+
+  }
+  dislpayEditDialog(id)
+  {
+    this.displayEditSubCategoryDialog=true;
+    this.SubCategService.getSubCategoryById(id).subscribe(subCategory=>{
+      this.getsubCategory=subCategory,
+      console.log("sub",this.getsubCategory)
+    })
+    this.getAllCategories();
+  }
+  getAllCategories()
+  {
+    this.CategService.GetAllCategory().subscribe(e => {
+      this.categories = e
+    })
+  }
+  Update(id)
+  {
+    this.SubCategService.editSubCategory(id,this.getsubCategory).subscribe(e=>{
+      this.displayEditSubCategoryDialog=false;
+      this.ngOnInit();
+    })
   }
   showSuccess() {
     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });

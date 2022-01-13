@@ -47,12 +47,8 @@ export class AllProjectsComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    // this.projects = []
     this.projectService.GetAllProjects().subscribe(pro => {
       this.projects = pro
-      // pro.forEach(customer => customer.actualStartDate = new Date(customer.actualStartDate));
-      // pro.forEach(customer => customer.actualEndDate = new Date(customer.actualEndDate));
-      console.log(this.projects)
     })
     this.lstClientsByProjectId=[]
     this.listProjectSiteAssetClients=[]
@@ -74,34 +70,27 @@ export class AllProjectsComponent implements OnInit {
     }
   }
   showAllProjectDetails(projectID: number) {
-    console.log(projectID)
   }
   showModalDialog() {
     this.displayModal = true;
-    //this.displayMaximizable = true;
 
   }
   showMaximizableDialog(Projectid: number) {
-    console.log(Projectid)
     this.projects.forEach(element => {
       if (element.id == Projectid) {
         this.project1 = element
-        console.log(this.project1)
       }
     });
       this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(Projectid).subscribe(
         res => {
           this.listProjectSiteAssetClients = res
           // this.listProjectSiteAssetClients.forEach(customer => customer.warrantyStartDate = new Date(customer.warrantyStartDate));
-          console.log("res", res)
         }
       )
       this.stackholderService.GetAllStackholdersByProjectID(Projectid).subscribe(e => {
         this.stackholders = e
-        // console.log("e",e)
 
         this.project1.listOfStackholders = this.stackholders
-        // console.log("stackholders",this.stackholders)
       })
       this.siteClientsService.GetAllAssignedClientsByProjectId(Projectid).subscribe(
         res=>{
@@ -112,19 +101,10 @@ export class AllProjectsComponent implements OnInit {
       this.milestoneservice.GetAllMileStonesByProjectID(Projectid).subscribe(m => {
         this.mileStones = m;
         this.project1.listOfmilestones = this.mileStones;
-        //console.log("milestones",this.mileStones)
       }), err => console.log(err)
 
       this.projectteamservice.GetAllTeamsByProjectID(Projectid).subscribe(t => {
         this.teams = t;
-        // console.log(" this.teams", this.teams)
-        // this.teams = t.reduce((unique, o) => {
-        //   if (!unique.some(obj => obj.teamId == o.teamId)) {
-        //     unique.push(o);
-        //   }
-        //   return unique;
-        // }, []);
-        console.log(" this.teams", this.teams)
         this.project1.listofprojectteam = this.teams;
       }), err => console.log(err)
 
@@ -144,11 +124,9 @@ export class AllProjectsComponent implements OnInit {
   DisplayToEditProject(Projectid: number) {
     this.ngOnInit()
     this.route.navigate(['./tabs/updateproject']);
-    console.log(Projectid)
     this.projects.forEach(element => {
       if (element.id == Projectid) {
         this.project1 = element
-        console.log(this.project1)
       }
       this.projectService.getProjectById(this.project1.id).subscribe(res => {
         this.projectObj = res;
@@ -158,24 +136,17 @@ export class AllProjectsComponent implements OnInit {
         this.stackholders = e
         this.projectObj.listOfStackholders = e
         this.stake = e
-        console.log("stakeee", this.stake)
-        // console.log("e",e)
-
         this.project1.listOfStackholders = this.stackholders
-        // console.log("stackholders",this.stackholders)
       })
       //milestone
       this.milestoneservice.GetAllMileStonesByProjectID(Projectid).subscribe(m => {
         this.mileStones = m;
         this.project1.listOfmilestones = this.mileStones;
         this.projectObj.listOfmilestones = m
-
-        //console.log("milestones",this.mileStones)
       }), err => console.log(err)
 
       this.projectteamservice.GetAllTeamsByProjectID(Projectid).subscribe(t => {
         this.teams = t;
-        console.log(" this.teams", this.teams)
         this.teams = t.reduce((unique, o) => {
           if (!unique.some(obj => obj.teamId == o.teamId)) {
             unique.push(o);
@@ -185,7 +156,6 @@ export class AllProjectsComponent implements OnInit {
       
         this.project1.listofprojectteam = this.teams;
         this.projectObj.listofprojectteam = t
-        console.log(this.projectObj.listofprojectteam)
       }), err => console.log(err)
 
       this.projectdocumentsservice.GetAllDocumentsByProjectID(Projectid).subscribe(d => {
@@ -200,7 +170,6 @@ export class AllProjectsComponent implements OnInit {
 
   projectObj: any;
   confirm(id) {
-    console.log(id);
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
       accept: () => {

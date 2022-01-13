@@ -188,7 +188,8 @@
         <h2>{{'Tracker.Reason For Close'|translate}}</h2>
         <form #frm="ngForm" (ngSubmit)="CloseRequest()">
             <div class="col">
-                <textarea id="description" required [(ngModel)]="reqDescriptionObj.description" pInputTextarea required
+                <textarea id="description" required [(ngModel)]="reqDescriptionObj.description" 
+                [ngModelOptions]="{standalone: true}" pInputTextarea required
                     rows="5" cols="85"></textarea>
                 <br>
                 <button type="submit" [disabled]="frm.invalid"

@@ -1,6 +1,6 @@
 export class requestSubCategory {
     id:number
     subCategoryName:string
-    RequestCategoryId:number
+    requestCategoryId:number
     requestCategoryName:string
 }

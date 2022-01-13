@@ -59,20 +59,15 @@ export class AllManagerRequestsComponent implements OnInit {
     }
     this.requestService.GetAllRequests().subscribe(e => {
       this.lstRequests = e
-      console.log(this.lstRequests)
     })
     this.requestProblemService.GetAllProblems().subscribe(
       res => {
-        this.lstRequestProblems = res,
-        console.log("lstRequestProblems", res)
-      }
-
-    )
+        this.lstRequestProblems = res
+      })
   }
 
   changeIcon(reqId)
   {
-    console.log("changeIcon",reqId)
     this.RequestId=reqId
     this.btnBoolean=true
     this.btnBoolean2=false
@@ -82,31 +77,24 @@ export class AllManagerRequestsComponent implements OnInit {
     this.displayBasic = true;
     this.clientService.GetclientByID(clientId).subscribe(e=>{
       this.clientObj = e
-      console.log("clients",this.clientObj)
     })
   }
   assignRequests(reqId: number) {
-    console.log(reqId)
     this.router.navigate(['home/assignReq', reqId]);
   }
   ViewImages(reqId: number) {
-    console.log(reqId)
     this.requestService.GetRequestImageByRequestId(reqId).subscribe(e => {
       this.reqImages = e
-      console.log(this.reqImages)
       this.NewclientDialogbool = true
     })
   }
   viewSingleDoc(imgObj) {
-    console.log(imgObj)
     var filePath = `${environment.Domain}wwwroot/requestImage/${imgObj.imageName}`;
     window.open(filePath);
   }
   GetproblemId(problemId) {
-    console.log("problemId", problemId)
     this.requestProblemService.GetAllRequestByRequestProblemId(problemId).subscribe(e => {
       this.lstRequests = e
-      console.log(e)
     })
   }
   GetAllRequests() {
@@ -114,14 +102,12 @@ export class AllManagerRequestsComponent implements OnInit {
   }
   ViewMoreDesc(requestID) {
     this.requestDescriptionService.GetAllDescByRequestID(requestID).subscribe(res => {
-      console.log("desc", res)
       this.lstRequestDesc = res;
       this.NewdecDialogbool = true;
     })
   }
   Opendialog(requestID: number) {
     this.requestIDForCloseRequest = requestID
-    console.log("requestIDForCloseRequest", requestID)
     this.NewdecDialogForCloseRequest = true
   }
   CloseRequest() {
@@ -129,7 +115,6 @@ export class AllManagerRequestsComponent implements OnInit {
     this.requestDescriptionService.AddRequestDescription(this.reqDescriptionObj).subscribe(e => {
       this.requestService.GetRequestByRequestId(this.requestIDForCloseRequest).subscribe(e => {
         this.RequestObj = e
-        console.log("this.RequestObj",this.RequestObj)
         this.RequestObj.requestStatusId = 2  //Close
         this.requestService.updateRequest(this.requestIDForCloseRequest, this.RequestObj).subscribe(e => {
           this.ngOnInit();
