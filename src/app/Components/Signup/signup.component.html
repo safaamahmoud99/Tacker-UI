@@ -43,7 +43,9 @@
         <div *ngIf="loginForm.controls['password'].errors &&
       loginForm.controls['password'].errors.required">
           password required.</div>
+        
       </div>
+    <small style="padding-left:25%;"><a style="color:#16a085;" [routerLink]="['/ForgotPassword']"> Forgot Password </a> </small>
       <div>
         <span>
           <button id="sub" pButton type="submit" name="signup_submit" value="Sign me up" icon="pi pi-check"
@@ -54,12 +56,21 @@
       </div>
     </div>
 
-    <div class="right">
-      <!-- <span class="loginwith">Sign in with<br />social network</span>
+    <!-- <div class="right">
+       <span class="loginwith">Sign in with<br />social network</span>
       <button class="social-signin facebook">Log in with facebook</button>
       <button class="social-signin twitter">Log in with Twitter</button>
-      <button class="social-signin google">Log in with Google+</button> -->
-    </div>
+      <button class="social-signin google">Log in with Google+</button>
+    </div> -->
+    
+     
+     
+   
+
   </div>
+ 
+   
+ 
+ 
 
 </form>

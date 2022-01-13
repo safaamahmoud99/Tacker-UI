@@ -1,4 +1,7 @@
 export const environment = {
+  
+  urlAddress:'http://localhost:50653',
+  urlAddress4200:'http://localhost:4200/#/',
   Domain:'http://localhost:50653/',
   project: 'http://localhost:50653/api/project',
   DeleteProject:'http://localhost:50653/api/project/SoftDelete/',

@@ -8,6 +8,7 @@ import { AllProjectsComponent } from '../app/Components/Projects/all-projects/al
 import { CreateProjectComponent } from '../app/Components/Projects/create-project/create-project.component'
 
 import { UpdateProjectComponent } from '../app/Components/Projects/update-project/update-project.component'
+import { ForgotPasswordComponent } from './Components/forgot-password/forgot-password.component';
 // import { CategoryComponent } from './Components/Request/Categories/category/category.component';
 // import { ClientsComponent } from './Components/Clients/clients.component';
 // import { DepartmentComponent } from './Components/Department/department.component';
@@ -60,10 +61,13 @@ import { AuthGuard2 } from './helpers/auth2.guard';
 import { Admin } from './helpers/Admin.guard';
 import { all } from './helpers/All.guard';
 import { basic } from './helpers/basic.guard';
+import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
 // import { PiechartComponent } from './Components/Pichart/piechart/piechart.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'login', component: SignupComponent },
+  {path:'ForgotPassword',component:ForgotPasswordComponent},
+  { path: 'Resetpassword', component: ResetPasswordComponent }, 
   {
     path: 'home', component: HomeComponent, children: [
       { path: 'tabs', component: AllProjectsComponent,canActivate:[AuthGuard2,basic] },
@@ -72,7 +76,7 @@ const routes: Routes = [
       { path: 'piechart', component: PiechartComponent ,canActivate:[basic,AuthGuard2] },
       { path: 'editClient/:id', component: EditClientComponent,canActivate:[AuthGuard,basic]  },
       { path: 'editClient/:id', component: EditClientComponent,canActivate:[AuthGuard,basic] },
-    { path: 'department', component: DepartmentComponent,canActivate:[basic] },
+      { path: 'department', component: DepartmentComponent,canActivate:[basic] },
       { path: 'changePassword', component: ChangePaswwordComponent,canActivate:[basic] },
       { path: 'DisplayDepartments', component: DisplayDepartmentsComponent,canActivate:[Admin,basic] },
       { path: 'editDepartment/:id', component: EditDepartmentComponent,canActivate:[basic,AuthGuard2] },
@@ -114,6 +118,7 @@ const routes: Routes = [
       { path: 'Brand', component: BrandComponent,canActivate:[AuthGuard] },
       { path: 'ClientManagerRequests/:projectId', component: ClientManagerRequestsComponent ,canActivate:[basic]},
       { path: 'ClientManagerComponent', component: ClientManagerComponent,canActivate:[basic] },
+      
 
 
     ]

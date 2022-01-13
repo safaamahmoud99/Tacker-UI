@@ -139,6 +139,9 @@ import { ClientManagerComponent } from './Components/ClientComponents/client-man
 import {MatStepperModule} from '@angular/material/stepper';
 import { MatDialogModule } from '@angular/material/dialog';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { ForgotPasswordComponent } from './Components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
+ 
 
 
 registerLocaleData(en);
@@ -197,7 +200,10 @@ registerLocaleData(en);
    DueDateCategoryComponent,
    BrandComponent,
    ClientManagerRequestsComponent,
-   ClientManagerComponent
+   ClientManagerComponent,
+   ForgotPasswordComponent,
+   ResetPasswordComponent
+   
   //  PiechartComponent,
   ],
   schemas: [ 
