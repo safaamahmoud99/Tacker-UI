@@ -30,38 +30,41 @@ export class AuthService {
   };
   user: User;
   constructor(private httpclient: HttpClient, private router: Router) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
+    //this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('User')));
+    //this.currentUser = this.currentUserSubject.asObservable();
+    
    }
-  public get currentUserValue(): User {
+   public get currentUserValue(): User {
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('User')));
+    this.currentUser = this.currentUserSubject.asObservable();  
     return this.currentUserSubject.value;
 }
-login(user: User) {
-  //  this.email=user.email;
-  //  this.password=user.password;
-  //let Data={email,password}
-  localStorage.setItem("OldPassword", user.password)
-  console.log("old", localStorage.getItem("OldPassword"))
-  var data = "email=" + user.email + "&password=" + user.password + "&grant_type=password";
-  console.log(user)
-  return this.httpclient.post<any>(`${environment.Domain}/Authenticate/login`, user, this.httpOptions).pipe(
-    map(user=>{
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      this.userName=user.email;
-      localStorage.setItem('userId', JSON.stringify(user.id));
-      localStorage.setItem('UserName', JSON.stringify(user.email));
-      localStorage.setItem('UserRoles', JSON.stringify(user.role));
-      localStorage.setItem('token', JSON.stringify(user.getToken));
-     // localStorage.setItem('token', JSON.stringify(user.));
+// login(user: User) {
+//   //  this.email=user.email;
+//   //  this.password=user.password;
+//   //let Data={email,password}
+//   localStorage.setItem("OldPassword", user.password)
+//   // console.log("old", localStorage.getItem("OldPassword"))
+//   var data = "email=" + user.email + "&password=" + user.password + "&grant_type=password";
+//   console.log("useruseruseruser",user)
+//   return this.httpclient.post<any>(`${environment.Domain}/Authenticate/login`, user, this.httpOptions).pipe(
+//     map(user=>{
+//       localStorage.setItem('currentUser', JSON.stringify(user));
+//       this.userName=user.email;
+//       localStorage.setItem('userId', JSON.stringify(user.id));
+//       localStorage.setItem('UserName', JSON.stringify(user.email));
+//       localStorage.setItem('UserRoles', JSON.stringify(user.role));
+//       localStorage.setItem('token', JSON.stringify(user.getToken));
+//      // localStorage.setItem('token', JSON.stringify(user.));
 
-      this.currentUserSubject.next(user);
+//       this.currentUserSubject.next(user);
 
-      return user;
-      // store user details and jwt token in local storage to keep user logged in between page refreshes
-      //localStorage.setItem('currentUser', JSON.stringify({  ticket: data }));
+//       return user;
+//       // store user details and jwt token in local storage to keep user logged in between page refreshes
+//       //localStorage.setItem('currentUser', JSON.stringify({  ticket: data }));
 
-  }));
-}
+//   }));
+// }
 loggedIn() {
   return localStorage.getItem('token');
 }
@@ -79,7 +82,7 @@ isAuthorized(allowedRoles: string[]): boolean {
 
 getToken() {
   //////debuger;
-  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  const currentUser = JSON.parse(localStorage.getItem('User') || '{}');
   if (currentUser) {
       return currentUser.access_token;
   }
@@ -94,6 +97,16 @@ public resetPassword = (route: string, body: ResetPasswordDTO) => {
 }
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('User')
+
+    localStorage.removeItem("clientId")
+    localStorage.removeItem("token")
+    localStorage.removeItem("email")
+    localStorage.removeItem("roles")
+    localStorage.removeItem("userName");
+    localStorage.removeItem("id");
+    localStorage.removeItem("loginedUserId");
+
     this.router.navigate(['login']);
   }
   IsSuperAdmin() {

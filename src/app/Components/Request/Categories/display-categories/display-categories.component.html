@@ -58,6 +58,7 @@
                 [placeholder]="'Tracker.SubCategoryName'|translate"  class="p-column-filter">
             </th>
             <th></th>
+            <th></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-subCategory>
@@ -68,9 +69,12 @@
             <td style="text-align: inherit;">
                 {{subCategory.subCategoryName}}
             </td>
-            <!-- <td>
+            <td style="text-align: inherit;">
+                <span class="p-button-icon pi pi-pencil" (click)="dislpayEditDialog(subCategory.id)" aria-hidden="true"></span>
                 <span class="p-button-icon pi pi-times" (click)="confirm(subCategory.id)" aria-hidden="true"></span>
-            </td> -->
+            </td>
+            <td style="text-align: inherit;">
+            </td>
         </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
@@ -83,3 +87,38 @@
     </ng-template>
 
 </p-table>
+<!-------------Edit sub Category-------------------->
+<p-dialog id="PopupWindow" [header]="'Tracker.EitSubCategory' |translate" header="Show Project Data" 
+          [(visible)]="displayEditSubCategoryDialog" [modal]="true"
+[style]="{width: '50vw'}"[baseZIndex]="10000">
+<form>
+    <div class="row">
+        <div class="col">
+            <label class="labelstyle" >{{'Tracker.SubCategoryName'|translate}}</label>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                <input type="text" name="subcategoryName" pInputText [placeholder]="'Tracker.SubCategoryName' | translate"
+                    [(ngModel)]="getsubCategory.subCategoryName" #sup ="ngModel" class="form-control" #cat="ngModel"  
+                    [class.is-invalid]="cat.invalid && cat.touched" required minlength="3" [class.is-valid]="cat.valid">
+            </div>
+            <small [hidden]="cat.valid || cat.untouched" id="helpId" class="text-danger validation"
+            [translate]="'Tracker.messege'" > </small>
+        </div>
+
+        <div class="col">
+            <label class="labelstyle">{{'Tracker.Category Name'|translate}}</label>
+            <select [(ngModel)]="getsubCategory.requestCategoryId"  [ngModelOptions]="{standalone: true}"
+                    name="requestCategoryName" class="form-control">
+                <option value="" ><span [translate]="'Tracker.Category Name'"></span></option>
+                <option *ngFor="let the of categories" 
+                         value="{{the.id}}">{{the.categoryName}}
+                </option>
+            </select>
+        </div>
+    </div>
+</form>
+<ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="Update(getsubCategory.id)" [label]="'Tracker.Ok'|translate"
+        styleClass="p-button-text"></p-button>
+</ng-template>
+</p-dialog>

@@ -39,7 +39,7 @@ export class CategoryComponent implements OnInit {
       categoryName: '', departmentId: 0, departmentName: '', id: 0
     }
     this.subCategory = {
-      RequestCategoryId: 0, id: 0, requestCategoryName: '', subCategoryName: ''
+      requestCategoryId: 0, id: 0, requestCategoryName: '', subCategoryName: ''
     }
     this.departmentService.GetAllDepartmens().subscribe(e => {
       this.departments = e
@@ -47,14 +47,14 @@ export class CategoryComponent implements OnInit {
     })
     this.CategService.GetAllCategory().subscribe(e => {
       this.lstCategories = e
-      this.subCategory.RequestCategoryId = Number(this.subCategory.RequestCategoryId)
+      this.subCategory.requestCategoryId = Number(this.subCategory.requestCategoryId)
 
     })
   }
   SaveSubCatToDB() {
     if(this.subCategory.subCategoryName.trim().length>=3)
     {
-    this.subCategory.RequestCategoryId = Number(this.subCategory.RequestCategoryId)
+    this.subCategory.requestCategoryId = Number(this.subCategory.requestCategoryId)
     console.log(this.subCategory)
     this.SubCategService.inserSubCategory(this.subCategory).subscribe(e => {
       this.router.navigate(['home/DisplayCategories']);

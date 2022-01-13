@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { User } from '../Models/User';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
    email :string
    password :string
-  
+   user:any;
    httpHeader={headers: new HttpHeaders({
     'content-type':'application/json',
     'Accept': ' */* ',
@@ -21,10 +23,8 @@ export class LoginService {
     this.email=email;
     this.password=password;
     localStorage.setItem("OldPassword",this.password)
-    console.log("old",localStorage.getItem("OldPassword"))
     let Data={email,password}
-    console.log(Data)
-  return this.httpClient.post(`${environment.Domain}api/Authenticate/login`,Data,this.httpHeader)
+      return this.httpClient.post(`${environment.Domain}api/Authenticate/login`,Data,this.httpHeader)
   }
 
   public isLoggedIn()

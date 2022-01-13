@@ -20,6 +20,8 @@ export const environment = {
   requestPeriorities: 'http://localhost:50653/api/RequestPeriorities/',
   department: 'http://localhost:50653/api/Departments/',
   requestSubCategory: 'http://localhost:50653/api/RequestSubCategory/',
+  requestSubCategoryById:'http://localhost:50653/api/RequestSubCategory/',
+  editrequestSubCategory:'http://localhost:50653/api/RequestSubCategory/',
   requestCategory: 'http://localhost:50653/api/RequestCategory/',
   projectPositions: 'http://localhost:50653/api/ProjectPositions/',
   getDepartmentByEmpID: 'http://localhost:50653/api/Departments/GetDepartmentByEmployeeId/',

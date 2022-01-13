@@ -17,7 +17,7 @@
 
                 <div class="p-col-12 p-md-4">
                     <label class="labelstyle">{{'Tracker.Select Category Name'|translate}}</label>
-                    <select [(ngModel)]="subCategory.RequestCategoryId" name="id" class="form-control">emp
+                    <select [(ngModel)]="subCategory.requestCategoryId" name="id" class="form-control">emp
                         <option *ngFor="let the of lstCategories" value="{{the.id}}">{{the.categoryName}}
                         </option>
                     </select>

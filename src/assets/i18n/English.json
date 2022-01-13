@@ -74,7 +74,7 @@
     "Select Request Mode": "Select Request Mode",
     "Categories": "Categories",
     "CategoryName": "CategoryName",
-    "SubCategoryName": "SubCategoryName",
+    "SubCategoryName": "Sub Category Name",
     "System Users": "System Users",
     "Add Employee": "Add Employee",
     "Add Client": "Add Client", 
@@ -231,6 +231,7 @@
     "You are now done.":"You are now done.",
     "/Days":"/Days",
     "Update Client":"Update Client",
-    "Clear":"Clear"
+    "Clear":"Clear",
+    "EitSubCategory":"Eit Sub Category"
   }
 }
