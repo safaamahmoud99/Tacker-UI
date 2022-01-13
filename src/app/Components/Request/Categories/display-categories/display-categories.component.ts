@@ -36,6 +36,7 @@ export class DisplayCategoriesComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
+    this.getAllCategories();
     this.lstCategories = []
     this.lstSubCategories = []
 
@@ -89,7 +90,6 @@ export class DisplayCategoriesComponent implements OnInit {
       this.getsubCategory=subCategory,
       console.log("sub",this.getsubCategory)
     })
-    this.getAllCategories();
   }
   getAllCategories()
   {
