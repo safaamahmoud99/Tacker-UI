@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { ResetPasswordDTO } from 'src/Shared/Models/ResetPasswordDTO';
 import { AuthService } from 'src/Shared/Services/auth.service';
+import { PasswordConfirmationService } from 'src/app/helpers/customValidtors/password-confirmation.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -20,13 +21,15 @@ export class ResetPasswordComponent implements OnInit {
   repeatFieldTextType: boolean;
 
   constructor(fb: FormBuilder,private _authService: AuthService,
-    private _route: ActivatedRoute) { }
+    private _route: ActivatedRoute ,private _passConfValidator:PasswordConfirmationService) { }
 
   ngOnInit(): void {
     this.resetPasswordForm = new FormGroup({
       password: new FormControl('', [Validators.required]),
       confirm: new FormControl('')
     });
+    this.resetPasswordForm.get('confirm').setValidators([Validators.required,
+      this._passConfValidator.validateConfirmPassword(this.resetPasswordForm.get('password'))]);
       //localStorage.getItem("clientURI");
       this._token = this._route.snapshot.queryParams['token'];
       this._email = this._route.snapshot.queryParams['email'];
@@ -58,7 +61,7 @@ export class ResetPasswordComponent implements OnInit {
       email: this._email
     }
     
-    this._authService.resetPassword('api/Authenticate/ResetPassword', resetPassDto)
+    this._authService.resetPassword('api/Authenticate/ResetPassword',resetPassDto)
     .subscribe(_ => {
       this.showSuccess = true;
       console.log("token",resetPassDto)

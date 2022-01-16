@@ -23,7 +23,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.forgotPasswordForm = new FormGroup({
-      email: new FormControl("", [Validators.required])
+      email: new FormControl("", [Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"),Validators.required])
     })
   }
   public validateControl = (controlName: string) => {
@@ -32,6 +32,10 @@ export class ForgotPasswordComponent implements OnInit {
   public hasError = (controlName: string, errorName: string) => {
     return this.forgotPasswordForm.controls[controlName].hasError(errorName)
   }
+  get email(){
+    return this.forgotPasswordForm.get('email')
+    }
+  
   public forgotPassword = (forgotPasswordFormValue) => {
     this.showError = this.showSuccess = false;
     const forgotPass = { ...forgotPasswordFormValue };
