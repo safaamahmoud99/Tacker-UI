@@ -48,6 +48,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
 import { RequestService } from 'src/Shared/Services/request.service';
 import { request } from 'src/Shared/Models/request';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-update-project',
@@ -148,7 +149,7 @@ export class UpdateProjectComponent implements OnInit {
     private SiteClientsService: SiteClientsService, private ProjectSiteAssetService: ProjectSiteAssetService,
     private assetservice: AssetService, private SuppliersService: SuppliersService,
     public datepipe: DatePipe, private _formBuilder: FormBuilder, private confirmationService: ConfirmationService,
-    private requestservice: RequestService,
+    private requestservice: RequestService, private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -405,7 +406,16 @@ export class UpdateProjectComponent implements OnInit {
     if (this.activeIndex == 0) {
       if (this.projectObj.projectName == "" && this.projectObj.projectCode == "" &&
         this.projectObj.projectTypeId == 0 && this.projectObj.organizationId == 0 && this.projectObj.employeeId == 0) {
-        this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+       // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+       if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
         this.activeIndex = 0
       }
       else {
@@ -446,8 +456,17 @@ export class UpdateProjectComponent implements OnInit {
     )
   }
   AddAssets() {
-    if (this.SiteId == undefined) {
-      this.messageService.add({ severity: 'warn', summary: 'Attention', detail: 'Plz select Site', sticky: true });
+    if (this.SiteId == undefined)
+     {
+     // this.messageService.add({ severity: 'warn', summary: 'Attention', detail: 'Plz select Site', sticky: true });
+     if(this.translate.currentLang=='English')
+     {
+      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: false, detail: 'Plz select Site' });
+     }
+     else
+     {
+      this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه !!!', sticky: false, detail: 'من فضلك اختر موقع ' });
+     }
     }
     else {
       this.NewDialogbool = true

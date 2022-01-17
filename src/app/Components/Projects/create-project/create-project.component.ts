@@ -338,8 +338,15 @@ export class CreateProjectComponent implements OnInit {
       res=>{
         this.ProjectSiteAssetObj=res
         if(this.ProjectSiteAssetObj!=null)
-        {
-          this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'this serial already exist , plz write another' });
+        {  if(this.translate.currentLang=='English')
+         {
+          this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'this serial already exist , plz write another' });
+         }
+         else
+         {
+          this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه !!!', sticky:false, detail: 'هذا المسلسل بالفعل مستخدم من فضلك اكتب غيره ' });
+         }
+         
           this.projectSiteClientObj.serialNumber=""
         }
       }
@@ -414,7 +421,15 @@ export class CreateProjectComponent implements OnInit {
                 sites => {
                   this.lstSites = sites
                   console.log("lstSites", this.lstSites)
-                  this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
+                  if(this.translate.currentLang=='English')
+                  {
+                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
+                  }
+                  else
+                  {
+                    this.messageService.add({ severity: 'success', summary: 'نجاح', detail: 'تم اضافه المشروع بنجاح ' });
+                  }
+                  
                   this.activeIndex +=1
                  this.IsDisabled = true
                  this.isDisabled1 = true
@@ -451,7 +466,15 @@ export class CreateProjectComponent implements OnInit {
   }
   Finish() {
     this.router.navigate(['home/tabs']);
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Congratulations all data stored' });
+    if(this.translate.currentLang=='English')
+    {
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Congratulations all data stored' });
+    }
+    else
+    {
+      this.messageService.add({ severity: 'success', summary: 'نجاح', detail: 'تهانينا جميع بيانات المشروع سجلت بنجاح ' });
+    }
+  
   }
 
   Savetolist_Stackholders() {
@@ -482,14 +505,30 @@ export class CreateProjectComponent implements OnInit {
   SaveToDB_Stackholders() {
     this.messageService.clear();
     this.stackholderService.insertListOfStackholders(this.lstOfStackholder).subscribe(e => {
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Partener Added' });
+      if(this.translate.currentLang=='English')
+      {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Partener Added' });
+      }
+      else
+      {
+        this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم اضافة المستفيد بنجاح ' });
+      }
+     
     })
   }
 
   SaveToDB_Milestones() {
     this.messageService.clear();
     this.milestoneService.insertListOfMilestoness(this.lstOfMilestones).subscribe(e => {
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Milestone Added' });
+     // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Milestone Added' });
+     if(this.translate.currentLang=='English')
+      {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Milestone  Added' });
+      }
+      else
+      {
+        this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم اضافة الخطوه  بنجاح ' });
+      }
 
     })
   }
@@ -544,7 +583,16 @@ export class CreateProjectComponent implements OnInit {
     this.projectService.addTeam(addTeamObj).subscribe(e => {
       this.Idteam = e;
       this.tasneem = this.Idteam;
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Team Added' });
+     // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Team Added' });
+     if(this.translate.currentLang=='English')
+     {
+       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Team Added' });
+     }
+     else
+     {
+       this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم اضافة الفريق بنجاح ' });
+     }
+     
 
     })
 
@@ -604,7 +652,17 @@ export class CreateProjectComponent implements OnInit {
       this.NewDialogbool = true
     }
     else {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz select Site' });
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz select Site' });
+
+     if(this.translate.currentLang=='English')
+     {
+      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: false, detail: 'Plz select Site' });
+     }
+     else
+     {
+      this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه !!!', sticky: false, detail: 'من فضلك اختر موقع ' });
+     }
+
     }
   }
   saveSiteAssettoList() {
@@ -695,12 +753,28 @@ export class CreateProjectComponent implements OnInit {
         if (this.SiteClientsObj.clients.length != 0) {
           this.SiteClientsService.insertSiteClient(this.SiteClientsObj).subscribe(
             res1 => {
-              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
+             // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
+             if(this.translate.currentLang=='English')
+     {
+       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Asset Added' });
+     }
+     else
+     {
+       this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم اضافة المسلسل  بنجاح ' });
+     }
             }
           )
         }
         else {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
+          if(this.translate.currentLang=='English')
+          {
+           this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+           this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه !!!', sticky: true, detail: 'من فضلك ادخل البيانات كامله'});
+          }
+          //this.messageService.add( { key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
         }
       }
     )
@@ -746,8 +820,16 @@ export class CreateProjectComponent implements OnInit {
     this.httpClient.post(environment.uploadFile, formData)
       .subscribe(res => {
         console.log(res)
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Uploaded Successfully' });
+        //  this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Uploaded Successfully' });
         //  alert('Uploaded Successfully.');
+        if(this.translate.currentLang=='English')
+        {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Uploaded Successfully' });
+        }
+        else
+        {
+          this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم التحميل  بنجاح ' });
+        }
 
 
 
@@ -755,7 +837,16 @@ export class CreateProjectComponent implements OnInit {
   }
   SaveDocuentToDB() {
     this.projectdocumentService.postProjectDocumentByProjectID(this.lstoddocproj).subscribe(e => {
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Document Added' });
+     // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Document Added' });
+     if(this.translate.currentLang=='English')
+        {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Document Added' });
+        }
+        else
+        {
+          this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تمت الاضافة' });
+        }
+     
       console.log(e)
     })
   }
