@@ -70,7 +70,9 @@ export class ResetPasswordComponent implements OnInit {
     error => {
       this.showError = true;
       this.errorMessage = error;
-      console.log("error is "+this.errorMessage)
+       
+      
+      
     })
   }
 
