@@ -14,11 +14,12 @@ export class basic implements CanActivate {
    canActivate(route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):boolean
    {
+     console.log("llllllllllllllllllllllllllllllllllllllllllllll")
     const currentUser = this.authService.currentUserValue;
-  //  console.log("canActivate current User",currentUser)
+    console.log("canActivate current",currentUser)
     if (currentUser) 
     {
-      if (route.data.roles && route.data.roles.indexOf(currentUser.roles[0]) === -1) {
+      if (route.data.roles && route.data.role.indexOf(currentUser.roles[0]) === -1) {
         console.log("if (currentUser)")
         this.router.navigate(['/']);
          return false;
