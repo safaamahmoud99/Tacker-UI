@@ -391,7 +391,7 @@ export class CreateProjectComponent implements OnInit {
         {
           if(this.translate.currentLang=='English')
           {
-            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete All Dates Info' });
           }
           else
           {
@@ -574,12 +574,24 @@ export class CreateProjectComponent implements OnInit {
 
   }
   tasneem: number;
+  TeamLead:boolean=false;
   SaveToDB_ProjectTeams() {
+    this.TeamLead=false;
     this.messageService.clear();
     var addTeamObj = new CreateTeamVM();
     addTeamObj.name = this.team.Name;
     addTeamObj.projectTeams = this.lstOfProjectTeams;
+    for(let index=0;index<this.lstOfProjectTeams.length;index++)
+    {
+      if(this.lstOfProjectTeams[index].projectPositionId==1)
+      {
+        this.TeamLead=true;
+        break;
 
+      }
+    }
+    if(this.TeamLead)
+    {
     this.projectService.addTeam(addTeamObj).subscribe(e => {
       this.Idteam = e;
       this.tasneem = this.Idteam;
@@ -594,7 +606,16 @@ export class CreateProjectComponent implements OnInit {
      }
      
 
-    })
+    });
+    this.lstOfProjectTeams.length=0;
+    this.team.Name="";
+    this.teamname="";
+   
+  }
+  else
+  {
+    this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'team must have team leader ' });
+  }
 
 
   }
@@ -828,7 +849,7 @@ export class CreateProjectComponent implements OnInit {
         }
         else
         {
-          this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم التحميل  بنجاح ' });
+          this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم الرفع   بنجاح ' });
         }
 
 
