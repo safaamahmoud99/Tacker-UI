@@ -26,9 +26,11 @@ languageList = [
   constructor(public translate: TranslateService,private routee: Router) { 
     translate.addLangs(['en', 'ar']);
     translate.setDefaultLang('ar');
+    // localStorage.setItem('lang',this.lang)
 
     const browserLang = translate.getBrowserLang();
     translate.use(browserLang.match(/en|ar/) ? browserLang : 'ar');
+    console.log("iiiiiiiiiiiiiiiin constructor")
   }
   ngOnInit() {
     this.role = localStorage.getItem("roles")

@@ -67,7 +67,7 @@ import {VirtualScrollerModule} from 'primeng/virtualscroller';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {TreeModule} from 'primeng/tree';
 
-import {DynamicDialogModule} from 'primeng/dynamicdialog';
+import {DialogService, DynamicDialogModule} from 'primeng/dynamicdialog';
 
 import {MatTooltipModule} from '@angular/material/tooltip';
 // import { MaterialModule} from '@angular/material';
@@ -139,6 +139,7 @@ import { ClientManagerComponent } from './Components/ClientComponents/client-man
 import {MatStepperModule} from '@angular/material/stepper';
 import { MatDialogModule } from '@angular/material/dialog';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { CreateSubCategoryComponent } from './Components/Request/SubCategory/create-sub-category/create-sub-category.component';
 
 
 registerLocaleData(en);
@@ -197,7 +198,8 @@ registerLocaleData(en);
    DueDateCategoryComponent,
    BrandComponent,
    ClientManagerRequestsComponent,
-   ClientManagerComponent
+   ClientManagerComponent,
+   CreateSubCategoryComponent,
   //  PiechartComponent,
   ],
   schemas: [ 
@@ -285,7 +287,7 @@ registerLocaleData(en);
     RouterModule.forRoot([]),
 
   ],
-  providers: [MessageService,ConfirmationService,{provide : LocationStrategy , useClass: HashLocationStrategy},
+  providers: [MessageService,ConfirmationService,DialogService,{provide : LocationStrategy , useClass: HashLocationStrategy},
     
     {
       provide: STEPPER_GLOBAL_OPTIONS,

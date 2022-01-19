@@ -1,0 +1,43 @@
+<div class="card" #ejDialog>
+    <!-- <div class="card-header cardHeader">
+        <h4 class="card-title" style="font-size: 30px;color: #1683c2;font-weight: bold;"> {{ 'Asset.Create' | translate
+            }} {{ 'Asset.Category' | translate }} </h4>
+    </div> -->
+    <div class="card-body">
+        <form #form="ngForm" (ngSubmit)="onSubmit()">
+            <div class="row top-buffer">
+                <div class="col-12">
+                    <label for="subCatName" [translate]="'Tracker.Request Sub Category'"> </label>
+                    <input type="text" class="form-control" id="subCatName" name="subCatName" pTooltip="Enter category Name"
+                        [placeholder]="'Tracker.Request Sub Category' | translate" tooltipPosition="bottom" [(ngModel)]="subCategory.subCategoryName"
+                        #subCatName="ngModel" [class.is-invalid]="
+                      (subCatName.touched && subCatName.errors) || form.submitted" [class.is-valid]="subCatName.valid && form.submitted"
+                        required />
+                    <div *ngIf="(subCatName.touched || form.submitted) && subCatName.errors?.required">
+                        <span class="text-danger" [translate]="'Tracker.Request Sub Category'"></span>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label class="labelstyle">{{'Tracker.Category Name'|translate}}</label>
+                    <select [(ngModel)]="subCategory.requestCategoryId" name="id" class="form-control">emp
+                        <option *ngFor="let the of lstCategories" value="{{the.id}}">{{the.categoryName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <br><br>
+            <div class="row top-buffer">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary pull-center btn-sm" [translate]="'Tracker.Save'"
+                        style="margin:0px 5px;background-color: #1483c2;border-color: #1483c2"></button>
+
+                    <button class="btn btn-primary pull-center btn-sm" value="Reset" type="button"
+                        style="margin: 0px 5px;background-color: #1483c2;border-color: #1483c2;width: 100px;"
+                        (click)="reset()">
+                        {{ 'Tracker.Reset' | translate }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

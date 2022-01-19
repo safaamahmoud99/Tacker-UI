@@ -183,6 +183,7 @@
     "Add Project Type": "Add Project Type",
     "Edit Project Type": "Edit Project Type",
     "Add Sub Category": "Add Sub Category",
+    "Add Sub": "Add Sub",
     "Add Category": "Add Category",
     "Category Name": "Category Name",
     "Add Department": "Add Department",
@@ -230,6 +231,7 @@
     "/Days":"/Days",
     "Update Client":"Update Client",
     "Clear":"Clear",
-    "EitSubCategory":"Eit Sub Category"
+    "EitSubCategory":"Eit Sub Category",
+    "Reset":"reset"
   }
 }

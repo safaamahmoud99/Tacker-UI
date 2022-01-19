@@ -40,6 +40,7 @@ export class SideNavComponent implements OnInit {
   ) {
  
     localStorage.removeItem("lang");
+    sessionStorage.setItem("lang","English")
     this.show = true;
     translate.addLangs(['English', 'العربية']);
     this.selectedlang = 'English';
@@ -95,12 +96,15 @@ export class SideNavComponent implements OnInit {
       this.textDir = "ltr";
       this.selectedlang =lang;
       sessionStorage.setItem("langAr", "langEn");
+      sessionStorage.setItem("lang",lang)
     }
     else if (lang == "العربية") {
       this.textDir = "rtl";
       this.selectedlang =lang;
       sessionStorage.setItem("ProjectData", "بيانات");
       sessionStorage.setItem("langAr", "langAr");
+      sessionStorage.setItem("lang",lang)
+
     }
     this.translate.use(lang)
    // this.selectedlang = lang;

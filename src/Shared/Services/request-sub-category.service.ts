@@ -33,4 +33,8 @@ export class RequestSubCategoryService {
   {
     return this.httpClient.put(`${environment.editrequestSubCategory}${id}`, requestSubCategory, this.httpHeader);
   }
+  filterSubCategoriesByCategoryId(id:number): Observable<requestSubCategory[]>
+  {
+    return this.httpClient.get<requestSubCategory[]>(`${environment.filterSubCategoriesByCategoryId}${id}`, this.httpHeader);
+  }
 }

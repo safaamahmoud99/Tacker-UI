@@ -1,13 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 import { department } from 'src/Shared/Models/department';
 import { requestCategory } from 'src/Shared/Models/requestCategory';
 import { requestSubCategory } from 'src/Shared/Models/requestSubCategory';
 import { DepartmentService } from 'src/Shared/Services/department.service';
 import { RequestCategoryService } from 'src/Shared/Services/request-category.service';
 import { RequestSubCategoryService } from 'src/Shared/Services/request-sub-category.service';
+import { CreateSubCategoryComponent } from '../../SubCategory/create-sub-category/create-sub-category.component';
+import { CategoryComponent } from '../category/category.component';
 
 @Component({
   selector: 'app-display-categories',
@@ -16,6 +20,10 @@ import { RequestSubCategoryService } from 'src/Shared/Services/request-sub-categ
 })
 export class DisplayCategoriesComponent implements OnInit {
 
+  // lang = this.translate.currentLang;
+  lang=sessionStorage.getItem("lang")
+  dir: string = "ltr";
+  selectedTypeId: number;
   lstCategories: requestCategory[]
   category: requestCategory
   lstSubCategories: requestSubCategory[]
@@ -26,6 +34,7 @@ export class DisplayCategoriesComponent implements OnInit {
   loading: boolean = true;
   displayBasic: boolean;
   displayEditSubCategoryDialog:boolean=false
+  selectedcateId:number;
   constructor(
     private httpClient: HttpClient,
     private CategService: RequestCategoryService,
@@ -33,9 +42,17 @@ export class DisplayCategoriesComponent implements OnInit {
     private departmentService: DepartmentService,
     private messageService: MessageService,
     private router: Router,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    public dialogService: DialogService,public translate: TranslateService) { }
 
   ngOnInit(): void {
+    if (this.lang == "English") {
+      this.dir = "ltr";
+    }
+    else {
+      this.dir = "rtl";
+    }
+
     this.getAllCategories();
     this.lstCategories = []
     this.lstSubCategories = []
@@ -54,13 +71,20 @@ export class DisplayCategoriesComponent implements OnInit {
       this.subCategory.requestCategoryId = Number(this.subCategory.requestCategoryId)
 
     })
-    this.SubCategService.GetAllSubCategorys().subscribe(e => {
-      this.lstSubCategories = e
-      console.log("lstSubCategories", this.lstSubCategories)
-      this.loading = false
-    })
+    // this.SubCategService.GetAllSubCategorys().subscribe(e => {
+    //   this.lstSubCategories = e
+    //   console.log("lstSubCategories", this.lstSubCategories)
+    //   this.loading = false
+    // })
   }
-
+  filterSubCategoriesByCategoryId(id)
+  {
+    this.SubCategService.filterSubCategoriesByCategoryId(id).subscribe(d=>{
+      this.lstSubCategories=d;
+    })
+    this.selectedcateId = id;
+  }
+  
   confirm(subcategoryId) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
@@ -159,5 +183,80 @@ export class DisplayCategoriesComponent implements OnInit {
 
   clear() {
     this.messageService.clear();
+  }
+  addCategory(id)
+  {
+    this.lang=sessionStorage.getItem("lang");
+    const ref = this.dialogService.open(CategoryComponent, {
+      header:  this.lang == 'English' ? 'Add Category' : 'إضافة تصنيف',
+      width: '50%',
+      style: {
+        'dir':  this.lang == "English" ? 'ltr' : "rtl",
+        "text-align":  this.lang == "English" ? 'left' : "right",
+        "direction":  this.lang == "English" ? 'ltr' : "rtl"
+      }
+    });
+    ref.onClose.subscribe(() => {
+      this.ngOnInit()
+    });
+  }
+  addSubCategory()
+  {
+    this.lang=sessionStorage.getItem("lang");
+    const ref = this.dialogService.open(CreateSubCategoryComponent, {
+      header:  this.lang == 'English' ? 'Add Sub Category' : 'إضافة تصنيف فرعي',
+      width: '50%',
+      style: {
+        'dir':  this.lang == "English" ? 'ltr' : "rtl",
+        "text-align":  this.lang == "English" ? 'left' : "right",
+        "direction":  this.lang == "English" ? 'ltr' : "rtl"
+      }
+    });
+    ref.onClose.subscribe(() => {
+      this.ngOnInit()
+    });
+  }
+  editCategory(Catid)
+  {
+    this.lang=sessionStorage.getItem("lang");
+    const ref = this.dialogService.open(CategoryComponent, {
+      header:  this.lang == 'English' ? 'Edit Category' : 'تعديل تصنيف',
+      data: {
+        cateId: Catid
+      },
+      width: '50%',
+      style: {
+        'dir':  this.lang == "English" ? 'ltr' : "rtl",
+        "text-align":  this.lang == "English" ? 'left' : "right",
+        "direction":  this.lang == "English" ? 'ltr' : "rtl"
+      }
+    });
+    ref.onClose.subscribe(() => {
+      this.ngOnInit()
+    });
+  }
+  editSubCategory(subCatId)
+  {
+    console.log("subId",subCatId)
+    this.lang=sessionStorage.getItem("lang");
+    const ref = this.dialogService.open(CreateSubCategoryComponent, {
+      header:  this.lang == 'English' ? 'Edit Sub Category' : 'تعديل التصنيف الفرعي',
+      data: {
+        SubcateId: subCatId
+      },
+      width: '50%',
+      style: {
+        'dir':  this.lang == "English" ? 'ltr' : "rtl",
+        "text-align":  this.lang == "English" ? 'left' : "right",
+        "direction":  this.lang == "English" ? 'ltr' : "rtl"
+      }
+    });
+    ref.onClose.subscribe(() => {
+      this.ngOnInit()
+    });
+  }
+  deleteCategory(Catid)
+  {
+
   }
 }

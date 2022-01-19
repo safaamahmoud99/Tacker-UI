@@ -26,4 +26,12 @@ export class RequestCategoryService {
   DeleteCategory(id:number):Observable<any>{ 
     return this.httpClient.delete<any>(`${environment.requestCategory}${id}`,this.httpHeader);
   }
+  getCategory(id:number):Observable<requestCategory>
+  {
+    return this.httpClient.get<requestCategory>(`${environment.getCategory}${id}`, this.httpHeader);
+  }
+  editCategory(id:number,requestCategory:requestCategory):Observable<any>
+  {
+    return this.httpClient.put<any>(`${environment.updateCategory}${id}`,requestCategory, this.httpHeader);
+  }
 }

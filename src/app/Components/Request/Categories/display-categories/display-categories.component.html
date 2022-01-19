@@ -3,8 +3,83 @@
 <p-toast position="top-left" key="tl"></p-toast>
 <p-toast position="top-center" key="tc"></p-toast>
 <p-toast position="bottom-center" key="bc"></p-toast>
+<div class="card">
+    <div class="card-header cardHeader">
+        <h1 [translate]="'Tracker.Client Requests Category'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
 
-<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    </div>
+    <div class="card-body">
+        <div class="row top-buffer">
+            <div [ngClass]="lang == 'en' ? 'col-6': 'col-6'"
+                [ngStyle]="lang =='en' ? {'float': 'right'} : {  'float': 'left'}">
+                <a style="width: 150px;" [ngClass]="lang == 'en' ? 'hrefbutton': 'hrefbuttonAr'"
+                    (click)="addCategory(selectedTypeId)"><i class="fas fa-plus"
+                        style="margin: 0px 10px 0px 10px;" [translate]="'Tracker.Add Category'"></i></a>
+            </div>
+            <div [ngClass]="lang == 'en' ? 'col-6': 'col-6'"
+                [ngStyle]="lang =='en' ? {'float': 'right'} : {  'float': 'left'}">
+                <a style="width: 150px;" [ngClass]="lang == 'en' ? 'hrefbutton': 'hrefbuttonAr'"
+                    (click)="addSubCategory()"><i class="fas fa-plus" style="margin: 0px 0px 0px 0px;"
+                    [translate]="'Tracker.Add Sub'"></i></a>
+            </div>
+        </div>
+<br>
+        <div class="row top-buffer">
+            <div class="col-6">
+                <p-listbox [options]="categories" [filter]="true" optionLabel="name"
+                    optionValue="id">
+                    <!-- <ng-template pTemplate="header">
+                        {{ 'Tracker.Add Category' | translate }}
+                    </ng-template> -->
+                    <ng-template let-cate pTemplate="item">
+                        <span class="example-spacer"></span>
+                                <div style="font-size:14px;float:left;margin:7px 5px 0 0" (click)="filterSubCategoriesByCategoryId(cate.id)">
+                                    {{lang =='en' ? cate.categoryName:cate.categoryName}}
+                                </div>
+                                
+                                <span (click)="editCategory(cate.id)" pTooltip="Edit Category" tooltipPosition="bottom"
+                                class="p-button-icon pi pi-pencil" style="color: #2f86d6;margin: 0px 10px;">
+                                    <!-- <i class="fas fa-edit" style="color: #2f86d6;margin: 0px 5px;"></i> -->
+                                </span>
+        
+                                <span (click)="deleteCategory(cate.id)" pTooltip="Delete Category" tooltipPosition="bottom"
+                                class="p-button-icon pi pi-times" style="color: #fe7f83; cursor: pointer;margin: 0px 10px;">
+                                    <!-- <i class="far fa-trash-alt" style="color: #fe7f83; cursor: pointer;margin: 0px 5px;"></i> -->
+                                </span>
+
+                    </ng-template>
+                </p-listbox>
+            </div>
+
+            <div class="col-6">
+                <p-listbox [options]="lstSubCategories" [filter]="true" optionLabel="name"
+                    optionValue="id">
+                    <!-- <ng-template pTemplate="header">
+                        {{ 'Tracker.Add Sub' | translate }}
+                    </ng-template> -->
+                    <ng-template let-subCate pTemplate="item">
+                        <div style="font-size:14px;float:left;margin:7px 5px 0 0">
+                            {{lang =='en' ? subCate.subCategoryName:subCate.subCategoryName}}
+                        </div>
+                        <span class="example-spacer"></span>
+                        <span (click)="editSubCategory(subCate.id)" pTooltip="Edit SubCategory"
+                            tooltipPosition="bottom" class="p-button-icon pi pi-pencil" 
+                            style="color: #2f86d6;margin: 0px 10px;"></span>
+                            <!-- <i class="fas fa-edit" style="color: #2f86d6;margin: 0px 5px;"></i> -->
+
+                        <span (click)="deleteSubCategory(subCate.id)" pTooltip="Delete SubCategory"
+                            tooltipPosition="bottom" class="p-button-icon pi pi-times" 
+                            style="color: #fe7f83; cursor: pointer;margin: 0px 10px;">
+                            <!-- <i class="far fa-trash-alt" style="color: #fe7f83; cursor: pointer;margin: 0px 5px;"></i> -->
+                        </span>
+
+                    </ng-template>
+                </p-listbox>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
     <ng-template let-message pTemplate="message">
         <div class="p-flex p-flex-column" style="flex: 1">
             <div class="p-text-center">
@@ -22,8 +97,9 @@
             </div>
         </div>
     </ng-template>
-</p-toast>
-<p-table class="container card" #dt [value]="lstSubCategories" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+</p-toast> -->
+
+<!-- <p-table class="container card" #dt [value]="lstSubCategories" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[5,10,50]" [loading]="loading" styleClass="p-datatable-customers" [paginator]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
     [globalFilterFields]="['requestCategoryName','subCategoryName']">
@@ -86,39 +162,43 @@
         </tr>
     </ng-template>
 
-</p-table>
-<!-------------Edit sub Category-------------------->
-<p-dialog id="PopupWindow" [header]="'Tracker.EitSubCategory' |translate" header="Show Project Data" 
-          [(visible)]="displayEditSubCategoryDialog" [modal]="true"
-[style]="{width: '50vw'}"[baseZIndex]="10000">
-<form>
-    <div class="row">
-        <div class="col">
-            <label class="labelstyle" >{{'Tracker.SubCategoryName'|translate}}</label>
-            <div class="p-inputgroup">
-                <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                <input type="text" name="subcategoryName" pInputText [placeholder]="'Tracker.SubCategoryName' | translate"
-                    [(ngModel)]="getsubCategory.subCategoryName" #sup ="ngModel" class="form-control" #cat="ngModel"  
-                    [class.is-invalid]="cat.invalid && cat.touched" required minlength="3" [class.is-valid]="cat.valid">
-            </div>
-            <small [hidden]="cat.valid || cat.untouched" id="helpId" class="text-danger validation"
-            [translate]="'Tracker.messege'" > </small>
-        </div>
+</p-table> -->
 
-        <div class="col">
-            <label class="labelstyle">{{'Tracker.Category Name'|translate}}</label>
-            <select [(ngModel)]="getsubCategory.requestCategoryId"  [ngModelOptions]="{standalone: true}"
+
+<!-------------Edit sub Category-------------------->
+
+
+<!-- <p-dialog id="PopupWindow" [header]="'Tracker.EitSubCategory' |translate" header="Show Project Data"
+    [(visible)]="displayEditSubCategoryDialog" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <form>
+        <div class="row">
+            <div class="col">
+                <label class="labelstyle">{{'Tracker.SubCategoryName'|translate}}</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                    <input type="text" name="subcategoryName" pInputText
+                        [placeholder]="'Tracker.SubCategoryName' | translate"
+                        [(ngModel)]="getsubCategory.subCategoryName" #sup="ngModel" class="form-control" #cat="ngModel"
+                        [class.is-invalid]="cat.invalid && cat.touched" required minlength="3"
+                        [class.is-valid]="cat.valid">
+                </div>
+                <small [hidden]="cat.valid || cat.untouched" id="helpId" class="text-danger validation"
+                    [translate]="'Tracker.messege'"> </small>
+            </div>
+
+            <div class="col">
+                <label class="labelstyle">{{'Tracker.Category Name'|translate}}</label>
+                <select [(ngModel)]="getsubCategory.requestCategoryId" [ngModelOptions]="{standalone: true}"
                     name="requestCategoryName" class="form-control">
-                <option value="" ><span [translate]="'Tracker.Category Name'"></span></option>
-                <option *ngFor="let the of categories" 
-                         value="{{the.id}}">{{the.categoryName}}
-                </option>
-            </select>
+                    <option value=""><span [translate]="'Tracker.Category Name'"></span></option>
+                    <option *ngFor="let the of categories" value="{{the.id}}">{{the.categoryName}}
+                    </option>
+                </select>
+            </div>
         </div>
-    </div>
-</form>
-<ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" (click)="Update(getsubCategory.id)" [label]="'Tracker.Ok'|translate"
-        styleClass="p-button-text"></p-button>
-</ng-template>
-</p-dialog>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="Update(getsubCategory.id)" [label]="'Tracker.Ok'|translate"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog> -->

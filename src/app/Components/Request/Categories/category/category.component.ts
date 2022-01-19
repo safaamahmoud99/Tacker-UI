@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { requestCategory } from "../../../../../Shared/Models/requestCategory";
@@ -8,6 +8,7 @@ import { RequestCategoryService } from "../../../../../Shared/Services/request-c
 import { RequestSubCategoryService } from "../../../../../Shared/Services/request-sub-category.service";
 import { DepartmentService } from "../../../../../Shared/Services/department.service";
 import { department } from "../../../../../Shared/Models/department";
+import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -15,7 +16,7 @@ import { department } from "../../../../../Shared/Models/department";
 })
 export class CategoryComponent implements OnInit {
 
-
+  @ViewChild('ejDialog') ejDialog: CategoryComponent;
   lstCategories: requestCategory[]
   category: requestCategory
   lstSubCategories: requestSubCategory[]
@@ -24,8 +25,8 @@ export class CategoryComponent implements OnInit {
   displayMaximizable: boolean = false;
 
   constructor(
-    private httpClient: HttpClient,
-    private CategService: RequestCategoryService,
+    private httpClient: HttpClient,public dialogService: DialogService,
+    private CategService: RequestCategoryService,private config: DynamicDialogConfig,
     private SubCategService: RequestSubCategoryService,
     private departmentService: DepartmentService,
     private messageService: MessageService,
@@ -37,6 +38,13 @@ export class CategoryComponent implements OnInit {
 
     this.category = {
       categoryName: '', departmentId: 0, departmentName: '', id: 0
+    }
+    if(this.config.data!==undefined)
+    {
+      var catId=this.config.data.cateId;
+      this.CategService.getCategory(catId).subscribe(c=>{
+        this.category=c;
+      });
     }
     this.subCategory = {
       requestCategoryId: 0, id: 0, requestCategoryName: '', subCategoryName: ''
@@ -52,29 +60,50 @@ export class CategoryComponent implements OnInit {
     })
   }
   SaveSubCatToDB() {
-    if(this.subCategory.subCategoryName.trim().length>=3)
-    {
-    this.subCategory.requestCategoryId = Number(this.subCategory.requestCategoryId)
-    console.log(this.subCategory)
-    this.SubCategService.inserSubCategory(this.subCategory).subscribe(e => {
-      this.router.navigate(['home/DisplayCategories']);
-      console.log(e)
-    })
-  }
+  //   if(this.subCategory.subCategoryName.trim().length>=3)
+  //   {
+  //   this.subCategory.requestCategoryId = Number(this.subCategory.requestCategoryId)
+  //   console.log(this.subCategory)
+  //   this.SubCategService.inserSubCategory(this.subCategory).subscribe(e => {
+  //     this.router.navigate(['home/DisplayCategories']);
+  //     console.log(e)
+  //   })
+  // }
   }
   showMaximizableDialog() {
     this.displayMaximizable = true;
   }
   SaveCatToDB() {
+  }
+  onSubmit()
+  {
     console.log(this.category)
-    if(this.category.categoryName.trim().length>=3)
+    if(this.config.data!==undefined)
     {
-    this.category.departmentId = Number(this.category.departmentId)
-    this.CategService.inserCategory(this.category).subscribe(e=>{
-      console.log(e)
-    })
+      this.Update(this.config.data.cateId)
     }
-
-    this.displayMaximizable = false
+    else
+    {
+      if(this.category.categoryName.trim().length>=3)
+      {
+        this.category.departmentId = Number(this.category.departmentId)
+        this.CategService.inserCategory(this.category).subscribe(e=>{
+        });
+      }
+    }
+  }
+  Update(id)
+  {
+    if(this.subCategory.subCategoryName.trim().length>=3)
+    {
+      this.CategService.editCategory(id,this.category).subscribe(e => {
+      })
+    }
+  }
+  reset()
+  {
+    this.category = {
+      categoryName: '', departmentId: 0, departmentName: '', id: 0
+    }
   }
 }
