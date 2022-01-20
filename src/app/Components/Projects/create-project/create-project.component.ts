@@ -121,6 +121,8 @@ export class CreateProjectComponent implements OnInit {
   plannedStartdate: Date;
   ActualStartDate: Date;
   ProjectData: any;
+  CountTeamLeader:boolean=false;
+  CountProjectManger:boolean=false;
   selectedlang: string = '';
   ProjectdataFormGroup: FormGroup;
   AssetFormGroup: FormGroup;
@@ -378,7 +380,8 @@ export class CreateProjectComponent implements OnInit {
     var date2: any = new Date($event);
     this.diffDays = Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));
   }
-  AddProject() {
+  AddProject()
+  {
     this.messageService.clear();
 
     // this.projectObj.actualStartDate=new Date();
@@ -576,8 +579,11 @@ export class CreateProjectComponent implements OnInit {
   tasneem: number;
   TeamLead:boolean=false;
   SaveToDB_ProjectTeams() {
+
     this.TeamLead=false;
     this.messageService.clear();
+    this.CountTeamLeader=false;
+    this.CountProjectManger=false;
     var addTeamObj = new CreateTeamVM();
     addTeamObj.name = this.team.Name;
     addTeamObj.projectTeams = this.lstOfProjectTeams;
@@ -622,26 +628,51 @@ export class CreateProjectComponent implements OnInit {
   Savetolist_Teams() {
     this.messageService.clear();
     if (this.team.Name.trim().length>=1&& this.ProjectTeam.projectPositionId != 0 && this.ProjectTeam.employeeId != 0
-      && this.ProjectTeam.departmentId != 0) {
+      && this.ProjectTeam.departmentId != 0)
+    {
       this.ProjectTeam.projectId = this.projectID
       this.ProjectTeam.departmentId = Number(this.ProjectTeam.departmentId)
       this.ProjectTeam.employeeId = Number(this.ProjectTeam.employeeId)
       this.ProjectTeam.projectPositionId = Number(this.ProjectTeam.projectPositionId)
       this.ProjectTeam.departmentName = this.department.name
       this.employeeService.getEmpByID(this.ProjectTeam.employeeId).subscribe(e => {
-        this.ProjectTeam.employeeName = e.employeeName
-        this.positionService.getPositionByID(this.ProjectTeam.projectPositionId).subscribe(e => {
-          this.ProjectTeam.projectPositionName = e.positionName
+      this.ProjectTeam.employeeName = e.employeeName
+      this.positionService.getPositionByID(this.ProjectTeam.projectPositionId).subscribe(e => {
+      this.ProjectTeam.projectPositionName = e.positionName
           this.teamname = this.team.Name;
           // this.ProjectTeam.TeamId=Number(this.team.Id);
           this.ProjectTeam.teamId = 29;
+          for(let i=0;i<this.lstOfProjectTeams.length;i++)
+          {
+            if(this.lstOfProjectTeams[i].projectPositionId==1)
+            {
+               this.CountTeamLeader=true;
+            }
+            if(this.lstOfProjectTeams[i].projectPositionId==3)
+            {
+              this.CountProjectManger=true;
+            }
+          }
+          if(this.CountTeamLeader &&this.ProjectTeam.projectPositionId==1)
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'team must have only one team leader' });
+            return;       
+          }
+         if (this.CountProjectManger &&this.ProjectTeam.projectPositionId==3)
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'team must have only one Project manager' });
+            return;       
+          }
+        
           this.lstOfProjectTeams.push(this.ProjectTeam);
+       
           this.ProjectTeam = {
             teamName: '',
             teamId: 0,
             departmentId: 0, id: 0, departmentName: '', employeeName: '', projectPositionId: 0, projectPositionName: '', employeeId: 0
             , projectId: this.projectID, projectName: ''
           }
+        
         })
       })
     }

@@ -49,6 +49,7 @@ import { Table } from 'primeng/table';
 import { RequestService } from 'src/Shared/Services/request.service';
 import { request } from 'src/Shared/Models/request';
 import { TranslateService } from '@ngx-translate/core';
+import * as internal from 'events';
 
 @Component({
   selector: 'app-update-project',
@@ -119,6 +120,8 @@ export class UpdateProjectComponent implements OnInit {
   lstSuppliers: Suppliers[];
   missing: Sites[];
   selectedsite: Sites;
+  CountTeamLeader:boolean=false;
+  CountProjectManger:boolean=false;
   SiteClientsObj: SiteClients
   ProjectSiteAssetObj: ProjectSiteAsset
   ProjectSiteAssetObjInEdit: ProjectSiteAsset
@@ -916,6 +919,7 @@ export class UpdateProjectComponent implements OnInit {
     this.displaydoc = true
   }
   Savetolist_Teams() {
+    
     this.messageService.clear();
     if (this.team.Name.trim().length>=1&& this.ProjectTeam.projectPositionId != 0 && this.ProjectTeam.employeeId != 0
       && this.ProjectTeam.departmentId != 0) {
@@ -932,7 +936,32 @@ export class UpdateProjectComponent implements OnInit {
         this.teamname = this.team.Name;
         // this.ProjectTeam.TeamId=Number(this.team.Id);
         this.ProjectTeam.teamId = 29;
+        for(let i=0;i<this.lstOfProjectTeams.length;i++)
+        {
+          if(this.lstOfProjectTeams[i].projectPositionId==1)
+          {
+             this.CountTeamLeader=true;
+          }
+          if(this.lstOfProjectTeams[i].projectPositionId==3)
+          {
+            this.CountProjectManger=true;
+          }
+        }
+        if(this.CountTeamLeader &&this.ProjectTeam.projectPositionId==1)
+        {
+          this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'team must have only one team leader' });
+          return;       
+        }
+       if (this.CountProjectManger &&this.ProjectTeam.projectPositionId==3)
+        {
+          this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'team must have only one Project manager' });
+          return;       
+        }
+      
         this.lstOfProjectTeams.push(this.ProjectTeam);
+        
+       // console.log("lstOfProjectTeams",this.lstOfProjectTeams.length);
+      
         this.ProjectTeam = {
           teamName: '',
           teamId: 0,
@@ -961,6 +990,8 @@ export class UpdateProjectComponent implements OnInit {
    TeamLead:boolean=false;
   SaveToDB_ProjectTeams() {
     this.TeamLead=false;
+    this.CountTeamLeader=false;
+    this.CountProjectManger=false;
     this.messageService.clear();
     var addTeamObj = new CreateTeamVM();
     addTeamObj.name = this.team.Name;
