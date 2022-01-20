@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { EmployeeService } from 'src/Shared/Services/employee.service';
 import { DepartmentService } from 'src/Shared/Services/department.service';
 import { department } from 'src/Shared/Models/department';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-add-employee',
@@ -33,7 +34,7 @@ export class AddEmployeeComponent implements OnInit {
   ];
   fileToUpload: File;
   uploadedFiles: any[] = [];
-  constructor(private departmentService: DepartmentService, private empService: EmployeeService, private router: Router) {
+  constructor(private departmentService: DepartmentService, private empService: EmployeeService, private router: Router,private messageService: MessageService) {
     this.Employee = {employeeName: '',Address: '', Email: '', MaritalStatus: 'Marital Status', Name: '',
       Phone: '', departmentId: 0, photo: 'dummyPerson.png', gender: 'Gender'
     };
@@ -50,18 +51,23 @@ export class AddEmployeeComponent implements OnInit {
   add() {
     if(this.isEmail() && this.isPhone() && this.Employee.employeeName.trim().length>=3)
     {
-    console.log(typeof (this.Employee.departmentId));
+    //console.log(typeof (this.Employee.departmentId));
     this.Employee.departmentId = Number(this.Employee.departmentId);
-    console.log(this.Employee);
+   // console.log(this.Employee);
     this.empService.AddEmployee(this.Employee).subscribe(
-      res => { this.router.navigate(['home/employee']); },
-      error => console.log(error),
+      res => { this.router.navigate(['home/employee']);
+     },
+      error =>{
+        this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: false, detail: error.error.message });
+         }
     );
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Employee Added' });
+   }
+   else
+   {
+    this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+   }
   }
-  }
-
-
-
   onFileSelected(files: FileList) {
     this.fileToUpload = files.item(0);
     const oldName = this.fileToUpload.name;

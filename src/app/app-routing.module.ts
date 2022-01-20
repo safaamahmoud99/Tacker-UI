@@ -74,7 +74,7 @@ const routes: Routes = [
       { path: 'tabs', component: AllProjectsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO,Roles.PM,Roles.ClientManager]}},
       { path: 'Category', component: CategoryComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
       { path: 'client', component: ClientsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
-      { path: 'piechart', component: PiechartComponent ,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.PMO,Roles.PM,Roles.ClientManager]}},
+      { path: 'piechart', component: PiechartComponent ,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.PMO,Roles.Admin]}},
       { path: 'editClient/:id', component: EditClientComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin]}  },
       // { path: 'editClient/:id', component: EditClientComponent,canActivate:[AuthGuard,basic] },
       { path: 'department', component: DepartmentComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]}  },
