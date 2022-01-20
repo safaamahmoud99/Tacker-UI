@@ -78,7 +78,7 @@ export class UpdateProjectComponent implements OnInit {
   milestonInLst: mileStone
   lstOfMilestones: mileStone[]
   lstoddocproj: ProjectDocuments[]
-  lstOfProjectTeams: projectTeam[]
+  lstOfProjectTeams: projectTeam[]=[]
   ProjectTeam: projectTeam
   displayBasic: boolean;
   displayMile: boolean;
@@ -136,6 +136,8 @@ export class UpdateProjectComponent implements OnInit {
   lstRequstsByProjectSiteAsset: request[]
   serialNumber: any;
   serialNumberInEdit: any;
+  isFound:boolean=false;
+  addTeamObj:CreateTeamVM;
   constructor(private positionService: ProjectPositionService, private employeeService: EmployeeService,
     private departmentService: DepartmentService, private route: ActivatedRoute,
     private milestoneservice: MilestoneService, private projectService: ProjectService,
@@ -177,7 +179,7 @@ export class UpdateProjectComponent implements OnInit {
     this.lstOfStackholder = []
     this.lstOfMilestones = []
     this.lstoddocproj = []
-    this.lstOfProjectTeams = []
+    // this.lstOfProjectTeams = []
     this.lstSelectedClients = []
     this.lstAllSites = []
     this.selectedSitesColumns = []
@@ -242,6 +244,9 @@ export class UpdateProjectComponent implements OnInit {
     {
       id: 0, days: 0, supplierName: '', ProjectSiteId: 0, assetId: 0, assetName: '',
       serialNumber: '', supplierId: 0, warrantyPeriod: 0, warrantyStartDate: ""
+    }
+    this.addTeamObj={
+      name:'',projectTeams:[]
     }
     this.SiteService.GetAllSites().subscribe(
       res => {
@@ -519,6 +524,13 @@ export class UpdateProjectComponent implements OnInit {
           this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'this serial already exist , plz write another' });
           this.projectSiteClientObj.serialNumber=""
         }
+        else
+        {
+          this.ProjectSiteAssetObj = {
+            id: 0, days: 0, supplierName: '', ProjectSiteId: 0, assetId: 0, assetName: '',
+            serialNumber: '', supplierId: 0, warrantyPeriod: 0, warrantyStartDate: ""
+          }
+        }
       }
     )
 
@@ -557,6 +569,7 @@ export class UpdateProjectComponent implements OnInit {
         }
       )
     }
+    console.log("projectSiteClientObj",this.projectSiteClientObj)
     if (this.projectSiteClientObj.assetId != 0 && this.projectSiteClientObj.supplierId != 0 && this.projectSiteClientObj.siteId != 0
       && this.projectSiteClientObj.serialNumber!="" && this.projectSiteClientObj.days!=0 && this.projectSiteClientObj.warrantyStartDate!="") {
       this.assetservice.GetAssetById(this.projectSiteClientObj.assetId).subscribe(
@@ -584,6 +597,7 @@ export class UpdateProjectComponent implements OnInit {
       this.saveSiteAssetToDB();
     }
     else {
+      console.log("insiiide")
       this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
     }
 
@@ -804,12 +818,52 @@ export class UpdateProjectComponent implements OnInit {
         this.teamname = this.team.Name;
         // this.ProjectTeam.TeamId=Number(this.team.Id);
         this.ProjectTeam.teamId = 29;
-        this.lstOfProjectTeams.push(this.ProjectTeam);
-        this.ProjectTeam = {
-          teamName: '',
-          teamId: 0,
-          departmentId: 0, id: 0, departmentName: '', employeeName: '', projectPositionId: 0, projectPositionName: '', employeeId: 0
-          , projectId: this.id, projectName: ''
+        if(this.lstOfProjectTeams.length>0)
+        {
+          console.log("length",this.lstOfProjectTeams.length)
+          this.isFound=false;
+          this.lstOfProjectTeams.forEach(element => {
+            console.log("element",element)
+            if(element.employeeId===this.ProjectTeam.employeeId)
+            {
+              console.log("found",this.isFound)
+              this.isFound=true;
+              this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Employee is found' });
+            }
+          });
+          if(!this.isFound)
+          {
+            console.log("not found",this.isFound)
+            if(this.ProjectTeam.projectPositionName==='TL')
+            {
+              var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
+              this.lstOfprojectPosition.splice(posIndex,1)
+            }
+            this.lstOfProjectTeams.push(this.ProjectTeam);
+            this.isFound=false;
+            this.ProjectTeam = {
+              teamName: '',
+              teamId: 0,
+              departmentId: 0, id: 0, departmentName: '', employeeName: '', projectPositionId: 0, projectPositionName: '', employeeId: 0
+              , projectId: this.id, projectName: ''
+            }
+          }
+        }
+        else
+        {
+          console.log("push")
+          if(this.ProjectTeam.projectPositionName==='TL')
+          {
+            var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
+            this.lstOfprojectPosition.splice(posIndex,1)
+          }
+          this.lstOfProjectTeams.push(this.ProjectTeam);
+          this.ProjectTeam = {
+            teamName: '',
+            teamId: 0,
+            departmentId: 0, id: 0, departmentName: '', employeeName: '', projectPositionId: 0, projectPositionName: '', employeeId: 0
+            , projectId: this.id, projectName: ''
+          }
         }
       })
     })
@@ -822,11 +876,12 @@ export class UpdateProjectComponent implements OnInit {
   Idteam: any
 
   SaveToDB_ProjectTeams() {
-    var addTeamObj = new CreateTeamVM();
-    addTeamObj.name = this.team.Name;
-    addTeamObj.projectTeams = this.lstOfProjectTeams;
-
-    this.projectService.addTeam(addTeamObj).subscribe(e => {
+    //var addTeamObj = new CreateTeamVM();
+    this.addTeamObj.name = this.team.Name;
+    console.log("addTeamObj.projectTeams",this.addTeamObj.projectTeams)
+    this.addTeamObj.projectTeams = this.lstOfProjectTeams;
+    //this.lstOfProjectTeams=[];
+    this.projectService.addTeam(this.addTeamObj).subscribe(e => {
       this.Idteam = e;
       this.projectteamservice.GetAllTeamsByProjectID(this.id).subscribe(
         res => {
@@ -834,7 +889,7 @@ export class UpdateProjectComponent implements OnInit {
         }
       )
     })
-
+   console.log("lstOfProjectTeams after save",this.lstOfProjectTeams)
 
   }
   OnChangeEmpID(i: any) {

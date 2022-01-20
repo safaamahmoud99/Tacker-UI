@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { requestCategory } from 'src/Shared/Models/requestCategory';
 import { requestSubCategory } from 'src/Shared/Models/requestSubCategory';
 import { RequestCategoryService } from 'src/Shared/Services/request-category.service';
@@ -15,7 +15,7 @@ export class CreateSubCategoryComponent implements OnInit {
   lstCategories: requestCategory[]=[]
   SubcatId:number;
   constructor(private CategService: RequestCategoryService,private SubCategService: RequestSubCategoryService,
-    private config: DynamicDialogConfig) { }
+    private config: DynamicDialogConfig,private ref: DynamicDialogRef) { }
 
   ngOnInit(): void {
     this.subCategory = {
@@ -55,8 +55,8 @@ export class CreateSubCategoryComponent implements OnInit {
       if(this.subCategory.subCategoryName.trim().length>=3)
       {
         this.subCategory.requestCategoryId = Number(this.subCategory.requestCategoryId)
-        console.log(this.subCategory)
-        this.SubCategService.inserSubCategory(this.subCategory).subscribe(e => {
+        this.SubCategService.inserSubCategory(this.subCategory).subscribe(() => {
+          this.ref.close();
         })
       }
     }
@@ -66,8 +66,8 @@ export class CreateSubCategoryComponent implements OnInit {
     if(this.subCategory.subCategoryName.trim().length>=3)
     {
       this.subCategory.requestCategoryId = Number(this.subCategory.requestCategoryId)
-      console.log(this.subCategory)
-      this.SubCategService.editSubCategory(id,this.subCategory).subscribe(e => {
+      this.SubCategService.editSubCategory(id,this.subCategory).subscribe(() => {
+        this.ref.close();
       })
     }
   }

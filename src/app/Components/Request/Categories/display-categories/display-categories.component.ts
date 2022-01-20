@@ -36,12 +36,10 @@ export class DisplayCategoriesComponent implements OnInit {
   displayEditSubCategoryDialog:boolean=false
   selectedcateId:number;
   constructor(
-    private httpClient: HttpClient,
     private CategService: RequestCategoryService,
     private SubCategService: RequestSubCategoryService,
-    private departmentService: DepartmentService,
+    private messageservice: MessageService,
     private messageService: MessageService,
-    private router: Router,
     private confirmationService: ConfirmationService,
     public dialogService: DialogService,public translate: TranslateService) { }
 
@@ -196,6 +194,13 @@ export class DisplayCategoriesComponent implements OnInit {
         "direction":  this.lang == "English" ? 'ltr' : "rtl"
       }
     });
+    // ref.result.subscribe((result) => {
+    //   if (result instanceof DialogCloseResult) {
+    //     console.log("close");
+    //   } else {
+    //     console.log("action", result);
+    //   }
+    // });
     ref.onClose.subscribe(() => {
       this.ngOnInit()
     });
@@ -239,6 +244,7 @@ export class DisplayCategoriesComponent implements OnInit {
   {
     console.log("subId",subCatId)
     this.lang=sessionStorage.getItem("lang");
+    this.dialogService
     const ref = this.dialogService.open(CreateSubCategoryComponent, {
       header:  this.lang == 'English' ? 'Edit Sub Category' : 'تعديل التصنيف الفرعي',
       data: {
@@ -255,8 +261,56 @@ export class DisplayCategoriesComponent implements OnInit {
       this.ngOnInit()
     });
   }
-  deleteCategory(Catid)
+  Delete(id,label)
   {
+    console.log("label",label)
+    if(label==="cat")
+    {
+      this.CategService.DeleteCategory(id).subscribe(()=>{
+        this.ngOnInit();
+      });
+    }
+    else if(label==="sub")
+    {
+      this.SubCategService.DeleteSubCategory(id).subscribe(()=>{
+        this.ngOnInit();
+      })
+    }
+  }
+  confirmDelete(id, name,label) {
+    console.log("this.translate.currentLang",this.translate.currentLang)
+    if (this.translate.currentLang == 'English') {
+      this.confirmationService.confirm({
+        message: 'Do you want to delete ' + name + ' Category?',
+        header: 'Delete Confirmation',
+        icon: 'pi pi-info-circle',
+        accept: () => {
+          this.Delete(id,label)
+          this.messageservice.add({ severity: 'info', detail: 'Record deleted' });
+        },
+        reject: () => {
+          this.messageservice.add({ severity: 'info', detail: 'Delete rejected' });
+        },
+        acceptLabel: "yes",
+        rejectLabel: "No"
+      });
+    }
+    else if (this.translate.currentLang == 'العربية') {
+      this.confirmationService.confirm({
+        message: 'هل انت متأكد من مسح' + name + 'من القائمه ',
+        header: 'تاكيد عملية المسح',
+        icon: 'pi pi-info-circle',
 
+        accept: () => {
+          this.Delete(id,label)
+          this.messageservice.add({ severity: 'info', detail: 'تم المسح' });
+        },
+        reject: () => {
+          this.messageservice.add({ severity: 'info', detail: 'تم رفض عملية المسح' });
+        },
+        acceptLabel: "نعم",
+        rejectLabel: "لا",
+      });
+    }
   }
 }

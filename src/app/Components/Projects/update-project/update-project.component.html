@@ -913,7 +913,7 @@
 
             <div class="p-field col-md-4">
                 <label for="Wperiod">{{'Tracker.Warranty Period' | translate}}{{'Tracker./Days' | translate}}</label>
-                <input [(ngModel)]="projectSiteClientObj.warrantyPeriod" type="number" min="1" pInputText
+                <input [(ngModel)]="projectSiteClientObj.days" type="number" min="1" pInputText
                     [placeholder]="'Tracker.Warranty Period' | translate" #ProWarrantyPeriod="ngModel"
                     name="WarrantyPeriod" [ngModelOptions]="{standalone: true}" />
             </div>

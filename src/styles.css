@@ -6,7 +6,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     display: block;
     width: 80%;
     /* height: 30px; */
-    background: #79be47;
+    background: #47bebe;
     padding: 5px 5px 5px 5px;
     text-align: center;
     border-radius: 5px;
@@ -20,7 +20,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     display: block;
     width: 80%;
     height: 30px;
-    background: #79be47;
+    background: #47bebe;
     padding: 3px 0px 0px 0px;
     margin-right: 50px;
     text-align: center;
