@@ -53,8 +53,11 @@ export class EditEmployeeComponent implements OnInit {
         this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });
         this.router.navigate(['home/employee']);
       },
-      error => console.log(error),
+      error =>{
+        this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: false, detail: error.error.message });
+      },
     );
+     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Employee updated' })
     }
   }
   onFileSelected(files: FileList) {

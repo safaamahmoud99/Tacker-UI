@@ -35,7 +35,7 @@
                 <div class="p-field col-md-3">
                     <label for="Project Name" class="labelMarginRight" [translate]="'Tracker.Project Name'">
                     </label><br>
-                    <input minlength="3" #ProjectName="ngModel" autofocus
+                    <input  minlength="3" #ProjectName="ngModel" autofocus
                         [placeholder]="'Tracker.Project Name' | translate"
                         [class.is-invalid]="ProjectName.invalid && ProjectName.touched"
                         [class.is-valid]="ProjectName.valid" type="text" [(ngModel)]="projectObj.projectName" pInputText
@@ -50,7 +50,7 @@
                         [class.is-invalid]="ProCode.invalid && ProCode.touched" [class.is-valid]="ProCode.valid"
                         required minlength="3" [(ngModel)]="projectObj.projectCode" pInputText id="Code" required />
                     <br> <small [hidden]="ProCode.valid || ProCode.untouched" id="helpId" class="text-danger"
-                        [translate]="'Tracker.messege'"></small>
+                        [translate]="'Tracker.messegecode'"></small>
                 </div>
                 <div class="p-field col-md-3">
                     <label for="Project Type" [translate]="'Tracker.Project Type Name'"></label><br>

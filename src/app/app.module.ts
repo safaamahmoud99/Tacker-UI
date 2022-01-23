@@ -140,6 +140,10 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { MatDialogModule } from '@angular/material/dialog';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { CreateSubCategoryComponent } from './Components/Request/SubCategory/create-sub-category/create-sub-category.component';
+import { ForgotPasswordComponent } from './Components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
+ 
+
 
 registerLocaleData(en);
 
@@ -199,6 +203,9 @@ registerLocaleData(en);
    ClientManagerRequestsComponent,
    ClientManagerComponent,
    CreateSubCategoryComponent,
+   ForgotPasswordComponent,
+   ResetPasswordComponent
+   
   //  PiechartComponent,
   ],
   schemas: [ 

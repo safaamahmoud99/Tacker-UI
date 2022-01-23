@@ -121,6 +121,8 @@ export class CreateProjectComponent implements OnInit {
   plannedStartdate: Date;
   ActualStartDate: Date;
   ProjectData: any;
+  CountTeamLeader:boolean=false;
+  CountProjectManger:boolean=false;
   selectedlang: string = '';
   ProjectdataFormGroup: FormGroup;
   AssetFormGroup: FormGroup;
@@ -338,8 +340,15 @@ export class CreateProjectComponent implements OnInit {
       res=>{
         this.ProjectSiteAssetObj=res
         if(this.ProjectSiteAssetObj!=null)
-        {
-          this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'this serial already exist , plz write another' });
+        {  if(this.translate.currentLang=='English')
+         {
+          this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'this serial already exist , plz write another' });
+         }
+         else
+         {
+          this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه !!!', sticky:false, detail: 'هذا المسلسل بالفعل مستخدم من فضلك اكتب غيره ' });
+         }
+         
           this.projectSiteClientObj.serialNumber=""
         }
       }
@@ -371,18 +380,28 @@ export class CreateProjectComponent implements OnInit {
     var date2: any = new Date($event);
     this.diffDays = Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));
   }
-  AddProject() {
+  AddProject()
+  {
     this.messageService.clear();
 
     // this.projectObj.actualStartDate=new Date();
-    if (this.projectObj.projectName != ""&& this.projectObj.projectName.length>=3&& this.projectObj.projectCode != "" &&this.projectObj.projectCode.length>=2&&
+    if (this.projectObj.projectName != ""&& this.projectObj.projectName.trim().length>=3&& this.projectObj.projectCode != "" &&this.projectObj.projectCode.trim().length>=2&&
       this.projectObj.projectTypeId != 0 && this.projectObj.organizationId != 0
        && this.projectObj.employeeId != 0 && this.selectedSitesColumns.length!=0)
       {
         if(this.projectObj.planndedEndDate==""
         && this.projectObj.actualEndDate=="" && this.projectObj.planndedStartDate=="" && this.projectObj.actualStartDate=="")
         {
-           this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz complete All Dates Info' });
+          if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete All Dates Info' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه ', sticky:false, detail: 'من فضلك ادخل معلومات جميع التواريخ  كامله ' });
+
+          }
+         // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: false, detail: 'Plz complete All Dates Info' });       
         }
         console.log('button',this.disabledButton)
         // this.disabledButton = true
@@ -405,7 +424,15 @@ export class CreateProjectComponent implements OnInit {
                 sites => {
                   this.lstSites = sites
                   console.log("lstSites", this.lstSites)
-                  this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
+                  if(this.translate.currentLang=='English')
+                  {
+                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
+                  }
+                  else
+                  {
+                    this.messageService.add({ severity: 'success', summary: 'نجاح', detail: 'تم اضافه المشروع بنجاح ' });
+                  }
+                  
                   this.activeIndex +=1
                  this.IsDisabled = true
                  this.isDisabled1 = true
@@ -426,13 +453,31 @@ export class CreateProjectComponent implements OnInit {
     else {
       this.IsSaveProject = false
      // this.activeIndex = this.activeIndex
-      console.log('active index',this.activeIndex)
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+      console.log('active index',this.activeIndex);
+      if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه ', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
+      
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
     }
   }
   Finish() {
     this.router.navigate(['home/tabs']);
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Congratulations all data stored' });
+    if(this.translate.currentLang=='English')
+    {
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Congratulations all data stored' });
+    }
+    else
+    {
+      this.messageService.add({ severity: 'success', summary: 'نجاح', detail: 'تهانينا جميع بيانات المشروع سجلت بنجاح ' });
+    }
+  
   }
 
   Savetolist_Stackholders() {
@@ -445,7 +490,16 @@ export class CreateProjectComponent implements OnInit {
       }
     }
     else {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
 
     }
 
@@ -454,14 +508,30 @@ export class CreateProjectComponent implements OnInit {
   SaveToDB_Stackholders() {
     this.messageService.clear();
     this.stackholderService.insertListOfStackholders(this.lstOfStackholder).subscribe(e => {
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Partener Added' });
+      if(this.translate.currentLang=='English')
+      {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Partener Added' });
+      }
+      else
+      {
+        this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم اضافة المستفيد بنجاح ' });
+      }
+     
     })
   }
 
   SaveToDB_Milestones() {
     this.messageService.clear();
     this.milestoneService.insertListOfMilestoness(this.lstOfMilestones).subscribe(e => {
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Milestone Added' });
+     // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Milestone Added' });
+     if(this.translate.currentLang=='English')
+      {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Milestone  Added' });
+      }
+      else
+      {
+        this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم اضافة الخطوه  بنجاح ' });
+      }
 
     })
   }
@@ -476,7 +546,16 @@ export class CreateProjectComponent implements OnInit {
       }
     }
     else {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
 
     }
 
@@ -498,49 +577,116 @@ export class CreateProjectComponent implements OnInit {
 
   }
   tasneem: number;
+  TeamLead:boolean=false;
   SaveToDB_ProjectTeams() {
+
+    this.TeamLead=false;
     this.messageService.clear();
+    this.CountTeamLeader=false;
+    this.CountProjectManger=false;
     var addTeamObj = new CreateTeamVM();
     addTeamObj.name = this.team.Name;
     addTeamObj.projectTeams = this.lstOfProjectTeams;
+    for(let index=0;index<this.lstOfProjectTeams.length;index++)
+    {
+      if(this.lstOfProjectTeams[index].projectPositionId==1)
+      {
+        this.TeamLead=true;
+        break;
 
+      }
+    }
+    if(this.TeamLead)
+    {
     this.projectService.addTeam(addTeamObj).subscribe(e => {
       this.Idteam = e;
       this.tasneem = this.Idteam;
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Team Added' });
+     // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Team Added' });
+     if(this.translate.currentLang=='English')
+     {
+       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Team Added' });
+     }
+     else
+     {
+       this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم اضافة الفريق بنجاح ' });
+     }
+     
 
-    })
+    });
+    this.lstOfProjectTeams.length=0;
+    this.team.Name="";
+    this.teamname="";
+   
+  }
+  else
+  {
+    this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'team must have team leader ' });
+  }
 
 
   }
   Savetolist_Teams() {
     this.messageService.clear();
     if (this.team.Name.trim().length>=1&& this.ProjectTeam.projectPositionId != 0 && this.ProjectTeam.employeeId != 0
-      && this.ProjectTeam.departmentId != 0) {
+      && this.ProjectTeam.departmentId != 0)
+    {
       this.ProjectTeam.projectId = this.projectID
       this.ProjectTeam.departmentId = Number(this.ProjectTeam.departmentId)
       this.ProjectTeam.employeeId = Number(this.ProjectTeam.employeeId)
       this.ProjectTeam.projectPositionId = Number(this.ProjectTeam.projectPositionId)
       this.ProjectTeam.departmentName = this.department.name
       this.employeeService.getEmpByID(this.ProjectTeam.employeeId).subscribe(e => {
-        this.ProjectTeam.employeeName = e.employeeName
-        this.positionService.getPositionByID(this.ProjectTeam.projectPositionId).subscribe(e => {
-          this.ProjectTeam.projectPositionName = e.positionName
+      this.ProjectTeam.employeeName = e.employeeName
+      this.positionService.getPositionByID(this.ProjectTeam.projectPositionId).subscribe(e => {
+      this.ProjectTeam.projectPositionName = e.positionName
           this.teamname = this.team.Name;
           // this.ProjectTeam.TeamId=Number(this.team.Id);
           this.ProjectTeam.teamId = 29;
+          for(let i=0;i<this.lstOfProjectTeams.length;i++)
+          {
+            if(this.lstOfProjectTeams[i].projectPositionId==1)
+            {
+               this.CountTeamLeader=true;
+            }
+            if(this.lstOfProjectTeams[i].projectPositionId==3)
+            {
+              this.CountProjectManger=true;
+            }
+          }
+          if(this.CountTeamLeader &&this.ProjectTeam.projectPositionId==1)
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'team must have only one team leader' });
+            return;       
+          }
+         if (this.CountProjectManger &&this.ProjectTeam.projectPositionId==3)
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'team must have only one Project manager' });
+            return;       
+          }
+        
           this.lstOfProjectTeams.push(this.ProjectTeam);
+       
           this.ProjectTeam = {
             teamName: '',
             teamId: 0,
             departmentId: 0, id: 0, departmentName: '', employeeName: '', projectPositionId: 0, projectPositionName: '', employeeId: 0
             , projectId: this.projectID, projectName: ''
           }
+        
         })
       })
     }
     else {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
 
     }
     // console.log("projteam before show", this.ProjectTeam)
@@ -558,7 +704,17 @@ export class CreateProjectComponent implements OnInit {
       this.NewDialogbool = true
     }
     else {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz select Site' });
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz select Site' });
+
+     if(this.translate.currentLang=='English')
+     {
+      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: false, detail: 'Plz select Site' });
+     }
+     else
+     {
+      this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه !!!', sticky: false, detail: 'من فضلك اختر موقع ' });
+     }
+
     }
   }
   saveSiteAssettoList() {
@@ -599,7 +755,16 @@ export class CreateProjectComponent implements OnInit {
       this.saveSiteAssetToDB();
     }
     else {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+    //  this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+    if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
     }
 
   }
@@ -640,12 +805,28 @@ export class CreateProjectComponent implements OnInit {
         if (this.SiteClientsObj.clients.length != 0) {
           this.SiteClientsService.insertSiteClient(this.SiteClientsObj).subscribe(
             res1 => {
-              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
+             // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
+             if(this.translate.currentLang=='English')
+     {
+       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Asset Added' });
+     }
+     else
+     {
+       this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم اضافة المسلسل  بنجاح ' });
+     }
             }
           )
         }
         else {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
+          if(this.translate.currentLang=='English')
+          {
+           this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+           this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه !!!', sticky: true, detail: 'من فضلك ادخل البيانات كامله'});
+          }
+          //this.messageService.add( { key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
         }
       }
     )
@@ -663,7 +844,16 @@ export class CreateProjectComponent implements OnInit {
       console.log(this.lstoddocproj);
     }
     else {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+     if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
 
     }
 
@@ -682,8 +872,16 @@ export class CreateProjectComponent implements OnInit {
     this.httpClient.post(environment.uploadFile, formData)
       .subscribe(res => {
         console.log(res)
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Uploaded Successfully' });
+        //  this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Uploaded Successfully' });
         //  alert('Uploaded Successfully.');
+        if(this.translate.currentLang=='English')
+        {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Uploaded Successfully' });
+        }
+        else
+        {
+          this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم الرفع   بنجاح ' });
+        }
 
 
 
@@ -691,7 +889,16 @@ export class CreateProjectComponent implements OnInit {
   }
   SaveDocuentToDB() {
     this.projectdocumentService.postProjectDocumentByProjectID(this.lstoddocproj).subscribe(e => {
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Document Added' });
+     // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Document Added' });
+     if(this.translate.currentLang=='English')
+        {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Document Added' });
+        }
+        else
+        {
+          this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تمت الاضافة' });
+        }
+     
       console.log(e)
     })
   }
@@ -701,9 +908,20 @@ export class CreateProjectComponent implements OnInit {
   NextStep() {
     if (this.activeIndex == 0) {
       if (this.projectObj.projectName == "" && this.projectObj.projectCode == "" &&
-        this.projectObj.projectTypeId == 0 && this.projectObj.organizationId == 0 && this.projectObj.employeeId == 0) {
-        this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
-        this.activeIndex = 0
+        this.projectObj.projectTypeId == 0 && this.projectObj.organizationId == 0 && this.projectObj.employeeId == 0)
+      {
+      //  this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+      
+       if(this.translate.currentLang=='English')
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+          }
+          else
+          {
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+
+          }
+           this.activeIndex = 0
       }
       else {
         this.activeIndex = this.activeIndex + 1

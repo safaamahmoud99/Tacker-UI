@@ -217,6 +217,7 @@ export class AllClientRequestsComponent implements OnInit {
   }
 
   AddRequest() {
+   this.messageService.clear();
     this.reqObj.requestStatusId = 1  //open
     this.reqObj.requestModeId = 5  //by client
 
@@ -243,7 +244,7 @@ export class AllClientRequestsComponent implements OnInit {
     }
     else {
       this.disabledButton = false
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+      this.messageService.add({ key: 'tr', severity: 'error',  summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
     }
 
   }

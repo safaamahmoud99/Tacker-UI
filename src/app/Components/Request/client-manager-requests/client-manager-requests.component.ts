@@ -203,6 +203,7 @@ export class ClientManagerRequestsComponent implements OnInit {
     this.dialogAddRequest = false
   }
   AddRequest() {
+    this.messageService.clear();
     this.reqObj.requestStatusId = 1  //open
     this.reqObj.projectTeamId = this.ProjId
     this.reqObj.projectId = Number(this.reqObj.projectId)

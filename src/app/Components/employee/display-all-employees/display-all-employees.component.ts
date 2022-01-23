@@ -114,9 +114,9 @@ role:any;
         this.confirmationService.confirm({
             message: 'Are you sure that you want to perform this action?',
             accept: () => {
-                this.projectteamservice.deleteteam(id).subscribe(
+                // this.projectteamservice.deleteteam(id).subscribe(
 
-                )
+                // )
                 this.EmployeeService.delete(id).subscribe(
                     data => {
                         this.ngOnInit(),

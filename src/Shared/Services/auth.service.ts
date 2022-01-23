@@ -5,11 +5,17 @@ import { environment } from 'src/environments/environment';
 import { User } from '../Models/User';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ResetPasswordDTO } from '../Models/ResetPasswordDTO';
+import { ForgotPassword } from '../Models/ForgotPassword';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private createCompleteRoute = (route: string, envAddress: string) => {
+    return `${envAddress}/${route}`;
+  }
+
   private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
     public userName: string;
@@ -83,7 +89,12 @@ getToken() {
   return JSON.parse(localStorage.getItem('token') || '{}');
 
 }
-
+public forgotPassword = (route: string, body: ForgotPassword) => {
+  return this.httpclient.post(this.createCompleteRoute(route, environment.urlAddress), body);
+}
+public resetPassword = (route: string, body: ResetPasswordDTO) => {
+  return this.httpclient.post(this.createCompleteRoute(route, environment.urlAddress), body);
+}
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('User')

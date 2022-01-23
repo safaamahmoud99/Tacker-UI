@@ -8,6 +8,7 @@ import { AllProjectsComponent } from '../app/Components/Projects/all-projects/al
 import { CreateProjectComponent } from '../app/Components/Projects/create-project/create-project.component'
 
 import { UpdateProjectComponent } from '../app/Components/Projects/update-project/update-project.component'
+import { ForgotPasswordComponent } from './Components/forgot-password/forgot-password.component';
 // import { CategoryComponent } from './Components/Request/Categories/category/category.component';
 // import { ClientsComponent } from './Components/Clients/clients.component';
 // import { DepartmentComponent } from './Components/Department/department.component';
@@ -60,18 +61,21 @@ import { AuthGuard2 } from './helpers/auth2.guard';
 import { Admin } from './helpers/Admin.guard';
 import { all } from './helpers/All.guard';
 import { basic } from './helpers/basic.guard';
+import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
 import { Roles } from '../Shared/Models/Roles';
 // import { PiechartComponent } from './Components/Pichart/piechart/piechart.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'login', component: SignupComponent },
+  {path:'ForgotPassword',component:ForgotPasswordComponent},
+  { path: 'Resetpassword', component: ResetPasswordComponent }, 
   {
     path: 'home', component: HomeComponent, children: [
-      { path: 'tabs', component: AllProjectsComponent,canActivate:[basic], data:{role:[Roles.SuperAdmin,Roles.Admin,Roles.PMO,Roles.PM,Roles.ClientManager]}},
-      { path: 'Category', component: CategoryComponent,canActivate:[basic], data:{role:[Roles.SuperAdmin,Roles.Admin]} },
-      { path: 'client', component: ClientsComponent,canActivate:[basic], data:{role:[Roles.SuperAdmin,Roles.Admin]} },
-      { path: 'piechart', component: PiechartComponent ,canActivate:[basic],data:{role:[Roles.SuperAdmin,Roles.PMO,Roles.PM,Roles.ClientManager]}},
-      { path: 'editClient/:id', component: EditClientComponent,canActivate:[basic], data:{role:[Roles.SuperAdmin]}  },
+      { path: 'tabs', component: AllProjectsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO,Roles.PM,Roles.ClientManager]}},
+      { path: 'Category', component: CategoryComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
+      { path: 'client', component: ClientsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
+      { path: 'piechart', component: PiechartComponent ,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.PMO,Roles.Admin]}},
+      { path: 'editClient/:id', component: EditClientComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin]}  },
       // { path: 'editClient/:id', component: EditClientComponent,canActivate:[AuthGuard,basic] },
       { path: 'department', component: DepartmentComponent,canActivate:[basic], data:{role:[Roles.SuperAdmin,Roles.Admin]}  },
       { path: 'changePassword', component: ChangePaswwordComponent,canActivate:[basic] },
