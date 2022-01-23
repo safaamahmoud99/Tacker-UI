@@ -14,16 +14,29 @@ export class CreateSubCategoryComponent implements OnInit {
   subCategory: requestSubCategory
   lstCategories: requestCategory[]=[]
   SubcatId:number;
+  categoryId:number;
   constructor(private CategService: RequestCategoryService,private SubCategService: RequestSubCategoryService,
     private config: DynamicDialogConfig,private ref: DynamicDialogRef) { }
 
   ngOnInit(): void {
+    this.categoryId=this.config.data.categoryId;
+    this.SubcatId=this.config.data.SubcateId;
+    console.log(" this.categoryId", this.categoryId)
+    console.log("this.subCategory",this.SubcatId)
     this.subCategory = {
       requestCategoryId: 0, id: 0, requestCategoryName: '', subCategoryName: ''
     }
-    if(this.config.data!==undefined)
+    if(this.categoryId==null)
     {
-      this.SubcatId=this.config.data.SubcateId;
+      this.subCategory.requestCategoryId=0
+    }
+    else
+    {
+      this.subCategory.requestCategoryId=this.categoryId;
+    }
+    if(this.SubcatId!==null && this.SubcatId!==undefined )
+    {
+     // this.SubcatId=this.config.data.SubcateId;
       this.SubCategService.getSubCategoryById(this.SubcatId).subscribe(c=>{
         this.subCategory=c;
       });
@@ -31,7 +44,6 @@ export class CreateSubCategoryComponent implements OnInit {
     
     this.CategService.GetAllCategory().subscribe(e => {
       this.lstCategories = e
-    //  this.subCategory.requestCategoryId = Number(this.subCategory.requestCategoryId)
     })
   }
   onCategoryChange($event) {
@@ -46,9 +58,9 @@ export class CreateSubCategoryComponent implements OnInit {
   }
   onSubmit()
   {
-    if(this.config.data!==undefined)
+    if(this.SubcatId!==null && this.SubcatId!==undefined)
     {
-      this.Update(this.config.data.SubcateId);
+      this.Update(this.SubcatId);
     }
     else
     {

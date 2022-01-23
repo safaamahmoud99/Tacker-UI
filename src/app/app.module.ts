@@ -142,7 +142,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { CreateSubCategoryComponent } from './Components/Request/SubCategory/create-sub-category/create-sub-category.component';
 import { ForgotPasswordComponent } from './Components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
- 
+import {MenuItem} from 'primeng/api';
 
 
 registerLocaleData(en);

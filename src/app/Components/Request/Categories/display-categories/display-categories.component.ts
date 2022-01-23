@@ -210,6 +210,9 @@ export class DisplayCategoriesComponent implements OnInit {
     this.lang=sessionStorage.getItem("lang");
     const ref = this.dialogService.open(CreateSubCategoryComponent, {
       header:  this.lang == 'English' ? 'Add Sub Category' : 'إضافة تصنيف فرعي',
+      data: {
+        categoryId: this.selectedcateId
+      },
       width: '50%',
       style: {
         'dir':  this.lang == "English" ? 'ltr' : "rtl",
@@ -217,9 +220,12 @@ export class DisplayCategoriesComponent implements OnInit {
         "direction":  this.lang == "English" ? 'ltr' : "rtl"
       }
     });
-    ref.onClose.subscribe(() => {
-      this.ngOnInit()
-    });
+    // ref.onClose.subscribe(() => {
+      // this.ngOnInit()
+      ref.onClose.subscribe(res => {
+        this.filterSubCategoriesByCategoryId(this.selectedcateId);
+      });
+    // });
   }
   editCategory(Catid)
   {
@@ -258,7 +264,7 @@ export class DisplayCategoriesComponent implements OnInit {
       }
     });
     ref.onClose.subscribe(() => {
-      this.ngOnInit()
+      this.filterSubCategoriesByCategoryId(this.selectedcateId);
     });
   }
   Delete(id,label)
@@ -273,7 +279,7 @@ export class DisplayCategoriesComponent implements OnInit {
     else if(label==="sub")
     {
       this.SubCategService.DeleteSubCategory(id).subscribe(()=>{
-        this.ngOnInit();
+        this.filterSubCategoriesByCategoryId(this.selectedcateId);
       })
     }
   }
