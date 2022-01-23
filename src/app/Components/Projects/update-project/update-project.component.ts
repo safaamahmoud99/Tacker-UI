@@ -1061,6 +1061,9 @@ export class UpdateProjectComponent implements OnInit {
           this.projectObj.listofprojectteam = res
         }
       )
+      this.projectPositionService.GetAllProjectPosition().subscribe(e => {
+        this.lstOfprojectPosition = e
+      })
     })
    console.log("lstOfProjectTeams after save",this.lstOfProjectTeams)
     this.TeamLead=false;

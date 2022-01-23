@@ -19,7 +19,8 @@ export class basic implements CanActivate {
     console.log("canActivate current",currentUser)
     if (currentUser) 
     {
-      if (route.data.roles && route.data.role.indexOf(currentUser.roles[0]) === -1) {
+      console.log("data",route.data)
+      if (route.data.roles && route.data.roles.indexOf(currentUser.roles[0]) === -1) {
         console.log("if (currentUser)")
         this.router.navigate(['/']);
          return false;
