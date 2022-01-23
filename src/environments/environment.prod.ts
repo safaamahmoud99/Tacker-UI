@@ -1,6 +1,6 @@
 export const environment = {
   urlAddress:'http://10.10.0.129/TrackerAPI',
-  urlAddress4200:'http://10.10.0.129/TrackerAPI',
+  urlAddress4200:'http://10.10.0.129:7070/#/',
   Domain:'http://10.10.0.129/TrackerAPI/',
   project: 'http://10.10.0.129/TrackerAPI/api/project',
   DeleteProject:'http://10.10.0.129/TrackerAPI/api/project/SoftDelete/',
