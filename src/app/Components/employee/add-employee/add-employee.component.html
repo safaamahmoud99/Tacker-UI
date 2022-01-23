@@ -34,7 +34,7 @@
                     [class.is-valid]="Code.valid" [(ngModel)]="Employee.employeeCode" required minlength="3" name="Code"
                     id="Codes" class="form-control" [placeholder]="'Tracker.Employee Code' | translate"
                     aria-describedby="helpId">
-                    <small [hidden]="Code.valid || Code.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messege'"></small>
+                    <small [hidden]="Code.valid || Code.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messegecode'"></small>
 
             </div>
             <div class="col-md-6">
@@ -99,7 +99,7 @@
                     [placeholder]="'Tracker.Mobile' | translate">
                     <!-- <small [hidden]="mobile.valid || mobile.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messege'"></small> -->
                     <small [hidden]="mobile.valid || mobile.untouched" id="helpId" class="text-danger validation"
-                    > enter valid phone number </small>
+                    [translate]="'Tracker.phoneNumber'" ></small>
 
             </div>
         </div>

@@ -34,7 +34,7 @@
                     [class.is-valid]="EmpName.valid" [(ngModel)]="Employee.employeeName" required minlength="3"
                     name="EmpName" id="EmployeeName" class="form-control"
                     [placeholder]="'Tracker.Employee Name' | translate" aria-describedby="helpId">
-                <small [hidden]="EmpName.valid || EmpName.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+                <small [hidden]="EmpName.valid || EmpName.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messege'"></small>
             </div>
             <div class="col-md-6">
                 <label for="Position" [translate]="'Tracker.Employee Position'"></label>
@@ -42,7 +42,7 @@
                     [class.is-valid]="position.valid" [(ngModel)]="Employee.position" required minlength="3"
                     name="position" id="positions" class="form-control"
                     [placeholder]="'Tracker.Employee Position' | translate" aria-describedby="helpId">
-                    <small [hidden]="position.valid || position.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+                    <small [hidden]="position.valid || position.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messege'"></small>
 
             </div>
         </div>
@@ -54,7 +54,7 @@
                     [class.is-valid]="Code.valid" [(ngModel)]="Employee.employeeCode" required minlength="3" name="Code"
                     id="Codes" class="form-control" [placeholder]="'Tracker.Employee Code' | translate"
                     aria-describedby="helpId">
-                    <small [hidden]="Code.valid || Code.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+                    <small [hidden]="Code.valid || Code.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messegecode'"></small>
 
             </div>
             <div class="col-md-6">
@@ -63,7 +63,7 @@
                     [class.is-valid]="EmpAddress.valid" [(ngModel)]="Employee.address" required minlength="3"
                     name="EmpAddress" id="EmpName" class="form-control" [placeholder]="'Tracker.Address' | translate"
                     aria-describedby="helpId">
-                    <small [hidden]="EmpAddress.valid || EmpAddress.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small>
+                    <small [hidden]="EmpAddress.valid || EmpAddress.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messege'"></small>
 
             </div>
         </div>
@@ -98,7 +98,7 @@
                 <input type="email" class="form-control" #Empmail="ngModel" [class.is-invalid]="Empmail.invalid && Empmail.touched"
                 [class.is-valid]="Empmail.valid" [(ngModel)]="Employee.Address" required pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" name="email" [(ngModel)]="Employee.email"
                     [placeholder]="'Tracker.Email' | translate">
-                    <!-- <small [hidden]="Empmail.valid || Empmail.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small> -->
+                    <!-- <small [hidden]="Empmail.valid || Empmail.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messege'"></small> -->
                     <small class="text-danger validation" [class.d-none]="Empmail.untouched || Empmail.valid" [translate]="'Tracker.EmailValid'"> </small>
 
             </div>
@@ -107,7 +107,7 @@
                 <input mask="88888" class="form-control" type="text" #phone="ngModel" [class.is-invalid]="phone.invalid && phone.touched"
                 [class.is-valid]="phone.valid"  required pattern="^01[0-2,5]{1}[0-9]{8}$" name="phone" [(ngModel)]="Employee.phone"
                     [placeholder]="'Tracker.Phone' | translate">
-                    <!-- <small [hidden]="phone.valid || phone.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small> -->
+                    <!-- <small [hidden]="phone.valid || phone.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messege'"></small> -->
                     <small [hidden]="phone.valid || phone.untouched" id="helpId" class="text-danger validation"
                     [translate]="'Tracker.phoneNumber'"   >   </small>
 
@@ -117,7 +117,7 @@
                 <input mask="99999" class="form-control" type="text" #mobile="ngModel" [class.is-invalid]="mobile.invalid && mobile.touched"
                 [class.is-valid]="mobile.valid"  required pattern="^01[0-2,5]{1}[0-9]{8}$" name="mobile" [(ngModel)]="Employee.mobile"
                     [placeholder]="'Tracker.Mobile' | translate">
-                    <!-- <small [hidden]="mobile.valid || mobile.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small> -->
+                    <!-- <small [hidden]="mobile.valid || mobile.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messege'"></small> -->
                     <small [hidden]="mobile.valid || mobile.untouched" id="helpId" class="text-danger validation"
                     [translate]="'Tracker.phoneNumber'" >  </small>
 
