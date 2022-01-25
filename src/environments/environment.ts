@@ -4,6 +4,7 @@ export const environment = {
   urlAddress4200:'http://localhost:4200/#/',
   Domain:'http://localhost:50653/',
   project: 'http://localhost:50653/api/project',
+  GetProjectForRequest:'http://localhost:50653/api/project/GetProjectForRequest',
   DeleteProject:'http://localhost:50653/api/project/SoftDelete/',
   stackeholders: 'http://localhost:50653/api/Stackeholders/',
   GetAllStackholdersByProjectID: 'http://localhost:50653/api/Stackeholders/GetStackeholdersByProjectId/',

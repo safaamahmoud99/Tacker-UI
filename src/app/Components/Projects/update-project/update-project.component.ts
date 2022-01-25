@@ -1053,9 +1053,9 @@ export class UpdateProjectComponent implements OnInit {
     this.addTeamObj.name = this.team.Name;
     console.log("addTeamObj.projectTeams",this.addTeamObj.projectTeams)
     this.addTeamObj.projectTeams = this.lstOfProjectTeams;
-    //this.lstOfProjectTeams=[];
-    this.projectService.addTeam(this.addTeamObj).subscribe(e => {
-      this.Idteam = e;
+    // //this.lstOfProjectTeams=[];
+    // this.projectService.addTeam(this.addTeamObj).subscribe(e => {
+    //   this.Idteam = e;
       this.projectteamservice.GetAllTeamsByProjectID(this.id).subscribe(
         res => {
           this.projectObj.listofprojectteam = res
@@ -1064,7 +1064,7 @@ export class UpdateProjectComponent implements OnInit {
       this.projectPositionService.GetAllProjectPosition().subscribe(e => {
         this.lstOfprojectPosition = e
       })
-    })
+    // })
    console.log("lstOfProjectTeams after save",this.lstOfProjectTeams)
     this.TeamLead=false;
     this.CountTeamLeader=false;
@@ -1082,6 +1082,7 @@ export class UpdateProjectComponent implements OnInit {
 
       }
     }
+
     if(this.TeamLead)
     {
      

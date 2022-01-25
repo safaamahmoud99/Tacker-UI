@@ -90,6 +90,8 @@ export class CreateRequesteComponent implements OnInit {
   EmpId: number;
   createdById: string;
   IsDisabled: boolean;
+  try:boolean;
+  canreq:any;
 
 
 
@@ -111,7 +113,8 @@ export class CreateRequesteComponent implements OnInit {
     private projectSiteAssetService: ProjectSiteAssetService,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
+    
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
@@ -120,16 +123,17 @@ export class CreateRequesteComponent implements OnInit {
     });
     this.ThirdFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
-    });
-
+    }); 
     this.disabledButton = false
     this.IsSaveProject = false
     this.lstReqests = []
+
     this.lstProjects = []
     this.lstReqPeriorities = []
     this.lstReqTypies = []
     this.lstProjectTeams = []
     this.lstReqStatus = []
+    this.canreq = [];
     this.lstRequestImages = []
     this.lstReqSubCategories = []
     this.lstClientsByProjectId = []
@@ -181,15 +185,43 @@ export class CreateRequesteComponent implements OnInit {
     else {
       this.projectService.GetAllProjects().subscribe(e => {
         this.lstProjects = e
+        console.log(" this.lstProjects", this.lstProjects.length)
+      //   for (let index = 0; index<this.lstProjects.length; index++)
+      //  {
+      //   console.log("this.lstProjects.length",this.lstProjects.length)
+      //  this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.lstProjects[index].id).subscribe(
+      //    res => {
+      //      this.lstAssetsByProject = res;
+      //    //  console.log("this.lstAssetsByProject",this.lstAssetsByProject )
+      //      if(this.lstAssetsByProject.length>0)
+      //      {
+      //       this.canreq.push(this.lstProjects[index]);
+      //       console.log("canreq",this.canreq);
+      //      }
+           
+      //     // console.log("lstAssetsByProject", res.length)
+      //         }
+              
+      //  )
+      
+    
+      // }
+      
       })
+      
     }
 
-
+  
     // this.organizationClientsService.GetOrganizationProjectsByClientId(this.clientId).subscribe(
     //   res=>{
     //       this.lstProjects=res
     //   }
     // )
+    this.projectService.proCanrequest().subscribe(res=>{
+      this.canreq=res
+      console.log("requests projects",this.canreq)
+    })
+  
     this.reqTypeService.GetAllRequestsTypes().subscribe(e => {
       this.lstReqTypies = e
       console.log("lstRqType", this.lstReqTypies)
@@ -198,6 +230,7 @@ export class CreateRequesteComponent implements OnInit {
       this.lstReqStatus = e
       console.log("lstStatus", this.lstReqStatus)
     })
+  
     this.reqPeriorityService.GetAllRequestPeriorties().subscribe(e => {
       this.lstReqPeriorities = e
       console.log("lstPeriority", this.lstReqPeriorities)
@@ -226,8 +259,17 @@ export class CreateRequesteComponent implements OnInit {
         console.log("aftergetProjTeamid", this.reqObj)
       })
   }
-
+  /* this.lstProjects 
+      if(this.ProjectTeam.projectPositionName==='TL')
+            {
+              var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
+              this.lstOfprojectPosition.splice(posIndex,1)
+            }
+   */ 
+             
+  
   onChange(event) {
+    this.messageService.clear();
     this.projectId = event.value
     this.projectTeamService.GetProjectTeamsByProjectId(this.projectId).subscribe(e => {
       this.lstProjectTeams = e
@@ -237,30 +279,36 @@ export class CreateRequesteComponent implements OnInit {
         }
         return unique;
       }, []);
-      console.log("lstproTeams", this.lstProjectTeams)
+      console.log("lstproTeams", this.lstProjectTeams.length)
     })
     this.projectService.GetClientByProjectId(this.projectId).subscribe(e => {
       this.lstclients = e
-      console.log("lstclients", this.lstclients)
+      console.log("lstclients", this.lstclients.length)
     })
+
     this.siteClientsService.GetAllAssignedClientsByProjectId(this.projectId).subscribe(
       res => {
         this.lstClientsByProjectId = res
+        console.log("lstClientsByProjectId",this.lstClientsByProjectId.length)
       }
     )
     this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
       res => {
         this.lstAssetsByProject = res
-      }
+        console.log("lstAssetsByProject", res.length)
+       }
     )
     this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
       res => {
         this.listProjectSiteAssetClients = res
         // this.listProjectSiteAssetClients.forEach(customer => customer.warrantyStartDate = new Date(customer.warrantyStartDate));
-        console.log("res", res)
+        console.log("listProjectSiteAssetClients ", res.length)
       }
     )
+  
+
   }
+ 
   onChangeAsset(event) {
     this.assetId = event.value
     this.projectSiteAssetService.GetAllAssetsSerialsByAssetId(this.assetId).subscribe(
@@ -270,6 +318,7 @@ export class CreateRequesteComponent implements OnInit {
     )
 
   }
+  
   onChangeSerial(event) {
     console.log("serialNumber", event.value)
     this.projectSiteAssetId = event.value
@@ -352,4 +401,6 @@ export class CreateRequesteComponent implements OnInit {
     this.router.navigate(['home/AllManagersReq'])
 
   }
+ 
+ 
 }

@@ -64,6 +64,7 @@ export class AllClientRequestsComponent implements OnInit {
   reqImage: RequestImage
   lstRequestImages: RequestImage[]
   LoggedInUserString: string;
+  
 
   constructor(private requestService: RequestService, private projectteamservice: ProjectTeamService,
     private requestDescriptionService: RequestDescriptionService, private _formBuilder: FormBuilder,

@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="p-field col-md-4">
                     <label for="Project Name" class="labelMarginRight"> {{'Tracker.Project Name'|translate}}</label><br>
-                    <p-dropdown [disabled]="IsDisabled" [options]="lstProjects" [(ngModel)]="reqObj.projectId" [placeholder]=" 'Tracker.Select Project Name'|translate"
+                    <p-dropdown [disabled]="IsDisabled" [options]="canreq" [(ngModel)]="reqObj.projectId" [placeholder]=" 'Tracker.Select Project Name'|translate"
                     optionLabel="projectName" optionValue="id" (onChange)="onChange($event)" [ngModelOptions]="{standalone: true}">
                     </p-dropdown>
                 </div>
