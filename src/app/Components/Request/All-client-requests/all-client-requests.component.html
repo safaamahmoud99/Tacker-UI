@@ -1,5 +1,10 @@
 <!-- Show all   Requests that belongs to specific client -->
 <div class="container card">
+    <p-toast></p-toast>
+    <p-toast position="top-right" key="tr" [baseZIndex]="9999"></p-toast>
+    <p-toast position="top-left" key="tl"></p-toast>
+    <p-toast position="top-center" key="tc"></p-toast>
+    <p-toast position="bottom-center" key="bc"></p-toast>
 <p-table [value]="lstRequests" styleClass="p-datatable-responsive-demo">
     <ng-template pTemplate="caption">
         <div class="row">
@@ -9,7 +14,7 @@
            <!--routerLink="/home/AllClientsReq" <span class="h3Header">  {{ 'Tracker.Clients Requests' | translate }}</span> -->
         </div>
         <div class="col-md-2" >
-            <button id="addEmpBtn" (click)="OpendialogAddRequest()"  class="btn btn-outline-primary btn-md btn-block">
+            <button id="addEmpBtn" [disabled]="disableAddbth"   (click)="OpendialogAddRequest()"  class="btn btn-outline-primary btn-md btn-block">
                 <span class="pi pi-plus"> {{ 'Tracker.Add' | translate }}</span> </button>
         </div>
     </div>
@@ -223,10 +228,10 @@
             <div class="col-md-2"></div>
             <div class="col-md-7"></div>
             <div class="col-md-3">
-              <button mat-stroked-button [disabled]="IsSaveProject" (click)="AddRequest()" color="primary" mat-button >{{'Tracker.Submit'|translate}}</button>
+              <button mat-stroked-button [disabled]="haveAsset || haveTeams" [disabled]="IsSaveProject"  (click)="AddRequest()" color="primary" mat-button >{{'Tracker.Submit'|translate}}</button>
               <button mat-stroked-button [disabled]="disabledButton==false" color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
             </div>
-        </div>  
+         </div>   
         <br>
          </div>
 
@@ -288,7 +293,7 @@
              </div>
              <br>
            </div> 
-    
+         
       </mat-step>
       <mat-step>
         <ng-template matStepLabel>{{'Tracker.FINISH'|translate}}</ng-template>

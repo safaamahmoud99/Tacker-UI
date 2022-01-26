@@ -35,6 +35,8 @@ export class AllClientRequestsComponent implements OnInit {
   clientID: number
   clientName: string
   role: string;
+  haveAsset:boolean=false;
+  haveTeams:boolean=false;
   NewdecDialogbool: boolean;
   reqImages: RequestImage[]
   NewclientDialogbool: boolean;
@@ -64,7 +66,8 @@ export class AllClientRequestsComponent implements OnInit {
   reqImage: RequestImage
   lstRequestImages: RequestImage[]
   LoggedInUserString: string;
-  
+  canreq:boolean;
+  disableAddbth:boolean;
 
   constructor(private requestService: RequestService, private projectteamservice: ProjectTeamService,
     private requestDescriptionService: RequestDescriptionService, private _formBuilder: FormBuilder,
@@ -120,8 +123,19 @@ export class AllClientRequestsComponent implements OnInit {
     this.role = localStorage.getItem("roles")
     this.createdById= localStorage.getItem('loginedUserId')
     this.LoggedInUserString = localStorage.getItem('loginedUserId')
+    this.clientID = Number(localStorage.getItem("clientId"))
+    this.projectService.clientCanRequest(this.clientID).subscribe(e=>
+      {
+        this.canreq=e;
+        console.log("this.canreqqqqqqqqqqqqqqqqqqqq",this.canreq);
+        if(!this.canreq)
+        {
+            this.disableAddbth=true;
+            this.messageService.add({ key: 'tr', severity: 'error',  summary: 'Attention !!!', sticky:true, detail: `sorry,you can't add request until project completed` })
+        }
+      })
 
-      this.clientID = Number(localStorage.getItem("clientId"))
+       
       this.requestService.GetRequestsByClientId(this.clientID).subscribe(e => {
         this.lstRequests = e
         console.log("reqs", this.lstRequests)
@@ -167,6 +181,17 @@ export class AllClientRequestsComponent implements OnInit {
     this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
       res => {
         this.listProjectSiteAssetClients = res
+        if(this.listProjectSiteAssetClients.length==0)
+        {
+          this.haveAsset=true;
+          console.log("haveAsset",this.haveAsset);
+        } 
+    //     if(this.haveTeams || this.haveAsset)
+    // {
+    //   this.messageService.add({ key: 'tr', severity: 'error',  summary: 'Attention !!!', sticky:false, detail: `sorry,you can't add request until project completed` })
+    //   this.CloseStipper();
+    // }
+
       }
     )
     this.ReqSubCatService.GetAllSubCategorys().subscribe(e => {
@@ -183,9 +208,14 @@ export class AllClientRequestsComponent implements OnInit {
         }
         return unique;
       }, []);
-      console.log("lstproTeams", this.lstProjectTeams)
+      console.log("lstproTeams", this.lstProjectTeams);
+      if(this.lstProjectTeams.length==0)
+        {
+          this.haveTeams=true;
+          console.log("haveTeams",this.haveTeams);
+        }
     })
-
+    
     this.reqObj = {
       createdById: "", createdBy: "", projectSiteAssetId: 0,
       requestTypeId: 0, serialNumber: '', sitename: '',
@@ -282,6 +312,7 @@ export class AllClientRequestsComponent implements OnInit {
     this.dialogAddRequest=false
     this.requestService.GetRequestsByClientId(this.clientID).subscribe(e => {
       this.lstRequests = e
+      this.IsSaveProject=false;
     })
   }
   ViewMoreDesc(requestID) {

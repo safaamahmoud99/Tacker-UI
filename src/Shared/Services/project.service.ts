@@ -44,6 +44,10 @@ export class ProjectService {
   GetProjectsByClientId(ClientId:Number):Observable<any>{
     return this.httpClient.get<any[]>(`${environment.GetProjectsByClientId}${ClientId}`,this.httpHeader);
   }
+  clientCanRequest(ClientId:Number):Observable<any>
+  {
+    return this.httpClient.get<boolean>(`${environment.clientCanRequest}${ClientId}`,this.httpHeader);
+  }
   // addTeam(team):Observable<Team>{
   //   return this.httpClient.post<Team>(`${environment.addteams}`,team,this.httpHeader);
   // }
