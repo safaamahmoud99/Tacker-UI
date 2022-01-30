@@ -264,7 +264,7 @@
                                         <td>{{asset.assetName}}</td>
                                         <td>{{asset.serialNumber}}</td>
                                         <!-- <td>{{asset.days}} Days</td> -->
-                                        <td>{{asset.warrantyPeriod}} Years</td>
+                                        <td>{{asset.warrantyPeriod}}Days</td>
                                         <td>{{asset.warrantyStartDate | date:'dd/MM/yyyy'}}</td>
                                         <td>{{asset.supplierName}}</td>
                                         <!-- <td>
@@ -913,7 +913,7 @@
 
             <div class="p-field col-md-4">
                 <label for="Wperiod">{{'Tracker.Warranty Period' | translate}}{{'Tracker./Days' | translate}}</label>
-                <input [(ngModel)]="projectSiteClientObj.days" type="number" min="1" pInputText
+                <input [(ngModel)]="projectSiteClientObj.warrantyPeriod" type="number" min="1" pInputText
                     [placeholder]="'Tracker.Warranty Period' | translate" #ProWarrantyPeriod="ngModel"
                     name="WarrantyPeriod" [ngModelOptions]="{standalone: true}" />
             </div>
@@ -947,15 +947,25 @@
             <input [ngModelOptions]="{standalone: true}" (blur)="onChangeSerialInEdit($event)" [(ngModel)]="ProjectSiteAssetObj.serialNumber" type="text"
                 pInputText name="serialNumber" [placeholder]="'Tracker.Asset Serial' | translate" />
         </div>
-        <div class="p-field col-md-4">
+        <!-- <div class="p-field col-md-4">
             <label for="Due Date" class="labelMarginRight">
                 {{'Tracker.DueDate' | translate}}{{'Tracker./Days' | translate}}
             </label><br>
             <input [ngModelOptions]="{standalone: true}" [(ngModel)]="ProjectSiteAssetObj.days" type="number"
                 name="days" pInputText min="1" [placeholder]="'Tracker.DueDate' | translate" />
+        </div> -->
+       
+        <div class="p-field col-md-4">
+            <label for="Wperiod">{{'Tracker.Warranty Period' | translate}}{{'Tracker./Days' | translate}}</label>
+            <input [(ngModel)]="ProjectSiteAssetObj.warrantyPeriod" type="number" min="1" pInputText
+                [placeholder]="'Tracker.Warranty Period' | translate" #ProWarrantyPeriod="ngModel"
+                name="WarrantyPeriod" [ngModelOptions]="{standalone: true}" />
         </div>
-    </div><br>
+    </div>
+      
+        <br>
     <div class="row">
+        
         <div class="p-field col-md-4">
             <label for="WstartDate">{{'Tracker.Warranty Start Date' | translate}}</label>
             <!-- <p-calendar  [(ngModel)]="ProjectSiteAssetObj.warrantyStartDate" appendTo="body"
@@ -969,13 +979,6 @@
                     <mat-datepicker #pickerwarantrydate></mat-datepicker>
                 </mat-form-field>
         </div>
-        <div class="p-field col-md-4">
-            <label for="Wperiod">{{'Tracker.Warranty Period' | translate}}{{'Tracker./Days' | translate}}</label>
-            <input [(ngModel)]="ProjectSiteAssetObj.warrantyPeriod" type="number" min="1" pInputText
-                [placeholder]="'Tracker.Warranty Period' | translate" #ProWarrantyPeriod="ngModel"
-                name="WarrantyPeriod" [ngModelOptions]="{standalone: true}" />
-        </div>
-
         <div class="p-field col-md-4">
             <label for="Supplier Name" class="labelMarginRight" [translate]="'Tracker.Supplier Name'"></label><br>
             <p-dropdown [options]="lstSuppliers" [(ngModel)]="ProjectSiteAssetObj.supplierId" appendTo="body"

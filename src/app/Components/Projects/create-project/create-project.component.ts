@@ -57,6 +57,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { DatePipe } from '@angular/common';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-create-project',
@@ -101,6 +102,7 @@ export class CreateProjectComponent implements OnInit {
   selectedSitesColumns: Sites[]
   ProjectSitesObj: ProjectSites
   lstAllSites: Sites[];
+  warantryStartDate: string;
   IsSaveProject: boolean = false
   lstSelectedSiteClients: SiteClients[]
   SiteClientsObj: SiteClients
@@ -283,6 +285,7 @@ export class CreateProjectComponent implements OnInit {
     this.team = {
       Id: 0, Name: ''
     }
+    
     this.assetservice.GetAllAssets().subscribe(
       data => {
         this.lstassets = data
@@ -333,13 +336,18 @@ export class CreateProjectComponent implements OnInit {
       err => console.log(err)
     )
   }
+  addEventwarantryStartDate(event: MatDatepickerInputEvent<Date>) {
+    console.log("ggggg",this.ProjectSiteAssetObj)
+    this.warantryStartDate = this.datePipe.transform(event.value, 'yyyy-MM-dd');
+    this.ProjectSiteAssetObj.warrantyStartDate = this.warantryStartDate
+  }
   onChangeSerial(event) {
     console.log("serialNumber",event.target.value)
     this.serialNumber = event.target.value
     this.ProjectSiteAssetService.GetProjectSiteAssetBySerialNumber(this.serialNumber).subscribe(
       res=>{
         this.ProjectSiteAssetObj=res
-        if(this.ProjectSiteAssetObj!=null)
+        if(this.ProjectSiteAssetObj!==null)
         {  if(this.translate.currentLang=='English')
          {
           this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'this serial already exist , plz write another' });
@@ -350,6 +358,13 @@ export class CreateProjectComponent implements OnInit {
          }
          
           this.projectSiteClientObj.serialNumber=""
+        }
+        else
+        {
+          this.ProjectSiteAssetObj = {
+            id: 0, days: 0, supplierName: '', ProjectSiteId: 0, assetId: 0, assetName: '',
+            serialNumber: '', supplierId: 0, warrantyPeriod: 0, warrantyStartDate: ""
+          }
         }
       }
     )
@@ -380,6 +395,27 @@ export class CreateProjectComponent implements OnInit {
     var date2: any = new Date($event);
     this.diffDays = Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));
   }
+  // addEventplanndedStart(event: MatDatepickerInputEvent<Date>) {
+  //   this.minplannedStartDate = event.value
+  //   this.plannedStartDate = this.datepipe.transform(event.value, 'yyyy-MM-dd');
+  //   this.projectObj.planndedStartDate = this.plannedStartDate
+  //   this.projectObj.planndedEndDate = this.projectObj.planndedStartDate
+  // }
+  // addEventActualStart(event: MatDatepickerInputEvent<Date>) {
+  //   this.minActualStartDate = event.value
+  //   this.ActualStartDate = this.datepipe.transform(event.value, 'yyyy-MM-dd');
+  //   this.projectObj.actualStartDate = this.ActualStartDate
+  //   this.projectObj.actualEndDate = this.projectObj.actualStartDate
+  // }
+  // addEventplanndedEnd(event: MatDatepickerInputEvent<Date>) {
+  //   this.planndedEndDate = this.datepipe.transform(event.value, 'yyyy-MM-dd');
+  //   this.projectObj.planndedEndDate = this.planndedEndDate
+  // }
+  // addEventActualEnd(event: MatDatepickerInputEvent<Date>) {
+  //   this.ActualEndtDate = this.datepipe.transform(event.value, 'yyyy-MM-dd');
+  //   this.projectObj.actualEndDate = this.ActualEndtDate
+  // }
+  
   AddProject()
   {
     this.messageService.clear();
@@ -730,17 +766,19 @@ export class CreateProjectComponent implements OnInit {
         }
       )
     }
-    if (this.projectSiteClientObj.assetId != 0 && this.projectSiteClientObj.supplierId != 0 && this.projectSiteClientObj.siteId != 0) {
+    if (this.projectSiteClientObj.assetId != 0 && this.projectSiteClientObj.supplierId != 0 && this.projectSiteClientObj.siteId != 0
+      && this.projectSiteClientObj.serialNumber!="" && this.projectSiteClientObj.warrantyStartDate!="") {
       this.assetservice.GetAssetById(this.projectSiteClientObj.assetId).subscribe(
         res => {
           this.projectSiteClientObj.assetName = res.assetName
           this.SuppliersService.GetSupplierById(this.projectSiteClientObj.supplierId).subscribe(
-            res2 => {
+            res2 =>{
               this.projectSiteClientObj.supplierName = res2.supplierName
-              this.SiteService.GetSiteById(this.projectSiteClientObj.siteId).subscribe(
+              this.SiteService.GetSiteById(this.SiteId).subscribe(
                 res3 => {
                   this.projectSiteClientObj.siteName = res3.sitename
                   this.listProjectSiteAssetClients.push(this.projectSiteClientObj)
+                  console.log("in save site asset to list this.projectSiteClientObj",this.projectSiteClientObj);
                   this.projectSiteClientObj = {id:0,
                     clients: [], ProjectId: 0,
                     days: 0, siteId: this.projectSiteClientObj.siteId, siteName: '', supplierName: '', ProjectName: '', ProjectSiteId: 0, assetId: 0, assetName: '',
@@ -767,6 +805,70 @@ export class CreateProjectComponent implements OnInit {
           }
     }
 
+  } 
+  saveSiteAssetToDB() {
+    this.messageService.clear();
+    console.log("obj in DB",this.projectSiteClientObj);
+    console.log("obj in basic",this.ProjectSiteAssetObj);
+    this.ProjectSiteAssetObj.assetId = this.projectSiteClientObj.assetId
+    console.log("this.ProjectSiteAssetObj.assetId",this.ProjectSiteAssetObj.assetId)
+    this.ProjectSiteAssetObj.days = this.projectSiteClientObj.days
+    console.log("this.ProjectSiteAssetObj.days",this.ProjectSiteAssetObj.days)
+    this.ProjectSiteAssetObj.serialNumber = this.projectSiteClientObj.serialNumber
+    console.log("this.ProjectSiteAssetObj.serialNumber",this.ProjectSiteAssetObj.serialNumber)
+    this.ProjectSiteAssetObj.supplierId = this.projectSiteClientObj.supplierId
+    console.log("this.ProjectSiteAssetObj.supplierId",this.ProjectSiteAssetObj.supplierId)
+    this.ProjectSiteAssetObj.warrantyPeriod = this.projectSiteClientObj.warrantyPeriod
+    console.log("this.ProjectSiteAssetObj.warrantyPeriod",this.ProjectSiteAssetObj.warrantyPeriod)
+    this.ProjectSiteAssetObj.warrantyStartDate = this.projectSiteClientObj.warrantyStartDate
+    console.log("this.ProjectSiteAssetObj.warrantyStartDate ",this.ProjectSiteAssetObj.warrantyStartDate )
+    this.ProjectSiteAssetObj.ProjectSiteId = this.projectSiteId
+    console.log("this.ProjectSiteAssetObj.ProjectSiteId",this.ProjectSiteAssetObj.ProjectSiteId)
+    console.log("obj after 0 in DB",this.ProjectSiteAssetObj);
+    this.ProjectSiteAssetService.insertProjectSiteAsset(this.ProjectSiteAssetObj).subscribe(
+      res => {
+        console.log("enter service0000000000000000000000000000000");
+        this.SiteClientsObj.projectSiteId = this.projectSiteId
+        this.SiteClientsObj.clients = this.projectSiteClientObj.clients
+        console.log("this.SiteClientsObj", this.SiteClientsObj)
+        if (this.SiteClientsObj.clients.length != 0) {
+          this.SiteClientsService.insertSiteClient(this.SiteClientsObj).subscribe(
+            res1 => {
+             // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
+    // if(this.translate.currentLang=='English')
+    //  {
+    //    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Asset Added' });
+    //  }
+    //  else
+    //  {
+    //    this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم اضافة المسلسل  بنجاح ' });
+    //  }
+            }
+          )
+        }
+        // else {
+        //   if(this.translate.currentLang=='English')
+        //   {
+        //    this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+        //   }
+        //   else
+        //   {
+        //    this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه !!!', sticky: true, detail: 'من فضلك ادخل البيانات كامله'});
+        //   }
+        //   //this.messageService.add( { key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+        // }
+    if(this.translate.currentLang=='English')
+    {
+   this.messageService.add({severity:'success', summary:'Success', detail:'Record Added'});
+    }
+  else
+  {
+  this.messageService.add({ severity:'success', summary: 'نجاح', sticky: false, detail: 'تمت الاضافة' });
+  }
+    this.NewDialogbool=false;
+      }
+      
+    )
   }
   getProjectSiteIdEvent($event) {
     this.SiteId = $event.value
@@ -788,49 +890,7 @@ export class CreateProjectComponent implements OnInit {
       err => console.log(err)
     )
   }
-  saveSiteAssetToDB() {
-    this.messageService.clear();
-    this.ProjectSiteAssetObj.assetId = this.projectSiteClientObj.assetId
-    this.ProjectSiteAssetObj.days = this.projectSiteClientObj.days
-    this.ProjectSiteAssetObj.serialNumber = this.projectSiteClientObj.serialNumber
-    this.ProjectSiteAssetObj.supplierId = this.projectSiteClientObj.supplierId
-    this.ProjectSiteAssetObj.warrantyPeriod = this.projectSiteClientObj.warrantyPeriod
-    this.ProjectSiteAssetObj.warrantyStartDate = this.projectSiteClientObj.warrantyStartDate
-    this.ProjectSiteAssetObj.ProjectSiteId = this.projectSiteId
-    this.ProjectSiteAssetService.insertProjectSiteAsset(this.ProjectSiteAssetObj).subscribe(
-      res => {
-        this.SiteClientsObj.projectSiteId = this.projectSiteId
-        this.SiteClientsObj.clients = this.projectSiteClientObj.clients
-        console.log("this.SiteClientsObj", this.SiteClientsObj)
-        if (this.SiteClientsObj.clients.length != 0) {
-          this.SiteClientsService.insertSiteClient(this.SiteClientsObj).subscribe(
-            res1 => {
-             // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
-             if(this.translate.currentLang=='English')
-     {
-       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Asset Added' });
-     }
-     else
-     {
-       this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم اضافة المسلسل  بنجاح ' });
-     }
-            }
-          )
-        }
-        else {
-          if(this.translate.currentLang=='English')
-          {
-           this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
-          }
-          else
-          {
-           this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه !!!', sticky: true, detail: 'من فضلك ادخل البيانات كامله'});
-          }
-          //this.messageService.add( { key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
-        }
-      }
-    )
-  }
+
   GetAllProjectSiteAssetBySiteId() {
 
   }

@@ -227,7 +227,7 @@
                                         <td>{{i.assetName}}</td>
                                         <td>{{i.serialNumber}}</td>
                                         <!-- <td>{{i.days}} Days</td> -->
-                                        <td>{{i.warrantyPeriod}} Years</td>
+                                        <td>{{i.warrantyPeriod}}Days</td>
                                         <td>{{i.warrantyStartDate | date:'dd/MM/yyyy'}}</td>
                                         <td>{{i.supplierName}}</td>
                                         <!-- <td>
@@ -700,7 +700,7 @@
         </div>
         <ng-template pTemplate="footer">
             <button type="submit" (click)="saveSiteAssettoList()" style="float: right;" class="btn btn-primary"
-                *ngIf="activeIndex ==1">Add</button>
+                 >Add</button>
             <button icon="pi pi-times" class="btn btn-primary" (click)="NewDialogbool=false">Cancel</button>
         </ng-template>
 

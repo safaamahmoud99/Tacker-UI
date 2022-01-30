@@ -157,7 +157,8 @@ export class UpdateProjectComponent implements OnInit {
     private requestservice: RequestService, private translate: TranslateService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+   {
     this.ProjectdataFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
@@ -634,7 +635,7 @@ export class UpdateProjectComponent implements OnInit {
     }
     console.log("projectSiteClientObj",this.projectSiteClientObj)
     if (this.projectSiteClientObj.assetId != 0 && this.projectSiteClientObj.supplierId != 0 && this.projectSiteClientObj.siteId != 0
-      && this.projectSiteClientObj.serialNumber!="" && this.projectSiteClientObj.days!=0 && this.projectSiteClientObj.warrantyStartDate!="") {
+      && this.projectSiteClientObj.serialNumber!="" && this.projectSiteClientObj.warrantyStartDate!="") {
       this.assetservice.GetAssetById(this.projectSiteClientObj.assetId).subscribe(
         res => {
           this.projectSiteClientObj.assetName = res.assetName
@@ -645,6 +646,7 @@ export class UpdateProjectComponent implements OnInit {
                 res3 => {
                   this.projectSiteClientObj.siteName = res3.sitename
                   this.listProjectSiteAssetClients.push(this.projectSiteClientObj)
+                  console.log("IN LIST OBJ",this.projectSiteClientObj)
                   this.projectSiteClientObj = {
                     id: 0,
                     clients: [], ProjectId: 0,
@@ -659,7 +661,8 @@ export class UpdateProjectComponent implements OnInit {
       )
       this.saveSiteAssetToDB();
     }
-    else {
+    else
+  {
      // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
       if(this.translate.currentLang=='English')
           {
@@ -674,6 +677,8 @@ export class UpdateProjectComponent implements OnInit {
 
   }
   saveSiteAssetToDB() {
+    console.log("obj in DB",this.projectSiteClientObj);
+    console.log("obj in basic",this.ProjectSiteAssetObj);
     this.ProjectSiteAssetObj.assetId = this.projectSiteClientObj.assetId
     this.ProjectSiteAssetObj.days = this.projectSiteClientObj.days
     this.ProjectSiteAssetObj.serialNumber = this.projectSiteClientObj.serialNumber
@@ -693,6 +698,7 @@ export class UpdateProjectComponent implements OnInit {
      {
      this.messageService.add({ severity:'success', summary: 'نجاح', sticky: false, detail: 'تمت الاضافة' });
      }
+     this.NewDialogbool=false;
       }
     )
   }
