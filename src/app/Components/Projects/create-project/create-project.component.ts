@@ -120,6 +120,7 @@ export class CreateProjectComponent implements OnInit {
   isDisabled3: boolean = false
   isDisabled4: boolean = false
   minDate: Date;
+  isFound:boolean=false;
   plannedStartdate: Date;
   ActualStartDate: Date;
   ProjectData: any;
@@ -637,6 +638,13 @@ export class CreateProjectComponent implements OnInit {
     this.projectService.addTeam(addTeamObj).subscribe(e => {
       this.Idteam = e;
       this.tasneem = this.Idteam;
+      this.projectTeamService.GetAllProjectTeams().subscribe(e => {
+        // this.lstOfProjectTeams = e
+        console.log("lstof teams", this.lstOfProjectTeams)
+      })
+      this.projectPositionService.GetAllProjectPosition().subscribe(e => {
+        this.lstOfprojectPosition = e
+      })
      // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Team Added' });
      if(this.translate.currentLang=='English')
      {
@@ -661,7 +669,8 @@ export class CreateProjectComponent implements OnInit {
 
 
   }
-  Savetolist_Teams() {
+  Savetolist_Teams()
+   {
     this.messageService.clear();
     if (this.team.Name.trim().length>=1&& this.ProjectTeam.projectPositionId != 0 && this.ProjectTeam.employeeId != 0
       && this.ProjectTeam.departmentId != 0)
@@ -677,37 +686,73 @@ export class CreateProjectComponent implements OnInit {
       this.ProjectTeam.projectPositionName = e.positionName
           this.teamname = this.team.Name;
           // this.ProjectTeam.TeamId=Number(this.team.Id);
-          this.ProjectTeam.teamId = 29;
-          for(let i=0;i<this.lstOfProjectTeams.length;i++)
+          // this.ProjectTeam.teamId = 29;
+          if(this.lstOfProjectTeams.length>0)
           {
-            if(this.lstOfProjectTeams[i].projectPositionId==1)
+            console.log("length",this.lstOfProjectTeams.length)
+            this.isFound=false;
+            this.lstOfProjectTeams.forEach(element => {
+              console.log("element",element)
+              if(element.employeeId===this.ProjectTeam.employeeId)
+              {
+                console.log("found",this.isFound)
+                this.isFound=true;
+                this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Employee is found' });
+              }
+            });
+            if(!this.isFound)
             {
-               this.CountTeamLeader=true;
+              console.log("not found",this.isFound)
+              if(this.ProjectTeam.projectPositionName==='TL')
+              {
+                var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
+                this.lstOfprojectPosition.splice(posIndex,1)
+              }
+              if(this.ProjectTeam.projectPositionName==='PM')
+              {
+                var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
+                this.lstOfprojectPosition.splice(posIndex,1)
+              }
+              this.lstOfProjectTeams.push(this.ProjectTeam);
+              this.isFound=false;
+              this.ProjectTeam = {
+                teamName: '',
+                teamId: 0,
+                departmentId: 0, id: 0, departmentName: '', employeeName: '', projectPositionId: 0, projectPositionName: '', employeeId: 0
+                , projectId: this.projectID, projectName: ''
+              }
             }
-            if(this.lstOfProjectTeams[i].projectPositionId==3)
-            {
-              this.CountProjectManger=true;
-            }
           }
-          if(this.CountTeamLeader &&this.ProjectTeam.projectPositionId==1)
+          else
+        {
+          console.log("push")
+          if(this.ProjectTeam.projectPositionName==='TL')
           {
-            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'team must have only one team leader' });
-            return;       
+            var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
+            this.lstOfprojectPosition.splice(posIndex,1)
           }
-         if (this.CountProjectManger &&this.ProjectTeam.projectPositionId==3)
+          if(this.ProjectTeam.projectPositionName==='PM')
           {
-            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'team must have only one Project manager' });
-            return;       
+            var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
+            this.lstOfprojectPosition.splice(posIndex,1)
           }
-        
           this.lstOfProjectTeams.push(this.ProjectTeam);
-       
           this.ProjectTeam = {
             teamName: '',
             teamId: 0,
             departmentId: 0, id: 0, departmentName: '', employeeName: '', projectPositionId: 0, projectPositionName: '', employeeId: 0
             , projectId: this.projectID, projectName: ''
           }
+       
+        }
+          // this.lstOfProjectTeams.push(this.ProjectTeam);
+       
+          // this.ProjectTeam = {
+          //   teamName: '',
+          //   teamId: 0,
+          //   departmentId: 0, id: 0, departmentName: '', employeeName: '', projectPositionId: 0, projectPositionName: '', employeeId: 0
+          //   , projectId: this.projectID, projectName: ''
+          // }
         
         })
       })

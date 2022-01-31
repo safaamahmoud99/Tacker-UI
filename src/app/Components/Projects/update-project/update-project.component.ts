@@ -954,7 +954,7 @@ export class UpdateProjectComponent implements OnInit {
         this.ProjectTeam.projectPositionName = e.positionName
         this.teamname = this.team.Name;
         // this.ProjectTeam.TeamId=Number(this.team.Id);
-        this.ProjectTeam.teamId = 29;
+        // this.ProjectTeam.teamId = 29;
         if(this.lstOfProjectTeams.length>0)
         {
           console.log("length",this.lstOfProjectTeams.length)
@@ -976,6 +976,11 @@ export class UpdateProjectComponent implements OnInit {
               var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
               this.lstOfprojectPosition.splice(posIndex,1)
             }
+            if(this.ProjectTeam.projectPositionName==='PM')
+            {
+              var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
+              this.lstOfprojectPosition.splice(posIndex,1)
+            }
             this.lstOfProjectTeams.push(this.ProjectTeam);
             this.isFound=false;
             this.ProjectTeam = {
@@ -990,6 +995,11 @@ export class UpdateProjectComponent implements OnInit {
         {
           console.log("push")
           if(this.ProjectTeam.projectPositionName==='TL')
+          {
+            var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
+            this.lstOfprojectPosition.splice(posIndex,1)
+          }
+          if(this.ProjectTeam.projectPositionName==='PM')
           {
             var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
             this.lstOfprojectPosition.splice(posIndex,1)

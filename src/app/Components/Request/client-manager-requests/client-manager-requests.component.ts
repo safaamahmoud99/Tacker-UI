@@ -44,6 +44,7 @@ export class ClientManagerRequestsComponent implements OnInit {
   clientID: number
   clientName: string
   role: string;
+  canreq:boolean;
   NewdecDialogbool: boolean;
   reqImages: RequestImage[]
   NewclientDialogbool: boolean;
@@ -95,7 +96,7 @@ export class ClientManagerRequestsComponent implements OnInit {
     private httpClient: HttpClient, private projectService: ProjectService,
     private projectTeamService: ProjectTeamService, private messageService: MessageService,
     private projectSiteAssetService: ProjectSiteAssetService, private siteClientsService: SiteClientsService,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: FormBuilder,private route: ActivatedRoute
   ) { }
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
@@ -194,6 +195,24 @@ export class ClientManagerRequestsComponent implements OnInit {
         })
       }
     )
+    //project.id
+    
+   let proid =+this.route.snapshot.paramMap.get('projectId');
+    this.projectService.canreqbyproid(proid).subscribe(
+    e=>{
+         this.canreq=e;
+         console.log("canreqqqqqqqqqqqqqqqqq",this.canreq);
+         if(!this.canreq)
+         {
+          this.messageService.add({ key: 'tt', severity: 'error', summary: 'Attention !!!', sticky: true, detail:`sorry ,you can't request until project completed`});
+         }
+
+      }
+    )
+    
+     
+  
+
   }
   onChange(event) {
     this.projectId = event.value

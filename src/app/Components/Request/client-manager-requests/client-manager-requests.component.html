@@ -1,7 +1,11 @@
 <!-- Show all   Requests that belongs to specific client -->
 <div class="container card">
+     
+    <p-toast position="top-right" key="tt" [baseZIndex]="9999"></p-toast> 
+    
     <p-table [value]="lstRequests" styleClass="p-datatable-responsive-demo">
         <ng-template pTemplate="caption">
+     
             <div class="row">
                 <div class="p-d-flex p-ai-center p-jc-between col-md-10">
                     <h1 [translate]="'Tracker.Clients Requests'"
@@ -10,7 +14,7 @@
                     <!-- <span class="h3Header"> routerLink="/home/Requests" {{ 'Tracker.Clients Requests' | translate }}</span> -->
                 </div>
                 <div class="col-md-2">
-                    <button id="addEmpBtn" (click)="OpendialogAddRequest()"
+                    <button id="addEmpBtn" [disabled]="!canreq" (click)="OpendialogAddRequest()"
                         class="btn btn-outline-primary btn-md btn-block">
                         <span class="pi pi-plus"> {{ 'Tracker.Add' | translate }}</span> </button>
                 </div>

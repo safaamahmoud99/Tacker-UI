@@ -26,6 +26,7 @@ export class ProjectService {
   {
     return this.httpClient.get<project[]>(`${environment.GetProjectForRequest}`,this.httpHeader);
   }
+
   AddProject(project): Observable<project> {
     return this.httpClient.post<project>(`${environment.project}`,project, this.httpHeader);
   }
@@ -47,6 +48,10 @@ export class ProjectService {
   clientCanRequest(ClientId:Number):Observable<any>
   {
     return this.httpClient.get<boolean>(`${environment.clientCanRequest}${ClientId}`,this.httpHeader);
+  }
+  canreqbyproid(id:number):Observable<any>
+  {
+    return this.httpClient.get<boolean>(`${environment.canreqbyprojectID}${id}`,this.httpHeader);
   }
   // addTeam(team):Observable<Team>{
   //   return this.httpClient.post<Team>(`${environment.addteams}`,team,this.httpHeader);

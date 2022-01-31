@@ -426,6 +426,7 @@
                     <p-table [value]=" projectObj.listofprojectteam">
                         <ng-template pTemplate="header">
                             <tr>
+                                <th>[translate]="'Tracker.Team Name'"</th>
                                 <th [translate]="'Tracker.Position Name'"></th>
                                 <th [translate]="'Tracker.Employee Name'"></th>
                                 <th [translate]="'Tracker.Department Name'"></th>
@@ -435,7 +436,7 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-i>
                             <tr>
-                                <!-- <td>{{teamname}}</td> -->
+                               <td>{{i.teamName}}</td>
                                 <td>
                                     {{i.projectPositionName}}
                                 </td>
@@ -447,7 +448,7 @@
                                 </td>
                                 <td>
                                     <span class="p-button-icon pi pi-trash" (click)="delteam(i.id)" aria-hidden="true"
-                                        pTooltip="Delete mileston " style="margin-left: 15px;color:red"></span>
+                                        pTooltip="Delete Team" style="margin-left: 15px;color:red"></span>
                                 </td>
                             </tr>
                         </ng-template>
@@ -761,6 +762,7 @@
                     <thead>
                         <tr>{{ 'Tracker.Team Name' | translate }} : {{teamname}}</tr>
                         <tr>
+                             
                             <th [translate]="'Tracker.Position Name'"></th>
                             <th [translate]="'Tracker.Employee Name'"></th>
                             <th [translate]="'Tracker.Department Name'"></th>
@@ -769,6 +771,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let i of lstOfProjectTeams">
+                           
                             <td>
                                 {{i.projectPositionName}}
                             </td>
@@ -778,6 +781,7 @@
                             <td>
                                 {{i.departmentName}}
                             </td>
+                           
                         </tr>
                         <tr *ngIf="lstOfProjectTeams.length == 0">
                             <td colspan="4" style="color: rgb(102, 97, 23);" [translate]="'Tracker.No data found'"></td>
