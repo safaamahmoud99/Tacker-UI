@@ -181,16 +181,8 @@ export class AllClientRequestsComponent implements OnInit {
     this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
       res => {
         this.listProjectSiteAssetClients = res
-        if(this.listProjectSiteAssetClients.length==0)
-        {
-          this.haveAsset=true;
-          console.log("haveAsset",this.haveAsset);
-        } 
-    //     if(this.haveTeams || this.haveAsset)
-    // {
-    //   this.messageService.add({ key: 'tr', severity: 'error',  summary: 'Attention !!!', sticky:false, detail: `sorry,you can't add request until project completed` })
-    //   this.CloseStipper();
-    // }
+  
+   
 
       }
     )
@@ -209,11 +201,7 @@ export class AllClientRequestsComponent implements OnInit {
         return unique;
       }, []);
       console.log("lstproTeams", this.lstProjectTeams);
-      if(this.lstProjectTeams.length==0)
-        {
-          this.haveTeams=true;
-          console.log("haveTeams",this.haveTeams);
-        }
+     
     })
     
     this.reqObj = {
