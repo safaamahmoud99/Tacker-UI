@@ -102,6 +102,9 @@ export class CreateProjectComponent implements OnInit {
   selectedSitesColumns: Sites[]
   ProjectSitesObj: ProjectSites
   lstAllSites: Sites[];
+  ISfound:boolean=false;
+  Namefound:boolean=false;
+  Codefound:boolean=false;
   warantryStartDate: string;
   IsSaveProject: boolean = false
   lstSelectedSiteClients: SiteClients[]
@@ -121,8 +124,10 @@ export class CreateProjectComponent implements OnInit {
   isDisabled4: boolean = false
   minDate: Date;
   isFound:boolean=false;
+  existProject:project[];
   plannedStartdate: Date;
   ActualStartDate: Date;
+  displayBasic:boolean;
   ProjectData: any;
   CountTeamLeader:boolean=false;
   CountProjectManger:boolean=false;
@@ -336,7 +341,16 @@ export class CreateProjectComponent implements OnInit {
       res => { this.lstDueDateCategory = res },
       err => console.log(err)
     )
+    this.LOadPro();
   }
+
+  LOadPro()
+  {
+    this.projectService.GetAllProjects().subscribe(
+      e => { this.existProject= e },
+      err => console.log(err)
+    ) 
+  } 
   addEventwarantryStartDate(event: MatDatepickerInputEvent<Date>) {
     console.log("ggggg",this.ProjectSiteAssetObj)
     this.warantryStartDate = this.datePipe.transform(event.value, 'yyyy-MM-dd');
@@ -396,6 +410,8 @@ export class CreateProjectComponent implements OnInit {
     var date2: any = new Date($event);
     this.diffDays = Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));
   }
+
+
   // addEventplanndedStart(event: MatDatepickerInputEvent<Date>) {
   //   this.minplannedStartDate = event.value
   //   this.plannedStartDate = this.datepipe.transform(event.value, 'yyyy-MM-dd');
@@ -426,9 +442,11 @@ export class CreateProjectComponent implements OnInit {
       this.projectObj.projectTypeId != 0 && this.projectObj.organizationId != 0
        && this.projectObj.employeeId != 0 && this.selectedSitesColumns.length!=0)
       {
+
         if(this.projectObj.planndedEndDate==""
         && this.projectObj.actualEndDate=="" && this.projectObj.planndedStartDate=="" && this.projectObj.actualStartDate=="")
         {
+
           if(this.translate.currentLang=='English')
           {
             this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete All Dates Info' });
@@ -440,6 +458,7 @@ export class CreateProjectComponent implements OnInit {
           }
          // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: false, detail: 'Plz complete All Dates Info' });       
         }
+
         console.log('button',this.disabledButton)
         // this.disabledButton = true
       var date1: any = new Date(this.projectObj.planndedStartDate);
@@ -447,6 +466,19 @@ export class CreateProjectComponent implements OnInit {
       this.diffDays = Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));
       this.projectObj.projectPeriod = this.diffDays
       console.log("this.projectObj",this.projectObj)
+      this.checkNameandCode();
+      if (this.Namefound)
+      {
+        this.messageService.add({ key:'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Project Name aleardy exits' });
+        this.Namefound=false;
+        return false;
+      }
+      if (this.Codefound)
+      {
+        this.messageService.add({ key:'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Code Name aleardy exits' });
+        this.Codefound=false;
+        return false;
+      }
       this.projectService.AddProject(this.projectObj).subscribe(
         res => {
           
@@ -516,7 +548,7 @@ export class CreateProjectComponent implements OnInit {
     }
   
   }
-
+  
   Savetolist_Stackholders() {
     this.messageService.clear();
     if (this.stackholderInLst.stackeholderName.trim().length>=3 && this.isPhone() && this.stackholderInLst.rank != "") {
@@ -1070,7 +1102,9 @@ export class CreateProjectComponent implements OnInit {
   onReject() {
     this.messageService.clear('c');
   }
-
+  showBasicDialog() {
+    this.displayBasic = true;
+  }
   isPhone():boolean
   {
     var serchfind:boolean;
@@ -1080,6 +1114,30 @@ export class CreateProjectComponent implements OnInit {
 
     console.log(serchfind)
     return serchfind
+  }
+  checkNameandCode()  
+  {
+     
+    for (let index = 0; index < this.existProject.length; index++)
+    {
+        if(this.existProject[index].projectName==this.projectObj.projectName && this.existProject[index].id!=this.projectObj.id)
+        {
+          console.log(this.existProject[index].projectName);
+          
+        // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Supplier  Name aleardy exits' });
+          this.Namefound=true;                    
+        }
+
+        if(this.existProject[index].projectCode==this.projectObj.projectCode && this.existProject[index].id!=this.projectObj.id)
+        {
+          console.log(this.existProject[index].projectCode);
+          
+        // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Supplier  Name aleardy exits' });
+          this.Codefound=true;                   
+        }
+    }
+   
+       
   }
 
 }

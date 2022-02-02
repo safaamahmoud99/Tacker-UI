@@ -107,7 +107,7 @@ const routes: Routes = [
       { path: 'allEmpAssignedRequests', component: EmployeeAssignedRequestsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.Employee]} },
       { path: 'allEmpAssigned/:reqId/:problemId', component: EmployeeAssignedRequestsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.Employee]}},
       { path: 'DisplayCategories', component: DisplayCategoriesComponent,canActivate:[basic], data:{role:[Roles.SuperAdmin,Roles.Admin,Roles.PMO,Roles.PM]} },
-      { path: 'projectsForProjectManager', component: AllProjectmanagerProjectsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
+      { path: 'projectsForProjectManager', component: AllProjectmanagerProjectsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PM]} },
       { path: 'allclientsforprojectmanager', component: AllClientsForProjectmanagerComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO,Roles.PM]} },
       { path: 'projectmanagerRequests', component: ProjectmangerRequestsComponent,canActivate:[basic] ,data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO,Roles.PM]}},
       { path: 'assignemployeerequest/:id', component: AssignemployeeRequestComponent,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.TL,Roles.Employee]}},

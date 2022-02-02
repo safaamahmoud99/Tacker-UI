@@ -32,5 +32,4 @@ export class project {
   listOfmilestones: mileStone[] ///Extra to show milestone for each project
   listofprojectteam: projectTeam[] ///Extra to show teams for each project
   listOfdocuments: ProjectDocuments[] ///Extra to show documents for each project
-
 }

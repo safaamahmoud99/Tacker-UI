@@ -35,11 +35,11 @@
                 <div class="p-field col-md-3">
                     <label for="Project Name" class="labelMarginRight" [translate]="'Tracker.Project Name'">
                     </label><br>
-                    <input  minlength="3" #ProjectName="ngModel" autofocus
+                    <input   #ProjectName="ngModel" autofocus
                         [placeholder]="'Tracker.Project Name' | translate"
                         [class.is-invalid]="ProjectName.invalid && ProjectName.touched"
                         [class.is-valid]="ProjectName.valid" type="text" [(ngModel)]="projectObj.projectName" pInputText
-                        id="name" required />
+                        id="name" required minlength="3" />
                     <br> <small [hidden]="ProjectName.valid || ProjectName.untouched" id="helpId" class="text-danger"
                         [translate]="'Tracker.messege'"></small>
                 </div>
@@ -48,7 +48,7 @@
                     <input type="text" #ProCode="ngModel" name="ProjectCode"
                         [placeholder]="'Tracker.Project Code' | translate"
                         [class.is-invalid]="ProCode.invalid && ProCode.touched" [class.is-valid]="ProCode.valid"
-                        required minlength="3" [(ngModel)]="projectObj.projectCode" pInputText id="Code" required />
+                        required minlength="2" [(ngModel)]="projectObj.projectCode" pInputText id="Code" required />
                     <br> <small [hidden]="ProCode.valid || ProCode.untouched" id="helpId" class="text-danger"
                         [translate]="'Tracker.messegecode'"></small>
                 </div>
@@ -529,7 +529,9 @@
         <div class="row">
             <div class="col">
               <div class="p-col-12 p-md-4">
-                <div class="p-inputgroup">
+                
+                    <label for="Partener Name"   [translate]="'Tracker.Partener Name'"></label>
+                    <div class="p-inputgroup"> 
                     <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
                     <input #PartnerName="ngModel" class="form-control"
                         [class.is-invalid]="PartnerName.invalid && PartnerName.touched"
@@ -541,7 +543,9 @@
                     [translate]="'Tracker.messege'"></small>
             </div>
                 <div class="p-col-12 p-md-4">
-                  <div class="p-inputgroup">
+                
+                    <label for="Mobile" [translate]="'Tracker.Mobile'"></label> 
+                      <div class="p-inputgroup">
                       <span class="p-inputgroup-addon"></span>
                       <input #Partenermobile="ngModel" class="form-control"
                           [class.is-invalid]="Partenermobile.invalid && Partenermobile.touched"
@@ -550,10 +554,12 @@
                       <span class="p-inputgroup-addon"></span>
                   </div>
                   <small [hidden]="Partenermobile.valid || Partenermobile.untouched" id="helpId" class="text-danger validation"
-                [translate]="'Tracker.phoneNumber'"  >  </small>
+                [translate]="'Tracker.phoneNumber'">  </small>
               </div>
               <div class="p-col-12 p-md-4">
-                <div class="p-inputgroup">
+                
+                    <label for="Rank" [translate]="'Tracker.Rank'"></label>
+                    <div class="p-inputgroup"> 
                     <span class="p-inputgroup-addon"></span>
                     <input #Partenerrank="ngModel" class="form-control"
                         [class.is-invalid]="Partenerrank.invalid && Partenerrank.touched"
@@ -623,36 +629,24 @@
         <div class="row">
             <div class="col">
                 <div class="p-col-12 p-md-4">
+                    <label for="Title" [translate]="'Tracker.Title'"></label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"></span>
                         <input type="text" pInputText placeholder="Title" [(ngModel)]="milestonInLst.title">
                     </div>
                 </div>
-                <!-- <div class="p-col-12 p-md-4">
-<div class="p-inputgroup">
-    <span class="p-inputgroup-addon">00</span>
-    <input type="text" pInputText placeholder="Mobile" [(ngModel)]="milestonInLst.title">
-    <span class="p-inputgroup-addon">.00</span>
-</div>
-</div> -->
-
                 <div class="row p-col-12 p-md-4">
                     <div class="p-field col-md-6">
                         <label for="StartDate" class="labelMarginRight" [translate]="'Tracker.Start Date'">
                         </label><br>
                         <p-calendar [(ngModel)]="milestonInLst.startDate" dateFormat="dd/mm/yy" appendTo="body">
                         </p-calendar>
-
-                        <!-- <br> <small [hidden]="Name.valid || Name.untouched" id="helpId" class="text-danger">Must more than 3
-        letters</small> -->
                     </div>
                     <div class="p-field col-md-6">
                         <label for="End Date" class="labelMarginRight" [translate]="'Tracker.End Date'">
                         </label><br>
                         <p-calendar [(ngModel)]="milestonInLst.endDate" dateFormat="dd/mm/yy" appendTo="body">
-                        </p-calendar>
-                        <!-- <br> <small [hidden]="Name.valid || Name.untouched" id="helpId" class="text-danger">Must more than 3
-        letters</small> -->
+                        </p-calendar>                    
                     </div>
                 </div>
 
@@ -803,6 +797,7 @@
         <div class="row">
             <div class="col">
                 <div class="p-col-12 p-md-4">
+                    <label for="Document Name" [translate]="'Tracker.Document Name'" ></label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
                         <input type="text" pInputText [placeholder]="'Tracker.Document Name' | translate"

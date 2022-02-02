@@ -84,6 +84,9 @@ export class UpdateProjectComponent implements OnInit {
   ProjectTeam: projectTeam
   displayBasic: boolean;
   displayMile: boolean;
+  Namefound:boolean=false;
+  Codefound:boolean=false;
+  existProject:project[];
   displayteam: boolean;
   displaydoc: boolean
   lstOfprojectPosition: projectPosition[]
@@ -376,7 +379,14 @@ export class UpdateProjectComponent implements OnInit {
       this.project1.listOfdocuments = this.documents;
       this.projectObj.listOfdocuments = d;
     }), err => console.log(err)
-
+this.LOadPro();
+  }
+  LOadPro()
+  {
+    this.projectService.GetAllProjects().subscribe(
+      e => { this.existProject= e },
+      err => console.log(err)
+    ) 
   }
   addEventplanndedStart(event: MatDatepickerInputEvent<Date>) {
     this.minplannedStartDate = event.value
@@ -770,6 +780,19 @@ export class UpdateProjectComponent implements OnInit {
       this.projectObj.projectTypeId != 0 && this.projectObj.organizationId != 0
        && this.projectObj.employeeId != 0 && this.selectedSitesColumns.length!=0)
       {
+        this.checkNameandCode();
+        if (this.Namefound)
+        {
+          this.messageService.add({ key:'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Project Name aleardy exits' });
+          this.Namefound=false;
+          return false;
+        }
+        if (this.Codefound)
+        {
+          this.messageService.add({ key:'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Code Name aleardy exits' });
+          this.Codefound=false;
+          return false;
+        }
     this.projectService.updateProject(this.projectid, this.projectObj).subscribe(res => {
       this.ProjectSitesObj.projectId = this.id
       this.ProjectSitesObj.lstSites = this.selectedSitesColumns
@@ -881,7 +904,9 @@ export class UpdateProjectComponent implements OnInit {
       this.milestoneservice.GetAllMileStonesByProjectID(this.id).subscribe(m => {
         this.projectObj.listOfmilestones = m
       }), err => console.log(err)
+    
     })
+    this.displayMile=false;
   }
 
   delStakeHolders(id: number) {
@@ -1206,6 +1231,7 @@ export class UpdateProjectComponent implements OnInit {
         this.projectObj.listOfdocuments = d;
       }), err => console.log(err)
     })
+    this.displaydoc =false;
   }
   downloadFile(fileName) {
     var filePath = `${environment.Domain}wwwroot/documentFiles/${fileName}`;
@@ -1284,7 +1310,30 @@ export class UpdateProjectComponent implements OnInit {
     console.log(serchfind)
     return serchfind
   }
+  checkNameandCode()  
+  {
+     
+    for (let index = 0; index < this.existProject.length; index++)
+    {
+        if(this.existProject[index].projectName==this.projectObj.projectName && this.existProject[index].id!=this.projectObj.id)
+        {
+          console.log(this.existProject[index].projectName);
+          
+        // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Supplier  Name aleardy exits' });
+          this.Namefound=true;                    
+        }
 
+        if(this.existProject[index].projectCode==this.projectObj.projectCode && this.existProject[index].id!=this.projectObj.id)
+        {
+          console.log(this.existProject[index].projectCode);
+          
+        // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Supplier  Name aleardy exits' });
+          this.Codefound=true;                   
+        }
+    }
+   
+       
+  }
 
 
 
