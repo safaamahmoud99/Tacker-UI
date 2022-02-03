@@ -6,5 +6,6 @@ export enum Roles {
     PMO='PMO',
     PM='PM',
     ClientManager='ClientManager',
-    TL='TL'
+    TL='TL',
+    Receptionist='Receptionist'
   }

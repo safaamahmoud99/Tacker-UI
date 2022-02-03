@@ -56,10 +56,9 @@ import { DueDateCategoryComponent } from './Components/due-date-category/due-dat
 import { BrandComponent } from './Components/brand/brand.component';
 import { ClientManagerRequestsComponent } from './Components/Request/client-manager-requests/client-manager-requests.component';
 import { ClientManagerComponent } from './Components/ClientComponents/client-manager/client-manager.component';
-import { AuthGuard } from './helpers/auth.guard';
-import { AuthGuard2 } from './helpers/auth2.guard';
-import { Admin } from './helpers/Admin.guard';
-import { all } from './helpers/All.guard';
+ 
+ 
+ 
 import { basic } from './helpers/basic.guard';
 import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
 import { Roles } from '../Shared/Models/Roles';
@@ -74,7 +73,7 @@ const routes: Routes = [
       { path: 'tabs', component: AllProjectsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO,Roles.PM,Roles.ClientManager]}},
       { path: 'Category', component: CategoryComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
       { path: 'client', component: ClientsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
-      { path: 'piechart', component: PiechartComponent ,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.PMO,Roles.Admin]}},
+      { path: 'piechart', component: PiechartComponent ,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.PMO,Roles.Admin,Roles.Receptionist]}},
       { path: 'editClient/:id', component: EditClientComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin]}  },
       // { path: 'editClient/:id', component: EditClientComponent,canActivate:[AuthGuard,basic] },
       { path: 'department', component: DepartmentComponent,canActivate:[basic], data:{role:[Roles.SuperAdmin,Roles.Admin]}  },

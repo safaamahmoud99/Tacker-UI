@@ -140,6 +140,13 @@
                             {{ 'Tracker.Employee' | translate }}
                         </label>
                     </div>
+                    <div class="form-check radio">
+                        <input [(ngModel)]="NewUser.roles" class="form-check-input" type="radio" name="exampleRadios"
+                            id="exampleRadios1" value="Receptionist">
+                        <label class="form-check-label" for="exampleRadios1">
+                            {{ 'Tracker.Receptionist' | translate }}
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>

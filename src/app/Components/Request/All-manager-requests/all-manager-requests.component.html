@@ -97,13 +97,13 @@
                 {{request.requestSubCategoryName}}
             </td>
             <td>
-                <span (click)="assignRequests(request.id)" *ngIf="request.isAssigned==false" class="pi pi-sign-in"
+                <span (click)="assignRequests(request.id)" *ngIf="request.isAssigned==false && role !='Receptionist'" class="pi pi-sign-in"
                     pTooltip="Assign Request" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
                 <span class="pi pi-file-o" (click)="ViewImages(request.id)" pTooltip="Show Documents"
                     style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
                 <span (click)="ViewMoreDesc(request.id)" class="pi pi-list" pTooltip="Descriptions"
                     style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
-                <span (click)="Opendialog(request.id)" *ngIf="request.requestStatusId !=2" class="pi  pi-ban"
+                <span (click)="Opendialog(request.id)" *ngIf="request.requestStatusId !=2 && role !='Receptionist'" class="pi  pi-ban"
                     pTooltip="Close Request" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
                 <!-- <span (click)="changeIcon(request.id)" *ngIf="(btnBoolean==false || RequestId!=request.id)  " class="pi pi-key"
                     pTooltip="Enable upload documents" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>

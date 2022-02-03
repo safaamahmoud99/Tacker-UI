@@ -256,12 +256,15 @@ export class PiechartComponent implements OnInit {
         this.requestService.GetAllRequestByRequestStatus(element.id).subscribe(e => {
           if (element.status == 'Open') {
             this.RequestOpenLength = e.length
+            console.log("this.RequestOpenLength",this.RequestOpenLength)
           }
           else if (element.status == 'Closed') {
             this.RequestClosedLength = e.length
+            console.log("this.RequestClosedLength",this.RequestClosedLength)
           }
           else if (element.status == 'InProgress') {
             this.RequestInProgressLength = e.length
+            console.log("this.RequestInProgressLength",this.RequestInProgressLength)
           }
           this.chartOptionRequest = {
             series: [

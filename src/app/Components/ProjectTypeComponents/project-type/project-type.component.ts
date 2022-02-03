@@ -44,7 +44,8 @@ add() {
         },
          error =>{
             //  console.log("error",error.error.message),
-        //this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+
     }
         
     );
@@ -65,7 +66,10 @@ update(id) {
             this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });
             this.Editboolean = false;
         },
-        error => { console.log("error",error.error.message) }
+        error => {
+            //  console.log("error",error.error.message) 
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+            }
     );
     
 }

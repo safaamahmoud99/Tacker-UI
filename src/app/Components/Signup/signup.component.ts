@@ -46,11 +46,12 @@ export class SignupComponent implements OnInit {
           localStorage.setItem("token", res["token"])
           localStorage.setItem("email", res["email"])
           localStorage.setItem("roles", res["roles"])
+          localStorage.setItem("name",  res["name"])
           localStorage.setItem("userName", res['userName']);
           localStorage.setItem("id", res['id']);
           localStorage.setItem("loginedUserId", res['loginedUserId']);
           this.role= localStorage.getItem("roles")
-          if (this.role == 'SuperAdmin'||this.role == 'PMO' || this.role=='Admin') {
+          if (this.role == 'SuperAdmin'||this.role == 'PMO' || this.role=='Admin' || this.role=='Receptionist' ) {
             this.routee.navigate(['/home/piechart'])
           }
           if(this.role =='PM'){

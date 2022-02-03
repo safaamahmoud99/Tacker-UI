@@ -17,10 +17,8 @@ export class SideNavComponent implements OnInit {
   IsUser: any;
   show: boolean;
   //direction = 'ltr';
-
   textDir: string = "ltr";
   selectedlang: string = '';
-
   role: string
   loggedInUserName: string
   empId: number
@@ -29,8 +27,6 @@ export class SideNavComponent implements OnInit {
   clientId: number
   getimage: any
   ProjectData: any;
- 
-
   constructor(private AuthService: AuthService,
     public translate: TranslateService,
     public dir: Directionality,
@@ -71,7 +67,7 @@ export class SideNavComponent implements OnInit {
       })
     }
     if ((this.role == "SuperAdmin" || this.role == "Admin" || this.role == "PMO" || this.role == "PM"
-    || this.role == "TL" || this.role == "Employee")) {
+    || this.role == "TL" || this.role == "Employee" || this.role =="Receptionist")) {
       this.empId = Number(localStorage.getItem('id'))
       console.log("empId",localStorage.getItem('id')) 
       this.empService.getEmpByID(this.empId).subscribe(w => {
@@ -80,10 +76,10 @@ export class SideNavComponent implements OnInit {
       })
 
     } 
-        sessionStorage.setItem("langEn", "langEn");
-     sessionStorage.setItem("langAr", "langAr");
+    sessionStorage.setItem("langEn", "langEn");
+    sessionStorage.setItem("langAr", "langAr");
     this.translate.get(['Tracker.Project Data']).subscribe((data: any) => {
-      console.log("ProjectData tanslated",this.ProjectData)
+    console.log("ProjectData tanslated",this.ProjectData)
 
 
    });

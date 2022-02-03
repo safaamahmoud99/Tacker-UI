@@ -1,13 +1,13 @@
 <div class="wrapper" dir="{{textDir}}" >
   <!-- Page Content Side Bar -->
-  <nav id="sidebar" *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'||role =='PM'" [ngStyle]="{'text-align': selectedlang === 'English' ? 'left': 'right'}">
+  <nav id="sidebar" *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'||role =='PM'|| role=='Receptionist'" [ngStyle]="{'text-align': selectedlang === 'English' ? 'left': 'right'}">
     <div class="sidebar-header">
       <h3 style="font-size: 25px;">{{ 'Tracker.TRACKER SYSTEM' | translate }} </h3>
     </div>
     <div></div>
 
     <ul class="list-unstyled components"  >
-      <li *ngIf="role=='SuperAdmin'" routerLinkActive="active">
+      <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'|| role=='Receptionist'" routerLinkActive="active">
         <a class="active" class="pi pi-bars" routerLink='piechart'> {{ 'Tracker.DashBoard' |
           translate}} </a><br>
       </li>
@@ -19,7 +19,7 @@
         <a class="active pi pi-sitemap" routerLink='tabs'>
           {{ 'Tracker.Projects' | translate }}</a><br>
       </li>
-      <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'" routerLinkActive="active">
+      <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO' ||role== 'Receptionist'" routerLinkActive="active">
         <!--  -->
         <a class="active" class="pi pi-ticket" routerLink='AllManagersReq'> {{ 'Tracker.Clients Requests' | translate}}
         </a><br>
@@ -131,7 +131,7 @@
             </li>
 
             <li style="margin-left: 20px; font-size: 20px;color: #2674a8;"
-              *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'">
+              *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'||role=='Receptionist'">
               <!--  -->
               <a class="active" routerLink='AllManagersReq'>{{ 'Tracker.Clients Requests' | translate }}</a><br>
             </li>
@@ -151,7 +151,7 @@
         <div class="row">
 
           <div *ngIf="role == 'SuperAdmin' || role == 'Admin' || role == 'PMO' || role == 'PM'
-          || role == 'TL'|| role == 'Employee'" 
+          || role == 'TL'|| role == 'Employee'|| role=='Receptionist'" 
           (click)="goToProfile()" style="cursor: pointer;">
             <span style="font-size: large;color: brown;">{{loggedInUserName}}</span>
             <img class="img-thumbnail" class="roounded" src="{{getimage}}api/employees/getImage/{{imgName }}" alt=""
@@ -183,7 +183,7 @@
           </label>
         </div>
         <div *ngIf="role == 'SuperAdmin' || role == 'Admin' || role == 'PMO' || role == 'PM'
-          || role == 'TL'|| role == 'Employee'">
+          || role == 'TL'|| role == 'Employee' ||role=='Receptionist'">
           <label>
             <select class="form-control" #selectedLang (change)="switchLang(selectedLang.value)" class="btn btn-info dropdown-toggle">
               <option *ngFor="let lang of translate.getLangs()" [value]="lang"

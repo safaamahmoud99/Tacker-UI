@@ -31,7 +31,7 @@ export class AddProjectTypeComponent implements OnInit {
         this.router.navigate(['home/ProjectTypes']);
       },
       error=>{
-        console.log("error in add",error.error.message)
+        this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: error.error.message });
       })
     }
     showSuccess() {
@@ -47,7 +47,7 @@ export class AddProjectTypeComponent implements OnInit {
     }
   
     showError() {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Message Content' });
+      this.messageService.add({ key: 'tr',severity: 'error', summary: 'Error', detail: 'Message Content' });
     }
   
     showTopLeft() {

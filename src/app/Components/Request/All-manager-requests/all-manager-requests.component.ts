@@ -32,6 +32,7 @@ export class AllManagerRequestsComponent implements OnInit {
   NewdecDialogForCloseRequest: boolean
   RequestObj: request
   clientObj:client
+  role:string
   displayBasic: boolean;
   btnBoolean: boolean=false;
   btnBoolean2: boolean=false;
@@ -53,7 +54,8 @@ export class AllManagerRequestsComponent implements OnInit {
     this.clientObj = {
       address:'',id:0,clientCode:'',clientName:'',email:'',gender:'',organizationId:0,organizationName:'',phone:''
     }
-
+    this.role = localStorage.getItem('roles');
+    console.log("role" ,this.role);
     this.reqDescriptionObj = {descriptionDate:new Date,
       description: '', id: 0, requestId: 0, userId: this.LoggedInUserString
     }

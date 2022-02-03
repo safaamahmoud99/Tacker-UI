@@ -126,7 +126,7 @@
         <small [hidden]="typeName.valid || typeName.untouched" id="helpId3"
             [translate]="'Tracker.messege'" class="text-danger"></small>          
         <ng-template pTemplate="footer">
-            <p-button (onClick)="add()" [disabled]="frm.invalid" type="submit" icon="pi pi-check"
+            <p-button   [disabled]="frm.invalid"  (onClick)="add()" type="submit" icon="pi pi-check"
                 styleClass="p-button-text">Submit
             </p-button>
             <p-button icon="pi pi-times" (click)="NewDialogbool=false">Cancel</p-button>

@@ -26,7 +26,7 @@ export class AllUsersComponent implements OnInit {
   constructor(private clientService:ClientService,private userService:UsersService,private EmpService:EmployeeService,
     private confirmationService: ConfirmationService,private messageService: MessageService
     ) { 
-    this.NewUser={id:0,email:'',roles:'',userName:'',password:'P@ssw0rd'};
+    this.NewUser={id:0,email:'',roles:'',userName:'',password:'P@ssw0rd',name:''};
   }
 
   ngOnInit(): void {
@@ -96,7 +96,7 @@ export class AllUsersComponent implements OnInit {
       if(element.id==event)
       {
         this.NewUser.email=element.email;
-        this.NewUser.userName=element.employeeName;
+        this.NewUser.name=element.employeeName;
       }
     });
   }
@@ -106,7 +106,7 @@ export class AllUsersComponent implements OnInit {
       if(element.id==event)
       {
         this.NewUser.email=element.email;
-        this.NewUser.userName=element.clientName;
+        this.NewUser.name=element.clientName;
       }
     });
   }

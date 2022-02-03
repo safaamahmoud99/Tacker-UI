@@ -130,7 +130,10 @@ public resetPassword = (route: string, body: ResetPasswordDTO) => {
   IsClient() {
     return localStorage.getItem('roles') == 'Client';
   }
-
+ IsRecptionist()
+ {
+   return localStorage.getItem('roles') == 'Receptionist';
+ }
   changPassword(NewPassword: string) {
     var Oldpass=localStorage.getItem("OldPassword")
 
