@@ -41,6 +41,8 @@ export const environment = {
   postProjectDocumentByProjectID: 'http://localhost:50653/api/ProjectDocument/SaveDocument',
   uploadFile: 'http://localhost:50653/api/ProjectDocument/uploadfile/',
   deletestakeholder: 'http://localhost:50653/api/Stackeholders/',
+  updatestackholder:'http://localhost:50653/api/Stackeholders/',
+  getStackholderbyId:'http://localhost:50653/api/Stackeholders/',
   deletemilestone: ' http://localhost:50653/api/MileStones/',
   deleteteam: 'http://localhost:50653/api/ProjectTeam/',
   GetClientByProjectId: 'http://localhost:50653/api/project/GetClientByProjectId/',

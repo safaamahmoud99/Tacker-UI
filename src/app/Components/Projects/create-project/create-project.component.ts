@@ -68,6 +68,7 @@ export class CreateProjectComponent implements OnInit {
   @ViewChild('stepper', { static: false }) stepper: MatStepper;
   projectObj: project;
   lstClients: client[];
+  stackholders: stackholder[];
   lstOrganizations: organization[];
   OrganizationObj: organization;
   stackholderInLst: stackholder
@@ -291,7 +292,10 @@ export class CreateProjectComponent implements OnInit {
     this.team = {
       Id: 0, Name: ''
     }
-    
+    // this.stackholderService.GetAllStackholdersByProjectID(this.projectID).subscribe(e => {
+    //   // this.stackholders = e
+    //   this.projectObj.listOfStackholders = e
+    // })
     this.assetservice.GetAllAssets().subscribe(
       data => {
         this.lstassets = data
@@ -555,7 +559,7 @@ export class CreateProjectComponent implements OnInit {
       this.stackholderInLst.mobile = String(this.stackholderInLst.mobile);
       this.lstOfStackholder.push(this.stackholderInLst);
       this.stackholderInLst = {
-        description: '', id: 0, mobile: '', projectId: this.projectID, rank: '', stackeholderName: ''
+        description: '', id: 0, mobile: '', projectId:this.projectID, rank: '', stackeholderName: ''
       }
     }
     else {
@@ -577,6 +581,12 @@ export class CreateProjectComponent implements OnInit {
   SaveToDB_Stackholders() {
     this.messageService.clear();
     this.stackholderService.insertListOfStackholders(this.lstOfStackholder).subscribe(e => {
+      this.lstOfStackholder = []
+      this.displayBasic=false;
+      this.stackholderService.GetAllStackholdersByProjectID(this.projectID).subscribe(e => {
+        this.stackholders = e
+        this.projectObj.listOfStackholders = e
+      })
       if(this.translate.currentLang=='English')
       {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Partener Added' });
@@ -588,7 +598,14 @@ export class CreateProjectComponent implements OnInit {
      
     })
   }
-
+  delStakeHolders(id: number) {
+    this.stackholderService.deletestakeholder(id).subscribe(res => {
+      this.stackholderService.GetAllStackholdersByProjectID(this.projectID).subscribe(e => {
+        this.stackholders = e
+        this.projectObj.listOfStackholders = e
+      })
+    })
+  }
   SaveToDB_Milestones() {
     this.messageService.clear();
     this.milestoneService.insertListOfMilestoness(this.lstOfMilestones).subscribe(e => {

@@ -74,6 +74,7 @@ export class UpdateProjectComponent implements OnInit {
   displayModal2: boolean;
   displayMaximizable: boolean;
   displayEdit: boolean;
+  dispalyStackholderEdit:boolean;
   id: any;
   Id: number
   projectObj: project
@@ -84,6 +85,7 @@ export class UpdateProjectComponent implements OnInit {
   ProjectTeam: projectTeam
   displayBasic: boolean;
   displayMile: boolean;
+  stackObj:stackholder;
   Namefound:boolean=false;
   Codefound:boolean=false;
   existProject:project[];
@@ -866,6 +868,7 @@ this.LOadPro();
     }
   */
   SaveToDB_Stackholders() {
+    this.messageService.clear();
     this.stackholderService.insertListOfStackholders(this.lstOfStackholder).subscribe(e => {
       this.lstOfStackholder = []
       this.stackholderService.GetAllStackholdersByProjectID(this.id).subscribe(e => {
@@ -917,6 +920,55 @@ this.LOadPro();
       })
     })
   }
+  // UpdateProjectSiteAsset() {
+  //   console.log("this.ProjectSiteAssetObj before update", this.ProjectSiteAssetObj)
+  //   this.ProjectSiteAssetObj.assetId = Number(this.ProjectSiteAssetObj.assetId)
+  //   this.ProjectSiteAssetService.updateProjectSiteAsset(this.ProjectSiteAssetId, this.ProjectSiteAssetObj).subscribe(
+  //     res => {
+  //       this.ProjectSiteAssetService.GetAllProjectSiteAssetBySiteId(this.SiteId, this.id).subscribe(
+  //         res => {
+  //           this.EditAssetDialogbool = false
+  //          // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Updated' });
+  //          if(this.translate.currentLang=='English')
+  //         {
+  //        this.messageService.add({   severity:'success', summary:'Success', detail: 'Record Updated' });
+  //         }
+  //       else
+  //       {
+  //       this.messageService.add({ severity:'success', summary: 'نجاح', sticky: false, detail: 'تم التعديل ' });
+  //       }
+  //           this.listProjectSiteAssetClients = res
+  //         }
+  //       )
+  //     }
+  //   )
+  // }
+  // editStak(id:number)
+  // {
+  //   this.dispalyStackholderEdit=true;
+  //   this.stackholderService.getstackholderbyId(id).subscribe(
+  //     res=>{
+  //       this.stackObj=res
+  //       console.log("stackkkkkkkk",this.stackObj);
+  //      // this.stackObj.stackeholderName
+  //     }
+  //   )
+  // }
+  // UpdateStackholder()
+  // {
+     
+  //  // id=Number(this.stackObj.id);
+  //  this.stackholderService.updatestakeholder(this.stackObj.id,this.stackObj).subscribe(
+  //    res=>{
+  //      this.stackholderService.GetAllStackholders().subscribe(
+  //        res=>{
+  //          this.dispalyStackholderEdit=false;
+  //          console.log("done Edit Stackholder");
+  //        }
+  //      )
+  //    }
+  //  )
+  // }
   delMile(id: number) {
     this.milestoneservice.deletemilestone(id).subscribe(res => {
       // this.ngOnInit()

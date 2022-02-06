@@ -70,14 +70,18 @@ export class DisplayAssetsComponent implements OnInit {
 
     }
     add() {
-        if (this.assetObj.assetName != '' && this.assetObj.assetModel != '' && this.assetObj.brandId != 0 && this.assetObj.originId != 0) {
+        this.messageService.clear();
+        if (this.assetObj.assetName.length >=3 && this.assetObj.assetModel.length>=3 && this.assetObj.brandId != 0 && this.assetObj.originId != 0) {
             this.assetservice.inserAsset(this.assetObj).subscribe(
                 res => {
                     this.NewDialogbool = false;
                     this.ngOnInit(),
                         this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
                 },
-                error => console.log(error),
+                error=>{
+                    this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: error.error.message });
+            
+                  },
             );
         }
         else {
@@ -92,14 +96,24 @@ export class DisplayAssetsComponent implements OnInit {
         )
     }
     update(id) {
+        this.messageService.clear();
+        if (this.assetObj.assetName.length >=3 && this.assetObj.assetModel.length>=3 && this.assetObj.brandId != 0 && this.assetObj.originId != 0) {
         this.assetservice.updateAsset(id, this.assetObj).subscribe(
             data => {
                 this.ngOnInit()
                 this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });
+                this.Editboolean = false;
             },
-            error => { console.log(error) }
+          error=>{
+                this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: error.error.message });
+        
+              }
         );
-        this.Editboolean = false;
+      
+            }
+            else{
+                this.messageService.add({ severity: 'warn', summary: 'Error !', detail: 'Plz complete data!' });    
+            }
     }
     confirm(id) {
         this.confirmationService.confirm({

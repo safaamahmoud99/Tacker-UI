@@ -31,4 +31,11 @@ updatestakeholdersbyprojectid(holders:stackholder[]):Observable<stackholder[]>{
 deletestakeholder(id:number):Observable<any>{ 
   return this.httpClient.delete<any>(`${environment.deletestakeholder}${id}`,this.httpHeader);
 }
+updatestakeholder(id:Number,stackholder:stackholder):Observable<stackholder>{
+  return this.httpClient.put<stackholder>(`${environment.updatestackholder}`+ id,stackholder,this.httpHeader);
+}
+getstackholderbyId(id:number):Observable<stackholder>
+{
+  return this.httpClient.get<stackholder>(`${environment.getStackholderbyId}${id}`,this.httpHeader);
+}
 }

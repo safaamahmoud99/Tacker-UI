@@ -1,6 +1,7 @@
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <p-toast></p-toast>
 <p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-right" key="tr"></p-toast>
 <p-toast position="top-center" key="tc"></p-toast>
 <p-toast position="bottom-center" key="bc"></p-toast>
 
@@ -144,15 +145,20 @@
     <div class="row">
         <div class="p-field col-md-12">
             <label [translate]="'Tracker.Asset Name'"></label><br>
-            <input type="text" class="form-control" pInputText [placeholder]="'Tracker.Asset Name' |translate"
+            <input type="text" required minlength="3" #assetname="ngModel" [class.is-invalid]="assetname.invalid && assetname.touched" [class.is-valid]="assetname.valid"
+             class="form-control"  pInputText [placeholder]="'Tracker.Asset Name' |translate"
                 [ngModelOptions]="{standalone: true}" [(ngModel)]="assetObj.assetName">
+                <small [hidden]="assetname.valid || assetname.untouched" id="helpId" class="text-danger"
+                   [translate]="'Tracker.messege'"></small> 
         </div>
     </div>
     <div class="row">
         <div class="p-field col-md-12">
             <label for="Asset Model" class="labelMarginRight" [translate]="'Tracker.Asset Model'"></label><br>
-            <input type="text" class="form-control " pInputText [placeholder]="'Tracker.Model Name' |translate"
-                [ngModelOptions]="{standalone: true}" [(ngModel)]="assetObj.assetModel">
+            <input type="text"  required minlength="3" #modelname="ngModel" [class.is-invalid]="modelname.invalid && modelname.touched" [class.is-valid]="modelname.valid" class="form-control " pInputText [placeholder]="'Tracker.Model Name' |translate"
+            [ngModelOptions]="{standalone: true}" [(ngModel)]="assetObj.assetModel">
+            <small [hidden]="modelname.valid || modelname.untouched" id="helpId" class="text-danger"
+               [translate]="'Tracker.messege'"></small> 
         </div>
     </div>
     <div class="row">
@@ -186,21 +192,27 @@
     </ng-template>
 
 </p-dialog>
-
+ 
 <p-dialog [(visible)]="NewDialogbool" [style]="{width: '40vw'}" [baseZIndex]="1000">
+    
     <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Add Asset</h1>
     <div class="row">
         <div class="p-field col-md-12">
             <label [translate]="'Tracker.Asset Name'"></label><br>
-            <input type="text" class="form-control" pInputText [placeholder]="'Tracker.Asset Name' |translate"
+            <input type="text" required minlength="3" #assetEname="ngModel" [class.is-invalid]="assetEname.invalid && assetEname.touched" [class.is-valid]="assetEname.valid"
+             class="form-control"  pInputText [placeholder]="'Tracker.Asset Name' |translate"
                 [ngModelOptions]="{standalone: true}" [(ngModel)]="assetObj.assetName">
+                <small [hidden]="assetEname.valid || assetEname.untouched" id="helpId" class="text-danger"
+                   [translate]="'Tracker.messege'"></small> 
         </div>
     </div>
     <div class="row">
         <div class="p-field col-md-12">
             <label for="Asset Model" class="labelMarginRight" [translate]="'Tracker.Asset Model'"></label><br>
-            <input type="text" class="form-control " pInputText [placeholder]="'Tracker.Model Name' |translate"
+            <input type="text"  required minlength="3" #modelEname="ngModel" [class.is-invalid]="modelEname.invalid && modelEname.touched" [class.is-valid]="modelEname.valid" class="form-control " pInputText [placeholder]="'Tracker.Model Name' |translate"
                 [ngModelOptions]="{standalone: true}" [(ngModel)]="assetObj.assetModel">
+                <small [hidden]="modelEname.valid || modelEname.untouched" id="helpId" class="text-danger"
+                   [translate]="'Tracker.messege'"></small> 
         </div>
     </div>
     <div class="row">

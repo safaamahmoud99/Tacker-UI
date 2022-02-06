@@ -153,7 +153,8 @@
                   <button mat-stroked-button [disabled]="IsSaveProject" (click)="AddProject()" color="primary" mat-button >{{'Tracker.Submit'|translate}}</button>
                 </div>
                 <div class="col-md-2">
-                    <button mat-stroked-button [disabled]="disabledButton" color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                    <!-- [disabled]="disabledButton"-->
+                    <button mat-stroked-button color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
                 </div>
                 <!-- <div class="col-md-2">
                     <button mat-stroked-button [disabled]="disabledButton"  (click)="AddProject()" color="primary" mat-button>{{'Tracker.NEXT'|translate}}</button>
@@ -260,101 +261,60 @@
         </mat-step>
         <mat-step [stepControl]="PartenerFormGroup">
             <ng-template matStepLabel>{{'Tracker.Parteners'| translate}}</ng-template>
-            <div class="row">
-
-                <div class="col for">
-                    <div class="p-col-12 p-md-4">
-                        <div class="p-inputgroup">
-                            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                            <input #PartnerName="ngModel" class="form-control"
-                                [class.is-invalid]="PartnerName.invalid && PartnerName.touched"
-                                [class.is-valid]="PartnerName.valid" required minlength="3" type="text" pInputText
-                                [placeholder]="'Tracker.Partener Name' | translate"
-                                [(ngModel)]="stackholderInLst.stackeholderName">
-                        </div>
-                        <small [hidden]="PartnerName.valid || PartnerName.untouched" id="helpId" class="text-danger"
-                            [translate]="'Tracker.messege'"></small>
-                    </div>
-                    <div class="p-col-12 p-md-4">
-                        <div class="p-inputgroup">
-                            <span class="p-inputgroup-addon"></span>
-                            <input #Partenermobile="ngModel" class="form-control"
-                                [class.is-invalid]="Partenermobile.invalid && Partenermobile.touched"
-                                [class.is-valid]="Partenermobile.valid" required  pattern="^01[0-2,5]{1}[0-9]{8}$" type="text" pInputText
-                                [placeholder]="'Tracker.Mobile' | translate" [(ngModel)]="stackholderInLst.mobile">
-                            <span class="p-inputgroup-addon"></span>
-                        </div>
-                        <small [hidden]="Partenermobile.valid || Partenermobile.untouched" id="helpId" class="text-danger validation"
-                      [translate]="'Tracker.phoneNumber'"  >  </small>
-                    </div>
-                    <div class="p-col-12 p-md-4">
-                        <div class="p-inputgroup">
-                            <span class="p-inputgroup-addon"></span>
-                            <input #Partenerrank="ngModel" class="form-control"
-                                [class.is-invalid]="Partenerrank.invalid && Partenerrank.touched"
-                                [class.is-valid]="Partenerrank.valid" required minlength="3" type="text" pInputText
-                                [placeholder]="'Tracker.Rank' | translate" [(ngModel)]="stackholderInLst.rank">
-                            <span class="p-inputgroup-addon"></span>
-                        </div>
-                        <small [hidden]="Partenerrank.valid || Partenerrank.untouched" id="helpId" class="text-danger"
-                            [translate]="'Tracker.messege'"></small>
-                    </div>
-                    <div class="p-col-12 p-md-4">
-                        <div>
-                            <textarea pInputTextarea [placeholder]="'Tracker.Description' | translate" style="width: 100%;"
-                                [(ngModel)]="stackholderInLst.description" class="row p-col-12 p-md-4"></textarea>
-                        </div>
-                        <div>
-                            <button class="btn btn-info" style="margin-top: 20px;float: right;margin-right: -17px;"
-                                (click)="Savetolist_Stackholders()" [translate]="'Tracker.Save To List'"></button>
-                        </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2 mb-2">
+                        <button (click)="showBasicDialog()" mat-flat-button color="primary">{{'Tracker.Add Partener' |
+                            translate}}</button>
                     </div>
                 </div>
-
-                <div class="col">
-                    <table class="table">
-                        <thead>
+                <div class="row card mb-2">
+                    <p-table [value]="projectObj.listOfStackholders">
+                        <ng-template pTemplate="header">
                             <tr>
-                                <th [translate]="'Tracker.Partener Name'"></th>
-                                <th [translate]="'Tracker.Mobile'"></th>
+                                <!-- style="color: #2674a8; font-size: 20px; font: bold;" -->
+                                <th>{{'Tracker.Partener Name'| translate}}</th>
+                                <th>{{'Tracker.Mobile' | translate}}</th>
+                                <th>{{'Tracker.Rank' | translate}}</th>
+                                <th>{{'Tracker.Delete'| translate}}</th>
                             </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr *ngFor="let i of lstOfStackholder">
-                                <td>
-                                    {{i.stackeholderName}}
-                                </td>
-                                <td>
-                                    {{i.mobile}}
-                                </td>
-                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-i>
                             <tr>
-
-                            </tr>
-                            <tr *ngIf="lstOfStackholder.length == 0">
-                                <td colspan="4" style="color: rgb(102, 97, 23);" [translate]="'Tracker.No data found'">
+                                <td>{{i.stackeholderName}}</td>
+                                <td>{{i.mobile}}</td>
+                                <td>{{i.rank}}</td>
+                                <td>
+                                    <!-- <button pButton icon="pi pi-trash" class="p-button-danger"
+                                    (click)="delStakeHolders(i.id)"></button> -->
+                                    <span class="p-button-icon pi pi-trash" (click)="delStakeHolders(i.id)"
+                                        aria-hidden="true" pTooltip="Delete Partener "
+                                        style="margin-left: 15px;color:red"></span>
                                 </td>
+
                             </tr>
-                        </tbody>
-
-                    </table>
-
-                    <button class="btn btn-warning" [disabled]="lstOfStackholder.length == 0"
-                        (click)="SaveToDB_Stackholders()" [translate]="'Tracker.Add'"></button>
+                        </ng-template>
+                    </p-table>
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-md-3">
-                  <button mat-stroked-button color="primary" mat-button matStepperPrevious> {{'Tracker.Back'|translate}}</button>
+                    <button mat-stroked-button color="primary" mat-button matStepperPrevious>
+                        {{'Tracker.Back'|translate}}</button>
                 </div>
                 <div class="col-md-7"></div>
                 <div class="col-md-2">
-                  <button mat-stroked-button color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                    <button mat-stroked-button color="primary" mat-button
+                        matStepperNext>{{'Tracker.NEXT'|translate}}</button>
                 </div>
-            </div>
+            </div> 
+          
         </mat-step>
+        
+    <!-- Dialog Add Partener -->
+  
         <mat-step [stepControl]="MileStoneFormGroup">
             <ng-template matStepLabel>{{'Tracker.MileStones'| translate}}</ng-template>
             <div class="row">
@@ -704,6 +664,106 @@
             <button icon="pi pi-times" class="btn btn-primary" (click)="NewDialogbool=false">Cancel</button>
         </ng-template>
 
+    </p-dialog>
+
+    <p-dialog   [(visible)]="displayBasic" [header]="'Tracker.Add Partener' | translate" [style]="{width: '50vw'}"
+        [baseZIndex]="100000" >
+           <div class="row">
+            <div class="col">
+              <div class="p-col-12 p-md-4">
+                
+                    <label for="Partener Name"   [translate]="'Tracker.Partener Name'"></label>
+                    <div class="p-inputgroup"> 
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                    <input #PartnerName="ngModel" class="form-control"
+                        [class.is-invalid]="PartnerName.invalid && PartnerName.touched"
+                        [class.is-valid]="PartnerName.valid" required minlength="3" type="text" pInputText
+                        [placeholder]="'Tracker.Partener Name' | translate"
+                        [(ngModel)]="stackholderInLst.stackeholderName">
+                </div>
+                <small [hidden]="PartnerName.valid || PartnerName.untouched" id="helpId" class="text-danger"
+                    [translate]="'Tracker.messege'"></small>
+            </div>
+                <div class="p-col-12 p-md-4">
+                
+                    <label for="Mobile" [translate]="'Tracker.Mobile'"></label> 
+                      <div class="p-inputgroup">
+                      <span class="p-inputgroup-addon"></span>
+                      <input #Partenermobile="ngModel" class="form-control"
+                          [class.is-invalid]="Partenermobile.invalid && Partenermobile.touched"
+                          [class.is-valid]="Partenermobile.valid" required  pattern="^01[0-2,5]{1}[0-9]{8}$" type="text" pInputText
+                          [placeholder]="'Tracker.Mobile' | translate" [(ngModel)]="stackholderInLst.mobile">
+                      <span class="p-inputgroup-addon"></span>
+                  </div>
+                  <small [hidden]="Partenermobile.valid || Partenermobile.untouched" id="helpId" class="text-danger validation"
+                [translate]="'Tracker.phoneNumber'">  </small>
+              </div>
+              <div class="p-col-12 p-md-4">
+                
+                    <label for="Rank" [translate]="'Tracker.Rank'"></label>
+                    <div class="p-inputgroup"> 
+                    <span class="p-inputgroup-addon"></span>
+                    <input #Partenerrank="ngModel" class="form-control"
+                        [class.is-invalid]="Partenerrank.invalid && Partenerrank.touched"
+                        [class.is-valid]="Partenerrank.valid" required minlength="3" type="text" pInputText
+                        [placeholder]="'Tracker.Rank' | translate" [(ngModel)]="stackholderInLst.rank">
+                    <span class="p-inputgroup-addon"></span>
+                </div>
+                <small [hidden]="Partenerrank.valid || Partenerrank.untouched" id="helpId" class="text-danger"
+                    [translate]="'Tracker.messege'"></small>
+            </div>
+                <div class="p-col-12 p-md-4">
+                    <div>
+                        <textarea pInputTextarea [placeholder]="'Tracker.Description' | translate" style="width: 100%;"
+                            [(ngModel)]="stackholderInLst.description" class="row p-col-12 p-md-4"></textarea>
+                    </div>
+                    <div>
+                        <button class="btn btn-info" style="margin-top: 20px;float: right;"
+                            (click)="Savetolist_Stackholders()" [translate]="'Tracker.Save To List'"></button>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th [translate]="'Tracker.Partener Name'"></th>
+                            <th [translate]="'Tracker.Mobile'"></th>
+                            <!-- <th>Projectcost</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+    
+                        <tr *ngFor="let i of lstOfStackholder">
+                            <td>
+                                {{i.stackeholderName}}
+                            </td>
+                            <td>
+                                {{i.mobile}}
+                            </td>
+                        </tr>
+                        <tr>
+    
+                        </tr>
+                        <tr *ngIf="lstOfStackholder.length == 0">
+                            <td colspan="4" style="color: rgb(102, 97, 23);" [translate]="'Tracker.No data found'"></td>
+                        </tr>
+                    </tbody>
+    
+                </table>
+    
+                <button class="btn btn-warning" [disabled]="lstOfStackholder.length == 0"
+                    (click)="SaveToDB_Stackholders()" [translate]="'Tracker.Add'"></button>
+            </div>
+        </div>
+    
+    
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="displayBasic=false" [label]="'Tracker.Ok' | translate"
+                styleClass="p-button-text">
+            </p-button>
+        </ng-template>
     </p-dialog>
 </div>
 
