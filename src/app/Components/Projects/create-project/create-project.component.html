@@ -4,6 +4,26 @@
 <p-toast position="top-center" key="tc"></p-toast>
 <p-toast position="top-right" key="tr"></p-toast>
 <p-toast position="bottom-center" key="bc"></p-toast>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+      <div class="p-flex p-flex-column" style="flex: 1">
+        <div class="p-text-center">
+          <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+          <h4>{{message.summary}}</h4>
+          <p>{{message.detail}}</p>
+        </div>
+        <div class="p-grid p-fluid">
+          <div class="p-col-6">
+            <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+          </div>
+          <div class="p-col-6">
+            <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-toast>
 <div class="card container">
     <h1 [translate]="'Tracker.Add Project'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
     <mat-horizontal-stepper [linear]="isLinear" #stepper >
@@ -286,11 +306,11 @@
                                 <td>{{i.mobile}}</td>
                                 <td>{{i.rank}}</td>
                                 <td>
-                                    <!-- <button pButton icon="pi pi-trash" class="p-button-danger"
-                                    (click)="delStakeHolders(i.id)"></button> -->
-                                    <span class="p-button-icon pi pi-trash" (click)="delStakeHolders(i.id)"
-                                        aria-hidden="true" pTooltip="Delete Partener "
-                                        style="margin-left: 15px;color:red"></span>
+                                        <span class="p-button-icon pi pi-pencil" aria-hidden="true"
+                                        style="margin-left: 15px;cursor: pointer;" pTooltip="Edit Partener" (click)="editStak(i.id)"></span>
+                                        <span class="p-button-icon pi pi-trash" (click)="ConfirmDelStack(i.id)"
+                                            aria-hidden="true" pTooltip="Delete Partener "
+                                            style="margin-left: 15px;color:red"></span>
                                 </td>
 
                             </tr>
@@ -317,68 +337,26 @@
   
         <mat-step [stepControl]="MileStoneFormGroup">
             <ng-template matStepLabel>{{'Tracker.MileStones'| translate}}</ng-template>
-            <div class="row">
-                <div class="col">
-                    <div class="p-col-12 p-md-4">
-                        <div class="p-inputgroup">
-                            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                            <input #mileston="ngModel" class="form-control"
-                                [class.is-invalid]="mileston.invalid && mileston.touched" [class.is-valid]="mileston.valid"
-                                required minlength="3" type="text" pInputText [placeholder]="'Tracker.Title' | translate"
-                                [(ngModel)]="milestonInLst.title">
-                        </div>
-                        <small [hidden]="mileston.valid || mileston.untouched" id="helpId" class="text-danger"
-                            [translate]="'Tracker.messege'"></small>
-                    </div>
-                    <div class="row p-col-12 p-md-4">
-                        <div class="p-field col-md-6">
-                            <label for="StartDate" class="labelMarginRight" [translate]="'Tracker.Start Date'">
-                            </label><br>
-                            <p-calendar #milestonStartDate="ngModel" appendTo="body" (onSelect)="GetmilestonStartDate($event)"
-                                [class.is-invalid]="milestonStartDate.invalid && milestonStartDate.touched"
-                                [class.is-valid]="milestonStartDate.valid" required minlength="3"
-                                [(ngModel)]="milestonInLst.startDate" dateFormat="dd/mm/yy"></p-calendar>
-                            <br><small [hidden]="milestonStartDate.valid || milestonStartDate.untouched" id="helpId"
-                                class="text-danger" [translate]="'Tracker.messegeDate'"></small>
-                        </div>
-                        <div class="p-field col-md-6">
-                            <label for="End Date" class="labelMarginRight" [translate]="'Tracker.End Date'">
-                            </label><br>
-                            <p-calendar  [minDate]="milestonInLst.startDate" #milestonendDate="ngModel" appendTo="body"
-                                [class.is-invalid]="milestonendDate.invalid && milestonendDate.touched"
-                                [class.is-valid]="milestonendDate.valid" required
-                                [(ngModel)]="milestonInLst.endDate" dateFormat="dd/mm/yy"></p-calendar><br>
-                            <small [hidden]="milestonendDate.valid || milestonendDate.untouched" id="helpId"
-                                class="text-danger" [translate]="'Tracker.messegeDate'"></small>
-                        </div>
-                    </div>
-
-                    <div class="p-col-12 p-md-4">
-                        <div>
-                            <textarea pInputTextarea [placeholder]="'Tracker.Description' | translate"
-                                [(ngModel)]="milestonInLst.description" style="width: 100%;"
-                                class="row p-col-12 p-md-4"></textarea>
-                        </div>
-                        <div>
-                            <button class="btn btn-info" style="margin-top: 20px;float: right;margin-right: -17px;"
-                                (click)="Savetolist_Milestones()" [translate]="'Tracker.Save To List'"></button>
-                        </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2 mb-2">
+                        <button (click)="showmileDialog()" mat-flat-button color="primary">{{'Tracker.Add MileStones' |
+                            translate}}</button>
                     </div>
                 </div>
-
-                <div class="col">
-                    <table class="table">
-                        <thead>
+                <div class="row card mb-2">
+                    <p-table [value]="projectObj.listOfmilestones">
+                        <ng-template pTemplate="header">
                             <tr>
                                 <th [translate]="'Tracker.Title'"></th>
                                 <th [translate]="'Tracker.Start Date'"></th>
                                 <th [translate]="'Tracker.End Date'"></th>
-                                <th [translate]="'Tracker.Description'"></th>
+                                <th>{{'Tracker.Controls'| translate}}</th>
                             </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr *ngFor="let i of lstOfMilestones">
+                        </ng-template>
+                        <ng-template pTemplate="body" let-i>
+                            <tr>
                                 <td>
                                     {{i.title}}
                                 </td>
@@ -389,95 +367,54 @@
                                     {{i.endDate | date:'dd/MM/yyyy'}}
                                 </td>
                                 <td>
-                                    {{i.description}}
+                                    <span class="p-button-icon pi pi-pencil" aria-hidden="true"
+                                    style="margin-left: 15px;cursor: pointer;" pTooltip="Edit mileston" (click)="editMile(i.id)"></span> &nbsp;
+                                    <span class="p-button-icon pi pi-trash" (click)="delMile(i.id)" aria-hidden="true"
+                                        pTooltip="Delete mileston " style="margin-left: 15px;color:red"></span>
                                 </td>
                             </tr>
-                            <tr>
-
-                            </tr>
-                            <tr *ngIf="lstOfMilestones.length == 0">
-                                <td colspan="4" style="color: rgb(102, 97, 23);" [translate]="'Tracker.No data found'">.
-                                </td>
-                            </tr>
-                        </tbody>
-
-                    </table>
-
-                    <button class="btn btn-warning" [disabled]="lstOfMilestones.length == 0" (click)="SaveToDB_Milestones()"
-                        [translate]="'Tracker.Add'"></button>
+                        </ng-template>
+                    </p-table>
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-md-3">
-                  <button mat-stroked-button color="primary" mat-button matStepperPrevious> {{'Tracker.Back'|translate}}</button>
+                    <button mat-stroked-button color="primary" mat-button matStepperPrevious>
+                        {{'Tracker.Back'|translate}}</button>
                 </div>
                 <div class="col-md-7"></div>
                 <div class="col-md-2">
-                  <button mat-stroked-button color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                    <button mat-stroked-button color="primary" mat-button
+                        matStepperNext>{{'Tracker.NEXT'|translate}}</button>
                 </div>
-            </div>
+            </div>  
         </mat-step>
         <mat-step [stepControl]="TeamFormGroup">
             <ng-template matStepLabel>{{'Tracker.Teams'| translate}}</ng-template>
-            <div class="row">
-                <div class="p-col-12 p-md-4">
-                    <div class="p-inputgroup">
-                        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                        <input #teamname2="ngModel" [class.is-invalid]="teamname2.invalid && teamname2.touched"
-                            [class.is-valid]="teamname2.valid" required minlength="3" type="text" class="form-control"
-                            pInputText [placeholder]="'Tracker.Team Name' | translate" [(ngModel)]="team.Name">
-                    </div>
-                    <small [hidden]="teamname2.valid || teamname2.untouched" id="helpId" class="text-danger"
-                        [translate]="'Tracker.messege'"></small>
-                </div>
-                <div class="col">
-                    <div class="col">
-                        <label class="labelstyle" [translate]="'Tracker.Position Name'"></label>
-                        <select [(ngModel)]="ProjectTeam.projectPositionId" name="id" class="form-control">emp
-                            <option hidden [value]="" selected>select Position Name </option>
-                            <option *ngFor="let the of lstOfprojectPosition" value="{{the.id}}">{{the.positionName}}
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="col">
-                        <label class="labelstyle" [translate]="'Tracker.Employee Name'"></label>
-                        <select [(ngModel)]="ProjectTeam.employeeId" name="sel2" class="form-control"
-                            (change)="OnChangeEmpID($event)">
-                            <option *ngFor="let th of lstEmployees" value="{{th.id}}">{{th.employeeName}}</option>
-                        </select>
-                    </div>
-
-                    <div class="col">
-                        <label class="labelstyle" [translate]="'Tracker.Department Name'"></label>
-                        <select [(ngModel)]="ProjectTeam.departmentId" name="sub" class="form-control">
-                            <option value="{{department.id}}">{{department.name}}</option>
-                        </select>
-                    </div>
-
-                    <div class="p-col-12 p-md-4">
-
-                        <div>
-                            <button class="btn btn-info" style="margin-top: 20px;float: right;" (click)="Savetolist_Teams()"
-                                [translate]="'Tracker.Save To List'"></button>
-                        </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2  mb-2">
+                        <button (click)="showteamDialog()" mat-flat-button color="primary">{{'Tracker.Add Teams' |
+                            translate}}</button>
                     </div>
                 </div>
-
-                <div class="col">
-                    <table class="table">
-                        <thead>
-                            <tr>{{ 'Tracker.Team Name' | translate }} : {{teamname}}</tr>
+                <div class="row card mb-2">
+                    <p-table [value]="projectObj.listofprojectteam">
+                        <ng-template pTemplate="header">
                             <tr>
+                                <th [translate]="'Tracker.Team Name'"></th>
                                 <th [translate]="'Tracker.Position Name'"></th>
                                 <th [translate]="'Tracker.Employee Name'"></th>
                                 <th [translate]="'Tracker.Department Name'"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                                <th>{{'Tracker.Delete'| translate}}</th>
 
-                            <tr *ngFor="let i of lstOfProjectTeams">
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-i>
+                            <tr>
+                               <td>{{i.teamName}}</td>
                                 <td>
                                     {{i.projectPositionName}}
                                 </td>
@@ -487,117 +424,77 @@
                                 <td>
                                     {{i.departmentName}}
                                 </td>
-                            </tr>
-
-                            <tr *ngIf="lstOfProjectTeams.length == 0">
-                                <td colspan="4" style="color: rgb(102, 97, 23);" [translate]="'Tracker.No data found'">.
+                                <td>
+                                    <span class="p-button-icon pi pi-trash" (click)="delteam(i.id)" aria-hidden="true"
+                                        pTooltip="Delete Team" style="margin-left: 15px;color:red"></span>
                                 </td>
                             </tr>
-                        </tbody>
-
-                    </table>
-
-                    <button class="btn btn-warning" [disabled]="lstOfProjectTeams.length == 0"
-                        (click)="SaveToDB_ProjectTeams()" [translate]="'Tracker.Add'"></button>
+                        </ng-template>
+                    </p-table>
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-md-3">
-                  <button mat-stroked-button color="primary" mat-button matStepperPrevious> {{'Tracker.Back'|translate}}</button>
+                    <button mat-stroked-button color="primary" mat-button matStepperPrevious>
+                        {{'Tracker.Back'|translate}}</button>
                 </div>
                 <div class="col-md-7"></div>
                 <div class="col-md-2">
-                  <button mat-stroked-button color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                    <button mat-stroked-button color="primary" mat-button
+                        matStepperNext>{{'Tracker.NEXT'|translate}}</button>
                 </div>
             </div>
         </mat-step>
         <mat-step [stepControl]="DocumentsFormGroup">
             <ng-template matStepLabel>{{'Tracker.Documents'| translate}}</ng-template>
-            <div class="row">
-                <div class="col">
-                    <div class="p-col-12 p-md-4">
-                        <div class="p-inputgroup">
-                            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                            <input #DocName="ngModel" class="form-control"
-                                [class.is-invalid]="DocName.invalid && DocName.touched" [class.is-valid]="DocName.valid"
-                                required minlength="3" type="text" pInputText
-                                [placeholder]="'Tracker.Document Name' | translate" [(ngModel)]="docproject.documentName">
-                        </div>
-                        <small [hidden]="DocName.valid || DocName.untouched" id="helpId" class="text-danger"
-                            [translate]="'Tracker.messege'"></small>
-                    </div>
-                    <div class="p-col-12 p-md-4">
-                        <div>
-                            <textarea pInputTextarea [placeholder]="'Tracker.Description' | translate" style="width: 100%;"
-                                [(ngModel)]="docproject.Description" class="row p-col-12 p-md-4"></textarea>
-                        </div>
-                        <br />
-                        <br />
-                        <div class="p-field col-md-3" style="margin-bottom:15px;">
-                            <div class="col-md-2">
-                                <input type="file" #file [placeholder]="'Tracker.Choose file'|translate"
-                                    (change)="uploadFile(file.files)" style="display:none;">
-
-                            </div>
-                            <div class="col-md-4">
-
-                                <span class="upload" *ngIf="message">
-
-                                    {{message}}
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <button type="button" class="btn btn-success" style="margin-top: 20px;margin-left: 10px;" (click)="file.click()"
-                            [translate]="'Tracker.Upload'">
-                        </button>
-                            <button class="btn btn-info" style="margin-top: 20px;float: right;" (click)="Savedoctolist()"
-                                [translate]="'Tracker.Save To List'"></button>
-                        </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2  mb-2">
+                        <button (click)="showdocDialog()" mat-flat-button color="primary">{{'Tracker.Add Document' |
+                            translate}}</button>
                     </div>
                 </div>
-
-                <div class="col">
-                    <table class="table">
-                        <thead>
+                <div class="row card mb-2">
+                    <p-table [value]=" projectObj.listOfdocuments">
+                        <ng-template pTemplate="header">
                             <tr>
-                                <th [translate]="'Tracker.Document Name'"></th>
-                                <th [translate]="'Tracker.Description'"></th>
-                                <th [translate]="'Tracker.File Name'"></th>
+                                <th [translate]="'Tracker.Document Name'">
+                                </th>
+                                <th [translate]="'Tracker.Document File'">
+                                </th>
+                                <th>{{'Tracker.Delete'| translate}}</th>
                             </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr *ngFor="let i of lstoddocproj">
-
+                        </ng-template>
+                        <ng-template pTemplate="body" let-i>
+                            <tr>
                                 <td>{{i.documentName}}</td>
-                                <td>{{i.Description}}</td>
-                                <td>{{i.documentFile}}</td>
-                            </tr>
-                            <tr>
-
-                            </tr>
-                            <tr *ngIf="lstoddocproj.length == 0">
-                                <td colspan="4" style="color: rgb(102, 97, 23);" [translate]="'Tracker.No data found'">.
+                                <td (click)="downloadFile(i.documentFile)"
+                                    style="color: blue; cursor: pointer; text-decoration: blue  underline;">
+                                    {{i.documentFile}}
+                                </td>
+                                <td>
+                                    <span class="p-button-icon pi pi-trash" (click)="delDocument(i.id)"
+                                        aria-hidden="true" pTooltip="Delete Document "
+                                        style="margin-left: 15px;color:red"></span>
                                 </td>
                             </tr>
-                        </tbody>
-
-                    </table>
-
-                    <button class="btn btn-warning" [disabled]="lstoddocproj.length == 0" (click)="SaveDocuentToDB()"
-                        [translate]="'Tracker.Add'"></button>
+                        </ng-template>
+                    </p-table>
                 </div>
+
             </div>
             <br>
             <div class="row">
                 <div class="col-md-3">
-                  <button mat-stroked-button color="primary" mat-button matStepperPrevious> {{'Tracker.Back'|translate}}</button>
+                    <button mat-stroked-button color="primary" mat-button matStepperPrevious>
+                        {{'Tracker.Back'|translate}}</button>
                 </div>
                 <div class="col-md-7"></div>
                 <div class="col-md-2">
-                  <button mat-stroked-button color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                    <button mat-stroked-button color="primary" mat-button
+                        matStepperNext>{{'Tracker.NEXT'|translate}}</button>
                 </div>
             </div>
         </mat-step>
@@ -765,6 +662,366 @@
             </p-button>
         </ng-template>
     </p-dialog>
+ <p-dialog [header]="'Tracker.Edit Partener' | translate" [(visible)]="dispalyStackholderEdit" [style]="{width: '50vw'}"
+[baseZIndex]="10000">
+<div class="row">
+    <div class="col">
+      <div class="p-col-12 p-md-4">
+        
+            <label for="Partener Name"   [translate]="'Tracker.Partener Name'"></label>
+            <div class="p-inputgroup"> 
+            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+            <input #PartnerrName="ngModel" class="form-control"
+                [class.is-invalid]="PartnerrName.invalid && PartnerrName.touched"
+                [class.is-valid]="PartnerrName.valid" required minlength="3" type="text" pInputText
+                [placeholder]="'Tracker.Partener Name' | translate"
+                [(ngModel)]="stackObj.stackeholderName">
+        </div>
+        <small [hidden]="PartnerrName.valid || PartnerrName.untouched" id="helpId" class="text-danger"
+            [translate]="'Tracker.messege'"></small>
+    </div>
+        <div class="p-col-12 p-md-4">
+        
+            <label for="Mobile" [translate]="'Tracker.Mobile'"></label> 
+              <div class="p-inputgroup">
+              <span class="p-inputgroup-addon"></span>
+              <input #Partenerrmobile="ngModel" class="form-control"
+                  [class.is-invalid]="Partenerrmobile.invalid && Partenerrmobile.touched"
+                  [class.is-valid]="Partenerrmobile.valid" required  pattern="^01[0-2,5]{1}[0-9]{8}$" type="text" pInputText
+                  [placeholder]="'Tracker.Mobile' | translate" [(ngModel)]="stackObj.mobile">
+              <span class="p-inputgroup-addon"></span>
+          </div>
+          <small [hidden]="Partenerrmobile.valid || Partenerrmobile.untouched" id="helpId" class="text-danger validation"
+        [translate]="'Tracker.phoneNumber'">  </small>
+      </div>
+      <div class="p-col-12 p-md-4">
+        
+            <label for="Rank" [translate]="'Tracker.Rank'"></label>
+            <div class="p-inputgroup"> 
+            <span class="p-inputgroup-addon"></span>
+            <input #Partenerrrank="ngModel" class="form-control"
+                [class.is-invalid]="Partenerrrank.invalid && Partenerrrank.touched"
+                [class.is-valid]="Partenerrrank.valid" required minlength="3" type="text" pInputText
+                [placeholder]="'Tracker.Rank' | translate" [(ngModel)]="stackObj.rank">
+            <span class="p-inputgroup-addon"></span>
+        </div>
+        <small [hidden]="Partenerrrank.valid || Partenerrrank.untouched" id="helpId" class="text-danger"
+            [translate]="'Tracker.messege'"></small>
+    </div>
+        <div class="p-col-12 p-md-4">
+            <div>
+                <textarea pInputTextarea [placeholder]="'Tracker.Description' | translate" style="width: 100%;"
+                    [(ngModel)]="stackObj.description" class="row p-col-12 p-md-4"></textarea>
+            </div>
+            <div>
+                <button class="btn btn-info" style="margin-top: 20px;float: right;"
+                    (click)="UpdateStackholder()" [translate]="'Tracker.Update'" ></button>
+            </div>
+        </div>
+    </div>  
+</div>
+<ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="dispalyStackholderEdit=false" [label]="'Tracker.Ok' | translate"
+        styleClass="p-button-text">
+    </p-button>
+</ng-template>
+</p-dialog>
+    <!--Edit Mile Stone Dialog -->
+    <p-dialog [header]="'Tracker.Edit MileStone'| translate" [(visible)]="dispalyMileEdit" [style]="{width: '40vw'}"
+    [baseZIndex]="10000">
+    <div class="row">
+        <div class="col">
+            <div class="p-col-6 p-md-4">
+                <label for="Title" [translate]="'Tracker.Title'"></label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"></span>
+                    <input type="text" pInputText placeholder="Title" [(ngModel)]="MileObj.title">
+                </div>
+            </div>
+            <div class="row p-col-6 p-md-4">
+                <div class="p-field col-md-6">
+                    <label for="StartDate" class="labelMarginRight" [translate]="'Tracker.Start Date'">
+                    </label><br>
+                    <p-calendar [(ngModel)]="MileObj.startDate" dateFormat="dd/mm/yy" appendTo="body">
+                    </p-calendar>
+                </div>
+                <div class="p-field col-md-6">
+                    <label for="End Date" class="labelMarginRight" [translate]="'Tracker.End Date'">
+                    </label><br>
+                    <p-calendar [(ngModel)]="MileObj.endDate" dateFormat="dd/mm/yy" appendTo="body">
+                    </p-calendar>                    
+                </div>
+            </div>
+
+            <div class="p-col-6 p-md-4">
+                <div>
+                    <textarea pInputTextarea [placeholder]="'Tracker.Description' | translate"
+                        [(ngModel)]="MileObj.description" style="width: 100%;"
+                        class="row p-col-12 p-md-4"></textarea>
+                </div>
+                <div>
+                    <button class="btn btn-info" style="margin-top: 20px;float: right;"
+                        (click)="UpdateMileStone()" [translate]="'Tracker.Update'"></button>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="dispalyMileEdit=false" [label]="'Tracker.Ok'|translate"
+            styleClass="p-button-text">
+        </p-button>
+    </ng-template>
+</p-dialog> 
+    <!-- Dialog Mile Stone -->
+    <p-dialog [header]="'Tracker.Add MileStones'| translate" [(visible)]="displayMile" [style]="{width: '60vw'}"
+        [baseZIndex]="10000">
+        <div class="row">
+            <div class="col">
+                <div class="p-col-12 p-md-4">
+                    <label for="Title" [translate]="'Tracker.Title'"></label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"></span>
+                        <input type="text" pInputText placeholder="Title" [(ngModel)]="milestonInLst.title">
+                    </div>
+                </div>
+                <div class="row p-col-12 p-md-4">
+                    <div class="p-field col-md-6">
+                        <label for="StartDate" class="labelMarginRight" [translate]="'Tracker.Start Date'">
+                        </label><br>
+                        <p-calendar [(ngModel)]="milestonInLst.startDate" dateFormat="dd/mm/yy" appendTo="body">
+                        </p-calendar>
+                    </div>
+                    <div class="p-field col-md-6">
+                        <label for="End Date" class="labelMarginRight" [translate]="'Tracker.End Date'">
+                        </label><br>
+                        <p-calendar [(ngModel)]="milestonInLst.endDate" dateFormat="dd/mm/yy" appendTo="body">
+                        </p-calendar>                    
+                    </div>
+                </div>
+
+                <div class="p-col-12 p-md-4">
+                    <div>
+                        <textarea pInputTextarea [placeholder]="'Tracker.Description' | translate"
+                            [(ngModel)]="milestonInLst.description" style="width: 100%;"
+                            class="row p-col-12 p-md-4"></textarea>
+                    </div>
+                    <div>
+                        <button class="btn btn-info" style="margin-top: 20px;float: right;"
+                            (click)="Savetolist_Milestones()" [translate]="'Tracker.Save To List'"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th [translate]="'Tracker.Title'"></th>
+                            <th [translate]="'Tracker.Start Date'"></th>
+                            <th [translate]="'Tracker.End Date'"></th>
+                            <th [translate]="'Tracker.Description'"></th>
+                            <!-- <th>Projectcost</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let i of lstOfMilestones">
+                            <td>
+                                {{i.title}}
+                            </td>
+                            <td>
+                                {{i.startDate | date:'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                                {{i.endDate | date:'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                                {{i.description}}
+                            </td>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                        <tr *ngIf="lstOfMilestones.length == 0">
+                            <td colspan="4" style="color: rgb(102, 97, 23);" [translate]="'Tracker.No data found'"></td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <button class="btn btn-warning" [disabled]="lstOfMilestones.length == 0" (click)="SaveToDB_Milestones()"
+                    [translate]="'Tracker.Add'"></button>
+            </div>
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="displayMile=false" [label]="'Tracker.Ok'|translate"
+                styleClass="p-button-text">
+            </p-button>
+        </ng-template>
+    </p-dialog>
+        <!-- Dialog Team-->
+        <p-dialog header="Add New Team" [(visible)]="displayteam" [style]="{width: '50vw'}" [baseZIndex]="10000">
+            <div class="row">
+                <div class="p-col-12 p-md-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                        <input type="text" pInputText [placeholder]="'Tracker.Team Name' | translate"
+                            [(ngModel)]="team.Name">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="col">
+                        <label class="labelstyle" [translate]="'Tracker.Position Name'"></label>
+                        <select [(ngModel)]="ProjectTeam.projectPositionId" name="id" class="form-control">emp
+                            <option hidden [value]="" selected>select Position Name </option>
+                            <option *ngFor="let the of lstOfprojectPosition" value="{{the.id}}">
+                                {{the.positionName}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label class="labelstyle" [translate]="'Tracker.Employee Name'"></label>
+                        <select [(ngModel)]="ProjectTeam.employeeId" name="sel2" class="form-control"
+                            (change)="OnChangeEmpID($event)">
+                            <option *ngFor="let th of lstEmployees" value="{{th.id}}">{{th.employeeName}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label class="labelstyle" [translate]="'Tracker.Department Name'"></label>
+                        <select [(ngModel)]="ProjectTeam.departmentId" name="sub" class="form-control">
+                            <option value="{{department.id}}">{{department.name}}</option>
+                        </select>
+                    </div>
+                    <div class="p-col-12 p-md-4">
+                        <div>
+                            <button class="btn btn-info" style="margin-top: 20px;float: right;" (click)="Savetolist_Teams()"
+                                [translate]="'Tracker.Save To List'"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr>{{ 'Tracker.Team Name' | translate }} : {{teamname}}</tr>
+                            <tr>
+                                 
+                                <th [translate]="'Tracker.Position Name'"></th>
+                                <th [translate]="'Tracker.Employee Name'"></th>
+                                <th [translate]="'Tracker.Department Name'"></th>
+                                <!-- <th>Projectcost</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let i of lstOfProjectTeams">
+                               
+                                <td>
+                                    {{i.projectPositionName}}
+                                </td>
+                                <td>
+                                    {{i.employeeName}}
+                                </td>
+                                <td>
+                                    {{i.departmentName}}
+                                </td>
+                               
+                            </tr>
+                            <tr *ngIf="lstOfProjectTeams.length == 0">
+                                <td colspan="4" style="color: rgb(102, 97, 23);" [translate]="'Tracker.No data found'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-warning" [disabled]="lstOfProjectTeams.length == 0"
+                        (click)="SaveToDB_ProjectTeams()" [translate]="'Tracker.Add'"></button>
+                </div>
+            </div>
+            <ng-template pTemplate="footer">
+                <p-button icon="pi pi-check" (click)="displayteam=false" [label]="'Tracker.Ok'|translate"
+                    styleClass="p-button-text">
+                </p-button>
+            </ng-template>
+        </p-dialog>
+ <!-- Dialog Documents-->
+ <p-dialog header="Add Document" [(visible)]="displaydoc" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <div class="row">
+        <div class="col">
+            <div class="p-col-12 p-md-4">
+                <label for="Document Name" [translate]="'Tracker.Document Name'" ></label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                    <input type="text" pInputText [placeholder]="'Tracker.Document Name' | translate"
+                        [(ngModel)]="docproject.documentName">
+                </div>
+            </div>
+
+
+            <div class="p-col-12 p-md-4">
+                <div>
+                    <textarea pInputTextarea [placeholder]="'Tracker.Description' | translate" style="width: 100%;"
+                        [(ngModel)]="docproject.Description" class="row p-col-12 p-md-4"></textarea>
+                </div>
+                <br />
+                <br />
+                <div class="p-field col-md-3" style="margin-bottom:15px;">
+                    <div class="col-md-3">
+                        <input type="file" #file [placeholder]="'Tracker.Choose file'|translate"
+                            (change)="uploadFile(file.files)" style="display:none;">
+                        <button type="button" class="btn btn-success" (click)="file.click()"
+                            [translate]="'Tracker.Upload'"></button>
+                    </div>
+                    <div class="col-md-4">
+
+                        <span class="upload" *ngIf="message">
+
+                            {{message}}
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-info" style="margin-top: 20px;float: right;" (click)="Savedoctolist()"
+                        [translate]="'Tracker.Save To List'"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th [translate]="'Tracker.Document Name'"></th>
+                        <th [translate]="'Tracker.Description'"></th>
+                        <th [translate]="'Tracker.File Name'"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let i of lstoddocproj">
+
+                        <td>{{i.documentName}}</td>
+                        <td>{{i.Description}}</td>
+                        <td>{{i.documentFile}}</td>
+                    </tr>
+                    <tr>
+
+                    </tr>
+                    <tr *ngIf="lstoddocproj.length == 0">
+                        <td colspan="4" style="color: rgb(102, 97, 23);" [translate]="'Tracker.No data found'"></td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <button class="btn btn-warning" [disabled]="lstoddocproj.length == 0" (click)="SaveDocuentToDB()"
+                [translate]="'Tracker.Add'"></button>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displaydoc=false" label="Ok" styleClass="p-button-text">
+        </p-button>
+    </ng-template>
+</p-dialog>
+
 </div>
 
 

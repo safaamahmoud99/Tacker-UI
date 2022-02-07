@@ -325,7 +325,7 @@
                                 <th>{{'Tracker.Partener Name'| translate}}</th>
                                 <th>{{'Tracker.Mobile' | translate}}</th>
                                 <th>{{'Tracker.Rank' | translate}}</th>
-                                <th>{{'Tracker.Delete'| translate}}</th>
+                                <th>{{'Tracker.Controls'| translate}}</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-i>
@@ -333,10 +333,20 @@
                                 <td>{{i.stackeholderName}}</td>
                                 <td>{{i.mobile}}</td>
                                 <td>{{i.rank}}</td>
+                                <!-- <td style="text-align: inherit;">
+                                    <span class="p-button-icon pi pi-pencil" aria-hidden="true"
+                                        style="margin-left: 15px;cursor: pointer;" pTooltip="Edit asset" (click)="editAsset(asset.id)"></span>
+                                    <span class="p-button-icon pi pi-times" (click)="confirm(asset.id)"
+                                        aria-hidden="true" pTooltip="Delete asset"
+                                        style="margin-left: 15px;cursor: pointer;"></span>
+                                </td> -->
                                 <td>
                                     <!-- <button pButton icon="pi pi-trash" class="p-button-danger"
                                     (click)="delStakeHolders(i.id)"></button> -->
-                                    <span class="p-button-icon pi pi-trash" (click)="delStakeHolders(i.id)"
+
+                                    <span class="p-button-icon pi pi-pencil" aria-hidden="true"
+                                    style="margin-left: 15px;cursor: pointer;" pTooltip="Edit Partener" (click)="editStak(i.id)"></span>
+                                    <span class="p-button-icon pi pi-trash" (click)="ConfirmDelStack(i.id)"
                                         aria-hidden="true" pTooltip="Delete Partener "
                                         style="margin-left: 15px;color:red"></span>
                                 </td>
@@ -376,7 +386,7 @@
                                 <th [translate]="'Tracker.Title'"></th>
                                 <th [translate]="'Tracker.Start Date'"></th>
                                 <th [translate]="'Tracker.End Date'"></th>
-                                <th>{{'Tracker.Delete'| translate}}</th>
+                                <th>{{'Tracker.Controls'| translate}}</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-i>
@@ -391,6 +401,8 @@
                                     {{i.endDate | date:'dd/MM/yyyy'}}
                                 </td>
                                 <td>
+                                    <span class="p-button-icon pi pi-pencil" aria-hidden="true"
+                                    style="margin-left: 15px;cursor: pointer;" pTooltip="Edit mileston" (click)="editMile(i.id)"></span> &nbsp;
                                     <span class="p-button-icon pi pi-trash" (click)="delMile(i.id)" aria-hidden="true"
                                         pTooltip="Delete mileston " style="margin-left: 15px;color:red"></span>
                                 </td>
@@ -498,7 +510,7 @@
                                 </td>
                                 <td>
                                     <span class="p-button-icon pi pi-trash" (click)="delDocument(i.id)"
-                                        aria-hidden="true" pTooltip="Delete mileston "
+                                        aria-hidden="true" pTooltip="Delete Document "
                                         style="margin-left: 15px;color:red"></span>
                                 </td>
                             </tr>
@@ -522,7 +534,71 @@
         </mat-step>
     </mat-horizontal-stepper>
 
-
+<!-- Edit Partner Dialog-->
+<p-dialog [header]="'Tracker.Edit Partener' | translate" [(visible)]="dispalyStackholderEdit" [style]="{width: '50vw'}"
+[baseZIndex]="10000">
+<div class="row">
+    <div class="col">
+      <div class="p-col-12 p-md-4">
+        
+            <label for="Partener Name"   [translate]="'Tracker.Partener Name'"></label>
+            <div class="p-inputgroup"> 
+            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+            <input #PartnerrName="ngModel" class="form-control"
+                [class.is-invalid]="PartnerrName.invalid && PartnerrName.touched"
+                [class.is-valid]="PartnerrName.valid" required minlength="3" type="text" pInputText
+                [placeholder]="'Tracker.Partener Name' | translate"
+                [(ngModel)]="stackObj.stackeholderName">
+        </div>
+        <small [hidden]="PartnerrName.valid || PartnerrName.untouched" id="helpId" class="text-danger"
+            [translate]="'Tracker.messege'"></small>
+    </div>
+        <div class="p-col-12 p-md-4">
+        
+            <label for="Mobile" [translate]="'Tracker.Mobile'"></label> 
+              <div class="p-inputgroup">
+              <span class="p-inputgroup-addon"></span>
+              <input #Partenerrmobile="ngModel" class="form-control"
+                  [class.is-invalid]="Partenerrmobile.invalid && Partenerrmobile.touched"
+                  [class.is-valid]="Partenerrmobile.valid" required  pattern="^01[0-2,5]{1}[0-9]{8}$" type="text" pInputText
+                  [placeholder]="'Tracker.Mobile' | translate" [(ngModel)]="stackObj.mobile">
+              <span class="p-inputgroup-addon"></span>
+          </div>
+          <small [hidden]="Partenerrmobile.valid || Partenerrmobile.untouched" id="helpId" class="text-danger validation"
+        [translate]="'Tracker.phoneNumber'">  </small>
+      </div>
+      <div class="p-col-12 p-md-4">
+        
+            <label for="Rank" [translate]="'Tracker.Rank'"></label>
+            <div class="p-inputgroup"> 
+            <span class="p-inputgroup-addon"></span>
+            <input #Partenerrrank="ngModel" class="form-control"
+                [class.is-invalid]="Partenerrrank.invalid && Partenerrrank.touched"
+                [class.is-valid]="Partenerrrank.valid" required minlength="3" type="text" pInputText
+                [placeholder]="'Tracker.Rank' | translate" [(ngModel)]="stackObj.rank">
+            <span class="p-inputgroup-addon"></span>
+        </div>
+        <small [hidden]="Partenerrrank.valid || Partenerrrank.untouched" id="helpId" class="text-danger"
+            [translate]="'Tracker.messege'"></small>
+    </div>
+        <div class="p-col-12 p-md-4">
+            <div>
+                <textarea pInputTextarea [placeholder]="'Tracker.Description' | translate" style="width: 100%;"
+                    [(ngModel)]="stackObj.description" class="row p-col-12 p-md-4"></textarea>
+            </div>
+            <div>
+                <button class="btn btn-info" style="margin-top: 20px;float: right;"
+                    (click)="UpdateStackholder()" [translate]="'Tracker.Update'" ></button>
+            </div>
+        </div>
+    </div>  
+</div>
+<ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="dispalyStackholderEdit=false" [label]="'Tracker.Ok' | translate"
+        styleClass="p-button-text">
+    </p-button>
+</ng-template>
+</p-dialog>
     <!-- Dialog Add Partener -->
     <p-dialog [header]="'Tracker.Add Partener' | translate" [(visible)]="displayBasic" [style]="{width: '50vw'}"
         [baseZIndex]="10000">
@@ -623,6 +699,53 @@
             </p-button>
         </ng-template>
     </p-dialog>
+    <!--Edit Mile Stone Dialog -->
+    <p-dialog [header]="'Tracker.Edit MileStone'| translate" [(visible)]="dispalyMileEdit" [style]="{width: '40vw'}"
+    [baseZIndex]="10000">
+    <div class="row">
+        <div class="col">
+            <div class="p-col-6 p-md-4">
+                <label for="Title" [translate]="'Tracker.Title'"></label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"></span>
+                    <input type="text" pInputText placeholder="Title" [(ngModel)]="MileObj.title">
+                </div>
+            </div>
+            <div class="row p-col-6 p-md-4">
+                <div class="p-field col-md-6">
+                    <label for="StartDate" class="labelMarginRight" [translate]="'Tracker.Start Date'">
+                    </label><br>
+                    <p-calendar [(ngModel)]="MileObj.startDate" dateFormat="dd/mm/yy" appendTo="body">
+                    </p-calendar>
+                </div>
+                <div class="p-field col-md-6">
+                    <label for="End Date" class="labelMarginRight" [translate]="'Tracker.End Date'">
+                    </label><br>
+                    <p-calendar [(ngModel)]="MileObj.endDate" dateFormat="dd/mm/yy" appendTo="body">
+                    </p-calendar>                    
+                </div>
+            </div>
+
+            <div class="p-col-6 p-md-4">
+                <div>
+                    <textarea pInputTextarea [placeholder]="'Tracker.Description' | translate"
+                        [(ngModel)]="MileObj.description" style="width: 100%;"
+                        class="row p-col-12 p-md-4"></textarea>
+                </div>
+                <div>
+                    <button class="btn btn-info" style="margin-top: 20px;float: right;"
+                        (click)="UpdateMileStone()" [translate]="'Tracker.Update'"></button>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="dispalyMileEdit=false" [label]="'Tracker.Ok'|translate"
+            styleClass="p-button-text">
+        </p-button>
+    </ng-template>
+</p-dialog> 
     <!-- Dialog Mile Stone -->
     <p-dialog [header]="'Tracker.Add MileStones'| translate" [(visible)]="displayMile" [style]="{width: '60vw'}"
         [baseZIndex]="10000">

@@ -63,10 +63,11 @@ export class UpdateProjectComponent implements OnInit {
   lstEmployees: employee[]
   projects: project[]
   project1: project = new project()
+  teams: projectTeam[]
   project2: project
   stackholders: stackholder[]
   mileStones: mileStone[]
-  teams: projectTeam[]
+  
   stackholderInLst: stackholder
   lstOfStackholder: stackholder[]
   documents: ProjectDocuments[]
@@ -75,6 +76,7 @@ export class UpdateProjectComponent implements OnInit {
   displayMaximizable: boolean;
   displayEdit: boolean;
   dispalyStackholderEdit:boolean;
+  dispalyMileEdit:boolean;
   id: any;
   Id: number
   projectObj: project
@@ -86,6 +88,7 @@ export class UpdateProjectComponent implements OnInit {
   displayBasic: boolean;
   displayMile: boolean;
   stackObj:stackholder;
+  MileObj:mileStone;
   Namefound:boolean=false;
   Codefound:boolean=false;
   existProject:project[];
@@ -254,6 +257,12 @@ export class UpdateProjectComponent implements OnInit {
     {
       id: 0, days: 0, supplierName: '', ProjectSiteId: 0, assetId: 0, assetName: '',
       serialNumber: '', supplierId: 0, warrantyPeriod: 0, warrantyStartDate: ""
+    }
+    this.stackObj={
+      id: 0,stackeholderName:'',mobile:'',rank:'',description:'',projectId:0
+    }
+    this.MileObj={
+      id:0,title:'',startDate:'',endDate:'',description:'',projectId:0
     }
     this.addTeamObj={
       name:'',projectTeams:[]
@@ -912,73 +921,88 @@ this.LOadPro();
     this.displayMile=false;
   }
 
-  delStakeHolders(id: number) {
+ConfirmDelStack(id:number)
+{
+  this.confirmationService.confirm({
+  message:'Are you sure to perform this action?' ,
+  accept:()=>{
     this.stackholderService.deletestakeholder(id).subscribe(res => {
       this.stackholderService.GetAllStackholdersByProjectID(this.id).subscribe(e => {
         this.stackholders = e
         this.projectObj.listOfStackholders = e
       })
-    })
+    })  
+  } 
+  })
+}
+  editStak(id:number)
+  {
+    this.dispalyStackholderEdit=true;
+    this.stackholderService.getstackholderbyId(id).subscribe(
+      res=>{
+        this.stackObj=res
+        console.log("stackkkkkkkk",this.stackObj);
+    
+      }
+    
+
+    )
   }
-  // UpdateProjectSiteAsset() {
-  //   console.log("this.ProjectSiteAssetObj before update", this.ProjectSiteAssetObj)
-  //   this.ProjectSiteAssetObj.assetId = Number(this.ProjectSiteAssetObj.assetId)
-  //   this.ProjectSiteAssetService.updateProjectSiteAsset(this.ProjectSiteAssetId, this.ProjectSiteAssetObj).subscribe(
-  //     res => {
-  //       this.ProjectSiteAssetService.GetAllProjectSiteAssetBySiteId(this.SiteId, this.id).subscribe(
-  //         res => {
-  //           this.EditAssetDialogbool = false
-  //          // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Updated' });
-  //          if(this.translate.currentLang=='English')
-  //         {
-  //        this.messageService.add({   severity:'success', summary:'Success', detail: 'Record Updated' });
-  //         }
-  //       else
-  //       {
-  //       this.messageService.add({ severity:'success', summary: 'نجاح', sticky: false, detail: 'تم التعديل ' });
-  //       }
-  //           this.listProjectSiteAssetClients = res
-  //         }
-  //       )
-  //     }
-  //   )
-  // }
-  // editStak(id:number)
-  // {
-  //   this.dispalyStackholderEdit=true;
-  //   this.stackholderService.getstackholderbyId(id).subscribe(
-  //     res=>{
-  //       this.stackObj=res
-  //       console.log("stackkkkkkkk",this.stackObj);
-  //      // this.stackObj.stackeholderName
-  //     }
-  //   )
-  // }
-  // UpdateStackholder()
-  // {
+  UpdateStackholder()
+  {
      
-  //  // id=Number(this.stackObj.id);
-  //  this.stackholderService.updatestakeholder(this.stackObj.id,this.stackObj).subscribe(
-  //    res=>{
-  //      this.stackholderService.GetAllStackholders().subscribe(
-  //        res=>{
-  //          this.dispalyStackholderEdit=false;
-  //          console.log("done Edit Stackholder");
-  //        }
-  //      )
-  //    }
-  //  )
-  // }
+   // id=Number(this.stackObj.id);
+   this.stackholderService.updatestakeholder(this.stackObj.id,this.stackObj).subscribe(
+     res=>{
+      this.stackholderService.GetAllStackholdersByProjectID(this.id).subscribe(e => {
+        this.stackholders = e
+        this.projectObj.listOfStackholders = e
+        this.dispalyStackholderEdit=false;
+      })               
+     }
+     ) 
+  }
+  editMile(id:number)
+  {
+    this.dispalyMileEdit=true;
+    this.milestoneservice.GetMileStoneById(id).subscribe(
+      res=>{
+        this.MileObj=res
+        console.log("stackkkkkkkk",this.stackObj);    
+      }
+    )
+  }
+  UpdateMileStone()
+  {
+     
+   // id=Number(this.stackObj.id);
+   this.milestoneservice.updateMileStone(this.MileObj.id,this.MileObj).subscribe(
+     res=>{
+      this.milestoneservice.GetAllMileStonesByProjectID(this.id).subscribe(e => {
+        this.projectObj.listOfmilestones = e
+        this.dispalyMileEdit=false;
+      })               
+     }
+     ) 
+  }
   delMile(id: number) {
+    this.confirmationService.confirm({
+      message:'Are you sure to perform this action?',
+  accept:()=>{
     this.milestoneservice.deletemilestone(id).subscribe(res => {
       // this.ngOnInit()
       this.milestoneservice.GetAllMileStonesByProjectID(this.id).subscribe(m => {
         this.projectObj.listOfmilestones = m
       }), err => console.log(err)
     })
+  } 
+    }) 
   }
 
-  delteam(id: number) {
+delteam(id: number) {
+this.confirmationService.confirm({
+ message:'Are you sure to perform this action?',
+  accept:()=>{
     this.projectteamservice.deleteteam(id).subscribe(res => {
       this.projectteamservice.GetAllTeamsByProjectID(this.id).subscribe(t => {
         this.teams = t;
@@ -988,10 +1012,22 @@ this.LOadPro();
 
     })
   }
-  delDocument(id: number) {
-    this.projectdocumentsservice.deletedocument(id).subscribe(res => {
-      this.ngOnInit()
+   })
+  }
+  delDocument(id:number) {
+ 
+    this.confirmationService.confirm({
+      message:'Are you sure to perform this action?',
+  accept:()=>{
+   this.projectdocumentsservice.deletedocument(id).subscribe(res => {
+    //  this.ngOnInit()
+    this.projectdocumentsservice.GetAllDocumentsByProjectID(this.id).subscribe(d => {
+      this.documents = d;
+      this.project1.listOfdocuments = this.documents;
+      this.projectObj.listOfdocuments = d;
+    }), err => console.log(err)
     })
+  }})
   }
 
   showMaximizableDialog() {

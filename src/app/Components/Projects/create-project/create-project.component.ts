@@ -33,6 +33,7 @@ import { analyzeAndValidateNgModules, flatten } from '@angular/compiler';
 import { project } from 'src/Shared/Models/project';
 import { SitesService } from 'src/Shared/Services/sites.service';
 import { Sites } from 'src/Shared/Models/Sites';
+import { ConfirmationService} from 'primeng/api';
 import { asset } from 'src/Shared/Models/asset';
 import { AssetService } from 'src/Shared/Services/asset.service';
 import { Suppliers } from 'src/Shared/Models/Suppliers';
@@ -83,7 +84,10 @@ export class CreateProjectComponent implements OnInit {
   projectPosition: projectPosition
   milestonInLst: mileStone
   lstOfMilestones: mileStone[]
-
+  dispalyStackholderEdit:boolean
+  dispalyMileEdit:boolean
+  stackObj:stackholder
+  MileObj:mileStone
   lstEmployees: employee[];
   employeeObj: employee;
   lstProjectTypes: projectType[];
@@ -105,6 +109,7 @@ export class CreateProjectComponent implements OnInit {
   lstAllSites: Sites[];
   ISfound:boolean=false;
   Namefound:boolean=false;
+  displayteam:boolean;
   Codefound:boolean=false;
   warantryStartDate: string;
   IsSaveProject: boolean = false
@@ -117,7 +122,10 @@ export class CreateProjectComponent implements OnInit {
   SiteId: number;
   ProjectSiteAssetObj: ProjectSiteAsset
   NewDialogbool: boolean;
+  displayMile:boolean;
   projectSiteId: number;
+  displaydoc:boolean;
+  documents: ProjectDocuments[];
   IsDisabled: boolean = false
   isDisabled1: boolean = false
   isDisabled2: boolean = false
@@ -129,6 +137,8 @@ export class CreateProjectComponent implements OnInit {
   plannedStartdate: Date;
   ActualStartDate: Date;
   displayBasic:boolean;
+    project1: project = new project()
+  teams: projectTeam[]
   ProjectData: any;
   CountTeamLeader:boolean=false;
   CountProjectManger:boolean=false;
@@ -156,7 +166,7 @@ export class CreateProjectComponent implements OnInit {
     private BrandService: BrandService, private OriginsService: OriginsService, private DueDateCategoryService: DueDateCategoryService,
     private ProjectSitesService: ProjectSitesService, private ProjectSiteAssetService: ProjectSiteAssetService,
     private SiteClientsService: SiteClientsService, private translate: TranslateService, private _formBuilder: FormBuilder,
-    private datePipe: DatePipe,
+    private datePipe: DatePipe,private confirmationService: ConfirmationService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -252,6 +262,12 @@ export class CreateProjectComponent implements OnInit {
     this.ProjectSiteAssetObj = {
       id: 0, days: 0, supplierName: '', ProjectSiteId: 0, assetId: 0, assetName: '',
       serialNumber: '', supplierId: 0, warrantyPeriod: 0, warrantyStartDate: ""
+    }
+    this.stackObj={
+      id: 0,stackeholderName:'',mobile:'',rank:'',description:'',projectId:0
+    }
+    this.MileObj={
+      id:0,title:'',startDate:'',endDate:'',description:'',projectId:0
     }
     this.projectSiteClientObj = {id:0,
       clients: [], ProjectId: 0,
@@ -415,7 +431,9 @@ export class CreateProjectComponent implements OnInit {
     this.diffDays = Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));
   }
 
-
+  showmileDialog() {
+    this.displayMile = true;
+  }
   // addEventplanndedStart(event: MatDatepickerInputEvent<Date>) {
   //   this.minplannedStartDate = event.value
   //   this.plannedStartDate = this.datepipe.transform(event.value, 'yyyy-MM-dd');
@@ -598,17 +616,120 @@ export class CreateProjectComponent implements OnInit {
      
     })
   }
-  delStakeHolders(id: number) {
-    this.stackholderService.deletestakeholder(id).subscribe(res => {
-      this.stackholderService.GetAllStackholdersByProjectID(this.projectID).subscribe(e => {
-        this.stackholders = e
-        this.projectObj.listOfStackholders = e
-      })
+  // delStakeHolders(id: number) {
+  //   this.stackholderService.deletestakeholder(id).subscribe(res => {
+  //     this.stackholderService.GetAllStackholdersByProjectID(this.projectID).subscribe(e => {
+  //       this.stackholders = e
+  //       this.projectObj.listOfStackholders = e
+  //     })
+  //   })
+  // }
+
+  ConfirmDelStack(id:number)
+  {
+    this.confirmationService.confirm({
+    message:'Are you sure to perform this action?' ,
+    accept:()=>{
+      this.stackholderService.deletestakeholder(id).subscribe(res => {
+        this.stackholderService.GetAllStackholdersByProjectID(this.projectID).subscribe(e => {
+          this.stackholders = e
+          this.projectObj.listOfStackholders = e
+        })
+      })  
+    } 
     })
   }
+    editStak(id:number)
+    {
+      this.dispalyStackholderEdit=true;
+      this.stackholderService.getstackholderbyId(id).subscribe(
+        res=>{
+          this.stackObj=res
+          console.log("stackkkkkkkk",this.stackObj);
+      
+        }
+      
+  
+      )
+    }
+    UpdateStackholder()
+    {
+       
+     // id=Number(this.stackObj.id);
+     this.stackholderService.updatestakeholder(this.stackObj.id,this.stackObj).subscribe(
+       res=>{
+        this.stackholderService.GetAllStackholdersByProjectID(this.projectID).subscribe(e => {
+          this.stackholders = e
+          this.projectObj.listOfStackholders = e
+          this.dispalyStackholderEdit=false;
+        })               
+       }
+       ) 
+    }
+    editMile(id:number)
+    {
+      this.dispalyMileEdit=true;
+      this.milestoneService.GetMileStoneById(id).subscribe(
+        res=>{
+          this.MileObj=res
+          console.log("stackkkkkkkk",this.stackObj);    
+        }
+      )
+    }
+    UpdateMileStone()
+    {
+       
+     // id=Number(this.stackObj.id);
+     this.milestoneService.updateMileStone(this.MileObj.id,this.MileObj).subscribe(
+       res=>{
+        this.milestoneService.GetAllMileStonesByProjectID(this.projectID).subscribe(e => {
+          this.projectObj.listOfmilestones = e
+          this.dispalyMileEdit=false;
+        })               
+       }
+       ) 
+    }
+    delMile(id: number) {
+      this.confirmationService.confirm({
+        message:'Are you sure to perform this action?',
+    accept:()=>{
+      this.milestoneService.deletemilestone(id).subscribe(res => {
+        // this.ngOnInit()
+        this.milestoneService.GetAllMileStonesByProjectID(this.projectID).subscribe(m => {
+          this.projectObj.listOfmilestones = m
+        }), err => console.log(err)
+      })
+    } 
+      }) 
+    }
+    delteam(id: number) {
+      this.confirmationService.confirm({
+       message:'Are you sure to perform this action?',
+        accept:()=>{
+          this.projectTeamService.deleteteam(id).subscribe(res => {
+            this.projectTeamService.GetAllTeamsByProjectID(this.projectID).subscribe(t => {
+              this.teams = t;
+              this.project1.listofprojectteam = this.teams;
+              this.projectObj.listofprojectteam = t
+            }), err => console.log(err)
+      
+          })
+        }
+         })
+        }
+
+
+
   SaveToDB_Milestones() {
     this.messageService.clear();
     this.milestoneService.insertListOfMilestoness(this.lstOfMilestones).subscribe(e => {
+      this.lstOfMilestones = []
+      this.milestoneService.GetAllMileStonesByProjectID(this.projectID).subscribe(m => {
+        this.projectObj.listOfmilestones = m
+      }), err => console.log(err)
+    
+    
+    this.displayMile=false;
      // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Milestone Added' });
      if(this.translate.currentLang=='English')
       {
@@ -691,6 +812,11 @@ export class CreateProjectComponent implements OnInit {
         // this.lstOfProjectTeams = e
         console.log("lstof teams", this.lstOfProjectTeams)
       })
+      this.projectTeamService.GetAllTeamsByProjectID(this.projectID).subscribe(
+        res => {
+          this.projectObj.listofprojectteam = res
+        }
+      )
       this.projectPositionService.GetAllProjectPosition().subscribe(e => {
         this.lstOfprojectPosition = e
       })
@@ -706,6 +832,7 @@ export class CreateProjectComponent implements OnInit {
      
 
     });
+    this.displayteam=false;
     this.lstOfProjectTeams.length=0;
     this.team.Name="";
     this.teamname="";
@@ -822,7 +949,21 @@ export class CreateProjectComponent implements OnInit {
     // console.log("projteam before show", this.ProjectTeam)
     // console.log("lst of teams", this.lstOfProjectTeams)
   }
-
+  delDocument(id: number) {
+ 
+    this.confirmationService.confirm({
+      message:'Are you sure to perform this action?',
+  accept:()=>{
+   this.projectdocumentService.deletedocument(id).subscribe(res => {
+      //this.ngOnInit()
+      this.projectdocumentService.GetAllDocumentsByProjectID(this.projectID).subscribe(d => {
+        this.documents = d;
+        this.project1.listOfdocuments = this.documents;
+        this.projectObj.listOfdocuments = d;
+      }), err => console.log(err)
+    })
+  }})
+  }
   Idteam: any
   teamObj: any;
 
@@ -1043,6 +1184,11 @@ export class CreateProjectComponent implements OnInit {
   }
   SaveDocuentToDB() {
     this.projectdocumentService.postProjectDocumentByProjectID(this.lstoddocproj).subscribe(e => {
+      this.projectdocumentService.GetAllDocumentsByProjectID(this.projectID).subscribe(d => {
+        this.documents = d;
+        this.project1.listOfdocuments = this.documents;
+        this.projectObj.listOfdocuments = d;
+      }), err => console.log(err)
      // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Document Added' });
      if(this.translate.currentLang=='English')
         {
@@ -1055,6 +1201,18 @@ export class CreateProjectComponent implements OnInit {
      
       console.log(e)
     })
+    this.displaydoc =false;
+  }
+  downloadFile(fileName) {
+    var filePath = `${environment.Domain}wwwroot/documentFiles/${fileName}`;
+
+
+    window.open(filePath);
+    // this.projectdocumentsservice.downloadInFile(fileName).subscribe(file => {
+    //   var dwnldFile = filePath  + fileName;
+    //   if (fileName != "" || fileName != null)
+    //     window.open(dwnldFile);
+    // })
   }
   PreviousStep() {
     this.activeIndex = this.activeIndex - 1
@@ -1121,6 +1279,12 @@ export class CreateProjectComponent implements OnInit {
   }
   showBasicDialog() {
     this.displayBasic = true;
+  }
+  showteamDialog() {
+    this.displayteam = true
+  }
+  showdocDialog() {
+    this.displaydoc = true
   }
   isPhone():boolean
   {

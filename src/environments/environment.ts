@@ -10,6 +10,8 @@ export const environment = {
   GetAllStackholdersByProjectID: 'http://localhost:50653/api/Stackeholders/GetStackeholdersByProjectId/',
   postListOfStackholders: 'http://localhost:50653/api/Stackeholders/',
   postListOfMilestoness: 'http://localhost:50653/api/MileStones/',
+  getMileStoneById:'http://localhost:50653/api/MileStones/',
+  updateMileStoneByid:'http://localhost:50653/api/MileStones/updateMileStoneById/',
   ProjectTeams: 'http://localhost:50653/api/ProjectTeam/',
   canreqbyprojectID :'http://localhost:50653/api/project/canreqbyprojeID/',
   GetProjectTeamsByProjectPositionId: 'http://localhost:50653/api/ProjectTeam/GetProjectTeamsByProjectPositionId/',
@@ -41,7 +43,8 @@ export const environment = {
   postProjectDocumentByProjectID: 'http://localhost:50653/api/ProjectDocument/SaveDocument',
   uploadFile: 'http://localhost:50653/api/ProjectDocument/uploadfile/',
   deletestakeholder: 'http://localhost:50653/api/Stackeholders/',
-  updatestackholder:'http://localhost:50653/api/Stackeholders/',
+  updatestackholder:'http://localhost:50653/api/Stackeholders/updatestakehodersbyID/',
+
   getStackholderbyId:'http://localhost:50653/api/Stackeholders/',
   deletemilestone: ' http://localhost:50653/api/MileStones/',
   deleteteam: 'http://localhost:50653/api/ProjectTeam/',

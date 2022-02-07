@@ -27,4 +27,11 @@ export class MilestoneService {
   deletemilestone(id:number):Observable<any>{ 
     return this.httpClient.delete<any>(`${environment.deletemilestone}${id}`,this.httpHeader);
   }
+  GetMileStoneById(id:number):Observable<mileStone>
+  {
+    return this.httpClient.get<mileStone>(`${environment.getMileStoneById}${id}`,this.httpHeader);
+  }
+  updateMileStone(id:Number,mile:mileStone):Observable<mileStone>{
+    return this.httpClient.put<mileStone>(`${environment.updateMileStoneByid}`+ id,mile,this.httpHeader);
+  }
 }
