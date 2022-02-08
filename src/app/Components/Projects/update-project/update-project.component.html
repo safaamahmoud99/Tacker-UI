@@ -700,7 +700,7 @@
         </ng-template>
     </p-dialog>
     <!--Edit Mile Stone Dialog -->
-    <p-dialog [header]="'Tracker.Edit MileStone'| translate" [(visible)]="dispalyMileEdit" [style]="{width: '40vw'}"
+    <p-dialog [header]="'Tracker.Edit MileStone'| translate" [(visible)]="dispalyMileEdit" [style]="{width: '50vw'}"
     [baseZIndex]="10000">
     <div class="row">
         <div class="col">
@@ -711,18 +711,32 @@
                     <input type="text" pInputText placeholder="Title" [(ngModel)]="MileObj.title">
                 </div>
             </div>
-            <div class="row p-col-6 p-md-4">
+            <div class="row p-col-4 p-md-4">
                 <div class="p-field col-md-6">
                     <label for="StartDate" class="labelMarginRight" [translate]="'Tracker.Start Date'">
-                    </label><br>
-                    <p-calendar [(ngModel)]="MileObj.startDate" dateFormat="dd/mm/yy" appendTo="body">
-                    </p-calendar>
+                    </label>
+                    <!-- <p-calendar [(ngModel)]="MileObj.startDate" dateFormat="dd/mm/yy" appendTo="body">
+                    </p-calendar> -->
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <input matInput [matDatepicker]="pickerstartdate"
+                            [value]="MileObj.startDate | date:'yyyy-MM-dd'" [placeholder]="'Tracker.Start Date' | translate"
+                            (dateChange)="addEventstartdateMile($event)"  >
+                        <mat-datepicker-toggle matSuffix [for]="pickerstartdate"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerstartdate></mat-datepicker>
+                    </mat-form-field>
                 </div>
                 <div class="p-field col-md-6">
                     <label for="End Date" class="labelMarginRight" [translate]="'Tracker.End Date'">
-                    </label><br>
-                    <p-calendar [(ngModel)]="MileObj.endDate" dateFormat="dd/mm/yy" appendTo="body">
-                    </p-calendar>                    
+                    </label>
+                    <!-- <p-calendar [(ngModel)]="MileObj.endDate" dateFormat="dd/mm/yy" appendTo="body">
+                    </p-calendar> -->
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <input matInput [matDatepicker]="pickerenddate"
+                        [value]="MileObj.endDate | date:'yyyy-MM-dd'"[placeholder]="'Tracker.End Date' | translate"
+                        (dateChange)="addEventenddateMile($event)">
+                <mat-datepicker-toggle matSuffix [for]="pickerenddate"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerenddate></mat-datepicker>
+                </mat-form-field>
                 </div>
             </div>
 
@@ -745,7 +759,7 @@
             styleClass="p-button-text">
         </p-button>
     </ng-template>
-</p-dialog> 
+    </p-dialog> 
     <!-- Dialog Mile Stone -->
     <p-dialog [header]="'Tracker.Add MileStones'| translate" [(visible)]="displayMile" [style]="{width: '60vw'}"
         [baseZIndex]="10000">
@@ -857,6 +871,7 @@
                     <label class="labelstyle" [translate]="'Tracker.Employee Name'"></label>
                     <select [(ngModel)]="ProjectTeam.employeeId" name="sel2" class="form-control"
                         (change)="OnChangeEmpID($event)">
+                        <option></option>
                         <option *ngFor="let th of lstEmployees" value="{{th.id}}">{{th.employeeName}}
                         </option>
                     </select>

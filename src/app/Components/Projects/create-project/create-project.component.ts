@@ -132,6 +132,8 @@ export class CreateProjectComponent implements OnInit {
   isDisabled3: boolean = false
   isDisabled4: boolean = false
   minDate: Date;
+  startdateMile:string;
+  enddateMile:string;
   isFound:boolean=false;
   existProject:project[];
   plannedStartdate: Date;
@@ -376,6 +378,16 @@ export class CreateProjectComponent implements OnInit {
     this.warantryStartDate = this.datePipe.transform(event.value, 'yyyy-MM-dd');
     this.ProjectSiteAssetObj.warrantyStartDate = this.warantryStartDate
   }
+  addEventstartdateMile(event:MatDatepickerInputEvent<Date>)
+{
+  this.startdateMile=this.datePipe.transform(event.value,'yyyy-MM-dd')
+  this.MileObj.startDate=this.startdateMile;
+}
+addEventenddateMile(event:MatDatepickerInputEvent<Date>)
+{
+  this.enddateMile=this.datePipe.transform(event.value,'yyyy-MM-dd')
+  this.MileObj.endDate=this.enddateMile
+}
   onChangeSerial(event) {
     console.log("serialNumber",event.target.value)
     this.serialNumber = event.target.value
