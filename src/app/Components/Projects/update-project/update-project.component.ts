@@ -144,7 +144,9 @@ export class UpdateProjectComponent implements OnInit {
   IsSaveProject: boolean;
   disabledButton: boolean;
   ProjectSiteAssetId: any;
-  warantryStartDate: string;
+  warantryStartDate:string;
+  startdateMile:string;
+  enddateMile:string;
   lstRequstsByProjectSiteAsset: request[]
   serialNumber: any;
   serialNumberInEdit: any;
@@ -424,7 +426,16 @@ this.LOadPro();
     this.warantryStartDate = this.datepipe.transform(event.value, 'yyyy-MM-dd');
     this.ProjectSiteAssetObj.warrantyStartDate = this.warantryStartDate
   }
-
+addEventstartdateMile(event:MatDatepickerInputEvent<Date>)
+{
+  this.startdateMile=this.datepipe.transform(event.value,'yyyy-MM-dd')
+  this.MileObj.startDate=this.startdateMile;
+}
+addEventenddateMile(event:MatDatepickerInputEvent<Date>)
+{
+  this.enddateMile=this.datepipe.transform(event.value,'yyyy-MM-dd')
+  this.MileObj.endDate=this.enddateMile
+}
   cleartable(table: Table) {
     table.clear();
   }
@@ -791,6 +802,12 @@ this.LOadPro();
       this.projectObj.projectTypeId != 0 && this.projectObj.organizationId != 0
        && this.projectObj.employeeId != 0 && this.selectedSitesColumns.length!=0)
       {
+        if(this.projectObj.planndedEndDate==""
+        && this.projectObj.actualEndDate=="" && this.projectObj.planndedStartDate=="" && this.projectObj.actualStartDate=="")
+        {          
+            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete All Dates Info' });
+            return; 
+        }            
         this.checkNameandCode();
         if (this.Namefound)
         {
