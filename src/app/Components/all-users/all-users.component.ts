@@ -97,6 +97,7 @@ export class AllUsersComponent implements OnInit {
       {
         this.NewUser.email=element.email;
         this.NewUser.name=element.employeeName;
+        this.NewUser.userName=element.email;
       }
     });
   }
@@ -107,6 +108,7 @@ export class AllUsersComponent implements OnInit {
       {
         this.NewUser.email=element.email;
         this.NewUser.name=element.clientName;
+        this.NewUser.userName=element.email;
       }
     });
   }

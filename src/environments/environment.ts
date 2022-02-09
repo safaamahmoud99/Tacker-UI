@@ -13,7 +13,7 @@ export const environment = {
   getMileStoneById:'http://localhost:50653/api/MileStones/',
   updateMileStoneByid:'http://localhost:50653/api/MileStones/updateMileStoneById/',
   ProjectTeams: 'http://localhost:50653/api/ProjectTeam/',
-  canreqbyprojectID :'http://localhost:50653/api/project/canreqbyprojeID/',
+  canreqbyprojectID:'http://localhost:50653/api/project/canreqbyprojeID/',
   GetProjectTeamsByProjectPositionId: 'http://localhost:50653/api/ProjectTeam/GetProjectTeamsByProjectPositionId/',
   organizations: 'http://localhost:50653/api/Organizations/',
   clients: 'http://localhost:50653/api/Clients/',
