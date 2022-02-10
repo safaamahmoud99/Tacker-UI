@@ -860,7 +860,8 @@
             <div class="col">
                 <div class="col">
                     <label class="labelstyle" [translate]="'Tracker.Position Name'"></label>
-                    <select [(ngModel)]="ProjectTeam.projectPositionId" name="id" class="form-control">emp
+                    <select [(ngModel)]="ProjectTeam.projectPositionId" name="id" class="form-control" 
+                    (change)="OnChangePosID($event)">emp
                         <option hidden [value]="" selected>select Position Name </option>
                         <option *ngFor="let the of lstOfprojectPosition" value="{{the.id}}">
                             {{the.positionName}}
@@ -872,13 +873,14 @@
                     <select [(ngModel)]="ProjectTeam.employeeId" name="sel2" class="form-control"
                         (change)="OnChangeEmpID($event)">
                         <option></option>
-                        <option *ngFor="let th of lstEmployees" value="{{th.id}}">{{th.employeeName}}
+                        <option *ngFor="let th of emps" value="{{th.id}}">{{th.employeeName}}
                         </option>
                     </select>
                 </div>
                 <div class="col">
                     <label class="labelstyle" [translate]="'Tracker.Department Name'"></label>
                     <select [(ngModel)]="ProjectTeam.departmentId" name="sub" class="form-control">
+                        <option></option>
                         <option value="{{department.id}}">{{department.name}}</option>
                     </select>
                 </div>

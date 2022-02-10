@@ -50,6 +50,8 @@ import { RequestService } from 'src/Shared/Services/request.service';
 import { request } from 'src/Shared/Models/request';
 import { TranslateService } from '@ngx-translate/core';
 import * as internal from 'events';
+import { User } from 'src/Shared/Models/User';
+import { UsersService } from 'src/Shared/Services/users.service';
 
 @Component({
   selector: 'app-update-project',
@@ -88,6 +90,9 @@ export class UpdateProjectComponent implements OnInit {
   displayBasic: boolean;
   displayMile: boolean;
   stackObj:stackholder;
+  users:User[];
+  usersfil:User[]=[];
+  emps:employee[]=[];
   MileObj:mileStone;
   Namefound:boolean=false;
   Codefound:boolean=false;
@@ -164,7 +169,7 @@ export class UpdateProjectComponent implements OnInit {
     private SiteClientsService: SiteClientsService, private ProjectSiteAssetService: ProjectSiteAssetService,
     private assetservice: AssetService, private SuppliersService: SuppliersService,
     public datepipe: DatePipe, private _formBuilder: FormBuilder, private confirmationService: ConfirmationService,
-    private requestservice: RequestService, private translate: TranslateService
+    private requestservice: RequestService, private translate: TranslateService,private userService:UsersService
   ) { }
 
   ngOnInit(): void
@@ -284,6 +289,13 @@ export class UpdateProjectComponent implements OnInit {
       },
       err => console.log(err)
     )
+
+    this.userService.getAllUsers().subscribe(
+      data=>{
+        this.users=data;
+      },
+      error=>console.log(error)
+      );
     //this.clientService.GetAllClients().subscribe(
     this.projectSiteClientObj = {
       id: 0,
@@ -1272,6 +1284,40 @@ this.confirmationService.confirm({
         console.log(error);
       });
   }
+
+  OnChangePosID(i:any)
+  {
+    this.emps.length=0;
+    this.usersfil=this.users;
+   if(this.ProjectTeam.projectPositionId==1)
+   {
+    this.usersfil=this.users.filter(e=>e.roles==="TL");
+    console.log("tl",this.usersfil);
+   }
+  if(this.ProjectTeam.projectPositionId==2)
+   {
+     this.usersfil=this.users.filter(e=>e.roles==="Employee")
+     console.log("employee",this.usersfil);
+   }  
+  if(this.ProjectTeam.projectPositionId==3)
+   {
+     this.usersfil=this.users.filter(e=>e.roles==="PM")
+     console.log("eproman",this.usersfil);
+   }    
+  for(let x=0;x<this.usersfil.length;x++)
+    {
+       for(let i=0;i<this.lstEmployees.length;i++)
+       {
+          if(this.usersfil[x].email==this.lstEmployees[i].email)
+          {         
+            this.emps.push(this.lstEmployees[i]);        
+          }
+      }
+   }
+        console.log("emplotrererer",this.emps); 
+  } 
+   
+  
   Savedoctolist() {
     // this.lstoddocproj.push(this.docproject);
     // this.docproject = {
