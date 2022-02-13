@@ -188,6 +188,7 @@
                     <label for="sitename" [translate]="'Tracker.Sites'"></label><br>
                     <p-listbox [options]="lstSites" optionValue="id" [(ngModel)]="projectSiteClientObj.siteId"
                         optionLabel="sitename" (onChange)="getProjectSiteIdEvent($event)"></p-listbox><br>
+                        
                     <label for="Client Name" class="labelMarginRight" [translate]="'Tracker.Client Name'"></label><br>
                     <p-multiSelect [options]="lstClients" [(ngModel)]="projectSiteClientObj.clients"
                         selectedItemsLabel="{0} columns selected" [style]="{'width':'100%'}" appendTo="body"
@@ -887,7 +888,8 @@
                 <div class="col">
                     <div class="col">
                         <label class="labelstyle" [translate]="'Tracker.Position Name'"></label>
-                        <select [(ngModel)]="ProjectTeam.projectPositionId" name="id" class="form-control">emp
+                        <select [(ngModel)]="ProjectTeam.projectPositionId" name="id" class="form-control"
+                        (change)="OnChangePosID($event)">emp
                             <option hidden [value]="" selected>select Position Name </option>
                             <option *ngFor="let the of lstOfprojectPosition" value="{{the.id}}">
                                 {{the.positionName}}
@@ -898,8 +900,8 @@
                         <label class="labelstyle" [translate]="'Tracker.Employee Name'"></label>
                         <select [(ngModel)]="ProjectTeam.employeeId" name="sel2" class="form-control"
                             (change)="OnChangeEmpID($event)">
-                            <option></option>
-                            <option *ngFor="let th of lstEmployees" value="{{th.id}}">{{th.employeeName}}
+                            <option hidden [value]="" selected>select Employee Name </option>
+                            <option *ngFor="let th of emps" value="{{th.id}}">{{th.employeeName}}
                             </option>
                         </select>
                     </div>

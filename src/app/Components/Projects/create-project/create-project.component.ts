@@ -59,6 +59,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { DatePipe } from '@angular/common';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { User } from 'src/Shared/Models/User';
+import { UsersService } from 'src/Shared/Services/users.service';
 
 @Component({
   selector: 'app-create-project',
@@ -97,6 +99,9 @@ export class CreateProjectComponent implements OnInit {
   lstoddocproj: ProjectDocuments[]
   diffDays: number;
   items: MenuItem[];
+  users:User[];
+  usersfil:User[]=[];
+  emps:employee[]=[];
   activeIndex: number = 0;
   lstSites: Sites[]
   lstassets: asset[]
@@ -168,7 +173,7 @@ export class CreateProjectComponent implements OnInit {
     private BrandService: BrandService, private OriginsService: OriginsService, private DueDateCategoryService: DueDateCategoryService,
     private ProjectSitesService: ProjectSitesService, private ProjectSiteAssetService: ProjectSiteAssetService,
     private SiteClientsService: SiteClientsService, private translate: TranslateService, private _formBuilder: FormBuilder,
-    private datePipe: DatePipe,private confirmationService: ConfirmationService,
+    private datePipe: DatePipe,private confirmationService: ConfirmationService,private userService:UsersService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -325,6 +330,12 @@ export class CreateProjectComponent implements OnInit {
         this.lstAllSites = res
       }
     )
+    this.userService.getAllUsers().subscribe(
+      data=>{
+        this.users=data;
+      },
+      error=>console.log(error)
+      );
     this.organizationService.GetAllOrganizations().subscribe(
       res => { this.lstOrganizations = res },
       err => console.log(err)
@@ -791,6 +802,41 @@ addEventenddateMile(event:MatDatepickerInputEvent<Date>)
         console.log(error);
       });
   }
+  OnChangePosID(i:any)
+  {
+    this.emps.length=0;
+    this.usersfil=this.users;
+   if(this.ProjectTeam.projectPositionId==1)
+   {
+    this.usersfil=this.users.filter(e=>e.roles==="TL");
+    console.log("tl",this.usersfil);
+   }
+  if(this.ProjectTeam.projectPositionId==2)
+   {
+     this.usersfil=this.users.filter(e=>e.roles==="Employee")
+     console.log("employee",this.usersfil);
+   }  
+  if(this.ProjectTeam.projectPositionId==3)
+   {
+     this.usersfil=this.users.filter(e=>e.roles==="PM")
+     console.log("eproman",this.usersfil);
+   }    
+  for(let x=0;x<this.usersfil.length;x++)
+    {
+       for(let i=0;i<this.lstEmployees.length;i++)
+       {
+          if(this.usersfil[x].email==this.lstEmployees[i].email)
+          {         
+            this.emps.push(this.lstEmployees[i]);        
+          }
+      }
+   }
+        console.log("emplotrererer",this.emps); 
+  } 
+   
+
+
+
   teamname: any
   saveTeam() {
 

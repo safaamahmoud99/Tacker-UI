@@ -872,7 +872,7 @@
                     <label class="labelstyle" [translate]="'Tracker.Employee Name'"></label>
                     <select [(ngModel)]="ProjectTeam.employeeId" name="sel2" class="form-control"
                         (change)="OnChangeEmpID($event)">
-                        <option></option>
+                        <option hidden [value]="" selected>select Employee </option>
                         <option *ngFor="let th of emps" value="{{th.id}}">{{th.employeeName}}
                         </option>
                     </select>
@@ -880,14 +880,15 @@
                 <div class="col">
                     <label class="labelstyle" [translate]="'Tracker.Department Name'"></label>
                     <select [(ngModel)]="ProjectTeam.departmentId" name="sub" class="form-control">
-                        <option></option>
+                        <option hidden [value]="" selected>select Department</option>
                         <option value="{{department.id}}">{{department.name}}</option>
                     </select>
                 </div>
                 <div class="p-col-12 p-md-4">
                     <div>
                         <button class="btn btn-info" style="margin-top: 20px;float: right;" (click)="Savetolist_Teams()"
-                            [translate]="'Tracker.Save To List'"></button>
+                            [translate]="'Tracker.Save To List'">
+                        </button>
                     </div>
                 </div>
             </div>
