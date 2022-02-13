@@ -29,14 +29,6 @@ export class basic implements CanActivate {
     }
       this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
       return false;
-    //  if(this.authService.loggedIn())
-    //  {
-    //    return true;
-    //  }      
-    //  else
-    //  {
-    //   this.router.navigate(['']);
-    //    return false;
-    //  }
+   
    }
 }

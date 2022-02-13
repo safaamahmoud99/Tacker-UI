@@ -1118,11 +1118,7 @@ this.confirmationService.confirm({
               var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
               this.lstOfprojectPosition.splice(posIndex,1)
             }
-            if(this.ProjectTeam.projectPositionName==='PM')
-            {
-              var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
-              this.lstOfprojectPosition.splice(posIndex,1)
-            }
+           
             this.lstOfProjectTeams.push(this.ProjectTeam);
             this.isFound=false;
             this.ProjectTeam = {
@@ -1141,11 +1137,7 @@ this.confirmationService.confirm({
             var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
             this.lstOfprojectPosition.splice(posIndex,1)
           }
-          if(this.ProjectTeam.projectPositionName==='PM')
-          {
-            var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
-            this.lstOfprojectPosition.splice(posIndex,1)
-          }
+         
           this.lstOfProjectTeams.push(this.ProjectTeam);
           this.ProjectTeam = {
             teamName: '',
@@ -1299,11 +1291,7 @@ this.confirmationService.confirm({
      this.usersfil=this.users.filter(e=>e.roles==="Employee")
      console.log("employee",this.usersfil);
    }  
-  if(this.ProjectTeam.projectPositionId==3)
-   {
-     this.usersfil=this.users.filter(e=>e.roles==="PM")
-     console.log("eproman",this.usersfil);
-   }    
+       
   for(let x=0;x<this.usersfil.length;x++)
     {
        for(let i=0;i<this.lstEmployees.length;i++)
