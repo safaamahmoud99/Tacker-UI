@@ -1,0 +1,40 @@
+<div class="card" #ejDialog >
+    <div class="card-body">
+        <form #form="ngForm" (ngSubmit)="onSubmit()"> 
+            <div class="row top-buffer">
+                <div class="col-12">
+                    <label for="cityName" [translate]="'Tracker.CityName'"> </label>
+                    <input type="text" class="form-control" id="cityName" name="cityName" pTooltip="Enter city Name"
+                        [placeholder]="'Tracker.CityName'| translate" tooltipPosition="bottom" [(ngModel)]="city.cityName"
+                        #cityName="ngModel" [class.is-invalid]="
+                      (cityName.touched && cityName.errors) || form.submitted" [class.is-valid]="cityName.valid && form.submitted"
+                        required />
+                    <div *ngIf="(cityName.touched || form.submitted) && cityName.errors?.required">
+                        <span class="text-danger" [translate]="'Tracker.CityName'"></span>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label class="labelstyle">{{'Tracker.GovernorateName'|translate}}</label>
+                    <select [(ngModel)]="city.governorateId" name="id" class="form-control">emp
+                        <option *ngFor="let the of lstGovernorates" value="{{the.id}}">{{the.governorateName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <br><br>
+            <div class="row top-buffer">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary pull-center btn-sm" [translate]="'Tracker.Save'"
+                        style="margin:0px 5px;background-color: #1483c2;border-color: #1483c2"></button>
+
+                    <button class="btn btn-primary pull-center btn-sm" value="Reset" type="button"
+                        style="margin: 0px 5px;background-color: #1483c2;border-color: #1483c2;width: 100px;"
+                        (click)="reset()">
+                        {{ 'Tracker.Reset' | translate }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

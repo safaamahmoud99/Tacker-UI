@@ -1,0 +1,71 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+<div class="card">
+    <div class="card-header cardHeader">
+        <h1 [translate]="'Tracker.GovernoratesAndCities'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+
+    </div>
+    <div class="card-body">
+        <div class="row top-buffer">
+            <div [ngClass]="lang == 'English' ? 'col-6': 'col-6'"
+                [ngStyle]="lang =='English' ? {'float': 'right'} : {  'float': 'left'}">
+                <a style="width: 180px;" [ngClass]="lang == 'English' ? 'hrefbutton': 'hrefbuttonAr'"
+                    (click)="addGov(selectedTypeId)"><i class="fas fa-plus"
+                        style="margin: 0px 10px 0px 10px;" [translate]="'Tracker.Add Gov'"></i></a>
+            </div>
+            <div [ngClass]="lang == 'English' ? 'col-6': 'col-6'"
+                [ngStyle]="lang =='English' ? {'float': 'right'} : {  'float': 'left'}">
+                <a style="width: 150px;" [ngClass]="lang == 'English' ? 'hrefbutton': 'hrefbuttonAr'"
+                    (click)="addCity()"><i class="fas fa-plus" style="margin: 0px 0px 0px 0px;"
+                    [translate]="'Tracker.Add City'"></i></a>
+            </div>
+        </div>
+<br>
+        <div class="row top-buffer">
+            <div class="col-6">
+                <p-listbox [options]="goves" [filter]="true" optionLabel="name" [listStyle]="{'max-height':'250px'}" [scrollable]="true"
+                    optionValue="id">
+                           <ng-template let-gov pTemplate="item">
+                                <div style="font-size:14px;float:left;margin:7px 5px 0 0;width: 20%;" (click)="filterCitybyGovernorateID(gov.id)">
+                                    {{gov.governorateName}}
+                                </div>
+                              <div style="float:right; margin: 0px 100px;">
+                                    <span (click)="editGov(gov.id)"  pTooltip="Edit Governorate"
+                                    tooltipPosition="bottom" class="p-button-icon pi pi-pencil" 
+                                    style="color: #2f86d6;margin: 0px 10px;"
+                                     aria-hidden="true">
+                                    </span>
+                                   
+                                    <span (click)="confirmDelete(gov.id,gov.governorateName,'gov')"  pTooltip="Delete Governorate" class="pi pi-times" style="color: #fe7f83; cursor: pointer;margin: 0px 10px;"  >
+                                    </span>
+                                </div>
+                            </ng-template>
+                </p-listbox>
+            </div>
+
+            <div class="col-6">
+                <p-listbox [options]="lstCity" [filter]="true" optionLabel="name" [listStyle]="{'max-height':'250px'}" [scrollable]="true"
+                    optionValue="id">
+                <ng-template let-cit pTemplate="item">
+                    <div style="font-size:14px;float:left;margin:7px 5px 0 0;width: 15%;">
+                            {{cit.cityName}}
+                    </div>
+                    <div style="float:right; margin: 0px 100px;">
+                        <span (click)="editCity(cit.id)" pTooltip="Edit City"
+                            tooltipPosition="bottom" class="p-button-icon pi pi-pencil" 
+                            style="color: #2f86d6;margin: 0px 10px;"></span>
+
+                        <span (click)="confirmDelete(cit.id,cit.cityName,'city')" pTooltip="Delete City"
+                            tooltipPosition="bottom" class="p-button-icon pi pi-times" 
+                            style="color: #fe7f83; cursor: pointer;margin: 0px 10px;">
+                        </span>
+                    </div>
+                </ng-template>
+                </p-listbox>
+            </div>
+        </div>
+    </div>
+</div>

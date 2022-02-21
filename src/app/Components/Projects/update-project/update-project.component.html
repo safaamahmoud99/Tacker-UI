@@ -185,12 +185,14 @@
         <mat-step [stepControl]="AssetFormGroup">
             <ng-template matStepLabel>{{'Tracker.Assets'| translate}}</ng-template>
             <div class="row">
-                <div class="p-field col-md-3">
-                    <label for="sitename" [translate]="'Tracker.Sites'"></label><br>
-                    <p-listbox [options]="selectedSitesColumns" [(ngModel)]="projectSiteClientObj.siteId"
+                <div class="p-field col-md-3" >
+                    
+                   
+                        <label for="sitename" [translate]="'Tracker.Sites'"></label><br>                  
+                    <p-listbox [listStyle]="{'max-height':'300px'}" [scrollable]="true" [options]="selectedSitesColumns" [(ngModel)]="projectSiteClientObj.siteId"
                         optionValue="id" (onChange)="getProjectSiteIdEvent($event)" optionLabel="sitename"></p-listbox>
                     <br>
-
+        
                     <label for="Client Name" [translate]="'Tracker.Client Name'"></label><br>
                     <p-multiSelect (onChange)="getNotificattionEditClient($event)" appendTo="body"
                         [options]="lstClients" name="inputAllclients" [style]="{'width':'100%'}"
@@ -202,7 +204,9 @@
                             </ng-container>
                         </ng-template>
                     </p-multiSelect>
-                    <br>
+                    <br><br>
+                    <button type="submit" class="mb-2" color="primary" *ngIf="isshowBtn==true" (click)="UpdateClient()"
+                    mat-flat-button>{{'Tracker.Update Client'|translate}}</button>
                 </div>
                 <div class="p-field col-md-9 card">
                     <div class="row">
@@ -295,8 +299,8 @@
             <br>
             <div class="row">
                 <div class="col-md-3">
-                    <button type="submit" class="mb-2" color="primary" *ngIf="isshowBtn==true" (click)="UpdateClient()"
-                        mat-flat-button>{{'Tracker.Update Client'|translate}}</button>
+                    <!-- <button type="submit" class="mb-2" color="primary" *ngIf="isshowBtn==true" (click)="UpdateClient()"
+                        mat-flat-button>{{'Tracker.Update Client'|translate}}</button> -->
                     <button mat-stroked-button color="primary" mat-button matStepperPrevious>
                         {{'Tracker.Back'|translate}}</button>
                 </div>

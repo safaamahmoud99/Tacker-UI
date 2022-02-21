@@ -142,6 +142,9 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { CreateSubCategoryComponent } from './Components/Request/SubCategory/create-sub-category/create-sub-category.component';
 import { ForgotPasswordComponent } from './Components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
+import { GovernoratesComponent } from './Components/Governorates&Cities/governorates/governorates.component';
+import { CityComponent } from './Components/Governorates&Cities/city/city.component';
+import { GovernorateComponent } from './Components/Governorates&Cities/governorate/governorate.component';
  
 
 
@@ -204,7 +207,10 @@ registerLocaleData(en);
    ClientManagerComponent,
    CreateSubCategoryComponent,
    ForgotPasswordComponent,
-   ResetPasswordComponent
+   ResetPasswordComponent,
+   GovernoratesComponent,
+   CityComponent,
+   GovernorateComponent
    
   //  PiechartComponent,
   ],

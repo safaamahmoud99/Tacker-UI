@@ -29,6 +29,7 @@ export const environment = {
   editrequestSubCategory:'http://localhost:50653/api/RequestSubCategory/',
   requestCategory: 'http://localhost:50653/api/RequestCategory/',
   getCategory:'http://localhost:50653/api/RequestCategory/',
+  getCitiesbygovid:'http://localhost:50653/api/Cities/Getgovbycity/',
   updateCategory:'http://localhost:50653/api/RequestCategory/',
   projectPositions: 'http://localhost:50653/api/ProjectPositions/',
   getDepartmentByEmpID: 'http://localhost:50653/api/Departments/GetDepartmentByEmployeeId/',
@@ -44,12 +45,12 @@ export const environment = {
   uploadFile: 'http://localhost:50653/api/ProjectDocument/uploadfile/',
   deletestakeholder: 'http://localhost:50653/api/Stackeholders/',
   updatestackholder:'http://localhost:50653/api/Stackeholders/updatestakehodersbyID/',
-
   getStackholderbyId:'http://localhost:50653/api/Stackeholders/',
   deletemilestone: ' http://localhost:50653/api/MileStones/',
   deleteteam: 'http://localhost:50653/api/ProjectTeam/',
   GetClientByProjectId: 'http://localhost:50653/api/project/GetClientByProjectId/',
-
+  Governorates:'http://localhost:50653/api/Governorates',
+  Cities:'http://localhost:50653/api/Cities',
   deletedocument: 'http://localhost:50653/api/ProjectDocument/',
   updatestakeholdersbyprojectid: 'http://localhost:50653/api/Stackeholders/updatestakehodersByProjectId/1',
   updateteamsbyprojectid: 'http://localhost:50653/api/ProjectTeam/updateteamsByProjectId/1',

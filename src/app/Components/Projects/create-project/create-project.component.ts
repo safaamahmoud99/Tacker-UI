@@ -18,7 +18,7 @@ import { stackholder } from 'src/Shared/Models/stackeholder';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ProjectDocumentService } from 'src/Shared/Services/project-document.service';
 
-import { mileStone } from 'src/Shared/Models/mileStone';
+import { mileStone } from 'src/Shared/Models/mileStone';                         
 import { MilestoneService } from "../../../../Shared/Services/milestone.service";
 import { projectPosition } from "../../../../Shared/Models/projectPosition";
 import { ProjectPositionService } from "../../../../Shared/Services/project-position.service";
@@ -130,6 +130,7 @@ export class CreateProjectComponent implements OnInit {
   displayMile:boolean;
   projectSiteId: number;
   displaydoc:boolean;
+  isshowBtn:boolean;
   documents: ProjectDocuments[];
   IsDisabled: boolean = false
   isDisabled1: boolean = false
@@ -264,7 +265,8 @@ export class CreateProjectComponent implements OnInit {
       id: 0, siteId: 0, siteName: '', clients: [], projectSiteId: 0
     }
     this.siteObj = {
-      id: 0, sitename: ''
+     // id: 0, sitename: ''
+      id:0,sitename:"",address:"",phone:"",governorateId:0,governorateName:"",cityId:0,cityName:""
     }
     this.ProjectSiteAssetObj = {
       id: 0, days: 0, supplierName: '', ProjectSiteId: 0, assetId: 0, assetName: '',
@@ -1056,7 +1058,7 @@ addEventenddateMile(event:MatDatepickerInputEvent<Date>)
               this.SiteService.GetSiteById(this.SiteId).subscribe(
                 res3 => {
                   this.projectSiteClientObj.siteName = res3.sitename
-                  this.listProjectSiteAssetClients.push(this.projectSiteClientObj)
+               //   this.listProjectSiteAssetClients.push(this.projectSiteClientObj)
                   console.log("in save site asset to list this.projectSiteClientObj",this.projectSiteClientObj);
                   this.projectSiteClientObj = {id:0,
                     clients: [], ProjectId: 0,
@@ -1085,57 +1087,73 @@ addEventenddateMile(event:MatDatepickerInputEvent<Date>)
     }
 
   } 
+  getNotificattionEditClient($event) {
+    console.log("notify", $event.value.length)
+    if ($event.value.length != 0) {
+      this.isshowBtn = true
+    }
+  }
+  UpdateClient() {
+    this.SiteClientsObj.projectSiteId = this.projectSiteId
+    this.SiteClientsObj.clients = this.lstSelectedClients
+    console.log("this.SiteClientsObj", this.SiteClientsObj)
+    this.SiteClientsService.UpdateByProjectId(this.SiteClientsObj.projectSiteId, this.SiteClientsObj.clients).subscribe(
+
+      //  this.SiteClientsService.insertSiteClient(this.SiteClientsObj).subscribe(
+      res1 => {
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
+        if(this.translate.currentLang=='English')
+        {
+       this.messageService.add({severity:'success', summary:'Success', detail:'Record Added'});
+        }
+       else
+       {
+      this.messageService.add({ severity:'success', summary: 'نجاح', sticky: false, detail: 'تمت الاضافة' });
+       }
+        this.isshowBtn = false
+        this.ProjectSiteAssetService.GetAllProjectSiteAssetBySiteId(this.SiteId, this.projectID).subscribe(
+          res => {
+            this.listProjectSiteAssetClients = res
+            console.log("listProjectSiteAssetClients", this.listProjectSiteAssetClients);
+          }
+        )
+      }
+    )
+  }
+
+
+
   saveSiteAssetToDB() {
-    this.messageService.clear();
-    console.log("obj in DB",this.projectSiteClientObj);
-    console.log("obj in basic",this.ProjectSiteAssetObj);
-    this.ProjectSiteAssetObj.assetId = this.projectSiteClientObj.assetId
-    console.log("this.ProjectSiteAssetObj.assetId",this.ProjectSiteAssetObj.assetId)
-    this.ProjectSiteAssetObj.days = this.projectSiteClientObj.days
-    console.log("this.ProjectSiteAssetObj.days",this.ProjectSiteAssetObj.days)
-    this.ProjectSiteAssetObj.serialNumber = this.projectSiteClientObj.serialNumber
-    console.log("this.ProjectSiteAssetObj.serialNumber",this.ProjectSiteAssetObj.serialNumber)
-    this.ProjectSiteAssetObj.supplierId = this.projectSiteClientObj.supplierId
-    console.log("this.ProjectSiteAssetObj.supplierId",this.ProjectSiteAssetObj.supplierId)
-    this.ProjectSiteAssetObj.warrantyPeriod = this.projectSiteClientObj.warrantyPeriod
-    console.log("this.ProjectSiteAssetObj.warrantyPeriod",this.ProjectSiteAssetObj.warrantyPeriod)
+    this.messageService.clear();  
+    this.ProjectSiteAssetObj.assetId = this.projectSiteClientObj.assetId    
+    this.ProjectSiteAssetObj.days = this.projectSiteClientObj.days   
+    this.ProjectSiteAssetObj.serialNumber = this.projectSiteClientObj.serialNumber  
+    this.ProjectSiteAssetObj.supplierId = this.projectSiteClientObj.supplierId   
+    this.ProjectSiteAssetObj.warrantyPeriod = this.projectSiteClientObj.warrantyPeriod 
     this.ProjectSiteAssetObj.warrantyStartDate = this.projectSiteClientObj.warrantyStartDate
-    console.log("this.ProjectSiteAssetObj.warrantyStartDate ",this.ProjectSiteAssetObj.warrantyStartDate )
     this.ProjectSiteAssetObj.ProjectSiteId = this.projectSiteId
-    console.log("this.ProjectSiteAssetObj.ProjectSiteId",this.ProjectSiteAssetObj.ProjectSiteId)
-    console.log("obj after 0 in DB",this.ProjectSiteAssetObj);
     this.ProjectSiteAssetService.insertProjectSiteAsset(this.ProjectSiteAssetObj).subscribe(
       res => {
+     //   this.SiteClientsObj.projectSiteId = this.projectSiteId
+  //  this.SiteClientsObj.clients = this.lstSelectedClients
         console.log("enter service0000000000000000000000000000000");
         this.SiteClientsObj.projectSiteId = this.projectSiteId
         this.SiteClientsObj.clients = this.projectSiteClientObj.clients
         console.log("this.SiteClientsObj", this.SiteClientsObj)
-        if (this.SiteClientsObj.clients.length != 0) {
-          this.SiteClientsService.insertSiteClient(this.SiteClientsObj).subscribe(
-            res1 => {
-             // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
-    // if(this.translate.currentLang=='English')
-    //  {
-    //    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Asset Added' });
-    //  }
-    //  else
-    //  {
-    //    this.messageService.add({ severity: 'success', summary: 'نجاح ', detail: 'تم اضافة المسلسل  بنجاح ' });
-    //  }
-            }
-          )
-        }
-        // else {
-        //   if(this.translate.currentLang=='English')
-        //   {
-        //    this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
-        //   }
-        //   else
-        //   {
-        //    this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه !!!', sticky: true, detail: 'من فضلك ادخل البيانات كامله'});
-        //   }
-        //   //this.messageService.add( { key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
-        // }
+       if (this.SiteClientsObj.clients.length != 0) {
+         this.SiteClientsService.insertSiteClient(this.SiteClientsObj).subscribe(
+        res=>{
+           
+        }   
+         )
+       }
+        this.ProjectSiteAssetService.GetAllProjectSiteAssetBySiteId(this.SiteId, this.projectID).subscribe(
+                res => {
+                  this.listProjectSiteAssetClients = res
+                }
+              )
+            
+     //   }
     if(this.translate.currentLang=='English')
     {
    this.messageService.add({severity:'success', summary:'Success', detail:'Record Added'});
@@ -1150,6 +1168,7 @@ addEventenddateMile(event:MatDatepickerInputEvent<Date>)
     )
   }
   getProjectSiteIdEvent($event) {
+     
     this.SiteId = $event.value
     //this.projectID
     this.ProjectSitesService.GetProjectSiteByProjectIdAndSiteId(this.projectID, this.SiteId).subscribe(
@@ -1247,6 +1266,7 @@ addEventenddateMile(event:MatDatepickerInputEvent<Date>)
     })
     this.displaydoc =false;
   }
+  
   downloadFile(fileName) {
     var filePath = `${environment.Domain}wwwroot/documentFiles/${fileName}`;
 

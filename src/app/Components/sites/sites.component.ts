@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { city } from 'src/Shared/Models/city';
+import { Governorate } from 'src/Shared/Models/governorate';
 import { Sites } from 'src/Shared/Models/Sites';
+import { CityService } from 'src/Shared/Services/city.service';
+import { GovernorateService } from 'src/Shared/Services/governorate.service';
 import { SitesService } from 'src/Shared/Services/sites.service';
 @Component({
   selector: 'app-sites',
@@ -9,20 +13,33 @@ import { SitesService } from 'src/Shared/Services/sites.service';
   styleUrls: ['./sites.component.css']
 })
 export class SitesComponent implements OnInit {
-  lstSites: Sites[];
+  lstSites: Sites[]=[];
   SitesObj:Sites;
+  GovList:Governorate[]=[];
+  CityList:city[]=[];
   Editboolean: boolean;
   displayBasic: boolean;
   NewDialogbool: boolean;
   isFound:boolean=false;
-  constructor(private SitesService:SitesService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+  constructor(private SitesService:SitesService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService,
+  private governorateService:GovernorateService, private cityService:CityService ) { }
 
   ngOnInit(): void {
-    this.SitesObj={id:0,sitename:''}
+    this.SitesObj={id:0,sitename:'',address:"",phone:"",governorateId:0,governorateName:"",cityId:0,cityName:""}
     this.SitesService.GetAllSites().subscribe(
       res=>{this.lstSites=res},
       err=>console.log(err)
     )
+   this.governorateService.GetAllGovernorates().subscribe(
+    res=>{this.GovList=res},
+    err=>console.log(err)
+   )
+   console.log("governorate",this.GovList);
+  this.cityService.GetAllcities().subscribe(
+    res=>{this.CityList=res},  
+    err=>console.log(err)
+  )
+  console.log("city",this.CityList);
   }
   showBasicDialog(id) {
     this.displayBasic = true;
@@ -33,18 +50,8 @@ export class SitesComponent implements OnInit {
   }
   NewDialog() {
     this.NewDialogbool = true;
-    this.SitesObj={id:0,sitename:""}
+    this.SitesObj={id:0,sitename:"",address:"",phone:"",governorateId:0,governorateName:"",cityId:0,cityName:""}
   }
-  // add() {
-  //   this.SitesService.insertSite(this.SitesObj).subscribe(
-  //     res => {
-  //       this.NewDialogbool = false;
-  //       this.ngOnInit(),
-  //       this.messageService.add({ severity: 'info', summary: 'Record Added!', detail: 'Record Added!' });
-  //     },
-  //     error => console.log(error),
-  //   );
-  // }
   EditDialog(id) {
     this.Editboolean = true;
     this.SitesService.GetSiteById(id).subscribe(

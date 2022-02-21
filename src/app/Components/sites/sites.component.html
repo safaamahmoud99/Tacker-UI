@@ -3,7 +3,6 @@
 <p-toast position="top-left" key="tl"></p-toast>
 <p-toast position="top-center" key="tc"></p-toast>
 <p-toast position="bottom-center" key="bc"></p-toast>
-
 <p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
     <ng-template let-message pTemplate="message">
         <div class="p-flex p-flex-column" style="flex: 1">
@@ -30,7 +29,7 @@
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
         [globalFilterFields]="['sitename']" [value]="lstSites">
         <ng-template pTemplate="caption">
-            <h1 style="margin-bottom: 20px; font-size: 2em;color: #2674a8;">Sites</h1>
+            <h1 style="margin-bottom: 20px; font-size: 2em;color: #2674a8;">Hospitals</h1>
             <div class="row">
                 <div class="table-header col-md-10">
                     <span class="p-input-icon-left">
@@ -46,18 +45,42 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="height: 5px !important; ">
-                <th pSortableColumn="sitename"><span>Site Name</span>
+                <!-- <th pSortableColumn="sitename"><span >Hospital Name</span>
                     <p-sortIcon field="sitename"></p-sortIcon>
                 </th>
-                <th>Controls</th>
+                <th pSortableColumn="sitename"><span>phone</span>
+                    <p-sortIcon field="sitename"></p-sortIcon>
+                </th>
+                <th pSortableColumn="sitename"><span>Address</span>
+                    <p-sortIcon field="sitename"></p-sortIcon>
+                </th>
+                <th pSortableColumn="sitename"><span>City</span>
+                    <p-sortIcon field="sitename"></p-sortIcon>
+                </th>
+                <th pSortableColumn="sitename"><span>Governorate</span>
+                    <p-sortIcon field="sitename"></p-sortIcon>
+                </th>
+                
+                <th>Controls</th> -->
+                <th [translate]="'Tracker.Hospital Name'"></th>
+                <th [translate]="'Tracker.Phone'"></th>
+                <th [translate]="'Tracker.Address'"></th>
+                <th [translate]="'Tracker.city'"></th>
+                <th [translate]="'Tracker.Governorate'"></th>
+                
+                <th [translate]="'Tracker.Controls'"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-site>
             <tr style="height: 5px !important;font-size: 17px;">
                 <td>{{site.sitename}}</td>
+                <td>{{site.phone}}</td>
+                <td>{{site.address}}</td>
+                <td>{{site.cityName}}</td>
+                <td>{{site.governorateName}}</td>                
                 <td>
-                    <span class="pi pi-compass" style="cursor: pointer;" aria-hidden="true"
-                        (click)="showBasicDialog(site.id)"></span>
+                    <!-- <span class="pi pi-compass" style="cursor: pointer;" aria-hidden="true"
+                        (click)="showBasicDialog(site.id)"></span> -->
                     <span class="pi pi-pencil" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"
                         (click)="EditDialog(site.id)"></span>
                     <!--<span class="pi pi-times" style="cursor: pointer;margin-left: 15px;" (click)="confirm(site.id)" aria-hidden="true"></span> -->
@@ -67,26 +90,53 @@
     </p-table>
 </div>
 
-<p-dialog [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="10000">
+<!-- <p-dialog [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="10000">
     <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">site Details</h1>
     <tr class=" form-control">
         <th><span style="margin-right: 20px;">Site Name : </span></th>
         <td>{{SitesObj.sitename}}</td>
     </tr>
-</p-dialog>
+</p-dialog> -->
 
 <form>
     <p-dialog [(visible)]="Editboolean" [style]="{width: '50vw'}" [baseZIndex]="10000">
-        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Update Site</h1>
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;" [translate]="'Tracker.Update Hospital'"></h1>
         <div class="row">
-            <span class="col-md-4" for="time">site Name</span>
+            <label class="col-md-4" for="sitename" [translate]="'Tracker.Hospital Name'"></label>
             <input name="sitename" pInputText type="text" class="col-md-6 form-control"
-                [(ngModel)]="SitesObj.sitename" inputId="date">
+                [(ngModel)]="SitesObj.sitename" inputId="date" required>
         </div>
+        <br>
+        <div class="row">
+            <label class="col-md-4" for="Phone" [translate]="'Tracker.Phone'"></label>
+            <input name="phone" pInputText type="text" class="col-md-6 form-control"
+                [(ngModel)]="SitesObj.phone" inputId="date" placeholder="enter phone" required>
+        </div> <br>
+        <div class="row">
+            <label class="col-md-4"  for="Address" [translate]="'Tracker.Address'"></label>
+            <input name="address" pInputText type="text" class="col-md-6 form-control"
+                [(ngModel)]="SitesObj.address" inputId="date" placeholder="enter Address" required>
+        </div> <br>
+        <div class="row">           
+            <label class="col-md-4" [translate]="'Tracker.Governorate'"></label>
+            <select [(ngModel)]="SitesObj.governorateId" style="width:50% ;"  name="gov" class="form-control">
+                <option value="" selected disabled hidden>Governorate</option>
+                <option *ngFor="let item of GovList" value="{{item.id}}">{{item.governorateName}}</option>
+            </select>
+        </div> <br>
+        <div class="row">
+            <label class="col-md-4" [translate]="'Tracker.city'" ></label>
+            <select  [(ngModel)]="SitesObj.cityId" style="width:50% ;" name="cityId" class="form-control" required>
+                <option value="" selected disabled hidden>City</option>
+                <option   *ngFor="let item of CityList" value="{{item.id}}">{{item.cityName}}</option>
+            </select>
+            
+        </div> <br>
         <ng-template pTemplate="footer">
             <p-button (onClick)="update(SitesObj.id)" type="submit" icon="pi pi-check"
-                styleClass="p-button-text">Submit</p-button>
-            <p-button icon="pi pi-times" (click)="Editboolean=false">Cancel</p-button>
+                styleClass="p-button-text">{{'Tracker.Submit' | translate}}</p-button>
+            <p-button icon="pi pi-times" (click)="Editboolean=false">{{'Tracker.Cancel' | translate}} </p-button>
+            
         </ng-template>
 
     </p-dialog>
@@ -94,18 +144,44 @@
 
 <form #frm="ngForm" (ngSubmit)="onsubmit()">
     <p-dialog [(visible)]="NewDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
-        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Add Site</h1>
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;"  [translate]="'Tracker.Add Hospital'"></h1>
         <div class="row">
-            <span class="col-md-4" for="time">site Name</span>
-            <input name="sitename" pInputText type="text" class="col-md-6 form-control"
-                [(ngModel)]="SitesObj.sitename" inputId="date">
-        </div>
+            <label class="col-md-4" for="sitename" [translate]="'Tracker.Hospital Name'"></label>
+            <input name="sitename" pInputText type="text" class="col-md-6 form-control" required
+                [(ngModel)]="SitesObj.sitename" inputId="date" [placeholder]="'Hospital Name' | translate">
+        </div> <br>
+        <div class="row">
+            <label class="col-md-4" for="Phone" [translate]="'Tracker.Phone'"></label>
+            <input name="phone" pInputText type="text" class="col-md-6 form-control" required
+                [(ngModel)]="SitesObj.phone" inputId="date" [placeholder]="'Tracker.Phone'| translate">
+        </div> <br>
+        <div class="row">
+            <label class="col-md-4"  for="Address" [translate]="'Tracker.Address'"></label>
+            <input name="address" pInputText type="text" class="col-md-6 form-control" required
+                [(ngModel)]="SitesObj.address" inputId="date" [placeholder]="'Tracker.Address'| translate">
+        </div> <br>
+        <div class="row">
+            <label class="col-md-4" [translate]="'Tracker.Governorate'"></label>
+            <select [(ngModel)]="SitesObj.governorateId" style="width:50% ;"  name="gov" class="form-control" required>
+                <option value="" selected disabled hidden>Governorate</option>
+                <option *ngFor="let item of GovList" value="{{item.id}}">{{item.governorateName}}</option>
+            </select>
+        </div> <br>
+        <div class="row">
+            <label class="col-md-4" [translate]="'Tracker.city'" ></label>
+            <select  [(ngModel)]="SitesObj.cityId" style="width:50% ;" name="cityId" class="form-control" required>
+                <!-- <option value="" selected disabled hidden>City</option> -->
+                <option   *ngFor="let item of CityList" value="{{item.id}}">{{item.cityName}} </option>
+            </select>
+            
+        </div> <br>
+       
         <ng-template pTemplate="footer">
-            <p-button (onClick)="add()" [disabled]="frm.invalid" type="submit" icon="pi pi-check"
-                styleClass="p-button-text">Submit
-            </p-button>
-            <p-button icon="pi pi-times" (click)="NewDialogbool=false">Cancel</p-button>
-        </ng-template>
+          
+      <p-button (onClick)="add()" type="submit" icon="pi pi-check" [disabled]="frm.invalid"
+            styleClass="p-button-text">{{'Tracker.Submit' | translate}}</p-button>
+        <p-button icon="pi pi-times" (click)="NewDialogbool=false">{{'Tracker.Cancel' | translate}} </p-button>
+        </ng-template> 
 
     </p-dialog>
 </form>

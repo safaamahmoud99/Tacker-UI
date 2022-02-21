@@ -1,43 +1,39 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { department } from 'src/Shared/Models/department';
-import { requestCategory } from 'src/Shared/Models/requestCategory';
-import { requestSubCategory } from 'src/Shared/Models/requestSubCategory';
-import { DepartmentService } from 'src/Shared/Services/department.service';
-import { RequestCategoryService } from 'src/Shared/Services/request-category.service';
-import { RequestSubCategoryService } from 'src/Shared/Services/request-sub-category.service';
-import { CreateSubCategoryComponent } from '../../SubCategory/create-sub-category/create-sub-category.component';
-import { CategoryComponent } from '../category/category.component';
+ 
+import { city } from 'src/Shared/Models/city';
+import { Governorate } from 'src/Shared/Models/governorate';
+import { GovernorateService } from 'src/Shared/Services/governorate.service';
+import { CityService } from 'src/Shared/Services/city.service';
+import { GovernorateComponent } from '../governorate/governorate.component';
+import { CityComponent } from '../city/city.component';
 
 @Component({
-  selector: 'app-display-categories',
-  templateUrl: './display-categories.component.html',
-  styleUrls: ['./display-categories.component.css']
+  selector: 'app-governorates',
+  templateUrl: './governorates.component.html',
+  styleUrls: ['./governorates.component.css']
 })
-export class DisplayCategoriesComponent implements OnInit {
+export class GovernoratesComponent implements OnInit {
 
   // lang = this.translate.currentLang;
   lang=sessionStorage.getItem("lang")
   dir: string = "ltr";
   selectedTypeId: number;
-  lstCategories: requestCategory[]
-  category: requestCategory
-  lstSubCategories: requestSubCategory[]
-  subCategory: requestSubCategory
-  getsubCategory: requestSubCategory
-  departments: department[];
-  categories:requestCategory[];
+  lstGovernorates:Governorate[];
+  governorate:Governorate;
+  lstCity:city[]
+  city:city;
+  getCity:city;
+  goves:Governorate[];
   loading: boolean = true;
   displayBasic: boolean;
-  displayEditSubCategoryDialog:boolean=false
-  selectedcateId:number;
+  displayEditCityDialog:boolean=false
+  selectedgovId:number;
   constructor(
-    private CategService: RequestCategoryService,
-    private SubCategService: RequestSubCategoryService,
+    private governorateService:GovernorateService,
+    private cityService:CityService,
     private messageservice: MessageService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -51,22 +47,22 @@ export class DisplayCategoriesComponent implements OnInit {
       this.dir = "rtl";
     }
 
-    this.getAllCategories();
-    this.lstCategories = []
-    this.lstSubCategories = []
+   this.getAllGovernorates();
+    this.lstGovernorates = []
+    this.lstCity = []
 
-    this.category = {
-      categoryName: '', departmentId: 0, departmentName: '', id: 0
+    this.governorate = {
+      id: 0,  governorateName: '' 
     }
-    this.subCategory = {
-      requestCategoryId: 0, id: 0, requestCategoryName: '', subCategoryName: ''
+    this.city = {
+      id: 0, cityName: '',governorateId:0,governorateName: ''
     }
-    this.getsubCategory = {
-      requestCategoryId: 0, id: 0, requestCategoryName: '', subCategoryName: ''
+    this.getCity = {
+      governorateId: 0, id: 0, governorateName: '', cityName: ''
     }
-    this.CategService.GetAllCategory().subscribe(e => {
-      this.lstCategories = e
-      this.subCategory.requestCategoryId = Number(this.subCategory.requestCategoryId)
+    this.governorateService.GetAllGovernorates().subscribe(e => {
+      this.lstGovernorates = e
+      this.city.governorateId = Number(this.city.governorateId);
 
     })
     // this.SubCategService.GetAllSubCategorys().subscribe(e => {
@@ -75,19 +71,19 @@ export class DisplayCategoriesComponent implements OnInit {
     //   this.loading = false
     // })
   }
-  filterSubCategoriesByCategoryId(id)
+  filterCitybyGovernorateID(id)
   {
-    this.SubCategService.filterSubCategoriesByCategoryId(id).subscribe(d=>{
-      this.lstSubCategories=d;
+    this.cityService.filterCitiesbyGovbyid(id).subscribe(d=>{
+      this.lstCity=d;
     })
-    this.selectedcateId = id;
+    this.selectedgovId = id;
   }
   
-  confirm(subcategoryId) {
+  confirm(cityId) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
-        this.SubCategService.DeleteSubCategory(subcategoryId).subscribe(
+        this.cityService.deletecity(cityId).subscribe(
           data => {
             this.ngOnInit(),
               this.messageService.add({ severity: 'info', summary: 'Record Deleted!', detail: 'Record Deleted!' });
@@ -95,34 +91,34 @@ export class DisplayCategoriesComponent implements OnInit {
         )
       }
     });
-    console.log("subcategoryId", subcategoryId)
+    console.log("City",cityId)
   }
-  GetSubCategory(id)
+  Getcity(id)
   {
-    this.SubCategService.getSubCategoryById(id).subscribe(subCategory=>{
-      this.getsubCategory=subCategory,
-      console.log("sub",this.getsubCategory)
+    this.cityService.GetcityById(id).subscribe(e=>{
+      this.getCity=e,
+      console.log("sub",this.getCity)
     })
 
   }
-  // dislpayEditDialog(id)
-  // {
-  //   this.displayEditSubCategoryDialog=true;
-  //   this.SubCategService.getSubCategoryById(id).subscribe(subCategory=>{
-  //     this.getsubCategory=subCategory,
-  //     console.log("sub",this.getsubCategory)
-  //   })
-  // }
-  getAllCategories()
+  dislpayEditDialog(id)
   {
-    this.CategService.GetAllCategory().subscribe(e => {
-      this.categories = e
+    this.displayEditCityDialog=true;
+    this.cityService.GetcityById(id).subscribe(e=>{
+      this.getCity=e,
+      console.log("sub",this.getCity)
+    })
+  }
+  getAllGovernorates()
+  {
+    this.governorateService.GetAllGovernorates().subscribe(e => {
+      this.goves = e
     })
   }
   // Update(id)
   // {
-  //   this.SubCategService.editSubCategory(id,this.getsubCategory).subscribe(e=>{
-  //     this.displayEditSubCategoryDialog=false;
+  //   this.cityService.updatecity(id, this.getCity).subscribe(e=>{
+  //     this.displayEditCityDialog=false;
   //     this.ngOnInit();
   //   })
   // }
@@ -182,34 +178,11 @@ export class DisplayCategoriesComponent implements OnInit {
   clear() {
     this.messageService.clear();
   }
-  addCategory(id)
+  addGov(id)
   {
     this.lang=sessionStorage.getItem("lang");
-    const ref = this.dialogService.open(CategoryComponent, {
-      header:  this.lang == 'English' ? 'Add Category' : 'إضافة تصنيف',
-      width: '50%',
-      style: {
-        'dir':  this.lang == "English" ? 'ltr' : "rtl",
-        "text-align":  this.lang == "English" ? 'left' : "right",
-        "direction":  this.lang == "English" ? 'ltr' : "rtl"
-      }
-    });
-    // ref.result.subscribe((result) => {
-    //   if (result instanceof DialogCloseResult) {
-    //     console.log("close");
-    //   } else {
-    //     console.log("action", result);
-    //   }
-    // });
-    ref.onClose.subscribe(() => {
-      this.ngOnInit()
-    });
-  }
-  addSubCategory()
-  {
-    this.lang=sessionStorage.getItem("lang");
-    const ref = this.dialogService.open(CreateSubCategoryComponent, {
-      header:  this.lang == 'English' ? 'Add Sub Category' : 'إضافة تصنيف فرعي',
+    const ref = this.dialogService.open(GovernorateComponent, {
+      header:  this.lang == 'English' ? 'Add Governorate' : 'اضافة محافظة',
       width: '50%',
       style: {
         'dir':  this.lang == "English" ? 'ltr' : "rtl",
@@ -221,13 +194,29 @@ export class DisplayCategoriesComponent implements OnInit {
       this.ngOnInit()
     });
   }
-  editCategory(Catid)
+  addCity()
   {
     this.lang=sessionStorage.getItem("lang");
-    const ref = this.dialogService.open(CategoryComponent, {
-      header:  this.lang == 'English' ? 'Edit Category' : 'تعديل تصنيف',
+    const ref = this.dialogService.open(CityComponent, {
+      header:  this.lang == 'English' ? 'Add City' : 'اضافة مدينة',
+      width: '50%',
+      style: {
+        'dir':  this.lang == "English" ? 'ltr' : "rtl",
+        "text-align":  this.lang == "English" ? 'left' : "right",
+        "direction":  this.lang == "English" ? 'ltr' : "rtl"
+      }
+    });
+    ref.onClose.subscribe(() => {
+      this.ngOnInit()
+    });
+  }
+  editGov(gavid)
+  {
+    this.lang=sessionStorage.getItem("lang");
+    const ref = this.dialogService.open(GovernorateComponent, {
+      header:  this.lang == 'English' ? 'Edit Governorate' : 'تعديل المحافظة',
       data: {
-        cateId: Catid
+        GovId:gavid
       },
       width: '50%',
       style: {
@@ -240,15 +229,15 @@ export class DisplayCategoriesComponent implements OnInit {
       this.ngOnInit()
     });
   }
-  editSubCategory(subCatId)
+  editCity(citid)
   {
-    console.log("subId",subCatId)
+    console.log("city",citid)
     this.lang=sessionStorage.getItem("lang");
     this.dialogService
-    const ref = this.dialogService.open(CreateSubCategoryComponent, {
-      header:  this.lang == 'English' ? 'Edit Sub Category' : 'تعديل التصنيف الفرعي',
+    const ref = this.dialogService.open(CityComponent, {
+      header:  this.lang == 'English' ? 'Edit City' : ' تعديل المدينة ',
       data: {
-        SubcateId: subCatId
+        cityId:citid
       },
       width: '50%',
       style: {
@@ -264,15 +253,15 @@ export class DisplayCategoriesComponent implements OnInit {
   Delete(id,label)
   {
     console.log("label",label)
-    if(label==="cat")
+    if(label==="Gov")
     {
-      this.CategService.DeleteCategory(id).subscribe(()=>{
+      this.governorateService.deleteGovernorate(id).subscribe(()=>{
         this.ngOnInit();
       });
     }
-    else if(label==="sub")
+    else if(label==="City")
     {
-      this.SubCategService.DeleteSubCategory(id).subscribe(()=>{
+      this.cityService.deletecity(id).subscribe(()=>{
         this.ngOnInit();
       })
     }
@@ -281,7 +270,7 @@ export class DisplayCategoriesComponent implements OnInit {
     console.log("this.translate.currentLang",this.translate.currentLang)
     if (this.translate.currentLang == 'English') {
       this.confirmationService.confirm({
-        message: 'Do you want to delete ' + name + ' Category?',
+        message: 'Do you want to delete ' + name ,
         header: 'Delete Confirmation',
         icon: 'pi pi-info-circle',
         accept: () => {
@@ -313,4 +302,5 @@ export class DisplayCategoriesComponent implements OnInit {
       });
     }
   }
+
 }

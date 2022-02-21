@@ -76,6 +76,11 @@
     "Parteners": "المستفدين",
     "MileStones": "الخطوات",
     "Edit MileStone":"تعديل الخطوه",
+    "GovernorateName":"اسم المحافظة ",
+    "GovernoratesAndCities":"المحافظات و المدن" ,
+    "CityName":"اسم المدينه ",
+    "Add Gov":"اضافة محافظة " ,
+    "Add City":"اضافة مدينه" ,
     "Teams": "فرق العمل",
     "Documents": "المرفقات",
     "Project Data": "بيانات المشروع",
@@ -209,7 +214,7 @@
     "Yes":"نعم",
     "Update Request":"تحديث",
     "Escelate":"تصعيد",
-    "Sites":"المواقع",
+    "Sites":"المستشفيات",
     "Origins":"الأصول",
     "Suppliers":"الموردون",
     "DueDateCategory":"فئات تاريخ الاستحقاق",
@@ -236,10 +241,13 @@
     "Clear":"مسح",
     "EitSubCategory":"تعديل التصنيفات الفرعية",
     "Reset":"إلغاء",
-    "Add Sub": "إضافة تصنيف فرعي"
-
-
-
+    "Add Sub": "إضافة تصنيف فرعي",
+    "Add Hospital":"إضافة مستشفى",
+    "Hospital Name":"اسم المستشفى",
+    "Governorate":"المحافظة",
+    "city":"المدينة",
+   "Cancel":"اغلاق" ,
+ "Update Hospital":"تعديل المستشفى "
 
 
   }

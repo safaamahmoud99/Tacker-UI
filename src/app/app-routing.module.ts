@@ -62,6 +62,7 @@ import { ClientManagerComponent } from './Components/ClientComponents/client-man
 import { basic } from './helpers/basic.guard';
 import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
 import { Roles } from '../Shared/Models/Roles';
+import { GovernoratesComponent } from './Components/Governorates&Cities/governorates/governorates.component';
 // import { PiechartComponent } from './Components/Pichart/piechart/piechart.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -114,11 +115,10 @@ const routes: Routes = [
       { path: 'Sites', component: SitesComponent,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
       { path: 'Origins', component: OriginsComponent,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.Admin]}},
       { path: 'Suppliers', component: SuppliersComponent,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
-      // { path: 'DueDateCategory', component: DueDateCategoryComponent },
       { path: 'Brand', component: BrandComponent,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
       { path: 'ClientManagerRequests/:projectId', component: ClientManagerRequestsComponent ,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.ClientManager]}},
       { path: 'ClientManagerComponent', component: ClientManagerComponent,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.ClientManager]} },
-
+      {path:'GovernoratesAndCities',component:GovernoratesComponent,canActivate:[basic],data:[Roles.SuperAdmin,Roles.Admin,Roles.PMO]}
 
     ]
   }

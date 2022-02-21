@@ -18,6 +18,9 @@
     "Request Status": "Request Status",
     "Description": "Description",
     "Requests": "Requests",
+    "Hospital Name":"Hospital Name",
+    "Governorate":"Governorate",
+    "city":"city",
     "In total there are ": "In total there are",
     "Create Requests": "Create Requests",
     "Request Sub Category": "Request Sub Category",
@@ -138,6 +141,11 @@
     "Actual End Date": "Actual End Date",
     "Parteners": "Parteners",
     "MileStones": "MileStones",
+    "GovernoratesAndCities":"Governorates and Cities",
+     "GovernorateName":"Governorate Name", 
+     "CityName":"City Name",
+     "Add Gov":"Add Governorate",
+     "Add City":"Add City",
     "Edit MileStone":"Edit MileStone",
     "Teams": "Teams",
     "Documents": "Documents",
@@ -201,6 +209,7 @@
     "Asset": "Asset",
     "Location": "Location",
     "Problems": "Problems",
+    "Cancel":"Cancel",
     "Edit Organization": "Edit Organization",
     "Close Request": "Request Close",
     "Latitude": "Latitude",
@@ -211,7 +220,7 @@
     "Select Mode": "Select Mode",
     "Update Request": "Update",
     "Escelate": "Escelate",
-    "Sites": "Sites",
+    "Sites": "Hospitals",
     "Origins": "Origins",
     "Suppliers": "Suppliers",
     "DueDateCategory": "Due Date Categories",
@@ -237,6 +246,8 @@
     "Update Client":"Update Client",
     "Clear":"Clear",
     "EitSubCategory":"Eit Sub Category",
-    "Reset":"reset"
+    "Reset":"reset",
+    "Add Hospital":"Add Hospital",
+    "Update Hospital":"Update Hospital"
   }
 }

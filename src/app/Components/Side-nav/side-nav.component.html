@@ -78,8 +78,11 @@
           </li>
           <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
             <a class="pi pi-times" class="active" class="pi pi-globe" routerLink='Sites'> {{ 'Tracker.Sites' |
-              translate }}</a>
+              translate }}</a>  
           </li>
+          <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
+            <a class="pi pi-times" class="active" class="pi pi-globe" routerLink='GovernoratesAndCities'> {{ 'Tracker.GovernoratesAndCities' |translate }}</a>
+            </li>
           <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
             <a class="pi pi-times" class="active" class="pi pi-th-large" routerLink='Origins'> {{ 'Tracker.Origins' |translate }}</a>
           </li>
@@ -92,6 +95,7 @@
           <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
             <a class="pi pi-times" class="active" class="pi pi-shopping-cart" routerLink='Brand'> {{ 'Tracker.Brand' |translate }}</a>
           </li>
+        
         </ul>
       </li>
     </ul>

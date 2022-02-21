@@ -1,0 +1,36 @@
+<div class="card" #ejDialog>
+    <div class="card-body">
+        <form #form="ngForm" (ngSubmit)="onSubmit()">
+            <div class="row top-buffer">
+                <div class="col-12">
+                    <label for="GovName" [translate]="'Tracker.GovernorateName'"> </label>
+                    <input type="text" class="form-control" id="GovName" name="GovName" pTooltip="Enter Governorate Name"
+                        [placeholder]="'Tracker.GovernorateName' | translate" tooltipPosition="bottom" [(ngModel)]="governorate.governorateName"
+                        #GovName="ngModel"  [class.is-invalid]="
+                        (GovName.touched && GovName.errors) || form.submitted" [class.is-valid]="GovName.valid && form.submitted"
+                          required >
+                    <div *ngIf="(GovName.touched || form.submitted) && GovName.errors?.required">
+                        <span class="text-danger" [translate]="'Tracker.GovernorateName'"></span>
+                    </div>
+                </div>
+      
+            </div>
+            <br><br>
+            <div class="row top-buffer">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary pull-center btn-sm" [translate]="'Tracker.Save'"
+                        style="margin:0px 5px;background-color: #1483c2;border-color: #1483c2"></button>
+
+                    <button class="btn btn-primary pull-center btn-sm" value="Reset" type="button"
+                        style="margin: 0px 5px;background-color: #1483c2;border-color: #1483c2;width: 100px;"
+                        (click)="reset()">
+                        {{ 'Tracker.Reset' | translate }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

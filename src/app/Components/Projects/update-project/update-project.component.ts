@@ -689,7 +689,7 @@ addEventenddateMile(event:MatDatepickerInputEvent<Date>)
               this.SiteService.GetSiteById(this.SiteId).subscribe(
                 res3 => {
                   this.projectSiteClientObj.siteName = res3.sitename
-                  this.listProjectSiteAssetClients.push(this.projectSiteClientObj)
+                //  this.listProjectSiteAssetClients.push(this.projectSiteClientObj)
                   console.log("IN LIST OBJ",this.projectSiteClientObj)
                   this.projectSiteClientObj = {
                     id: 0,
@@ -719,10 +719,8 @@ addEventenddateMile(event:MatDatepickerInputEvent<Date>)
           }
     }
 
-  }
+  } 
   saveSiteAssetToDB() {
-    console.log("obj in DB",this.projectSiteClientObj);
-    console.log("obj in basic",this.ProjectSiteAssetObj);
     this.ProjectSiteAssetObj.assetId = this.projectSiteClientObj.assetId
     this.ProjectSiteAssetObj.days = this.projectSiteClientObj.days
     this.ProjectSiteAssetObj.serialNumber = this.projectSiteClientObj.serialNumber
@@ -732,6 +730,11 @@ addEventenddateMile(event:MatDatepickerInputEvent<Date>)
     this.ProjectSiteAssetObj.ProjectSiteId = this.projectSiteId
     this.ProjectSiteAssetService.insertProjectSiteAsset(this.ProjectSiteAssetObj).subscribe(
       res => {
+        this.ProjectSiteAssetService.GetAllProjectSiteAssetBySiteId(this.SiteId, this.id).subscribe(
+          re => {
+            this.listProjectSiteAssetClients = re
+          }
+        )
         //  this.SiteClientsService.insertSiteClient(this.SiteClientsObj).subscribe(
        // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record Added' });
        if(this.translate.currentLang=='English')
@@ -1473,7 +1476,4 @@ this.confirmationService.confirm({
    
        
   }
-
-
-
 }

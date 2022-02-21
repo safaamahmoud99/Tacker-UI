@@ -186,14 +186,16 @@
             <div class="row">
                 <div class="p-field col-md-3">
                     <label for="sitename" [translate]="'Tracker.Sites'"></label><br>
-                    <p-listbox [options]="lstSites" optionValue="id" [(ngModel)]="projectSiteClientObj.siteId"
+                    <p-listbox [listStyle]="{'max-height':'300px'}" [scrollable]="true" [options]="lstSites" optionValue="id" [(ngModel)]="projectSiteClientObj.siteId"
                         optionLabel="sitename" (onChange)="getProjectSiteIdEvent($event)"></p-listbox><br>
                         
-                    <label for="Client Name" class="labelMarginRight" [translate]="'Tracker.Client Name'"></label><br>
-                    <p-multiSelect [options]="lstClients" [(ngModel)]="projectSiteClientObj.clients"
-                        selectedItemsLabel="{0} columns selected" [style]="{'width':'100%'}" appendTo="body"
-                        [placeholder]="'Tracker.Client Name' | translate" optionLabel="clientName">
-                    </p-multiSelect><br>
+                        <label for="Client Name" class="labelMarginRight" [translate]="'Tracker.Client Name'"></label><br>
+                        <p-multiSelect [options]="lstClients" [(ngModel)]="projectSiteClientObj.clients"
+                            selectedItemsLabel="{0} columns selected" [style]="{'width':'100%'}" appendTo="body"
+                            [placeholder]="'Tracker.Client Name' | translate" optionLabel="clientName">
+                        </p-multiSelect><br>
+                <!-- <button type="submit" class="mb-2" color="primary" *ngIf="isshowBtn==true" (click)="UpdateClient()"
+                mat-flat-button>{{'Tracker.Update Client'|translate}}</button> -->
                 </div>
                 <div class="p-field col-md-9 card">
                     <div class="row">
@@ -270,13 +272,18 @@
                 </div>
             </div>
             <br>
+             
             <div class="row">
                 <div class="col-md-3">
-                  <button mat-stroked-button color="primary" mat-button matStepperPrevious> {{'Tracker.Back'|translate}}</button>
+                    <!-- <button type="submit" class="mb-2" color="primary" *ngIf="isshowBtn==true" (click)="UpdateClient()"
+                        mat-flat-button>{{'Tracker.Update Client'|translate}}</button> -->
+                    <button mat-stroked-button color="primary" mat-button matStepperPrevious>
+                        {{'Tracker.Back'|translate}}</button>
                 </div>
                 <div class="col-md-7"></div>
                 <div class="col-md-2">
-                  <button mat-stroked-button color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                    <button mat-stroked-button color="primary" mat-button
+                        matStepperNext>{{'Tracker.NEXT'|translate}}</button>
                 </div>
             </div>
         </mat-step>
