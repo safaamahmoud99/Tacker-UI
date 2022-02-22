@@ -14,6 +14,7 @@ import { SitesService } from 'src/Shared/Services/sites.service';
 })
 export class SitesComponent implements OnInit {
   lstSites: Sites[]=[];
+  citiesFiter:city[]=[];
   SitesObj:Sites;
   GovList:Governorate[]=[];
   CityList:city[]=[];
@@ -36,10 +37,11 @@ export class SitesComponent implements OnInit {
    )
    console.log("governorate",this.GovList);
   this.cityService.GetAllcities().subscribe(
-    res=>{this.CityList=res},  
+    res=>{this.citiesFiter=res,
+      console.log("cityuuuuu",this.citiesFiter)},  
     err=>console.log(err)
   )
-  console.log("city",this.CityList);
+ 
   }
   showBasicDialog(id) {
     this.displayBasic = true;
@@ -49,28 +51,41 @@ export class SitesComponent implements OnInit {
     );
   }
   NewDialog() {
+    console.log("this.SitesObj",this.SitesObj)
     this.NewDialogbool = true;
-    this.SitesObj={id:0,sitename:"",address:"",phone:"",governorateId:0,governorateName:"",cityId:0,cityName:""}
+  //  this.SitesObj={id:0,sitename:"",address:"",phone:"",governorateId:0,governorateName:"",cityId:0,cityName:""}
+   this.citiesFiter=[];
+  this.ngOnInit();
+
   }
   EditDialog(id) {
     this.Editboolean = true;
+    console.log("beforeedit",this.SitesObj)
     this.SitesService.GetSiteById(id).subscribe(
-      data => { this.SitesObj = data},
+      data => { this.SitesObj = data,
+           this.SitesObj.cityId=data.cityId
+        console.log("aftereedit",this.SitesObj)
+     ,
       error => { console.log(error) }
-    )
+       
+       
+    }
+    )   
   }
   update(id) {
     this.messageService.clear();
-    if(this.SitesObj.sitename.trim()=="" || this.SitesObj.sitename.trim().length<3)
+    if(this.SitesObj.governorateId==0 || this.SitesObj.cityId==0 || this.SitesObj.cityName=="")
     {
      
-      this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter valid Site Name' });
+      this.messageService.add({ key:"as", severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Comlete data' });
+      return;
       
     }
-    else if (this.checkName())
+  if (this.checkName())
     {
-    this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Site Name aleardy exits' });
+    this.messageService.add({ key:"as", severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Hospital Name aleardy exits' });
     this.isFound=false;
+    return;
     }
   else {
     console.log("id",id)
@@ -156,18 +171,19 @@ export class SitesComponent implements OnInit {
   onsubmit()
     { 
       this.messageService.clear(); 
-      //if (this.organizationObj.organizationName == "") {
-     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Organization Name' });
-      if(this.SitesObj.sitename.trim()=="" || this.SitesObj.sitename.trim().length<3)
+       
+      if(this.SitesObj.governorateId==0 || this.SitesObj.cityId==0  )
       {
-        console.log("enter")
-        this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter valid Site Name' });
+         
+        this.messageService.add({ key:"as", severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz complete data' });
+        return;
         
       }
-      else if (this.checkName())
+     if (this.checkName())
       {
-      this.messageService.add({ severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Site Name aleardy exits' });
+      this.messageService.add({ key:"as", severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Hospital Name aleardy exits' });
       this.isFound=false;
+      return;
       }
       else{
        
@@ -207,5 +223,28 @@ export class SitesComponent implements OnInit {
         console.log( "Site is "+ this.isFound);
         return this.isFound;          
       }
-   
+   OnchangeGovId(i)
+   { 
+    this.citiesFiter=[];
+
+   //  this.CityList.length=0;
+      this.SitesObj.cityId=0;
+     console.log("I",i);
+     this.cityService.filterCitiesbyGovbyid(this.SitesObj.governorateId).subscribe(
+       res=>{this.citiesFiter=res}    
+     )    
+     console.log("this.citiesFiter",this.citiesFiter);
+   }
+  //  OnchangeGovIdU(i)
+  //  {
+  // //  this.citiesFiter=[];
+
+  //  //  this.CityList.length=0;
+  //  //  this.SitesObj.cityId=0;
+  //    console.log("I",i);
+  //    this.cityService.filterCitiesbyGovbyid(this.SitesObj.governorateId).subscribe(
+  //      res=>{this.citiesFiter=res}    
+  //    )    
+  //    console.log("this.citiesFiter",this.citiesFiter);
+  //  }
 }

@@ -76,6 +76,7 @@
             <a class="pi pi-times" class="active" class="pi pi-users" routerLink='AllUsers'> {{ 'Tracker.All Users' |
               translate }}</a>
           </li>
+        
           <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
             <a class="pi pi-times" class="active" class="pi pi-globe" routerLink='Sites'> {{ 'Tracker.Sites' |
               translate }}</a>  
