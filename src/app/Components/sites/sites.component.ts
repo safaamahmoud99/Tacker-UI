@@ -37,7 +37,7 @@ export class SitesComponent implements OnInit {
    )
    console.log("governorate",this.GovList);
   this.cityService.GetAllcities().subscribe(
-    res=>{this.citiesFiter=res,
+    res=>{this.CityList=res,
       console.log("cityuuuuu",this.citiesFiter)},  
     err=>console.log(err)
   )
@@ -63,6 +63,7 @@ export class SitesComponent implements OnInit {
     console.log("beforeedit",this.SitesObj)
     this.SitesService.GetSiteById(id).subscribe(
       data => { this.SitesObj = data,
+        this.citiesFiter=this.CityList.filter(item=>item.governorateId===data.governorateId);
            this.SitesObj.cityId=data.cityId
         console.log("aftereedit",this.SitesObj)
      ,
