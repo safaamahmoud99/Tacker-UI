@@ -214,12 +214,12 @@
     "Yes":"نعم",
     "Update Request":"تحديث",
     "Escelate":"تصعيد",
-    "Sites":"المستشفيات",
+    "Sites":"المواقع",
     "Origins":"الأصول",
-    "Hospitals":"المستشفيات",
+    "Hospitals":"المواقع ",
     "Suppliers":"الموردون",
     "DueDateCategory":"فئات تاريخ الاستحقاق",
-    "Site Name":" اسم المستشفى",
+    "Site Name":"اسم الموقع ",
     "Warranty Period":"فترة الضمان",
     "Warranty Start Date":"بداية فترة الضمان",
     "Asset Model":"نموذج الأداة",
@@ -243,12 +243,12 @@
     "EitSubCategory":"تعديل التصنيفات الفرعية",
     "Reset":"إلغاء",
     "Add Sub": "إضافة تصنيف فرعي",
-    "Add Hospital":"إضافة مستشفى",
-    "Hospital Name":"اسم المستشفى",
+    "Add Hospital":"اضافة موقع ",
+    "Hospital Name":"اسم الموقع ",
     "Governorate":"المحافظة",
     "city":"المدينة",
    "Cancel":"اغلاق" ,
- "Update Hospital":"تعديل المستشفى "
+ "Update Hospital":"تعديل الموقع "
 
 
   }

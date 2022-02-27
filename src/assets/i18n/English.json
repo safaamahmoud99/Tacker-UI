@@ -18,7 +18,7 @@
     "Request Status": "Request Status",
     "Description": "Description",
     "Requests": "Requests",
-    "Hospital Name":"Hospital Name",
+    "Hospital Name":"Site Name",
     "Governorate":"Governorate",
     "city":"city",
     "In total there are ": "In total there are",
@@ -220,12 +220,12 @@
     "Select Mode": "Select Mode",
     "Update Request": "Update",
     "Escelate": "Escelate",
-    "Sites": "Hospitals",
+    "Sites": "Sites",
     "Origins": "Origins",
-    "Hospitals":"Hospitals",
+    "Hospitals":"Sites",
     "Suppliers": "Suppliers",
     "DueDateCategory": "Due Date Categories",
-    "Site Name": "Hospital Name",
+    "Site Name": "Site Name",
     "Warranty Period": "Warranty Period",
     "Warranty Start Date": "Warranty Start Date",
     "Asset Model": "Asset Model",
@@ -248,7 +248,7 @@
     "Clear":"Clear",
     "EitSubCategory":"Eit Sub Category",
     "Reset":"reset",
-    "Add Hospital":"Add Hospital",
-    "Update Hospital":"Update Hospital"
+    "Add Hospital":"Add Site ",
+    "Update Hospital":"Update Site "
   }
 }
