@@ -442,13 +442,13 @@ addEventenddateMile(event:MatDatepickerInputEvent<Date>)
   GetplanndedStartDate($event) {
     console.log("$event.value",$event)
     this.plannedStartdate = $event
-    this.projectObj.actualStartDate = $event
+     this.projectObj.actualStartDate = $event
     
   }
   GetActualStartDate($event) {
     console.log("GetActualStartDate",$event)
     this.ActualStartDate = $event
-    this.projectObj.actualEndDate = $event
+     this.projectObj.actualEndDate = $event
   }
   GetDifferentDate($event) {
     var date1: any = new Date(this.plannedStartdate);

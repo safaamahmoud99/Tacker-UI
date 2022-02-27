@@ -42,22 +42,6 @@
 
                 </div>
 
-  <!--  <div class="col-md-6">
-                <label for="name" [translate]="'Tracker.Employee Name'"></label>
-                <input type="text" #EmpName="ngModel" [class.is-invalid]="EmpName.invalid && EmpName.touched"
-                    [class.is-valid]="EmpName.valid" [(ngModel)]="Employee.employeeName" required minlength="3"
-                    name="EmpName" id="EmployeeName" class="form-control"
-                    [placeholder]="'Tracker.Employee Name' | translate" aria-describedby="helpId">
-                <small [hidden]="EmpName.valid || EmpName.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messege'"></small>
-            </div>-->
-<!--
-                <input type="text" #organizationCode="ngModel"
-          [class.is-invalid]="organizationCode.invalid && organizationCode.touched"
-          [class.is-valid]="organizationCode.valid" [(ngModel)]="organizationObj.organizationCode"
-          name="organizationCode" required minlength="2" name="organizationCodes" id="organizationCode"
-          class="form-control" [placeholder]="'Tracker.Code' | translate" aria-describedby="helpId" required>
-        <small [hidden]="organizationCode.valid || organizationCode.untouched" id="helpId" class="text-danger"
-          [translate]="' Code Must be more than 2'"></small> -->
                 <div class="p-field col-md-3">
                     <label for="Project Code" class="labelMarginRight" [translate]="'Tracker.Project Code'"></label><br>
                     <input type="text" #ProCode="ngModel" name="ProjectCode" [readonly]="IsDisabled"

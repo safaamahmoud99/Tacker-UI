@@ -78,7 +78,7 @@
           </li>
         
           <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
-            <a class="pi pi-times" class="active" class="pi pi-sitemap" routerLink='Sites'> {{ 'Tracker.Sites' |
+            <a class="pi pi-times" class="active" class="pi"  routerLink='Sites'> <span style="margin-left:1%;margin-right:1%;" class="fa-solid fa-hospital">  </span>{{ 'Tracker.Sites' |
               translate }}</a>  
           </li>
           <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">

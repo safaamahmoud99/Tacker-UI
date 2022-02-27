@@ -13,14 +13,15 @@
             <div [ngClass]="lang == 'English' ? 'col-6': 'col-6'"
                 [ngStyle]="lang =='English' ? {'float': 'right'} : {  'float': 'left'}">
                 <a style="width: 150px;" [ngClass]="lang == 'English' ? 'hrefbutton': 'hrefbuttonAr'"
-                    (click)="addCategory(selectedTypeId)"><i class="fas fa-plus"
+                    (click)="addCategory(selectedTypeId)"><i  
                         style="margin: 0px 10px 0px 10px;" [translate]="'Tracker.Add Category'"></i></a>
             </div>
             <div [ngClass]="lang == 'English' ? 'col-6': 'col-6'"
                 [ngStyle]="lang =='English' ? {'float': 'right'} : {  'float': 'left'}">
                 <a style="width: 150px;" [ngClass]="lang == 'English' ? 'hrefbutton': 'hrefbuttonAr'"
-                    (click)="addSubCategory()"><i class="fas fa-plus" style="margin: 0px 0px 0px 0px;"
+                    (click)="addSubCategory()"><i  style="margin: 0px 0px 0px 0px;"
                     [translate]="'Tracker.Add Sub'"></i></a>
+                    <!-- class="fas fa-plus" wheh i add font awasome for hospital this class will affected -->
             </div>
         </div>
 <br>

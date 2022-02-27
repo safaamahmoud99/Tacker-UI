@@ -13,13 +13,13 @@
             <div [ngClass]="lang == 'English' ? 'col-6': 'col-6'"
                 [ngStyle]="lang =='English' ? {'float': 'right'} : {  'float': 'left'}">
                 <a style="width: 180px;" [ngClass]="lang == 'English' ? 'hrefbutton': 'hrefbuttonAr'"
-                    (click)="addGov(selectedTypeId)"><i class="fas fa-plus"
+                    (click)="addGov(selectedTypeId)"><i  
                         style="margin: 0px 10px 0px 10px;" [translate]="'Tracker.Add Gov'"></i></a>
             </div>
             <div [ngClass]="lang == 'English' ? 'col-6': 'col-6'"
                 [ngStyle]="lang =='English' ? {'float': 'right'} : {  'float': 'left'}">
                 <a style="width: 150px;" [ngClass]="lang == 'English' ? 'hrefbutton': 'hrefbuttonAr'"
-                    (click)="addCity()"><i class="fas fa-plus" style="margin: 0px 0px 0px 0px;"
+                    (click)="addCity()"><i   style="margin: 0px 0px 0px 0px;"
                     [translate]="'Tracker.Add City'"></i></a>
             </div>
         </div>

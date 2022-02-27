@@ -45,31 +45,24 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="height: 5px !important; ">
-                <!-- <th pSortableColumn="sitename"><span >Hospital Name</span>
+              <th pSortableColumn="sitename"> {{'Tracker.Hospital Name' | translate}}
                     <p-sortIcon field="sitename"></p-sortIcon>
                 </th>
-                <th pSortableColumn="sitename"><span>phone</span>
+                  <th pSortableColumn="sitename"> {{'Tracker.Phone' | translate}}
                     <p-sortIcon field="sitename"></p-sortIcon>
                 </th>
-                <th pSortableColumn="sitename"><span>Address</span>
+                <th pSortableColumn="sitename"> {{'Tracker.Governorate' | translate}}
                     <p-sortIcon field="sitename"></p-sortIcon>
                 </th>
-                <th pSortableColumn="sitename"><span>City</span>
+                <th pSortableColumn="sitename">{{'Tracker.city' | translate}} 
                     <p-sortIcon field="sitename"></p-sortIcon>
                 </th>
-                <th pSortableColumn="sitename"><span>Governorate</span>
+                <th pSortableColumn="sitename"> {{'Tracker.Address' | translate}}
                     <p-sortIcon field="sitename"></p-sortIcon>
                 </th>
                 
-                <th>Controls</th> -->
-                <th [translate]="'Tracker.Hospital Name'"></th>
-                <th [translate]="'Tracker.Phone'"></th>
-               
-              
-                <th [translate]="'Tracker.Governorate'"></th>
-                <th [translate]="'Tracker.city'"></th>
-                <th [translate]="'Tracker.Address'"></th>
                 <th [translate]="'Tracker.Controls'"></th>
+           
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-site>
