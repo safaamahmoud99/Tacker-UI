@@ -13,13 +13,13 @@
           <div class="container card">
               <br>
             <div class="row">
-                <div class="p-field col-md-4">
+                <div class="p-field col-md-3">
                     <label for="Project Name" class="labelMarginRight"> {{'Tracker.Project Name'|translate}}</label><br>
                     <p-dropdown [disabled]="IsDisabled" [options]="canreq" [(ngModel)]="reqObj.projectId" [placeholder]=" 'Tracker.Select Project Name'|translate"
                     optionLabel="projectName" optionValue="id" (onChange)="onChange($event)" [ngModelOptions]="{standalone: true}">
                     </p-dropdown>
                 </div>
-                <div class="p-field col-md-4">
+                <div class="p-field col-md-3">
                     <label for="Request Name" name="name" class="labelMarginRight">{{'Tracker.Request Name'|translate}}
                     </label><br>
                     <input id="name" [disabled]="IsDisabled" name="name" class="form-control" required minlength="4"
@@ -37,8 +37,16 @@
                     </div>
                 </div>
 
+                <div class="p-field col-md-3">
+                    <label for="Sites" class="labelMarginRight">{{'Tracker.Hospital Name'|translate}} </label><br>
 
-                <div class="p-field col-md-4">
+                    <p-dropdown [disabled]="IsDisabled" [options]="sites" [(ngModel)]="reqObj.sitename" [ngModelOptions]="{standalone: true}"
+                        [placeholder]=" 'Tracker.Hospital Name'|translate" optionLabel="sitename"
+                        optionValue="id" (onChange)="onChangeSite($event)">
+                    </p-dropdown>
+                </div>
+
+                <div class="p-field col-md-3">
                     <label for="clientName" class="labelMarginRight">{{'Tracker.Client Name'|translate}} </label><br>
 
                     <p-dropdown [disabled]="IsDisabled" [options]="lstClientsByProjectId" [(ngModel)]="reqObj.clientId" [ngModelOptions]="{standalone: true}"
@@ -49,7 +57,7 @@
 
             </div>
             <div class="row">
-                <div class="p-field col-md-4">
+                <div class="p-field col-md-3">
                     <label for="requestType" class="labelMarginRight">{{'Tracker.Request Type'|translate}} </label><br>
  
                     <p-dropdown [disabled]="IsDisabled" [options]="lstProjectTeams" [(ngModel)]="reqObj.teamId" [ngModelOptions]="{standalone: true}"
@@ -57,7 +65,7 @@
                         optionValue="teamId" (onChange)="GetProjectTeamId($event)">
                     </p-dropdown>
                 </div>
-                <div class="p-field col-md-4">
+                <div class="p-field col-md-3">
                     <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Sub Category'|translate}}
                     </label><br>
                     <p-dropdown [disabled]="IsDisabled" [options]="lstReqSubCategories" [(ngModel)]="reqObj.requestSubCategoryId" [ngModelOptions]="{standalone: true}"
@@ -65,7 +73,7 @@
                         optionValue="id">
                     </p-dropdown>
                 </div>
-                <div class="p-field col-md-4">
+                <div class="p-field col-md-3">
                     <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Periority'|translate}}
                     </label><br>
                     <p-dropdown [disabled]="IsDisabled" [options]="lstReqPeriorities" [(ngModel)]="reqObj.requestPeriorityId" [ngModelOptions]="{standalone: true}"
@@ -73,17 +81,19 @@
                         optionValue="id">
                     </p-dropdown>
                 </div>
+                <div class="p-field col-md-3">
+                    <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Mode'|translate}}
+                    </label><br>
+                    <p-dropdown [disabled]="IsDisabled" [options]="lstRequestMode" [(ngModel)]="reqObj.requestModeId" [ngModelOptions]="{standalone: true}"
+                        [placeholder]="'Tracker.Select Mode'|translate" optionLabel="mode" optionValue="id">
+                    </p-dropdown>
+                </div>
             </div>
+
                 <br>
             <div class="row">
-                    <div class="p-field col-md-4">
-                        <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Mode'|translate}}
-                        </label><br>
-                        <p-dropdown [disabled]="IsDisabled" [options]="lstRequestMode" [(ngModel)]="reqObj.requestModeId" [ngModelOptions]="{standalone: true}"
-                            [placeholder]="'Tracker.Select Mode'|translate" optionLabel="mode" optionValue="id">
-                        </p-dropdown>
-                    </div>
-                    <div class="p-field col-md-4">
+                   
+                    <div class="p-field col-md-3">
                         <label for="asset Type" class="labelMarginRight">{{'Tracker.Request Asset'|translate}}
                         </label><br>
                         <p-dropdown [disabled]="IsDisabled" [options]="lstAssetsByProject" [(ngModel)]="reqObj.assetId" (onChange)="onChangeAsset($event)"
@@ -91,12 +101,20 @@
                             optionValue="assetId">
                         </p-dropdown>
                     </div>
-                     <div class="p-field col-md-4">
+                    <div class="p-field col-md-3">
+                        <label for="asset Type" class="labelMarginRight">{{'Tracker.Request Asset'|translate}}
+                        </label><br>
+                        <p-dropdown [disabled]="IsDisabled" [options]="lstAssetsByProject" [(ngModel)]="reqObj.assetId" (onChange)="onChangeAsset($event)"
+                            [placeholder]="'Tracker.Select Request Asset'|translate" optionLabel="assetName" [ngModelOptions]="{standalone: true}"
+                            optionValue="assetId">
+                        </p-dropdown>
+                    </div>
+                     <div class="p-field col-md-3">
                         <label for="Asset Serial" class="labelMarginRight">{{'Tracker.Asset Serial'|translate}}
                         </label><br>
                         <p-dropdown [disabled]="IsDisabled" [options]="lstAssetsSerialsByAsset"  (onChange)="onChangeSerial($event)"
                             [placeholder]="'Tracker.Select Request Asset'|translate" optionLabel="serialNumber" [ngModelOptions]="{standalone: true}"
-                            optionValue="id">
+                            optionValue="id" >
                         </p-dropdown>
                     </div>
             </div>

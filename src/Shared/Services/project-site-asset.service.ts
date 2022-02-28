@@ -36,6 +36,9 @@ export class ProjectSiteAssetService {
   GetAllAssetsSerialsByAssetId(AssetId: number): Observable<ProjectSiteAsset[]> {
     return this.httpClient.get<ProjectSiteAsset[]>(`${environment.GetAllAssetsSerialsByAssetId}/` + AssetId, this.httpHeader)
   }
+  GetAllAssetsSerialsByProjectId(projectId:number,siteId:number,AssetId: number): Observable<ProjectSiteAsset[]> {
+    return this.httpClient.get<ProjectSiteAsset[]>(`${environment.GetAllAssetsSerialsByProjectId}/` + projectId+"/"+siteId+"/"+AssetId, this.httpHeader)
+  }
   GetAllProjectSiteAssetBySiteId(SiteId: number,ProjectId): Observable<ListProjectSiteAssetClients[]> {
     return this.httpClient.get<ListProjectSiteAssetClients[]>(`${environment.GetAllProjectSiteAssetBySiteId}/` + SiteId+"/"+ProjectId, this.httpHeader)
   }

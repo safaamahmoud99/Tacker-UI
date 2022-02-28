@@ -11,7 +11,7 @@
     "No": "Exit",
     "Details": "Details",
     "Clients Requests": "Clients Requests",
-    "Request Name": "Request Name",
+    "Request Name": "Subject",
     "project Name": "project Name",
     "request Time": "Request Time",
     "Request Type": "Request Type",
@@ -72,7 +72,7 @@
     "Save To List": "Save To List",
    
     "ADD CATEGORY": "ADD CATEGORY",
-    "Enter Request Name": "Enter Request Name",
+    "Enter Request Name": "Enter Subject",
     "Select Client Name": "Select Client Name",
     "Select Request Mode": "Select Request Mode",
     "Categories": "Categories",

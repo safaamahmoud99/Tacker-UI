@@ -33,6 +33,9 @@ import { SiteClientsService } from 'src/Shared/Services/site-clients.service';
 import { ListProjectSiteAssetClients } from 'src/Shared/Models/ListProjectSiteAssetClients';
 import { ProjectSiteAssetService } from 'src/Shared/Services/project-site-asset.service';
 import { ProjectSiteAsset } from 'src/Shared/Models/ProjectSiteAsset';
+import { ProjectSites } from 'src/Shared/Models/ProjectSites';
+import { ProjectSitesService } from 'src/Shared/Services/project-sites.service';
+import { Sites } from 'src/Shared/Models/Sites';
 
 @Component({
   selector: 'app-create-requeste',
@@ -44,6 +47,7 @@ export class CreateRequesteComponent implements OnInit {
   lstReqests: request[]
   requestObj: request
   reqObj: request
+  sites:Sites[]
   ClientId: number
   projectId: number
   lstReqAssets: asset[]
@@ -92,7 +96,7 @@ export class CreateRequesteComponent implements OnInit {
   IsDisabled: boolean;
   try:boolean;
   canreq:any;
-
+ siteID:any;
 
 
   constructor(private reqService: RequestService, private translate: TranslateService,
@@ -111,6 +115,8 @@ export class CreateRequesteComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private siteClientsService: SiteClientsService,
     private projectSiteAssetService: ProjectSiteAssetService,
+    private projectSiteservice:ProjectSitesService 
+ 
   ) { }
 
   ngOnInit(): void { 
@@ -129,6 +135,7 @@ export class CreateRequesteComponent implements OnInit {
     this.lstReqests = []
 
     this.lstProjects = []
+    this.sites=[]
     this.lstReqPeriorities = []
     this.lstReqTypies = []
     this.lstProjectTeams = []
@@ -185,38 +192,10 @@ export class CreateRequesteComponent implements OnInit {
     else {
       this.projectService.GetAllProjects().subscribe(e => {
         this.lstProjects = e
-        console.log(" this.lstProjects", this.lstProjects.length)
-      //   for (let index = 0; index<this.lstProjects.length; index++)
-      //  {
-      //   console.log("this.lstProjects.length",this.lstProjects.length)
-      //  this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.lstProjects[index].id).subscribe(
-      //    res => {
-      //      this.lstAssetsByProject = res;
-      //    //  console.log("this.lstAssetsByProject",this.lstAssetsByProject )
-      //      if(this.lstAssetsByProject.length>0)
-      //      {
-      //       this.canreq.push(this.lstProjects[index]);
-      //       console.log("canreq",this.canreq);
-      //      }
-           
-      //     // console.log("lstAssetsByProject", res.length)
-      //         }
-              
-      //  )
-      
-    
-      // }
-      
+        console.log(" this.lstProjects", this.lstProjects.length)     
       })
       
-    }
-
-  
-    // this.organizationClientsService.GetOrganizationProjectsByClientId(this.clientId).subscribe(
-    //   res=>{
-    //       this.lstProjects=res
-    //   }
-    // )
+    }    
     this.projectService.proCanrequest().subscribe(res=>{
       this.canreq=res
       console.log("requests projects",this.canreq)
@@ -230,7 +209,7 @@ export class CreateRequesteComponent implements OnInit {
       this.lstReqStatus = e
       console.log("lstStatus", this.lstReqStatus)
     })
-  
+    
     this.reqPeriorityService.GetAllRequestPeriorties().subscribe(e => {
       this.lstReqPeriorities = e
       console.log("lstPeriority", this.lstReqPeriorities)
@@ -259,15 +238,7 @@ export class CreateRequesteComponent implements OnInit {
         console.log("aftergetProjTeamid", this.reqObj)
       })
   }
-  /* this.lstProjects 
-      if(this.ProjectTeam.projectPositionName==='TL')
-            {
-              var posIndex=this.lstOfprojectPosition.findIndex(p=>this.ProjectTeam.projectPositionName==p.positionName)
-              this.lstOfprojectPosition.splice(posIndex,1)
-            }
-   */ 
-             
-  
+ 
   onChange(event) {
     this.messageService.clear();
     this.projectId = event.value
@@ -286,36 +257,66 @@ export class CreateRequesteComponent implements OnInit {
       console.log("lstclients", this.lstclients.length)
     })
 
-    this.siteClientsService.GetAllAssignedClientsByProjectId(this.projectId).subscribe(
-      res => {
-        this.lstClientsByProjectId = res
-        console.log("lstClientsByProjectId",this.lstClientsByProjectId.length)
-      }
-    )
-    this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
-      res => {
-        this.lstAssetsByProject = res
-        console.log("lstAssetsByProject", res.length)
-       }
-    )
-    this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
-      res => {
-        this.listProjectSiteAssetClients = res
-        // this.listProjectSiteAssetClients.forEach(customer => customer.warrantyStartDate = new Date(customer.warrantyStartDate));
-        console.log("listProjectSiteAssetClients ", res.length)
-      }
-    )
-  
+    // this.siteClientsService.GetAllAssignedClientsByProjectId(this.projectId).subscribe(
+    //   res => {
+    //     this.lstClientsByProjectId = res
+    //     console.log("lstClientsByProjectId",this.lstClientsByProjectId.length)
+    //   }
+    // )
+ 
+    // this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
+    //   res => {
+    //     this.lstAssetsByProject = res
+    //     console.log("lstAssetsByProject", res.length)
+    //    }
+    // )
+    // this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
+    //   res => {
+    //     this.listProjectSiteAssetClients = res
+    //     // this.listProjectSiteAssetClients.forEach(customer => customer.warrantyStartDate = new Date(customer.warrantyStartDate));
+    //     console.log("listProjectSiteAssetClients ", res.length)
+    //   }
+    // )
+  this.projectSiteservice.GetAllProjectSitesByProjectId(this.projectId).subscribe(
+    res=>{
+      this.sites=res,
+      console.log("this.sites",this.sites)
+    }
+  )
 
   }
+ onChangeSite(event)
+ {
+   this.siteID=event.value
+  this.siteClientsService.GetAllAssignedClients(event.value,this.projectId).subscribe(    
+    res => {
+      this.lstClientsByProjectId = res,
+      console.log("this.lstClientsByProjectIdandSite",this.lstClientsByProjectId)
+    },
+    err => console.log(err)
+  )
+  this.projectSiteAssetService.GetAllProjectSiteAssetBySiteId(event.value,this.projectId).subscribe(
+    res => {
+      this.lstAssetsByProject = res,
+       
+      console.log("assetsbyprojectandsite",this.lstAssetsByProject);
+        }
+  )
  
+ }
   onChangeAsset(event) {
     this.assetId = event.value
-    this.projectSiteAssetService.GetAllAssetsSerialsByAssetId(this.assetId).subscribe(
-      res => {
-        this.lstAssetsSerialsByAsset = res
-      }
-    )
+    // this.projectSiteAssetService.GetAllAssetsSerialsByAssetId(this.assetId).subscribe(
+    //   res => {
+    //     this.lstAssetsSerialsByAsset = res
+    //   }
+   // )
+   this.projectSiteAssetService.GetAllAssetsSerialsByProjectId(this.projectId,this.siteID,this.assetId).subscribe(
+     res=>{
+      this.lstAssetsSerialsByAsset = res,
+      console.log("this.lstAssetsSerialsByAsset",this.lstAssetsSerialsByAsset)
+     }
+   )
 
   }
   

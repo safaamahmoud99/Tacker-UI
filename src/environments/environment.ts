@@ -116,6 +116,7 @@ export const environment = {
   clientCanRequest:'http://localhost:50653/api/project/clientCanRequest/',
   GetAllRequestByProjectSiteAssetId:'http://localhost:50653/api/Request/GetAllRequestByProjectSiteAssetId/',
   GetProjectSiteAssetBySerialNumber:'http://localhost:50653/api/ProjectSiteAsset/GetProjectSiteAssetBySerialNumber',
+  GetAllAssetsSerialsByProjectId:'http://localhost:50653/api/ProjectSiteAsset/GetAllAssetsSerialsbyProject',
 
 
 
