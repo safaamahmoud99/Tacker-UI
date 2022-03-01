@@ -12,31 +12,32 @@
         <ng-template matStepLabel>{{'Tracker.Add request'| translate}}</ng-template>
           <div class="container card">
               <br>
+              
             <div class="row">
-                <div class="p-field col-md-3">
-                    <label for="Project Name" class="labelMarginRight"> {{'Tracker.Project Name'|translate}}</label><br>
-                    <p-dropdown [disabled]="IsDisabled" [options]="canreq" [(ngModel)]="reqObj.projectId" [placeholder]=" 'Tracker.Select Project Name'|translate"
-                    optionLabel="projectName" optionValue="id" (onChange)="onChange($event)" [ngModelOptions]="{standalone: true}">
-                    </p-dropdown>
-                </div>
                 <div class="p-field col-md-3">
                     <label for="Request Name" name="name" class="labelMarginRight">{{'Tracker.Request Name'|translate}}
                     </label><br>
                     <input id="name" [disabled]="IsDisabled" name="name" class="form-control" required minlength="4"
                         [placeholder]=" 'Tracker.Enter Request Name'|translate" [(ngModel)]="reqObj.requestName" [ngModelOptions]="{standalone: true}"
-                        #name="ngModel" pInputText>
-
+                        #name="ngModel" pInputText [class.is-invalid]="name.invalid && name.touched"
+                        [class.is-valid]="name.valid">
+                        <!-- <small [hidden]="name.valid || name.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messegerequest'"></small> -->
                     <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
 
-                        <div *ngIf="name.errors.required">
-                            Name is required.
+                        <div *ngIf="name.errors.required" [translate]="'Tracker.required'" >
+                            
                         </div>
-                        <div *ngIf="name.errors.minlength">
-                            Name must be at least 4 characters long.
+                        <div *ngIf="name.errors.minlength" [translate]="'Tracker.messegerequest'">
+                            
                         </div>
                     </div>
                 </div>
-
+                <div class="p-field col-md-3">
+                    <label for="Project Name" class="labelMarginRight"> {{'Tracker.Project Name'|translate}}</label><br>
+                    <p-dropdown [disabled]="IsDisabled" [options]="lstProjects" [(ngModel)]="reqObj.projectId" [placeholder]=" 'Tracker.Select Project Name'|translate"
+                    optionLabel="projectName" optionValue="id" (onChange)="onChange($event)" [ngModelOptions]="{standalone: true}">
+                    </p-dropdown>
+                </div>
                 <div class="p-field col-md-3">
                     <label for="Sites" class="labelMarginRight">{{'Tracker.Hospital Name'|translate}} </label><br>
 
@@ -55,8 +56,24 @@
                     </p-dropdown>
                 </div>
 
-            </div>
+            </div> <br>
             <div class="row">
+                <div class="p-field col-md-3">
+                    <label for="asset Type" class="labelMarginRight">{{'Tracker.Request Asset'|translate}}
+                    </label><br>
+                    <p-dropdown [disabled]="IsDisabled" [options]="lstAssetsByProject" [(ngModel)]="reqObj.assetId" (onChange)="onChangeAsset($event)"
+                        [placeholder]="'Tracker.Select Request Asset'|translate" optionLabel="assetName" [ngModelOptions]="{standalone: true}"
+                        optionValue="assetId">
+                    </p-dropdown>
+                </div>
+                 <div class="p-field col-md-3">
+                    <label for="Asset Serial" class="labelMarginRight">{{'Tracker.Asset Serial'|translate}}
+                    </label><br>
+                    <p-dropdown [disabled]="IsDisabled" [options]="lstAssetsSerialsByAsset"  (onChange)="onChangeSerial($event)"
+                        [placeholder]="'Tracker.Select Request Asset'|translate" optionLabel="serialNumber" [ngModelOptions]="{standalone: true}"
+                        optionValue="id" >
+                    </p-dropdown>
+                </div>
                 <div class="p-field col-md-3">
                     <label for="requestType" class="labelMarginRight">{{'Tracker.Request Type'|translate}} </label><br>
  
@@ -66,15 +83,20 @@
                     </p-dropdown>
                 </div>
                 <div class="p-field col-md-3">
-                    <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Sub Category'|translate}}
+                    <label for="subCategoryName" class="labelMarginRight">{{'Tracker.Request Sub Category'|translate}}
                     </label><br>
                     <p-dropdown [disabled]="IsDisabled" [options]="lstReqSubCategories" [(ngModel)]="reqObj.requestSubCategoryId" [ngModelOptions]="{standalone: true}"
                         [placeholder]="'Tracker.Select Sub Category'|translate" optionLabel="subCategoryName"
                         optionValue="id">
                     </p-dropdown>
                 </div>
+           
+            </div>
+
+                <br>
+            <div class="row">
                 <div class="p-field col-md-3">
-                    <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Periority'|translate}}
+                    <label for="periorty" class="labelMarginRight">{{'Tracker.Request Periority'|translate}}
                     </label><br>
                     <p-dropdown [disabled]="IsDisabled" [options]="lstReqPeriorities" [(ngModel)]="reqObj.requestPeriorityId" [ngModelOptions]="{standalone: true}"
                         [placeholder]="'Tracker.Select Request Periority'|translate" optionLabel="periorty"
@@ -82,42 +104,14 @@
                     </p-dropdown>
                 </div>
                 <div class="p-field col-md-3">
-                    <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Mode'|translate}}
+                    <label for="mode" class="labelMarginRight">{{'Tracker.Request Mode'|translate}}
                     </label><br>
                     <p-dropdown [disabled]="IsDisabled" [options]="lstRequestMode" [(ngModel)]="reqObj.requestModeId" [ngModelOptions]="{standalone: true}"
                         [placeholder]="'Tracker.Select Mode'|translate" optionLabel="mode" optionValue="id">
                     </p-dropdown>
-                </div>
-            </div>
-
-                <br>
-            <div class="row">
-                   
-                    <div class="p-field col-md-3">
-                        <label for="asset Type" class="labelMarginRight">{{'Tracker.Request Asset'|translate}}
-                        </label><br>
-                        <p-dropdown [disabled]="IsDisabled" [options]="lstAssetsByProject" [(ngModel)]="reqObj.assetId" (onChange)="onChangeAsset($event)"
-                            [placeholder]="'Tracker.Select Request Asset'|translate" optionLabel="assetName" [ngModelOptions]="{standalone: true}"
-                            optionValue="assetId">
-                        </p-dropdown>
-                    </div>
-                    <div class="p-field col-md-3">
-                        <label for="asset Type" class="labelMarginRight">{{'Tracker.Request Asset'|translate}}
-                        </label><br>
-                        <p-dropdown [disabled]="IsDisabled" [options]="lstAssetsByProject" [(ngModel)]="reqObj.assetId" (onChange)="onChangeAsset($event)"
-                            [placeholder]="'Tracker.Select Request Asset'|translate" optionLabel="assetName" [ngModelOptions]="{standalone: true}"
-                            optionValue="assetId">
-                        </p-dropdown>
-                    </div>
-                     <div class="p-field col-md-3">
-                        <label for="Asset Serial" class="labelMarginRight">{{'Tracker.Asset Serial'|translate}}
-                        </label><br>
-                        <p-dropdown [disabled]="IsDisabled" [options]="lstAssetsSerialsByAsset"  (onChange)="onChangeSerial($event)"
-                            [placeholder]="'Tracker.Select Request Asset'|translate" optionLabel="serialNumber" [ngModelOptions]="{standalone: true}"
-                            optionValue="id" >
-                        </p-dropdown>
-                    </div>
-            </div>
+                </div>   
+                    
+            </div> <br>
             <div class="row">
                 <div class="col-md-3" hidden>
                     <label for="Request Date" class="labelMarginRight">Request Date</label><br>
@@ -149,6 +143,7 @@
                 </div>
             </div> 
           <br>
+       
         </div>
       </mat-step>
         <mat-step [stepControl]="secondFormGroup">

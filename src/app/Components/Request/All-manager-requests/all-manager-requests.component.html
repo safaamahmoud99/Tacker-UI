@@ -44,7 +44,7 @@
             <th>{{'Tracker.Code'|translate}}
                 <p-columnFilter type="text" field="requestCode" display="menu"></p-columnFilter>
             </th>
-            <th>{{'Tracker.Project Name'|translate}}
+            <th>{{'Tracker.Project'|translate}}
                 <p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
             </th>
             <th>{{'Tracker.Date'|translate}}
@@ -55,6 +55,15 @@
             </th>
             <th>{{'Tracker.Problem'|translate}}
                 <p-columnFilter type="text" field="problemName" display="menu"></p-columnFilter>
+            </th>
+            <th> {{'Tracker.Site'|translate}}
+                <p-columnFilter type="text" field="sitename" display="menu"></p-columnFilter>
+            </th>
+            <th> {{'Tracker.Asset'|translate}}
+                <p-columnFilter type="text" field="AssetName" display="menu"></p-columnFilter> 
+            </th>
+            <th> {{'Tracker.Serial'|translate}}
+                <p-columnFilter type="text" field="SerialNumber" display="menu"></p-columnFilter>
             </th>
             <th>{{'Tracker.Operation'|translate}} </th>
         </tr>
@@ -96,6 +105,9 @@
             <td>
                 {{request.requestSubCategoryName}}
             </td>
+            <td>{{request.sitename}}</td>
+            <td>{{request.assetName}}</td>
+            <td>{{request.serialNumber }}</td>
             <td>
                 <span (click)="assignRequests(request.id)" *ngIf="request.isAssigned==false && role !='Receptionist'" class="pi pi-sign-in"
                     pTooltip="Assign Request" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
@@ -158,8 +170,7 @@
         <p-table [value]="reqImages">
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="color: #2674a8; font-size: 20px; font: bold;">{{'Tracker.Document
-                        Name'|translate}}
+                    <th style="color: #2674a8; font-size: 20px; font: bold;">{{'Tracker.Document Name '|translate}}
                     </th>
                     <th></th>
                 </tr>

@@ -97,7 +97,7 @@ export class CreateRequesteComponent implements OnInit {
   try:boolean;
   canreq:any;
  siteID:any;
-
+ resArr :ListProjectSiteAssetClients[] ;
 
   constructor(private reqService: RequestService, private translate: TranslateService,
     private httpClient: HttpClient,
@@ -146,7 +146,7 @@ export class CreateRequesteComponent implements OnInit {
     this.lstClientsByProjectId = []
     this.lstAssetsByProject = []
     this.lstAssetsSerialsByAsset = []
-
+    this.resArr=[]
     this.LoggedInUserString = localStorage.getItem('loginedUserId')
     this.role = localStorage.getItem("roles")
     this.clientId = Number(localStorage.getItem("clientId"))
@@ -196,10 +196,10 @@ export class CreateRequesteComponent implements OnInit {
       })
       
     }    
-    this.projectService.proCanrequest().subscribe(res=>{
-      this.canreq=res
-      console.log("requests projects",this.canreq)
-    })
+    // this.projectService.proCanrequest().subscribe(res=>{
+    //   this.canreq=res
+    //   console.log("requests projects",this.canreq)
+    // })
   
     this.reqTypeService.GetAllRequestsTypes().subscribe(e => {
       this.lstReqTypies = e
@@ -239,7 +239,13 @@ export class CreateRequesteComponent implements OnInit {
       })
   }
  
-  onChange(event) {
+  onChange(event) { 
+    this.lstClientsByProjectId=[];
+    this.sites=[];
+    this.lstAssetsSerialsByAsset=[];
+    this.lstAssetsByProject=[];
+    this.reqObj.teamId=0;
+    this.reqObj.sitename="";
     this.messageService.clear();
     this.projectId = event.value
     this.projectTeamService.GetProjectTeamsByProjectId(this.projectId).subscribe(e => {
@@ -256,38 +262,45 @@ export class CreateRequesteComponent implements OnInit {
       this.lstclients = e
       console.log("lstclients", this.lstclients.length)
     })
-
-    // this.siteClientsService.GetAllAssignedClientsByProjectId(this.projectId).subscribe(
-    //   res => {
-    //     this.lstClientsByProjectId = res
-    //     console.log("lstClientsByProjectId",this.lstClientsByProjectId.length)
-    //   }
-    // )
+    // {
+    // // this.siteClientsService.GetAllAssignedClientsByProjectId(this.projectId).subscribe(
+    // //   res => {
+    // //     this.lstClientsByProjectId = res
+    // //     console.log("lstClientsByProjectId",this.lstClientsByProjectId.length)
+    // //   }
+    // // )
  
-    // this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
-    //   res => {
-    //     this.lstAssetsByProject = res
-    //     console.log("lstAssetsByProject", res.length)
-    //    }
-    // )
-    // this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
-    //   res => {
-    //     this.listProjectSiteAssetClients = res
-    //     // this.listProjectSiteAssetClients.forEach(customer => customer.warrantyStartDate = new Date(customer.warrantyStartDate));
-    //     console.log("listProjectSiteAssetClients ", res.length)
-    //   }
-    // )
+    // // this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
+    // //   res => {
+    // //     this.lstAssetsByProject = res
+    // //     console.log("lstAssetsByProject", res.length)
+    // //    }
+    // // )
+
+    // // this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
+    // //   res => {
+    // //     this.listProjectSiteAssetClients = res
+    // //     // this.listProjectSiteAssetClients.forEach(customer => customer.warrantyStartDate = new Date(customer.warrantyStartDate));
+    // //     console.log("listProjectSiteAssetClients ", res.length)
+    // //   }
+    // // ) 
+    // }
   this.projectSiteservice.GetAllProjectSitesByProjectId(this.projectId).subscribe(
     res=>{
       this.sites=res,
       console.log("this.sites",this.sites)
     }
   )
-
   }
  onChangeSite(event)
  {
-   this.siteID=event.value
+  this.lstAssetsSerialsByAsset=[];
+  this.lstClientsByProjectId=[];
+  this.lstAssetsSerialsByAsset=[];
+  this.lstAssetsByProject=[];
+  this.reqObj.clientId=0;
+  this.reqObj.assetId=0;
+  this.siteID=event.value
   this.siteClientsService.GetAllAssignedClients(event.value,this.projectId).subscribe(    
     res => {
       this.lstClientsByProjectId = res,
@@ -297,8 +310,15 @@ export class CreateRequesteComponent implements OnInit {
   )
   this.projectSiteAssetService.GetAllProjectSiteAssetBySiteId(event.value,this.projectId).subscribe(
     res => {
-      this.lstAssetsByProject = res,
-       
+      this.lstAssetsByProject = res;
+       for(let index=0;index<this.lstAssetsByProject.length;index++)
+       {
+         if(this.lstAssetsByProject[index].assetId===this.lstAssetsByProject[index+1].assetId)
+         {
+          this.lstAssetsByProject.splice(index,1)
+         }
+
+       }    
       console.log("assetsbyprojectandsite",this.lstAssetsByProject);
         }
   )
@@ -306,6 +326,7 @@ export class CreateRequesteComponent implements OnInit {
  }
   onChangeAsset(event) {
     this.assetId = event.value
+    this.projectSiteAssetId =0
     // this.projectSiteAssetService.GetAllAssetsSerialsByAssetId(this.assetId).subscribe(
     //   res => {
     //     this.lstAssetsSerialsByAsset = res
@@ -317,26 +338,30 @@ export class CreateRequesteComponent implements OnInit {
       console.log("this.lstAssetsSerialsByAsset",this.lstAssetsSerialsByAsset)
      }
    )
-
+   console.log("this.reqObj.projectSiteAssetIdiassettttttttt",this.projectSiteAssetId );
   }
   
   onChangeSerial(event) {
     console.log("serialNumber", event.value)
     this.projectSiteAssetId = event.value
+    console.log("this.reqObj.projectSiteAssetIdinevent",this.projectSiteAssetId);
   }
   reqId: any
   AddRequest() {
+    this.messageService.clear();
     this.reqObj.requestStatusId = 1  //open
     this.reqObj.projectTeamId = this.ProjId
     this.reqObj.projectId = Number(this.reqObj.projectId)
     this.reqObj.clientId = Number(this.reqObj.clientId)
     this.reqObj.createdById = this.createdById
+    console.log("this.projectSiteAssetId",this.projectSiteAssetId)
     this.reqObj.projectSiteAssetId = this.projectSiteAssetId
+     console.log("this.reqObj.projectSiteAssetId",this.reqObj.projectSiteAssetId);
     console.log("reqObj", this.reqObj)
-    if (this.reqObj.requestName != "" && this.reqObj.clientId != 0 && this.reqObj.description != null
+    if (this.reqObj.requestName != "" && this.reqObj.requestName.length>=3&& this.reqObj.clientId != 0 && this.reqObj.description != null
       && this.reqObj.assetId != 0 && this.reqObj.projectSiteAssetId != 0
       && this.reqObj.requestSubCategoryId != 0 && this.reqObj.requestPeriorityId != 0 &&
-      this.reqObj.requestModeId != 0 && this.reqObj.teamId != 0) {
+      this.reqObj.requestModeId != 0 && this.reqObj.teamId != 0 && this.reqObj.projectSiteAssetId != 0) {
       this.reqService.inserRequest(this.reqObj).subscribe(e => {
         this.reqId = e;
         this.reqDescriptionObj.requestId = Number(this.reqId)
@@ -352,7 +377,7 @@ export class CreateRequesteComponent implements OnInit {
     }
     else {
       this.disabledButton = false
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: false, detail: 'Plz Complete Data' });
     }
 
   }
