@@ -14,6 +14,7 @@ import { RequestImage } from 'src/Shared/Models/RequestImages';
 import { requestPeriority } from 'src/Shared/Models/requestPeriority';
 import { RequestProblems } from 'src/Shared/Models/requestProblems';
 import { requestSubCategory } from 'src/Shared/Models/requestSubCategory';
+import { Sites } from 'src/Shared/Models/Sites';
 import { OrganizationClientsService } from 'src/Shared/Services/organization-clients.service';
 import { ProjectSiteAssetService } from 'src/Shared/Services/project-site-asset.service';
 import { ProjectTeamService } from 'src/Shared/Services/project-team.service';
@@ -32,6 +33,7 @@ import { SiteClientsService } from 'src/Shared/Services/site-clients.service';
 export class AllClientRequestsComponent implements OnInit {
   lstRequestDesc: requestDescription[]
   lstRequests: request[]
+  lstSites:Sites[]
   clientID: number
   clientName: string
   role: string;
@@ -68,7 +70,7 @@ export class AllClientRequestsComponent implements OnInit {
   LoggedInUserString: string;
   canreq:boolean;
   disableAddbth:boolean;
-
+  siteID:any;
   constructor(private requestService: RequestService, private projectteamservice: ProjectTeamService,
     private requestDescriptionService: RequestDescriptionService, private _formBuilder: FormBuilder,
     private organizationClientsService: OrganizationClientsService, private projectService: ProjectService,
@@ -76,7 +78,7 @@ export class AllClientRequestsComponent implements OnInit {
     private reqPeriorityService:RequestPeriorityService,private siteClientsService: SiteClientsService,
     private messageService: MessageService,private httpClient: HttpClient,
     ) { }
-  ngOnInit(): void {
+    ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
@@ -148,15 +150,39 @@ export class AllClientRequestsComponent implements OnInit {
       res => {
         console.log("res projectObj",res)
 
-        this.projectObj = res
+        this.projectObj = res,
+        this.projectName=this.projectObj.projectName,
+        console.log("this.projectName",this.projectName);
         this.projectId = this.projectObj.id
       }
     )
-
   
-    // localStorage.getItem()
+    this.siteClientsService.GetAllSitesAssigendbyClient(this.clientID).subscribe(
+             res=>{
+               this.lstSites=res,
+               console.log("this.lstSites",this.lstSites)
+             }
+          )
   }
-
+  onchangeSite(event)
+    {
+      this.lstAssetsSerialsByAsset=[];
+      this.siteID=event.value
+    this.projectSiteAssetService.GetAllProjectSiteAssetBySiteId(event.value,this.projectId).subscribe(
+      res => {
+        this.lstAssetsByProject = res;
+         for(let index=0;index<this.lstAssetsByProject.length;index++)
+         {
+           if(this.lstAssetsByProject[index].assetId===this.lstAssetsByProject[index+1].assetId)
+           {
+            this.lstAssetsByProject.splice(index,1)
+           }
+  
+         }    
+        console.log("assetsbyprojectandsite",this.lstAssetsByProject);
+          }
+    )
+    }
   GetProjectTeamId(TeamId) {
     this.projectteamservice.GetProjectTeamByProjectIdAndTeamIdAndProjectPositionId(this.projectId, TeamId.value)
       .subscribe(e => {
@@ -165,14 +191,14 @@ export class AllClientRequestsComponent implements OnInit {
       })
   }
   OpendialogAddRequest() {
-    this.organizationClientsService.GetOrganizationProjectsByClientId(this.clientID).subscribe(
-      res => {
-        console.log("res",res)
-        res.forEach(element => {
-          this.projectName = element.projectName
-        })
-      }
-    )
+    // this.organizationClientsService.GetOrganizationProjectsByClientId(this.clientID).subscribe(
+    //   res => {
+    //     console.log("res",res)
+    //     res.forEach(element => {
+    //       this.projectName = element.projectName
+    //     })
+    //   }
+    // )
     this.siteClientsService.GetAllAssignedClientsByProjectId(this.projectId).subscribe(
       res => {
         this.lstClientsByProjectId = res
@@ -181,16 +207,14 @@ export class AllClientRequestsComponent implements OnInit {
     this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
       res => {
         this.listProjectSiteAssetClients = res
-  
-   
-
       }
     )
     this.ReqSubCatService.GetAllSubCategorys().subscribe(e => {
       this.lstReqSubCategories = e
     })
     this.reqPeriorityService.GetAllRequestPeriorties().subscribe(e => {
-      this.lstReqPeriorities = e
+      this.lstReqPeriorities = e,
+      this.reqObj.requestPeriorityId=4;
     })
     this.projectteamservice.GetAllTeamsByProjectID(this.projectId).subscribe(e => {
       this.lstProjectTeams = e
@@ -215,19 +239,22 @@ export class AllClientRequestsComponent implements OnInit {
       IsSolved: false, RequestProblemObj: new RequestProblems, clientName: '', projectTeamId: 0, teamId: 0, teamName: ''
     }
     this.dialogAddRequest = true
-    this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
-      res => {
-        this.lstAssetsByProject = res
-      }
-    )
+    // this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
+    //   res => {
+    //     this.lstAssetsByProject = res
+    //   }
+    // )
   }
-  onChangeAsset(event) {
+   onChangeAsset(event) {
     this.assetId = event.value
-    this.projectSiteAssetService.GetAllAssetsSerialsByAssetId(this.assetId).subscribe(
-      res => {
-        this.lstAssetsSerialsByAsset = res
-      }
-    )
+    this.projectSiteAssetId =0
+   this.projectSiteAssetService.GetAllAssetsSerialsByProjectId(this.projectId,this.siteID,this.assetId).subscribe(
+     res=>{
+      this.lstAssetsSerialsByAsset = res,
+      console.log("this.lstAssetsSerialsByAsset",this.lstAssetsSerialsByAsset)
+     }
+   )
+   console.log("this.reqObj.projectSiteAssetIdiassettttttttt",this.projectSiteAssetId );
 
   }
   onChangeSerial(event) {
@@ -291,6 +318,16 @@ export class AllClientRequestsComponent implements OnInit {
   SaveimageToDB() {
 
     this.requestService.addListRequestImages(this.lstRequestImages).subscribe(e => {
+      this.reqObj = {
+                createdById: "", createdBy: "", projectSiteAssetId: 0,
+                requestTypeId: 0, serialNumber: '', sitename: '',
+                id: 0, projectId: 0, projectName: '', requestCode: '',
+                requestName: '', requestPeriority: '', requestPeriorityId: 0,
+                requestStatus: '', requestStatusId: 0, requestTime: new Date().getHours() + ':' + new Date().getMinutes(), requestDate: new Date(),
+                requestSubCategoryId: 0, requestSubCategoryName: '', assetId: 0, clientId: 0,
+                requestTypeName: '', description: '', requestModeId: 0, IsAssigned: false,
+                IsSolved: false, RequestProblemObj: new RequestProblems, clientName: '', projectTeamId: 0, teamId: 0, teamName: ''
+              }
       this.messageService.add({ key: 'tr',severity: 'success', summary: 'Success', detail: 'Image added successfully' });
     })
 

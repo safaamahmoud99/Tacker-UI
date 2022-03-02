@@ -94,7 +94,6 @@
         <h1 [translate]="'Tracker.Descriptions'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
         <p-table [value]="lstRequestDesc">
             <ng-template pTemplate="header">
-
                 <tr>
                     <th style="color: #2674a8; font-size: 20px; font: bold; text-align: center;">{{'Tracker.Descriptions'| translate}} </th>
                     <th style="color: #2674a8; font-size: 20px; font: bold; text-align: center;">{{'Tracker.UserName'|
@@ -102,7 +101,6 @@
                     <th style="color: #2674a8; font-size: 20px; font: bold; text-align: center;">{{'Tracker.Date'|
                         translate}}</th>
                 </tr>
-
             </ng-template>
             <ng-template pTemplate="body" let-i>
                 <tr>
@@ -137,7 +135,7 @@
     <mat-step [stepControl]="firstFormGroup">
           <ng-template matStepLabel>{{'Tracker.Add request'| translate}}</ng-template>
           <div class="container card">
-            <h3 style="text-align: inherit;margin-top: 15px;margin-bottom: 15px;"><span for="Project Name" class="labelMarginRight"> {{'Tracker.Project Name'|translate}} : </span>
+            <h3 style="text-align: inherit;margin-top: 15px;margin-bottom: 15px;"><span for="Project Name" class="labelMarginRight"> {{'Tracker.Project'|translate}} : </span>
               <span> {{projectName}}</span></h3>
           <div class="row">
               <!-- <div class="p-field col-md-4">
@@ -149,46 +147,42 @@
               <div class="p-field col-md-4">
                   <label for="Request Name" name="name" class="labelMarginRight">{{'Tracker.Request Name'|translate}}
                   </label><br>
-                  <input id="name" name="name" class="form-control" required minlength="4"
-                      [placeholder]=" 'Tracker.Enter Request Name'|translate" [(ngModel)]="reqObj.requestName" [ngModelOptions]="{standalone: true}"
-                      #name="ngModel" pInputText>
+                  <input id="name"   name="name" class="form-control" required minlength="4"
+                  [placeholder]=" 'Tracker.Enter Request Name'|translate" [(ngModel)]="reqObj.requestName" [ngModelOptions]="{standalone: true}"
+                  #name="ngModel" pInputText [class.is-invalid]="name.invalid && name.touched"
+                  [class.is-valid]="name.valid">
+                  <!-- <small [hidden]="name.valid || name.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messegerequest'"></small> -->
+              <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
 
-                  <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
-
-                      <div *ngIf="name.errors.required">
-                          Name is required.
-                      </div>
-                      <div *ngIf="name.errors.minlength">
-                          Name must be at least 4 characters long.
-                      </div>
+                  <div *ngIf="name.errors.required" [translate]="'Tracker.required'" >
+                      
+                  </div>
+                  <div *ngIf="name.errors.minlength" [translate]="'Tracker.messegerequest'">
+                      
                   </div>
               </div>
-              <div class="p-field col-md-4">
-               <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Sub Category'|translate}}
-               </label><br>
-               <p-dropdown [options]="lstReqSubCategories" [(ngModel)]="reqObj.requestSubCategoryId" [ngModelOptions]="{standalone: true}"
-                   [placeholder]="'Tracker.Select Sub Category'|translate" optionLabel="subCategoryName"
-                   optionValue="id">
-               </p-dropdown>
-           </div>
+              </div>
+            
            <div class="p-field col-md-4">
-               <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Periority'|translate}}
-               </label><br>
-               <p-dropdown [options]="lstReqPeriorities" [(ngModel)]="reqObj.requestPeriorityId" [ngModelOptions]="{standalone: true}"
-                   [placeholder]="'Tracker.Select Request Periority'|translate" optionLabel="periorty"
-                   optionValue="id">
-               </p-dropdown>
-           </div>
+            <label for="Sites" class="labelMarginRight">{{'Tracker.Hospital Name'|translate}} </label><br>
+
+            <p-dropdown   [options]="lstSites" [(ngModel)]="reqObj.sitename" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Tracker.Hospital Name'|translate" optionLabel="sitename"
+                optionValue="id" (onChange)="onchangeSite($event)">
+            </p-dropdown>
+        </div>
+        <div class="p-field col-md-4">
+            <label for="requestType" class="labelMarginRight">{{'Tracker.Request Type'|translate}} </label><br>
+
+            <p-dropdown [options]="lstProjectTeams" [(ngModel)]="reqObj.teamId" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Tracker.Select Request Type'|translate" optionLabel="teamName"
+                optionValue="teamId" (onChange)="GetProjectTeamId($event)">
+            </p-dropdown>
+        </div>
           </div>
           <div class="row">
-              <div class="p-field col-md-4">
-                  <label for="requestType" class="labelMarginRight">{{'Tracker.Request Type'|translate}} </label><br>
+             
 
-                  <p-dropdown [options]="lstProjectTeams" [(ngModel)]="reqObj.teamId" [ngModelOptions]="{standalone: true}"
-                      [placeholder]="'Tracker.Select Request Type'|translate" optionLabel="teamName"
-                      optionValue="teamId" (onChange)="GetProjectTeamId($event)">
-                  </p-dropdown>
-              </div>
                   <div class="p-field col-md-4">
                       <label for="asset Type" class="labelMarginRight">{{'Tracker.Request Asset'|translate}}
                       </label><br>
@@ -205,6 +199,24 @@
                           optionValue="id">
                       </p-dropdown>
                   </div>
+                  <div class="p-field col-md-4">
+                    <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Sub Category'|translate}}
+                    </label><br>
+                    <p-dropdown [options]="lstReqSubCategories" [(ngModel)]="reqObj.requestSubCategoryId" [ngModelOptions]="{standalone: true}"
+                        [placeholder]="'Tracker.Select Sub Category'|translate" optionLabel="subCategoryName"
+                        optionValue="id">
+                    </p-dropdown>
+                </div>
+               </div>
+               <div class="row">
+                <div class="p-field col-md-4">
+                    <label for="Project Type" class="labelMarginRight">{{'Tracker.Request Periority'|translate}}
+                    </label><br>
+                    <p-dropdown [options]="lstReqPeriorities" [(ngModel)]="reqObj.requestPeriorityId" [ngModelOptions]="{standalone: true}"
+                        [placeholder]="'Tracker.Select Request Periority'|translate" optionLabel="periorty"
+                        optionValue="id">
+                    </p-dropdown>
+                </div>
                </div>   
           <div class="row">
               <div class="col-md-3" hidden>
@@ -317,8 +329,8 @@
         <p-table [value]="reqImages">
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="color: #2674a8; font-size: 20px; font: bold; ">{{'Tracker.Document
-                        Name'|translate}} </th>
+                    <th style="color: #2674a8; font-size: 20px; font: bold; ">{{'Tracker.Document Name'|translate}}
+                    </th>
                         <th></th>
                 </tr>
 

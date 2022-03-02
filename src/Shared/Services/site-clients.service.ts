@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { client } from '../Models/client';
 import { SiteClients } from '../Models/SiteClients';
+import { Sites } from '../Models/Sites';
 @Injectable({
   providedIn: 'root'
 })
@@ -45,5 +46,8 @@ export class SiteClientsService {
   GetAllAssignedClientsByProjectId(ProjectId: number): Observable<client[]> {
     return this.httpClient.get<client[]>(`${environment.GetAllAssignedClientsByProjectId}/`+ ProjectId, this.httpHeader)
   }
-  
+  GetAllSitesAssigendbyClient(clientId):Observable<Sites[]>
+  {
+    return this.httpClient.get<Sites[]>(`${environment.GetAllAssignesitesbyclient}/`+clientId,this.httpHeader)
+  }
 }
