@@ -47,7 +47,6 @@ export class SideNavComponent implements OnInit {
  
     console.log("selectedlang",this.selectedlang);
   //  console.log("langlang",localStorage.getItem("lang"));
-
    // const browserLang = translate.getBrowserLang();
    // translate.use(browserLang.match(/English|العربية/) ? browserLang : 'English');
   }
@@ -100,7 +99,6 @@ export class SideNavComponent implements OnInit {
       sessionStorage.setItem("ProjectData", "بيانات");
       sessionStorage.setItem("langAr", "langAr");
       sessionStorage.setItem("lang",lang)
-
     }
     this.translate.use(lang)
    // this.selectedlang = lang;
@@ -109,7 +107,6 @@ export class SideNavComponent implements OnInit {
   logout() {
     this.AuthService.logout();
   }
-
   openNav() {
     document.getElementById("mySidenav").style.width = "250px";
     document.getElementById("main").style.marginLeft = "250px";
@@ -120,6 +117,5 @@ export class SideNavComponent implements OnInit {
   }
   goToProfile() {
     this.route.navigate(['home/profile']);
-
   }
 }
