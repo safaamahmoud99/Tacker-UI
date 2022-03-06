@@ -151,12 +151,14 @@ export class CreateRequesteComponent implements OnInit {
     this.role = localStorage.getItem("roles")
     this.clientId = Number(localStorage.getItem("clientId"))
     this.EmpId = Number(localStorage.getItem("id"))
-    this.createdById = localStorage.getItem("loginedUserId")
+    this.createdById = localStorage.getItem("loginedUserId");
+    console.log("this.LoggedInUserString", this.LoggedInUserString);
 
     this.reqDescriptionObj = {
       descriptionDate: new Date,
-      description: '', id: 0, requestId: 0, userId: this.LoggedInUserString
+      description: '', id: 0, requestId: 0, userId:this.LoggedInUserString
     }
+    console.log("this.reqDescriptionObjin ng on intit", this.reqDescriptionObj)
     this.reqImage = {
       id: 0, imageName: '', requestId: 0
     }

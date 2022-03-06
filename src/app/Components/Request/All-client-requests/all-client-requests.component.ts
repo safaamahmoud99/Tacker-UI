@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { $ } from 'protractor';
 import { environment } from 'src/environments/environment';
 import { client } from 'src/Shared/Models/client';
 import { ListProjectSiteAssetClients } from 'src/Shared/Models/ListProjectSiteAssetClients';
@@ -15,6 +16,7 @@ import { requestPeriority } from 'src/Shared/Models/requestPeriority';
 import { RequestProblems } from 'src/Shared/Models/requestProblems';
 import { requestSubCategory } from 'src/Shared/Models/requestSubCategory';
 import { Sites } from 'src/Shared/Models/Sites';
+import { ClientService } from 'src/Shared/Services/client.service';
 import { OrganizationClientsService } from 'src/Shared/Services/organization-clients.service';
 import { ProjectSiteAssetService } from 'src/Shared/Services/project-site-asset.service';
 import { ProjectTeamService } from 'src/Shared/Services/project-team.service';
@@ -34,6 +36,7 @@ export class AllClientRequestsComponent implements OnInit {
   lstRequestDesc: requestDescription[]
   lstRequests: request[]
   lstSites:Sites[]
+  currentreqObj:request
   clientID: number
   clientName: string
   role: string;
@@ -47,10 +50,12 @@ export class AllClientRequestsComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   projectName: string;
+ // clientName:string
   reqObj: request
   lstProjectTeams: projectTeam[]
   projectObj: project
   projectId: number;
+  clientObj:client;
   ProjTeamId: number;
   lstReqSubCategories: requestSubCategory[]
   lstReqPeriorities: requestPeriority[]
@@ -71,12 +76,13 @@ export class AllClientRequestsComponent implements OnInit {
   canreq:boolean;
   disableAddbth:boolean;
   siteID:any;
+  reqcodee:string;
   constructor(private requestService: RequestService, private projectteamservice: ProjectTeamService,
     private requestDescriptionService: RequestDescriptionService, private _formBuilder: FormBuilder,
     private organizationClientsService: OrganizationClientsService, private projectService: ProjectService,
     private ReqSubCatService: RequestSubCategoryService, private projectSiteAssetService: ProjectSiteAssetService,
     private reqPeriorityService:RequestPeriorityService,private siteClientsService: SiteClientsService,
-    private messageService: MessageService,private httpClient: HttpClient,
+    private messageService: MessageService,private httpClient: HttpClient,private clientService:ClientService
     ) { }
     ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
@@ -104,13 +110,8 @@ export class AllClientRequestsComponent implements OnInit {
       requestTypeName: '', description: '', requestModeId: 0, IsAssigned: false,
       IsSolved: false, RequestProblemObj: new RequestProblems, clientName: '', projectTeamId: 0, teamId: 0, teamName: ''
     }
-    this.reqDescriptionObj = {
-      descriptionDate: new Date,
-      description: '', id: 0, requestId: 0, userId: this.LoggedInUserString
-    }
-    this.reqImage = {
-      id: 0, imageName: '', requestId: 0
-    }
+  
+    
     this.lstRequestDesc = []
     this.reqImages = []
     this.lstReqSubCategories = []
@@ -124,8 +125,19 @@ export class AllClientRequestsComponent implements OnInit {
     console.log("clientID", localStorage.getItem("clientId"))
     this.role = localStorage.getItem("roles")
     this.createdById= localStorage.getItem('loginedUserId')
-    this.LoggedInUserString = localStorage.getItem('loginedUserId')
+    this.LoggedInUserString = localStorage.getItem('loginedUserId');
+    console.log("this.LoggedInUserString", this.LoggedInUserString);
     this.clientID = Number(localStorage.getItem("clientId"))
+    this.reqDescriptionObj = {
+      descriptionDate: new Date,
+      description: '', id: 0, requestId: 0, userId: this.LoggedInUserString
+    }
+    this.reqImage = {
+      id: 0, imageName: '',requestId:0
+    };
+    console.log("this.reqDescriptionObjin ng on intit", this.reqDescriptionObj)
+    
+   
     this.projectService.clientCanRequest(this.clientID).subscribe(e=>
       {
         this.canreq=e;
@@ -136,7 +148,11 @@ export class AllClientRequestsComponent implements OnInit {
             this.messageService.add({ key: 'tr', severity: 'error',  summary: 'Attention !!!', sticky:true, detail: `sorry,you can't add request until project completed` })
         }
       })
-
+     this.clientService.GetclientByID(this.clientID).subscribe(
+       e=>{
+         this.clientObj=e
+       }
+     )
        
       this.requestService.GetRequestsByClientId(this.clientID).subscribe(e => {
         this.lstRequests = e
@@ -199,6 +215,11 @@ export class AllClientRequestsComponent implements OnInit {
     //     })
     //   }
     // )
+  //  this.ngOnInit();
+    this.lstAssetsSerialsByAsset=[];
+    this.lstAssetsByProject =[];
+    this.lstRequestImages=[]
+     
     this.siteClientsService.GetAllAssignedClientsByProjectId(this.projectId).subscribe(
       res => {
         this.lstClientsByProjectId = res
@@ -247,7 +268,9 @@ export class AllClientRequestsComponent implements OnInit {
   }
    onChangeAsset(event) {
     this.assetId = event.value
-    this.projectSiteAssetId =0
+    //this.projectSiteAssetId =0;
+    
+
    this.projectSiteAssetService.GetAllAssetsSerialsByProjectId(this.projectId,this.siteID,this.assetId).subscribe(
      res=>{
       this.lstAssetsSerialsByAsset = res,
@@ -266,7 +289,6 @@ export class AllClientRequestsComponent implements OnInit {
    this.messageService.clear();
     this.reqObj.requestStatusId = 1  //open
     this.reqObj.requestModeId = 5  //by client
-
     this.reqObj.projectTeamId = this.ProjTeamId
     this.reqObj.projectId = Number(this.reqObj.projectId)
     this.reqObj.clientId = this.clientID
@@ -274,25 +296,43 @@ export class AllClientRequestsComponent implements OnInit {
     this.reqObj.projectSiteAssetId=this.projectSiteAssetId 
     console.log("reqObj",this.reqObj)
     if (this.reqObj.requestName != "" && this.reqObj.clientId != 0 && this.reqObj.description!=null
-    && this.reqObj.assetId!=0 && this.reqObj.projectSiteAssetId!=0
+    && this.reqObj.assetId!=0 && this.reqObj.projectSiteAssetId!=0 && this.reqObj.projectSiteAssetId!=0
       && this.reqObj.requestSubCategoryId != 0 && this.reqObj.requestPeriorityId != 0 && this.reqObj.teamId != 0) {
       this.requestService.inserRequest(this.reqObj).subscribe(e => {
         this.reqId = e;
         this.reqDescriptionObj.requestId =Number(this.reqId) 
-        this.reqDescriptionObj.description = this.reqObj.description
+        this.reqDescriptionObj.description = this.reqObj.description,
+       
+        console.log("this.reqDescriptionObj",this.reqDescriptionObj);
         this.requestDescriptionService.AddRequestDescription(this.reqDescriptionObj).subscribe(e => {
-          this.reqImage.requestId = Number(this.reqId) ;
-          this.IsSaveProject = true
+          this.reqImage.requestId = Number(this.reqId);
+          this.IsSaveProject = true;
           this.messageService.add({ key: 'tr',severity: 'success', summary: 'Success', detail: 'Request Added Successfully' });
         })
       })
-      this.disabledButton = true
+    
+      this.disabledButton = true;
+      // this.requestService.GetRequestByRequestId(Number(this.reqId)).subscribe( 
+      //   re=>{
+      //   this.reqcodee=re.requestCode,
+      //   console.log("e.requestCode",re);
+      //   }
+      // )
     }
     else {
       this.disabledButton = false
       this.messageService.add({ key: 'tr', severity: 'error',  summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
     }
-
+   
+  }
+  getreq()
+  {
+      this.requestService.GetRequestByRequestId(Number(this.reqId)).subscribe( 
+        re=>{
+        this.reqcodee=re.requestCode,
+        console.log("e.requestCode",re);
+        }
+      )
   }
   public uploadFile = (files) => {
     if (files.length === 0) {
@@ -305,7 +345,7 @@ export class AllClientRequestsComponent implements OnInit {
 
     this.httpClient.post(environment.uploadImage, formData)
       .subscribe(res => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Uploaded Successfully' });
+        this.messageService.add({  key: 'tr', severity: 'success', summary: 'Success', detail: 'Uploaded Successfully' });
 
         // alert('Uploaded Successfully.');
 
@@ -319,31 +359,35 @@ export class AllClientRequestsComponent implements OnInit {
 
     this.requestService.addListRequestImages(this.lstRequestImages).subscribe(e => {
       this.reqObj = {
-                createdById: "", createdBy: "", projectSiteAssetId: 0,
-                requestTypeId: 0, serialNumber: '', sitename: '',
-                id: 0, projectId: 0, projectName: '', requestCode: '',
-                requestName: '', requestPeriority: '', requestPeriorityId: 0,
-                requestStatus: '', requestStatusId: 0, requestTime: new Date().getHours() + ':' + new Date().getMinutes(), requestDate: new Date(),
-                requestSubCategoryId: 0, requestSubCategoryName: '', assetId: 0, clientId: 0,
-                requestTypeName: '', description: '', requestModeId: 0, IsAssigned: false,
-                IsSolved: false, RequestProblemObj: new RequestProblems, clientName: '', projectTeamId: 0, teamId: 0, teamName: ''
-              }
+        createdById: "", createdBy: "", projectSiteAssetId: 0,
+        requestTypeId: 0, serialNumber: '', sitename: '',
+        id: 0, projectId: 0, projectName: '', requestCode: '',
+        requestName: '', requestPeriority: '', requestPeriorityId: 0,
+        requestStatus: '', requestStatusId: 0, requestTime: new Date().getHours() + ':' + new Date().getMinutes(), requestDate: new Date(),
+        requestSubCategoryId: 0, requestSubCategoryName: '', assetId: 0, clientId: 0,
+        requestTypeName: '', description: '', requestModeId: 0, IsAssigned: false,
+        IsSolved: false, RequestProblemObj: new RequestProblems, clientName: '', projectTeamId: 0, teamId: 0, teamName: ''
+      }
       this.messageService.add({ key: 'tr',severity: 'success', summary: 'Success', detail: 'Image added successfully' });
     })
-
+ 
   }
   CloseStipper()
   {
-    this.dialogAddRequest=false
-    this.requestService.GetRequestsByClientId(this.clientID).subscribe(e => {
+      this.dialogAddRequest=false;
+  //  this.messageService.add({key: 'tr',severity: 'success', summary: 'Success', detail:`Request Added Successfully with code  ${this.currentreqObj.requestCode}`})
+      this.requestService.GetRequestsByClientId(this.clientID).subscribe(e => {
       this.lstRequests = e
       this.IsSaveProject=false;
+      this.disabledButton=false;
+      this.ngOnInit();
     })
   }
   ViewMoreDesc(requestID) {
     this.requestDescriptionService.GetAllDescByRequestID(requestID).subscribe(res => {
       console.log("desc", res)
       this.lstRequestDesc = res;
+      console.log("this.lstRequestDescghhhhhhhhhhhhhhhhhhhhhh",this.lstRequestDesc);
       this.NewdecDialogbool = true;
     })
   }

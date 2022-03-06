@@ -1,15 +1,18 @@
 <!-- Show all   Requests that belongs to specific client -->
 <div class="container card">
-    <p-toast></p-toast>
+    <!-- <p-toast></p-toast>
     <p-toast position="top-right" key="tr" [baseZIndex]="9999"></p-toast>
     <p-toast position="top-left" key="tl"></p-toast>
     <p-toast position="top-center" key="tc"></p-toast>
-    <p-toast position="bottom-center" key="bc"></p-toast>
-<p-table [value]="lstRequests" styleClass="p-datatable-responsive-demo">
+    <p-toast position="bottom-center" key="bc"></p-toast> -->
+<p-table #dt [value]="lstRequests" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+[rowsPerPageOptions]="[5,10,50]" styleClass="p-datatable-responsive-demo" [paginator]="true"
+currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+[globalFilterFields]="['requestName','requestCode ','projectName','requestDate','requestPeriority','RequestStatus','Problem','sitename','assetName','serialNumber']"   >
     <ng-template pTemplate="caption">
         <div class="row">
         <div class="p-d-flex p-ai-center p-jc-between col-md-10">
-            <h1 [translate]="'Tracker.Clients Requests'" style="margin-bottom: 20px;margin-left:20px; font-size: 2em;color: #2674a8;"></h1>
+            <h1   style="margin-bottom: 20px;margin-left:20px; font-size: 2em;color: #2674a8;">{{clientName}} {{ 'Tracker.Requests' | translate }}</h1>
 
            <!--routerLink="/home/AllClientsReq" <span class="h3Header">  {{ 'Tracker.Clients Requests' | translate }}</span> -->
         </div>
@@ -28,7 +31,7 @@
             <th>{{'Tracker.Code'|translate}}
                 <p-columnFilter type="text" field="requestCode" display="menu"></p-columnFilter>
             </th>
-            <th>{{'Tracker.Project Name'|translate}}
+            <th>{{'Tracker.Project'|translate}}
                 <p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
             </th>
             <th>{{'Tracker.Date'|translate}}
@@ -127,17 +130,17 @@
 <p-dialog class="data" [(visible)]="dialogAddRequest" 
 [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
 [draggable]="false" [style]="{width: '60vw'}"  [resizable]="true">
-<!-- <p-toast position="top-right" key="tr" [baseZIndex]="5000"></p-toast> -->
+<p-toast position="top-right" key="tr" [baseZIndex]="50000"></p-toast>
  <!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
    {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
- </button>  -->
+ </button>   -->
  <mat-horizontal-stepper [linear]="isLinear" #stepper>
     <mat-step [stepControl]="firstFormGroup">
           <ng-template matStepLabel>{{'Tracker.Add request'| translate}}</ng-template>
           <div class="container card">
             <h3 style="text-align: inherit;margin-top: 15px;margin-bottom: 15px;"><span for="Project Name" class="labelMarginRight"> {{'Tracker.Project'|translate}} : </span>
               <span> {{projectName}}</span></h3>
-          <div class="row">
+               <div class="row">
               <!-- <div class="p-field col-md-4">
                   <label for="Project Name" class="labelMarginRight"> {{'Tracker.Project Name'|translate}}</label><br>
                   <input id="projectname" disabled name="projectname" class="form-control"  minlength="4"
@@ -300,7 +303,7 @@
                  </div>
                  <div class="col-md-7"></div>
                  <div class="col-md-2">
-                   <button mat-stroked-button color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                   <button mat-stroked-button color="primary" (click)="getreq()" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
                  </div>
              </div>
              <br>
@@ -310,6 +313,7 @@
       <mat-step>
         <ng-template matStepLabel>{{'Tracker.FINISH'|translate}}</ng-template>
         <p>{{'Tracker.You are now done.'|translate}}</p>
+        <p>{{'Tracker.reqcode'|translate}} <span style="font-weight:bold;">{{reqcodee}}</span> </p>
         <div class="row">
             <div class="col-md-2">
                 <button mat-stroked-button color="primary" mat-button matStepperPrevious>{{'Tracker.Back'|translate}}</button>
