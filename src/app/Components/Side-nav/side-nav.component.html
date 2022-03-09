@@ -179,16 +179,16 @@
             </button>
           </div>
         </div>
-        <div style="margin-top: 8px;" *ngIf="role=='Client' || role == 'ClientManager'">
+        <!-- <div style="margin-top: 8px;" *ngIf="role=='Client' || role == 'ClientManager'">
           <label>
             <select #langSelect (change)="translate.use(langSelect.value)" class="btn btn-info dropdown-toggle">
               <option *ngFor="let lang of translate.getLangs()" [value]="lang"
                 [selected]="lang === translate.currentLang">{{ lang }}</option>
             </select>
           </label>
-        </div>
+        </div> -->
         <div *ngIf="role == 'SuperAdmin' || role == 'Admin' || role == 'PMO' || role == 'PM'
-          || role == 'TL'|| role == 'Employee' ||role=='Receptionist'">
+          || role == 'TL'|| role == 'Employee' ||role=='Receptionist' || role=='Client' || role == 'ClientManager'">
           <label>
             <select class="form-control" #selectedLang (change)="switchLang(selectedLang.value)" class="btn btn-info dropdown-toggle">
               <option *ngFor="let lang of translate.getLangs()" [value]="lang"

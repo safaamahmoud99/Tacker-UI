@@ -8,7 +8,7 @@ import { PrimeNGConfig } from 'primeng/api';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TabMenuModule} from 'primeng/tabmenu';
 import {MenubarModule} from 'primeng/menubar';
-import {NavBarComponent} from './Components/Nav-bar/nav-bar.component'
+ 
 import { RouterModule, Routes } from '@angular/router';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
@@ -155,7 +155,7 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     SignupComponent,
-    NavBarComponent,
+  
     HomeComponent,
     SideNavComponent,
     AllProjectsComponent,

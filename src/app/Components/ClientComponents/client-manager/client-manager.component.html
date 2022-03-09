@@ -111,7 +111,7 @@
                     </td>
                     <td>
                         <span class="p-column-title"></span>
-                        <span [class]="'customer-badge type-' + project.actualStartDate">{{project.actualStartDate|date:'dd/MM/yyyy'}}</span>
+                        <span [class]="'customer-badge type-' + project.actualStartDate">{{project.planndedStartDate|date:'dd/MM/yyyy'}}</span>
                     </td>
                     <td>
                         <span class="p-column-title"></span>
@@ -129,7 +129,10 @@
             <ng-template pTemplate="rowexpansion" let-opportunity let-expanded>
                 <tr style="border: 2px solid #cae6fc;border-radius: 5px;" >
                     <td colspan="8">
-                        <p-table [value]="lstRequests" styleClass="p-datatable-responsive-demo">
+                        
+                        <p-table #dt [value]="lstRequests" dataKey="id" [rows]="4" [showCurrentPageReport]="true"
+                        [rowsPerPageOptions]="[5,10,50]" styleClass="p-datatable-responsive-demo" [paginator]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0">
                             <ng-template pTemplate="caption">
                                 <div class="row">
                                     <div class="p-d-flex p-ai-center p-jc-between col-md-10">
@@ -256,14 +259,24 @@
             <mat-step [stepControl]="firstFormGroup">
                   <ng-template matStepLabel>{{'Tracker.Add request'| translate}}</ng-template>
                   <div class="container card">
-                      <br>
+                    <h4 style="text-align: inherit;margin-top: 15px;margin-bottom: 15px;"><span for="Project Name" class="labelMarginRight"> {{'Tracker.Project'|translate}} : </span>
+                        <span> {{projectName}}</span></h4>
                     <div class="row">
-                        <div class="p-field col-md-4">
+                        <!-- <div class="p-field col-md-4">
                             <label for="Project Name" class="labelMarginRight"> {{'Tracker.Project Name'|translate}}</label><br>
                             <input id="projectname" disabled name="projectname" class="form-control"  minlength="4"
                             [placeholder]=" 'Tracker.Enter Request Name'|translate" [(ngModel)]="projectName" [ngModelOptions]="{standalone: true}"
                             #name="ngModel" pInputText>
+                        </div> -->
+                        <div class="p-field col-md-4">
+                            <label for="Sites" class="labelMarginRight">{{'Tracker.Hospital Name'|translate}} </label><br>
+                
+                            <p-dropdown   [options]="sites" [(ngModel)]="reqObj.sitename" [ngModelOptions]="{standalone: true}"
+                                [placeholder]="'Tracker.Hospital Name'|translate" optionLabel="sitename"
+                                optionValue="id" (onChange)="onchangeSite($event)"  >
+                            </p-dropdown>
                         </div>
+                        
                         <div class="p-field col-md-4">
                             <label for="Request Name" name="name" class="labelMarginRight">{{'Tracker.Request Name'|translate}}
                             </label><br>
@@ -448,7 +461,7 @@
                 </div>
               </mat-step>
         </mat-horizontal-stepper>
-    </p-dialog>  
+        </p-dialog>  
     <p-dialog [(visible)]="NewdecDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
         <div class="row">
             <h1 [translate]="'Tracker.Descriptions'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>

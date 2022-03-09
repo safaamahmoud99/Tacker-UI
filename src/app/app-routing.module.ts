@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SignupComponent } from './Components/Signup/signup.component';
 import { SideNavComponent } from './Components/Side-nav/side-nav.component'
 import { HomeComponent } from './Components/Home/home.component';
-import { NavBarComponent } from './Components/Nav-bar/nav-bar.component';
+ 
 import { AllProjectsComponent } from '../app/Components/Projects/all-projects/all-projects.component'
 import { CreateProjectComponent } from '../app/Components/Projects/create-project/create-project.component'
 

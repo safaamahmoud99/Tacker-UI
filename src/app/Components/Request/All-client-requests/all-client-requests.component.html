@@ -12,12 +12,12 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
     <ng-template pTemplate="caption">
         <div class="row">
         <div class="p-d-flex p-ai-center p-jc-between col-md-10">
-            <h1   style="margin-bottom: 20px;margin-left:20px; font-size: 2em;color: #2674a8;">{{clientName}} {{ 'Tracker.Requests' | translate }}</h1>
-
+            <h1 [translate]="'Tracker.Clients Requests'"  style="margin-bottom: 20px;margin-left:20px; font-size: 2em;color: #2674a8;"></h1>
+            <!-- {{clientName}} {{ 'Tracker.Requests' | translate }} -->
            <!--routerLink="/home/AllClientsReq" <span class="h3Header">  {{ 'Tracker.Clients Requests' | translate }}</span> -->
         </div>
         <div class="col-md-2" >
-            <button id="addEmpBtn" [disabled]="disableAddbth"   (click)="OpendialogAddRequest()"  class="btn btn-outline-primary btn-md btn-block">
+            <button id="addEmpBtn"  (click)="OpendialogAddRequest()"  class="btn btn-outline-primary btn-md btn-block">
                 <span class="pi pi-plus"> {{ 'Tracker.Add' | translate }}</span> </button>
         </div>
     </div>
@@ -31,8 +31,17 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
             <th>{{'Tracker.Code'|translate}}
                 <p-columnFilter type="text" field="requestCode" display="menu"></p-columnFilter>
             </th>
-            <th>{{'Tracker.Project'|translate}}
+            <!-- <th>{{'Tracker.Project'|translate}}
                 <p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
+            </th> -->
+            <th> {{'Tracker.Site'|translate}}
+                <p-columnFilter type="text" field="sitename" display="menu"></p-columnFilter>
+            </th>
+            <th> {{'Tracker.Asset'|translate}}
+                <p-columnFilter type="text" field="assetName" display="menu"></p-columnFilter> 
+            </th>
+            <th style="padding: 0%;"> {{'Tracker.Serial'|translate}}
+                <p-columnFilter type="text" field="serialNumber" display="menu"></p-columnFilter>
             </th>
             <th>{{'Tracker.Date'|translate}}
                 <p-columnFilter type="text" field="requestDate" display="menu"></p-columnFilter>
@@ -40,7 +49,7 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
             <th> {{'Tracker.Status'|translate}}
                 <p-columnFilter type="text" field="requestStatus" display="menu"></p-columnFilter>
             </th>
-            <th>{{'Tracker.Problem'|translate}}
+            <th style="padding:0%;">{{'Tracker.Problem'|translate}}
                 <p-columnFilter type="text" field="problemName" display="menu"></p-columnFilter>
             </th>
             <th>{{'Tracker.Operation'|translate}} </th>
@@ -54,9 +63,12 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
             <td>
                 {{request.requestCode}}
             </td>
-            <td>
+            <!-- <td>
                 {{request.projectName}}
-            </td>
+            </td> -->
+            <td>{{request.sitename}}</td>
+            <td>{{request.assetName}}</td>
+            <td>{{request.serialNumber }}</td>
             <td>
                  <!-- {{request.requestTime | slice:0:5}} -->
                 {{request.requestDate | date:'dd/MM/yyyy h:mm:ss a'}}

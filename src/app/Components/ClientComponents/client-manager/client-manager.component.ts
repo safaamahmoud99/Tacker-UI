@@ -34,6 +34,8 @@ import { environment } from 'src/environments/environment';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { RequestSubCategoryService } from 'src/Shared/Services/request-sub-category.service';
 import { RequestPeriorityService } from 'src/Shared/Services/request-periority.service';
+import { ProjectSitesService } from 'src/Shared/Services/project-sites.service';
+import { Sites } from 'src/Shared/Models/Sites';
 
 @Component({
   selector: 'app-client-manager',
@@ -88,6 +90,7 @@ export class ClientManagerComponent implements OnInit {
     { id: 4, mode: 'SMS' },
   ];
   ProjId: number;
+  sites:Sites[]
   disabledButton: boolean;
   reqId: request;
   LoggedInUserString: string;
@@ -102,6 +105,7 @@ export class ClientManagerComponent implements OnInit {
   NewdecDialogbool: boolean;
   NewclientDialogbool: boolean;
   createdById: string;
+  siteID:any;
   constructor(private route: Router, private projectteamservice: ProjectTeamService,
     private projectdocumentsservice: ProjectDocumentService, private requestService: RequestService,
     private messageService: MessageService, private confirmationService: ConfirmationService,private httpClient: HttpClient,
@@ -109,7 +113,7 @@ export class ClientManagerComponent implements OnInit {
     private stackholderService: StackholdersService, private siteClientsService: SiteClientsService,private requestDescriptionService: RequestDescriptionService,
     private projectSiteAssetService: ProjectSiteAssetService, private organizationClientsService: OrganizationClientsService,
     private router: Router,private _formBuilder: FormBuilder,private ReqSubCatService:RequestSubCategoryService,
-    private reqPeriorityService:RequestPeriorityService) { }
+    private reqPeriorityService:RequestPeriorityService,private projectSiteservice:ProjectSitesService ) { }
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
@@ -132,7 +136,8 @@ export class ClientManagerComponent implements OnInit {
       }
     }
     ];
-    this.lstRequestDesc = []
+    this.lstRequestDesc = [] 
+    this.sites=[]
     this.reqImages = []
     this.lstRequests = []
     this.lstClientsByProjectId = []
@@ -156,7 +161,8 @@ export class ClientManagerComponent implements OnInit {
     this.IsSaveProject= false
     this.organizationClientsService.GetOrganizationProjectsByClientId(this.clientId).subscribe(
       res => {
-        this.projects = res
+        this.projects = res,
+        console.log("this.projectssssss",this.projects);
         console.log("projects",this.projects)
         this.projects.forEach(element => {
           if (element.id == this.projectId) {
@@ -234,12 +240,17 @@ export class ClientManagerComponent implements OnInit {
         console.log(this.project1)
       }
     });
+   
     this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(Projectid).subscribe(
       res => {
         this.listProjectSiteAssetClients = res
         console.log("res", res)
       }
     )
+
+
+
+
     this.siteClientsService.GetAllAssignedClientsByProjectId(Projectid).subscribe(
       res => {
         this.lstClientsByProjectId = res
@@ -270,7 +281,7 @@ export class ClientManagerComponent implements OnInit {
       this.project1.listOfdocuments = this.documents;
     }), err => console.log(err)
 
-
+   console.log("project1",this.project1);
     this.displayMaximizable = true;
   }
   GetProjectTeamId(TeamId) {
@@ -280,19 +291,7 @@ export class ClientManagerComponent implements OnInit {
         this.reqObj.projectTeamId = this.ProjId
       })
   }
-  onChangeAsset(event) {
-    this.assetId = event.value
-    this.projectSiteAssetService.GetAllAssetsSerialsByAssetId(this.assetId).subscribe(
-      res => {
-        this.lstAssetsSerialsByAsset = res
-      }
-    )
 
-  }
-  onChangeSerial(event) {
-    console.log("serialNumber",event.value)
-    this.projectSiteAssetId = event.value
-  }
   AddRequest() {
     this.reqObj.requestStatusId = 1  //open
     this.reqObj.projectTeamId = this.ProjId
@@ -340,7 +339,7 @@ export class ClientManagerComponent implements OnInit {
     this.projects.forEach(element => {
       if (element.id == Projectid) {
         this.project1 = element
-        console.log(this.project1)
+        console.log("project11111111111111111111111",this.project1)
       }
       this.projectService.getProjectById(this.project1.id).subscribe(res => {
         this.projectObj = res;
@@ -383,11 +382,11 @@ export class ClientManagerComponent implements OnInit {
   projectObj: any;
 
   OpendialogAddRequest() {
-    this.siteClientsService.GetAllAssignedClientsByProjectId(this.projectId).subscribe(
-      res => {
-        this.lstClientsByProjectId = res
-      }
-    )
+    // this.siteClientsService.GetAllAssignedClientsByProjectId(this.projectId).subscribe(
+    //   res => {
+    //     this.lstClientsByProjectId = res
+    //   }
+    // )
     this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
       res => {
         this.listProjectSiteAssetClients = res
@@ -397,7 +396,8 @@ export class ClientManagerComponent implements OnInit {
       this.lstReqSubCategories = e
     })
     this.reqPeriorityService.GetAllRequestPeriorties().subscribe(e => {
-      this.lstReqPeriorities = e
+      this.lstReqPeriorities = e,
+      this.reqObj.requestPeriorityId=4;
       console.log("lstPeriority", this.lstReqPeriorities)
     })
     this.projectteamservice.GetAllTeamsByProjectID(this.projectId).subscribe(e => {
@@ -410,7 +410,12 @@ export class ClientManagerComponent implements OnInit {
       }, []);
       console.log("lstproTeams", this.lstProjectTeams)
     })
-
+    this.projectSiteservice.GetAllProjectSitesByProjectId(this.projectId).subscribe(
+      res=>{
+        this.sites=res,
+        console.log("this.sites",this.sites)
+      }
+    )
     this.projects.forEach(element => {
       if (element.id == this.projectId) {
         this.projectName = element.projectName
@@ -426,11 +431,64 @@ export class ClientManagerComponent implements OnInit {
       IsSolved: false, RequestProblemObj: new RequestProblems, clientName: '', projectTeamId: 0, teamId: 0, teamName: ''
     }
     this.dialogAddRequest = true
-    this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
+    // this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
+    //   res => {
+    //     this.lstAssetsByProject = res
+    //   }
+    // )
+   
+  }
+  onchangeSite(event)
+  {
+    this.lstAssetsSerialsByAsset=[];
+    this.lstClientsByProjectId=[];
+    this.lstAssetsSerialsByAsset=[];
+    this.lstAssetsByProject=[];
+    this.reqObj.clientId=0;
+    this.reqObj.assetId=0;
+    this.siteID=event.value
+    this.siteClientsService.GetAllAssignedClients(event.value,this.projectId).subscribe(    
       res => {
-        this.lstAssetsByProject = res
+        this.lstClientsByProjectId = res,
+        console.log("this.lstClientsByProjectIdandSite",this.lstClientsByProjectId)
+      },
+      err => console.log(err)
+    )
+    this.projectSiteAssetService.GetAllProjectSiteAssetBySiteId(event.value,this.projectId).subscribe(
+      res => {
+        this.lstAssetsByProject = res;
+         for(let index=0;index<this.lstAssetsByProject.length;index++)
+         {
+           if(this.lstAssetsByProject[index].assetId===this.lstAssetsByProject[index+1].assetId)
+           {
+            this.lstAssetsByProject.splice(index,1)
+           }
+  
+         }    
+        console.log("assetsbyprojectandsite",this.lstAssetsByProject);
+          }
+    )
+   
+    
+  }
+  onChangeAsset(event) {
+    this.assetId = event.value
+    // this.projectSiteAssetService.GetAllAssetsSerialsByAssetId(this.assetId).subscribe(
+    //   res => {
+    //     this.lstAssetsSerialsByAsset = res
+    //   }
+    // )
+    this.projectSiteAssetService.GetAllAssetsSerialsByProjectId(this.projectId,this.siteID,this.assetId).subscribe(
+      res=>{
+       this.lstAssetsSerialsByAsset = res,
+       console.log("this.lstAssetsSerialsByAsset",this.lstAssetsSerialsByAsset)
       }
     )
+    console.log("this.reqObj.projectSiteAssetIdiassettttttttt",this.projectSiteAssetId );
+  }
+  onChangeSerial(event) {
+    console.log("serialNumber",event.value)
+    this.projectSiteAssetId = event.value
   }
   public uploadFile = (files) => {
     if (files.length === 0) {

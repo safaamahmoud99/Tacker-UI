@@ -48,7 +48,8 @@ export class AllProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.projectService.GetAllProjects().subscribe(pro => {
-      this.projects = pro
+      this.projects = pro,
+      console.group("this.projects", this.projects);
     })
     this.lstClientsByProjectId=[]
     this.listProjectSiteAssetClients=[]

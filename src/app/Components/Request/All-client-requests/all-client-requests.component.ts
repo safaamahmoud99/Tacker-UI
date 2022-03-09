@@ -34,7 +34,7 @@ import { SiteClientsService } from 'src/Shared/Services/site-clients.service';
 })
 export class AllClientRequestsComponent implements OnInit {
   lstRequestDesc: requestDescription[]
-  lstRequests: request[]
+  lstRequests:any[]
   lstSites:Sites[]
   currentreqObj:request
   clientID: number
@@ -138,16 +138,16 @@ export class AllClientRequestsComponent implements OnInit {
     console.log("this.reqDescriptionObjin ng on intit", this.reqDescriptionObj)
     
    
-    this.projectService.clientCanRequest(this.clientID).subscribe(e=>
-      {
-        this.canreq=e;
-        console.log("this.canreqqqqqqqqqqqqqqqqqqqq",this.canreq);
-        if(!this.canreq)
-        {
-            this.disableAddbth=true;
-            this.messageService.add({ key: 'tr', severity: 'error',  summary: 'Attention !!!', sticky:true, detail: `sorry,you can't add request until project completed` })
-        }
-      })
+    // this.projectService.clientCanRequest(this.clientID).subscribe(e=>
+    //   {
+    //     this.canreq=e;
+    //     console.log("this.canreqqqqqqqqqqqqqqqqqqqq",this.canreq);
+    //     if(!this.canreq)
+    //     {
+    //         this.disableAddbth=true;
+    //         this.messageService.add({ key: 'tr', severity: 'error',  summary: 'Attention !!!', sticky:true, detail: `sorry,you can't add request until project completed` })
+    //     }
+    //   })
      this.clientService.GetclientByID(this.clientID).subscribe(
        e=>{
          this.clientObj=e
@@ -358,16 +358,7 @@ export class AllClientRequestsComponent implements OnInit {
   SaveimageToDB() {
 
     this.requestService.addListRequestImages(this.lstRequestImages).subscribe(e => {
-      this.reqObj = {
-        createdById: "", createdBy: "", projectSiteAssetId: 0,
-        requestTypeId: 0, serialNumber: '', sitename: '',
-        id: 0, projectId: 0, projectName: '', requestCode: '',
-        requestName: '', requestPeriority: '', requestPeriorityId: 0,
-        requestStatus: '', requestStatusId: 0, requestTime: new Date().getHours() + ':' + new Date().getMinutes(), requestDate: new Date(),
-        requestSubCategoryId: 0, requestSubCategoryName: '', assetId: 0, clientId: 0,
-        requestTypeName: '', description: '', requestModeId: 0, IsAssigned: false,
-        IsSolved: false, RequestProblemObj: new RequestProblems, clientName: '', projectTeamId: 0, teamId: 0, teamName: ''
-      }
+ 
       this.messageService.add({ key: 'tr',severity: 'success', summary: 'Success', detail: 'Image added successfully' });
     })
  

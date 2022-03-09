@@ -21,9 +21,11 @@ import { RequestProblems } from 'src/Shared/Models/requestProblems';
 import { requestStatus } from 'src/Shared/Models/requestStatus';
 import { requestSubCategory } from 'src/Shared/Models/requestSubCategory';
 import { requestType } from 'src/Shared/Models/requestType';
+import { Sites } from 'src/Shared/Models/Sites';
 import { AssetService } from 'src/Shared/Services/asset.service';
 import { OrganizationClientsService } from 'src/Shared/Services/organization-clients.service';
 import { ProjectSiteAssetService } from 'src/Shared/Services/project-site-asset.service';
+import { ProjectSitesService } from 'src/Shared/Services/project-sites.service';
 import { ProjectTeamService } from 'src/Shared/Services/project-team.service';
 import { ProjectService } from 'src/Shared/Services/project.service';
 import { RequestDescriptionService } from 'src/Shared/Services/request-description.service';
@@ -64,6 +66,7 @@ export class ClientManagerRequestsComponent implements OnInit {
   lstclients: client[]
   reqDescriptionObj: requestDescription
   reqImage: RequestImage
+  siteID:any
 
   modetarnsalte = this.translate.get('Select Mode');
   lstRequestMode: Array<{ id: number, mode: string }> = [
@@ -77,6 +80,7 @@ export class ClientManagerRequestsComponent implements OnInit {
   reqObj: request
   ProjId: number;
   reqId: any;
+  sites:Sites[]
   LoggedInUserString: string;
   lstAssetsSerialsByAsset: ProjectSiteAsset[];
   assetId: number;
@@ -96,7 +100,7 @@ export class ClientManagerRequestsComponent implements OnInit {
     private httpClient: HttpClient, private projectService: ProjectService,
     private projectTeamService: ProjectTeamService, private messageService: MessageService,
     private projectSiteAssetService: ProjectSiteAssetService, private siteClientsService: SiteClientsService,
-    private _formBuilder: FormBuilder,private route: ActivatedRoute
+    private _formBuilder: FormBuilder,private route: ActivatedRoute,private projectSiteservice:ProjectSitesService
   ) { }
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
@@ -107,6 +111,7 @@ export class ClientManagerRequestsComponent implements OnInit {
     });
     this.lstRequestDesc = []
     this.reqImages = []
+   
     this.lstReqPeriorities = []
     this.lstReqTypies = []
     this.lstReqStatus = []
@@ -117,7 +122,7 @@ export class ClientManagerRequestsComponent implements OnInit {
     this.lstAssetsByProject = []
     this.lstAssetsSerialsByAsset = []
     this.lstClientsByProjectId = []
-
+     this.sites=[]
     this.disabledButton = false
     console.log("clientID", localStorage.getItem("clientId"))
     this.projectId = this.activeRoute.snapshot.params['projectId'];
@@ -142,9 +147,15 @@ export class ClientManagerRequestsComponent implements OnInit {
     this.reqImage = {
       id: 0, imageName: '', requestId: 0
     }
-    this.siteClientsService.GetAllAssignedClientsByProjectId(this.projectId).subscribe(
-      res => {
-        this.lstClientsByProjectId = res
+    // this.siteClientsService.GetAllAssignedClientsByProjectId(this.projectId).subscribe(
+    //   res => {
+    //     this.lstClientsByProjectId = res
+    //   }
+    // )
+    this.projectSiteservice.GetAllProjectSitesByProjectId(this.projectId).subscribe(
+      res=>{
+        this.sites=res,
+        console.log("this.sites",this.sites)
       }
     )
     this.requestService.GetAllRequestByProjectId(this.projectId).subscribe(e => {
@@ -158,16 +169,17 @@ export class ClientManagerRequestsComponent implements OnInit {
       this.lstReqStatus = e
     })
     this.reqPeriorityService.GetAllRequestPeriorties().subscribe(e => {
-      this.lstReqPeriorities = e
+      this.lstReqPeriorities = e,
+      this.reqObj.requestPeriorityId=4;
     })
     this.ReqSubCatService.GetAllSubCategorys().subscribe(e => {
       this.lstReqSubCategories = e
     })
-    this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
-      res => {
-        this.lstAssetsByProject = res
-      }
-    )
+    // this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
+    //   res => {
+    //     this.lstAssetsByProject = res
+    //   }
+    // )
     this.projectTeamService.GetProjectTeamsByProjectId(this.projectId).subscribe(e => {
       this.lstProjectTeams = e
       this.lstProjectTeams = e.reduce((unique, o) => {
@@ -214,10 +226,44 @@ export class ClientManagerRequestsComponent implements OnInit {
   
 
   }
+  onchangeSite(event)
+  {
+    this.lstAssetsSerialsByAsset=[];
+    this.lstClientsByProjectId=[];
+    this.lstAssetsSerialsByAsset=[];
+    this.lstAssetsByProject=[];
+    this.reqObj.clientId=0;
+    this.reqObj.assetId=0;
+    this.siteID=event.value
+    this.siteClientsService.GetAllAssignedClients(event.value,this.projectId).subscribe(    
+      res => {
+        this.lstClientsByProjectId = res,
+        console.log("this.lstClientsByProjectIdandSite",this.lstClientsByProjectId)
+      },
+      err => console.log(err)
+    )
+    this.projectSiteAssetService.GetAllProjectSiteAssetBySiteId(event.value,this.projectId).subscribe(
+      res => {
+        this.lstAssetsByProject = res;
+         for(let index=0;index<this.lstAssetsByProject.length;index++)
+         {
+           if(this.lstAssetsByProject[index].assetId===this.lstAssetsByProject[index+1].assetId)
+           {
+            this.lstAssetsByProject.splice(index,1)
+           }
+  
+         }    
+        console.log("assetsbyprojectandsite",this.lstAssetsByProject);
+          }
+    )
+   
+    
+  }
   onChange(event) {
     this.projectId = event.value
 
   }
+
   CloseStipper() {
     this.dialogAddRequest = false
   }
@@ -257,12 +303,18 @@ export class ClientManagerRequestsComponent implements OnInit {
   }
   onChangeAsset(event) {
     this.assetId = event.value
-    this.projectSiteAssetService.GetAllAssetsSerialsByAssetId(this.assetId).subscribe(
-      res => {
-        this.lstAssetsSerialsByAsset = res
+    // this.projectSiteAssetService.GetAllAssetsSerialsByAssetId(this.assetId).subscribe(
+    //   res => {
+    //     this.lstAssetsSerialsByAsset = res
+    //   }
+    // )
+    this.projectSiteAssetService.GetAllAssetsSerialsByProjectId(this.projectId,this.siteID,this.assetId).subscribe(
+      res=>{
+       this.lstAssetsSerialsByAsset = res,
+       console.log("this.lstAssetsSerialsByAsset",this.lstAssetsSerialsByAsset)
       }
     )
-
+    console.log("this.reqObj.projectSiteAssetIdiassettttttttt",this.projectSiteAssetId );
   }
   onChangeSerial(event) {
     this.projectSiteAssetId = event.value
@@ -323,12 +375,13 @@ export class ClientManagerRequestsComponent implements OnInit {
       createdBy: '', createdById: "", projectSiteAssetId: 0,
       requestTypeId: 0, serialNumber: '', sitename: '',
       id: 0, projectId: 0, projectName: '', requestCode: '',
-      requestName: '', requestPeriority: '', requestPeriorityId: 0,
+      requestName: '', requestPeriority: '', requestPeriorityId: 4,
       requestStatus: '', requestStatusId: 0, requestTime: new Date().getHours() + ':' + new Date().getMinutes(), requestDate: new Date(),
       requestSubCategoryId: 0, requestSubCategoryName: '', assetId: 0, clientId: 0,
       requestTypeName: '', description: '', requestModeId: 0, IsAssigned: false,
       IsSolved: false, RequestProblemObj: new RequestProblems, clientName: '', projectTeamId: 0, teamId: 0, teamName: ''
     }
+
     this.dialogAddRequest = true
   }
 }
