@@ -131,7 +131,7 @@
                 <div class="p-field col-md-3">
                     <label for="Project Manager" class="labelMarginRight" [translate]="'Tracker.Project Manager'">
                     </label><br>
-                    <p-dropdown [options]="lstEmployees" [(ngModel)]="projectObj.employeeId" [readonly]="IsDisabled"
+                    <p-dropdown [options]="EmplyeeWithRolePM" [(ngModel)]="projectObj.employeeId" [readonly]="IsDisabled"
                         [placeholder]="'Tracker.Project Manager' | translate" optionLabel="employeeName" optionValue="id">
                     </p-dropdown>
                 </div>

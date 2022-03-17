@@ -124,6 +124,8 @@ export class UpdateProjectComponent implements OnInit {
   ActualStartDate: string;
   planndedEndDate: string;
   ActualEndtDate: string;
+  UsersWithRolePM:User[]
+  EmplyeeWithRolePM:employee[]=[]
   minDate: Date;
   minplannedStartDate: Date = new Date();
   minActualStartDate: Date = new Date();
@@ -151,6 +153,7 @@ export class UpdateProjectComponent implements OnInit {
   ProjectSiteAssetId: any;
   warantryStartDate:string;
   startdateMile:string;
+  allEmps:employee[];
   enddateMile:string;
   lstRequstsByProjectSiteAsset: request[]
   serialNumber: any;
@@ -199,6 +202,10 @@ export class UpdateProjectComponent implements OnInit {
     this.lstOfStackholder = []
     this.lstOfMilestones = []
     this.lstoddocproj = []
+    this.allEmps=[]
+
+    this.UsersWithRolePM=[]
+    // this.EmplyeeWithRolePM=[]
     // this.lstOfProjectTeams = []
     this.lstSelectedClients = []
     this.lstAllSites = []
@@ -289,7 +296,39 @@ export class UpdateProjectComponent implements OnInit {
       },
       err => console.log(err)
     )
+   // debugger
+    this.userService.getAllUsers().subscribe(
+      res=>{
+        this.UsersWithRolePM=res,
+        
+        this.employeeService.GetAllEmployees().subscribe( 
+          data=>{
+            this.allEmps=data,
+           console.log("this.allEmps",this.allEmps)
+            this.UsersWithRolePM=this.UsersWithRolePM.filter(e=>e.roles==='PM');
+                console.log("this.UsersWithRolePM",this.UsersWithRolePM)
+                for(let x=0;x<this.UsersWithRolePM.length;x++)
+                {
+                   for(let i=0;i<this.allEmps.length;i++)
+                   {
+                      if(this.UsersWithRolePM[x].email===this.allEmps[i].email)
+                       {      
+                        //console.log("this.allEmps[i]",)
+                        // console.log("type",typeof(this.allEmps[i]));
+                        // console.log("type",typeof(this.allEmps[i].id));
+                        this.EmplyeeWithRolePM.push(this.allEmps[i]); 
+                      //  return;  
+                      
+                      }
+                  }
+                }
+                this.allEmps=this.EmplyeeWithRolePM;
+                console.log("this.EmplyeeWithRolePM",this.EmplyeeWithRolePM);
 
+              })
+                // console.log("this.EmplyeeWithRolePM",this.EmplyeeWithRolePM);
+      } 
+    )
     this.userService.getAllUsers().subscribe(
       data=>{
         this.users=data;
@@ -352,10 +391,11 @@ export class UpdateProjectComponent implements OnInit {
     )
     this.projectService.getProjectById(this.id).subscribe(res => {
       this.projectObj = res;
-
+      console.log(" this.projectObj", this.projectObj);
       // this.projectObj.planndedStartDate = res["PlanndedStartDate"];
       this.employeeService.getEmpByID(this.projectObj.employeeId).subscribe(res => {
         this.emploeeObj = res;
+       // console.log(" this.emploeeObj", this.emploeeObj);
       })
     })
     this.projectTypeService.GetAllProjectTypes().subscribe(

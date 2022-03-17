@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { employee } from '../Models/employee';
 import { User } from '../Models/User';
 
 @Injectable({
@@ -20,9 +21,9 @@ export class UsersService {
   {
     return this.httpClient.get<User[]>(`${environment.User}/users`,this.httpHeader);
   }
-  GetUnregisteredUsers():Observable<User[]>
+  GetUnregisteredUsers():Observable<employee[]>
   {
-    return this.httpClient.get<User[]>(`${environment.User}/users/GetUnregisteredUsers`,this.httpHeader);
+    return this.httpClient.get<employee[]>(`${environment.User}/users/GetUnregisteredUsers`,this.httpHeader);
   }
   GetUnregisteredUsersClient():Observable<User[]>
   {

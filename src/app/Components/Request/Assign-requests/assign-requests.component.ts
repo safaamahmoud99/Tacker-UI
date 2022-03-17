@@ -113,10 +113,21 @@ export class AssignRequestsComponent implements OnInit {
             this.requestObj = e
             this.requestObj.IsAssigned = true;
             this.requestObj.requestStatusId = 3  //Inprogress
-            this.requestservice.updateRequest(this.reqId, this.requestObj).subscribe(e => {
-              this.router.navigate(['home/AllManagersReq']);
-
-            })
+            if (this.role == "TL")
+            {
+              this.requestservice.updateRequest(this.reqId, this.requestObj).subscribe(e => {
+                this.router.navigate(['home/allTeamLeaderReqts']);
+  
+              })
+            }
+            else  
+            {
+              this.requestservice.updateRequest(this.reqId, this.requestObj).subscribe(e => {
+                this.router.navigate(['home/AllManagersReq']);
+  
+              })
+            }
+           
           })
         })
       })

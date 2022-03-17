@@ -140,7 +140,7 @@
                 <div class="p-field col-md-3">
                     <label for="Project Manager" class="labelMarginRight" [translate]="'Tracker.Project Manager'">
                     </label><br>
-                    <p-dropdown [options]="lstEmployees" [(ngModel)]="projectObj.employeeId"
+                    <p-dropdown [options]="allEmps" [(ngModel)]="projectObj.employeeId"
                         [placeholder]="'Tracker.Project Manager' | translate" optionLabel="employeeName"
                         optionValue="id">
                     </p-dropdown>

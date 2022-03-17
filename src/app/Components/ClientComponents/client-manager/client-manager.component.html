@@ -441,7 +441,7 @@
                       </div>
                       <div class="col-md-7"></div>
                       <div class="col-md-2">
-                        <button mat-stroked-button color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                        <button mat-stroked-button color="primary" (click)="getreq()" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
                       </div>
                   </div>
                   <br>
@@ -450,6 +450,7 @@
               <mat-step>
                 <ng-template matStepLabel>{{'Tracker.FINISH'|translate}}</ng-template>
                 <p>{{'Tracker.You are now done.'|translate}}</p>
+                <p>{{'Tracker.reqcode'|translate}} <span style="font-weight:bold;">{{reqcodee}}</span> </p>
                 <div class="row">
                     <div class="col-md-2">
                         <button mat-stroked-button color="primary" mat-button matStepperPrevious>{{'Tracker.Back'|translate}}</button>

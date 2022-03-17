@@ -19,6 +19,7 @@
         <a class="active pi pi-sitemap" routerLink='tabs'>
           {{ 'Tracker.Projects' | translate }}</a><br>
       </li>
+     
       <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO' ||role== 'Receptionist'" routerLinkActive="active">
         <!--  -->
         <a class="active" class="pi pi-ticket" routerLink='AllManagersReq'> {{ 'Tracker.Clients Requests' | translate}}
@@ -32,6 +33,10 @@
       <li *ngIf="role =='PM'" routerLinkActive="active">
         <a class="active" class="pi pi-users" routerLink='projectManagerDashboard'> {{ 'Tracker.DashBoard' |
           translate }}</a><br>
+      </li>
+      <li  *ngIf="role =='PM'||role== 'PMO'" routerLinkActive="active" >
+        <a class="active pi pi-sitemap" routerLink='projectsForProjectManager'>
+          {{ 'Tracker.Projects' | translate }} </a><br>
       </li>
       <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'||role =='PM'" routerLinkActive="active">
         <a class="active" class="pi pi-briefcase" routerLink='ProjectTypes'> {{ 'Tracker.All Project Types' | translate

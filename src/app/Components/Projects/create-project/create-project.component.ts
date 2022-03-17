@@ -100,6 +100,7 @@ export class CreateProjectComponent implements OnInit {
   diffDays: number;
   items: MenuItem[];
   users:User[];
+  allEmps:employee[];
   usersfil:User[]=[];
   emps:employee[]=[];
   activeIndex: number = 0;
@@ -142,6 +143,8 @@ export class CreateProjectComponent implements OnInit {
   enddateMile:string;
   isFound:boolean=false;
   existProject:project[];
+  EmplyeeWithRolePM:employee[]=[];
+  UsersWithRolePM:User[]=[];
   plannedStartdate: Date;
   ActualStartDate: Date;
   displayBasic:boolean;
@@ -250,12 +253,15 @@ export class CreateProjectComponent implements OnInit {
     this.lstOrigins = []
     this.lstBrand = []
     this.lstSites = []
+    this.UsersWithRolePM=[]
+    this.EmplyeeWithRolePM=[]
     this.selectedSitesColumns = []
     this.lstassets = []
     this.lstSuppliers = []
     this.lstOfStackholder = []
     this.lstOfMilestones = []
     this.lstoddocproj = []
+    this.allEmps=[]
     this.lstOfProjectTeams = []
     this.lstOfprojectPosition = []
     this.ProjectSitesObj = {
@@ -333,8 +339,31 @@ export class CreateProjectComponent implements OnInit {
       }
     )
     this.userService.getAllUsers().subscribe(
+      res=>{
+        this.UsersWithRolePM=res,
+        this.employeeService.GetAllEmployees().subscribe( 
+          data=>{
+            this.allEmps=data,
+            this.UsersWithRolePM=this.UsersWithRolePM.filter(e=>e.roles==='PM');
+                console.log("this.UsersWithRolePM",this.UsersWithRolePM)
+                for(let x=0;x<this.UsersWithRolePM.length;x++)
+                {
+                   for(let i=0;i<this.allEmps.length;i++)
+                   {
+                      if(this.UsersWithRolePM[x].email==this.allEmps[i].email)
+                      {         
+                        this.EmplyeeWithRolePM.push(this.allEmps[i]);        
+                      }
+                  }
+               }
+               console.log("this.EmplyeeWithRolePM",this.EmplyeeWithRolePM);
+          }
+        )
+      } 
+    )
+    this.userService.getAllUsers().subscribe(
       data=>{
-        this.users=data;
+        this.users=data
       },
       error=>console.log(error)
       );
@@ -345,9 +374,12 @@ export class CreateProjectComponent implements OnInit {
     this.employeeService.GetAllEmployees().subscribe(
       res => {
         this.lstEmployees = res
+       // this.EmplyeeWithRolePM=res
+
       },
       err => console.log(err)
     )
+   
     this.projectTypeService.GetAllProjectTypes().subscribe(
       data => { this.lstProjectTypes = data },
       err => console.log(err)
@@ -377,8 +409,26 @@ export class CreateProjectComponent implements OnInit {
       err => console.log(err)
     )
     this.LOadPro();
+    
   }
 
+// getEmpsWithRolePM()
+// {
+//     this.UsersWithRolePM=this.users.filter(e=>e.roles==='PM');
+//     console.log("this.UsersWithRolePM",this.UsersWithRolePM)
+//     for(let x=0;x<this.UsersWithRolePM.length;x++)
+//     {
+//        for(let i=0;i<this.lstEmployees.length;i++)
+//        {
+//           if(this.UsersWithRolePM[x].email==this.lstEmployees[i].email)
+//           {         
+//             this.EmplyeeWithRolePM.push(this.lstEmployees[i]);        
+//           }
+//       }
+//    }
+//    console.log("this.EmplyeeWithRolePM",this.EmplyeeWithRolePM);
+// }
+ 
   LOadPro()
   {
     this.projectService.GetAllProjects().subscribe(

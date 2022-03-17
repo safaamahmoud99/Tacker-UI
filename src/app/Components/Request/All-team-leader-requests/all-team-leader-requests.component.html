@@ -37,6 +37,15 @@
                 <th>{{'Tracker.Project Name'|translate}}
                     <p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
                 </th>
+                <th> {{'Tracker.Site'|translate}}
+                    <p-columnFilter type="text" field="sitename" display="menu"></p-columnFilter>
+                </th>
+                <th> {{'Tracker.Asset'|translate}}
+                    <p-columnFilter type="text" field="assetName" display="menu"></p-columnFilter> 
+                </th>
+                <th style="padding: 0%;"> {{'Tracker.Serial'|translate}}
+                    <p-columnFilter type="text" field="serialNumber" display="menu"></p-columnFilter>
+                </th>
                 <th>{{'Tracker.Date'|translate}}
                     <p-columnFilter type="text" field="requestDate" display="menu"></p-columnFilter>
                 </th>
@@ -59,6 +68,9 @@
             <tr>
                 <td>{{request.requestName}}</td>
                 <td>{{request.projectName}}</td>
+                <td>{{request.sitename}}</td>
+                <td>{{request.assetName}}</td>
+                <td>{{request.serialNumber }}</td>
                 <td>
                     <!-- {{request.requestTime | slice:0:5}} -->
                     {{request.requestDate | date:'dd/MM/yyyy h:mm:ss a'}}

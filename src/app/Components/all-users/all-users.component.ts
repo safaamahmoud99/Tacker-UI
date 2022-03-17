@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { employee } from 'src/Shared/Models/employee';
 import { User } from 'src/Shared/Models/User';
 import { ClientService } from 'src/Shared/Services/client.service';
 import { EmployeeService } from 'src/Shared/Services/employee.service';
@@ -13,12 +14,14 @@ import { UsersService } from 'src/Shared/Services/users.service';
 export class AllUsersComponent implements OnInit {
 
   users:User[];
-  GetUnregisteredUsers:any;
+  GetUnregisteredUsers:employee[];
   GetUnregisteredClients:any;
   NewUser:User;
-  AllEmployees: any;
+  AllEmployees: employee[];
   AllClients:any;
   clientId:any;
+  selectedEmp:any;
+  selectedClient:any;
   NewLeaveDialogbool:boolean;
   NewclientDialogbool:boolean;
   displayBasic: boolean;
@@ -27,35 +30,37 @@ export class AllUsersComponent implements OnInit {
     private confirmationService: ConfirmationService,private messageService: MessageService
     ) { 
     this.NewUser={id:0,email:'',roles:'',userName:'',password:'P@ssw0rd',name:''};
-  }
+    }
 
   ngOnInit(): void {
   this.clientId= localStorage.getItem('clientId');
+  this.selectedEmp = undefined;
+  this.selectedClient=undefined;
     this.userService.getAllUsers().subscribe(
       data=>{
         this.users=data;
       },
       error=>console.log(error)
       );
-      this.EmpService.GetAllEmployees().subscribe(
+    this.EmpService.GetAllEmployees().subscribe(
         data=>{
           this.AllEmployees=data;
         },
         error=>console.log(error)
         );
-        this.clientService.GetAllClients().subscribe(
+    this.clientService.GetAllClients().subscribe(
           data=>{
             this.AllClients=data;
           },
           error=>console.log(error)
           );
 
-        this.userService.GetUnregisteredUsers().subscribe(
+    this.userService.GetUnregisteredUsers().subscribe(
           data=>this.GetUnregisteredUsers=data,
           error=>console.log(error)
         )
         
-        this.userService.GetUnregisteredUsersClient().subscribe(
+    this.userService.GetUnregisteredUsersClient().subscribe(
           data=>this.GetUnregisteredClients=data,
           error=>console.log(error)
         )
@@ -65,22 +70,49 @@ export class AllUsersComponent implements OnInit {
   {
     // if(this.NewUser.role!='Client')
     // {
-    //    this.NewUser.role='Client';  
-       
+    //    this.NewUser.role='Client';       
     // } 
-    this.userService.addUser(this.NewUser).subscribe(
-      data=>this.ngOnInit()
-    )
+    if(this.NewUser.roles!='' &&this.NewUser.email!='')
+    {
+      this.userService.addUser(this.NewUser).subscribe(
+        data=>this.ngOnInit()    
+      )
+    this.messageService.add({ key :'sc',severity:'success', summary: 'Success', detail: 'User Success Added'});
     this.NewLeaveDialogbool=false;
     // this.NewclientDialogbool=false;
+    this.NewUser={id:0,email:'',roles:'',userName:'',password:'P@ssw0rd',name:''};
+     
+    }
+    else
+    {
+      this.messageService.add({key :'er',severity:'error', summary: 'Error', detail: 'PLZ Complete data'});
+    }
+
+ 
   }
   addNewClient()
   {   
     //  this.NewUser.role='Client';
-     this.userService.addUser(this.NewUser).subscribe(
-     data=>this.ngOnInit()
-    )
-    this.NewclientDialogbool=false;
+    //  this.userService.addUser(this.NewUser).subscribe(
+    //  data=>this.ngOnInit()
+    // )
+    // this.NewclientDialogbool=false;
+    if(this.NewUser.roles!='' &&this.NewUser.email!='')
+    {
+      this.userService.addUser(this.NewUser).subscribe(
+        data=>this.ngOnInit()
+      )
+      this.messageService.add({ key :'sc',severity:'success', summary: 'Success', detail: 'User Success Added'});
+      this.NewclientDialogbool=false;
+     this.NewclientDialogbool=false;
+    this.NewUser={id:0,email:'',roles:'',userName:'',password:'P@ssw0rd',name:''};
+     
+    }
+    else
+    {
+      this.messageService.add({key :'er',severity:'error', summary: 'Error', detail: 'PLZ Complete data'});
+    }
+
   }
   NewUserDialog()
   {
@@ -99,7 +131,9 @@ export class AllUsersComponent implements OnInit {
         this.NewUser.name=element.employeeName;
         this.NewUser.userName=element.email;
       }
+ 
     });
+    
   }
 
   onChangeclient(event){

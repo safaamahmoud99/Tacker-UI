@@ -80,6 +80,7 @@ export class ClientManagerComponent implements OnInit {
   lstAssetsByProject: ListProjectSiteAssetClients[]
   lstRequestDesc: requestDescription[]
   reqImages: RequestImage[]
+  reqcodee:string;
   
   modetarnsalte = this.translate.get('Select Mode');
   lstRequestMode: Array<{ id: number, mode: string }> = [
@@ -106,6 +107,7 @@ export class ClientManagerComponent implements OnInit {
   NewclientDialogbool: boolean;
   createdById: string;
   siteID:any;
+  ProIdd:any;
   constructor(private route: Router, private projectteamservice: ProjectTeamService,
     private projectdocumentsservice: ProjectDocumentService, private requestService: RequestService,
     private messageService: MessageService, private confirmationService: ConfirmationService,private httpClient: HttpClient,
@@ -208,12 +210,11 @@ export class ClientManagerComponent implements OnInit {
   PreviousStep() {
     this.activeIndex = this.activeIndex - 1
   }
-  CloseStipper()
-  {
-    this.dialogAddRequest=false
-  }
+ 
   ShowRequets(projectId) {
+
     this.projectId=projectId
+   this.ProIdd=projectId
     console.log("projectId", projectId)
     this.requestService.GetAllRequestByProjectId(projectId).subscribe(e => {
       this.lstRequests = e
@@ -223,7 +224,8 @@ export class ClientManagerComponent implements OnInit {
       //   this.clientName = element.clientName
       // });
     })
-  }
+  } 
+
   showAllProjectDetails(projectID: number) {
     console.log(projectID)
   }
@@ -281,13 +283,14 @@ export class ClientManagerComponent implements OnInit {
       this.project1.listOfdocuments = this.documents;
     }), err => console.log(err)
 
-   console.log("project1",this.project1);
+   console.log("project1IIII456",Projectid);
     this.displayMaximizable = true;
   }
   GetProjectTeamId(TeamId) {
     this.projectteamservice.GetProjectTeamByProjectIdAndTeamIdAndProjectPositionId(this.projectId, TeamId.value)
       .subscribe(e => {
         this.ProjId = e.id
+        this.ProIdd=this.projectId
         this.reqObj.projectTeamId = this.ProjId
       })
   }
@@ -310,9 +313,11 @@ export class ClientManagerComponent implements OnInit {
         this.reqDescriptionObj.description = this.reqObj.description
         this.requestDescriptionService.AddRequestDescription(this.reqDescriptionObj).subscribe(e => {
           this.reqImage.requestId = Number(this.reqId) ;
-          this.IsSaveProject = true
-          this.ShowRequets(this.reqObj.projectId);
+          this.IsSaveProject = true;
+          console.log("projectIdINtEQUEST",this.reqObj.projectId)
+        //  this.ShowRequets(this.ProIdd);
           this.messageService.add({ key: 'tr',severity: 'success', summary: 'Success', detail: 'Request Added Successfully' });
+          console.log("this.ProId=",this.ProIdd);
         })
       })
       this.disabledButton = true
@@ -324,8 +329,31 @@ export class ClientManagerComponent implements OnInit {
 
   }
 
+  getreq()
+  {
+      this.requestService.GetRequestByRequestId(Number(this.reqId)).subscribe( 
+        re=>{
+        this.reqcodee=re.requestCode,
+        console.log("e.requestCode",re);
+        }
+      )
+  }
+  CloseStipper()
+  {
+    
+      this.dialogAddRequest=false
+      console.log("this.reqObj.projectId)",this.reqObj.projectId);
+      this.requestService.GetAllRequestByProjectId(this.ProIdd).subscribe(e => {
+      this.lstRequests = e,
+      this.IsSaveProject=false;
+      this.disabledButton=false;
+      console.log("lstRequests", this.lstRequests)
 
-
+      // this.lstRequests.forEach(element => {
+      //   this.clientName = element.clientName
+      // });
+    })
+  }
 
 
   // getprojId(id:number){
@@ -387,6 +415,9 @@ export class ClientManagerComponent implements OnInit {
     //     this.lstClientsByProjectId = res
     //   }
     // )
+    this.lstRequestImages=[];
+    this.lstAssetsSerialsByAsset=[];
+    this.lstAssetsByProject =[];
     this.projectSiteAssetService.GetAllProjectSiteAssetByProjectId(this.projectId).subscribe(
       res => {
         this.listProjectSiteAssetClients = res

@@ -1,8 +1,10 @@
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <p-toast></p-toast>
 <p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-left" key="tr"></p-toast>
 <p-toast position="top-center" key="tc"></p-toast>
 <p-toast position="bottom-center" key="bc"></p-toast>
+<p-toast key="sc" ></p-toast>
 
 <p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
     <ng-template let-message pTemplate="message">
@@ -25,6 +27,7 @@
 </p-toast>
 <br>
 <div class="card container">
+    
     <h1 [translate]="'Tracker.System Users'" style="margin-bottom: 20px;margin-left:20px; font-size: 2em;color: #2674a8;"></h1>
 
     <!-- <h2 style="text-align: center;"> {{ 'Tracker.System Users' | translate }}</h2> -->
@@ -64,14 +67,18 @@
 </div>
 
 <form #frm="ngForm" (ngSubmit)="addNewUser()">
+    
     <p-dialog header=" " [(visible)]="NewLeaveDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
+        <p-toast key="er" [baseZIndex]="100000"></p-toast>
+       
         <h1 [translate]="'Tracker.Add Employee as a User'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
 
         <div class="row">
             <span class="col-md-3" for="employee">{{ 'Tracker.Employee Name' | translate }}</span>
-            <select (change)="onChange($event.target.value)" name="employee" class="form-control col-md-6">Employee
-                <option value="" selected disabled hidden><span>{{ 'Tracker.Employee Name' | translate }}</span>
-                </option>
+            <select (change)="onChange($event.target.value)" [(ngModel)]="selectedEmp"  name="employee" class="form-control col-md-6">Employee
+                <!-- <option value='' selected disabled  ><span>{{ 'Tracker.Employee Name' | translate }}</span>
+                </option> -->
+                <option [ngValue]="undefined" disabled selected><span>{{ 'Tracker.Employee Name' | translate }}</span></option>
                 <option *ngFor="let item of GetUnregisteredUsers" value="{{item.id}}">{{item.employeeName}}</option>
             </select>
         </div>
@@ -162,12 +169,13 @@
 </form>
 <form #frm2="ngForm" (ngSubmit)="addNewClient()">
     <p-dialog header=" " [(visible)]="NewclientDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
+        <p-toast key="er" [baseZIndex]="100000"></p-toast>
         <h1 [translate]="'Tracker.Add Client as a User'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
 
         <div class="row">
             <span class="col-md-3" for="Client">{{ 'Tracker.Client' | translate }}</span>
-            <select (change)="onChangeclient($event.target.value)" name="Client" class="form-control col-md-6">Employee
-                <option value="" selected disabled hidden><span> {{ 'Tracker.Client Name' | translate }}</span></option>
+            <select (change)="onChangeclient($event.target.value)" [(ngModel)]="selectedClient" name="Client" class="form-control col-md-6">Employee
+                <option [ngValue]="undefined" selected disabled ><span> {{ 'Tracker.Client Name' | translate }}</span></option>
                 <option *ngFor="let item of GetUnregisteredClients" value="{{item.id}}">{{item.clientName}}</option>
             </select>
         </div>

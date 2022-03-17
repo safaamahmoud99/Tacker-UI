@@ -93,6 +93,7 @@ export class ClientManagerRequestsComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   createdById: string;
+  reqcodee:string;
   constructor(private requestService: RequestService, private requestDescriptionService: RequestDescriptionService,
     private activeRoute: ActivatedRoute, private translate: TranslateService, private reqPeriorityService: RequestPeriorityService,
     private reqStatusService: RequestStatusService, private reqTypeService: RequestTypeService, private ReqAssetService: AssetService,
@@ -266,6 +267,9 @@ export class ClientManagerRequestsComponent implements OnInit {
 
   CloseStipper() {
     this.dialogAddRequest = false
+    this.IsSaveProject=false;
+    this.disabledButton=false;
+    this.ngOnInit();
   }
   AddRequest() {
     this.messageService.clear();
@@ -300,6 +304,15 @@ export class ClientManagerRequestsComponent implements OnInit {
       this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
     }
 
+  }
+  getreq()
+  {
+      this.requestService.GetRequestByRequestId(Number(this.reqId)).subscribe( 
+        re=>{
+        this.reqcodee=re.requestCode,
+        console.log("e.requestCode",re);
+        }
+      )
   }
   onChangeAsset(event) {
     this.assetId = event.value
@@ -371,6 +384,10 @@ export class ClientManagerRequestsComponent implements OnInit {
     window.open(filePath);
   }
   OpendialogAddRequest() {
+    this.lstAssetsSerialsByAsset=[];
+    this.lstClientsByProjectId=[];
+    this.lstAssetsSerialsByAsset=[];
+    this.lstAssetsByProject=[];
     this.reqObj = {
       createdBy: '', createdById: "", projectSiteAssetId: 0,
       requestTypeId: 0, serialNumber: '', sitename: '',

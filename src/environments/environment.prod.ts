@@ -114,7 +114,11 @@ export const environment = {
   GetProjectsByClientId: 'http://10.10.0.129/TrackerAPI/api/project/GetProjectsByClientId/',
   GetAllRequestByProjectSiteAssetId:'http://10.10.0.129/TrackerAPI/api/Request/GetAllRequestByProjectSiteAssetId/',
   GetProjectSiteAssetBySerialNumber:'http://10.10.0.129/TrackerAPI/api/ProjectSiteAsset/GetProjectSiteAssetBySerialNumber',
-
+  getCitiesbygovid:'http://10.10.0.129/TrackerAPI/api/Cities/Getgovbycity/',
+  Cities:'http://10.10.0.129/TrackerAPI/api/Cities',
+  Governorates:'http://10.10.0.129/TrackerAPI/api/Governorates',
+  GetAllAssignesitesbyclient:'http://10.10.0.129/TrackerAPI/api/SiteClients/GetAllAssignesitesbyclient',
+  GetAllAssetsSerialsByProjectId:'http://10.10.0.129/TrackerAPI/api/ProjectSiteAsset/GetAllAssetsSerialsbyProject',
  
  
  
