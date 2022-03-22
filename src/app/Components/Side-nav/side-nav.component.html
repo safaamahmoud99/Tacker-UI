@@ -25,6 +25,7 @@
         <a class="active" class="pi pi-ticket" routerLink='AllManagersReq'> {{ 'Tracker.Clients Requests' | translate}}
         </a><br>
       </li>
+     
       <!-- 
       <li *ngIf="role=='SuperAdmin'">
         <a class="active" class="pi pi-globe" routerLink='organization'> {{ 'Tracker.Add Organization' | translate
@@ -37,6 +38,12 @@
       <li  *ngIf="role =='PM'||role== 'PMO'" routerLinkActive="active" >
         <a class="active pi pi-sitemap" routerLink='projectsForProjectManager'>
           {{ 'Tracker.Projects' | translate }} </a><br>
+      </li>
+       
+      <li routerLinkActive="active" *ngIf="role =='PM'">
+        <!--  -->
+        <a class="active" class="pi pi-ticket" routerLink='projectmanagerRequests'> {{ 'Tracker.Clients Requests' | translate
+          }}</a><br>
       </li>
       <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'||role =='PM'" routerLinkActive="active">
         <a class="active" class="pi pi-briefcase" routerLink='ProjectTypes'> {{ 'Tracker.All Project Types' | translate
@@ -51,11 +58,11 @@
         <a class="active" class="pi pi-book" routerLink='DisplayCategories'> {{ 'Tracker.Client Requests Category' |
           translate }}</a><br>
       </li>
-       <li *ngIf="role =='PM'" routerLinkActive="active">
+       <!-- <li *ngIf="role =='PM'" routerLinkActive="active">
         <a class="active" class="pi pi-users" routerLink='allclientsforprojectmanager'> {{ 'Tracker.Client' |
           translate }}</a><br>
       </li>
-      
+       -->
 
       <li *ngIf="role=='SuperAdmin'" routerLinkActive="active">
         <a class="active" class="pi pi-table" routerLink='DisplayDepartments'> {{ 'Tracker.All Departments' | translate

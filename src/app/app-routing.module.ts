@@ -84,7 +84,7 @@ const routes: Routes = [
       { path: 'ProjectTypes', component: ProjectTypeComponent,canActivate:[basic] , data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO,Roles.PM]}},
       { path: 'addProjectType', component: AddProjectTypeComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
       { path: 'editProjectType/:id', component: EditProjectTypeComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
-      { path: 'Requests', component: CreateRequesteComponent ,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Receptionist,Roles.Admin,Roles.PMO]}},
+      { path: 'Requests', component: CreateRequesteComponent ,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Receptionist,Roles.Admin,Roles.PMO,Roles.PM]}},
       { path: 'allTeamLeaderReqts', component: AllTeamLeaderRequestsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.TL]} },  // data: { roles: ['SuperAdmin', 'Admin', 'Registration'] }
       { path: 'createProject', component: CreateProjectComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO]}},
       { path: 'updateproject/:id', component: UpdateProjectComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO]}},
@@ -92,7 +92,7 @@ const routes: Routes = [
       { path: 'DisplayAllClients', component: DisplayAllClientsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO]}},
       { path: 'AllManagersReq', component: AllManagerRequestsComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO,Roles.Receptionist]} },
       { path: 'AllClientsReq', component: ClientCreateRequestComponent,canActivate:[basic],data:{roles:[Roles.SuperAdmin]} },
-      { path: 'assignReq/:reqId', component: AssignRequestsComponent,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.TL]} },
+      { path: 'assignReq/:reqId', component: AssignRequestsComponent,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.TL,Roles.PM]} },
       { path: 'employee', component: DisplayAllEmployeesComponent,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
       { path: 'addemployee', component: AddEmployeeComponent,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.Admin]}},
       { path: 'profile', component: ProfileComponent,canActivate:[basic], data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.PMO,Roles.PM,Roles.TL,Roles.ClientManager,Roles.Client,Roles.Employee,Roles.Receptionist]} },

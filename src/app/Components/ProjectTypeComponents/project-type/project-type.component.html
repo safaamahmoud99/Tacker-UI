@@ -93,7 +93,7 @@
 </p-dialog>
 <form>
     <p-dialog [(visible)]="Editboolean" [style]="{width: '50vw'}" [baseZIndex]="10000">
-        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Update ProjectType</h1>
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;" [translate]="'Tracker.Update ProjectType'"></h1>
         <div class="col-md-6">
             <label for="name" [translate]="'Tracker.Project Type Name'"></label>
             <input type="text" #ProjectType="ngModel"
@@ -106,8 +106,8 @@
         </div>
         <ng-template pTemplate="footer">
             <p-button (onClick)="update(ProjectTypeObj.id)" type="submit" icon="pi pi-check" styleClass="p-button-text">
-                Submit</p-button>
-            <p-button icon="pi pi-times" (click)="Editboolean=false">Cancel</p-button>
+                {{'Tracker.Submit' | translate}}</p-button>
+            <p-button icon="pi pi-times" (click)="Editboolean=false"> {{'Tracker.Cancel' | translate}} </p-button>
         </ng-template>
 
     </p-dialog>
@@ -115,7 +115,7 @@
 
 <form #frm="ngForm">
     <p-dialog [(visible)]="NewDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
-        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Add  ProjectType</h1>
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;" [translate]="'Tracker.Add ProjectType'"></h1>
         <div class="p-inputgroup">
             <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
             <input #typeName="ngModel" [class.is-invalid]="typeName.invalid && typeName.touched"
@@ -127,9 +127,9 @@
             [translate]="'Tracker.messege'" class="text-danger"></small>          
         <ng-template pTemplate="footer">
             <p-button   [disabled]="frm.invalid"  (onClick)="add()" type="submit" icon="pi pi-check"
-                styleClass="p-button-text">Submit
+                styleClass="p-button-text">{{'Tracker.Submit'| translate }}
             </p-button>
-            <p-button icon="pi pi-times" (click)="NewDialogbool=false">Cancel</p-button>
+            <p-button icon="pi pi-times" (click)="NewDialogbool=false">{{'Tracker.Cancel' | translate}}</p-button>
         </ng-template>
 
     </p-dialog>

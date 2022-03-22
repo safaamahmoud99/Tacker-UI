@@ -30,16 +30,16 @@
                 <p-listbox [options]="categories" [filter]="true" optionLabel="name"
                     optionValue="id">
                            <ng-template let-cate pTemplate="item">
-                                <div style="font-size:14px;float:left;margin:7px 5px 0 0;width: 10%;" (click)="filterSubCategoriesByCategoryId(cate.id)">
+                                <div style="font-size:14px;float:left;margin:7px 5px 0 0;width: 15%;" (click)="filterSubCategoriesByCategoryId(cate.id)">
                                     {{cate.categoryName}}
                                 </div>
                                 <div style="float: right; margin: 0px 200px;">
                                     <span (click)="editCategory(cate.id)" pTooltip="Edit Category" tooltipPosition="bottom"
-                                    class="p-button-icon pi pi-pencil" style="color: #2f86d6;">
+                                    class="p-button-icon pi pi-pencil" style="color: #2f86d6;margin: 0px 10px;">
                                     </span>
             
                                     <span (click)="confirmDelete(cate.id,cate.categoryName,'cat')" pTooltip="Delete Category" tooltipPosition="bottom"
-                                    class="p-button-icon pi pi-times" style="color: #fe7f83; cursor: pointer;">
+                                    class="p-button-icon pi pi-times" style="color: #fe7f83; cursor: pointer;margin: 0px 10px;">
                                     </span>
                                 </div>
                             </ng-template>

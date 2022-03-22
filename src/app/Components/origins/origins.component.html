@@ -40,16 +40,16 @@
                 </div>
                 <div class="col-md-2">
                     <button id="addEmpBtn" (click)="NewDialog()" class="btn btn-outline-primary btn-md btn-block">
-                        <span class="pi pi-plus">Add</span> </button>
+                        <span class="pi pi-plus" [translate]="'Tracker.Add'"></span> </button>
                 </div>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="height: 5px !important; ">
-                <th pSortableColumn="originName"><span>Origin Name</span>
+                <th pSortableColumn="originName"><span [translate]="'Tracker.Origin Name'"></span>
                     <p-sortIcon field="originName"></p-sortIcon>
                 </th>
-                <th>Controls</th>
+                <th [translate]="'Tracker.Controls'"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-Origin>
@@ -69,25 +69,25 @@
 </div>
 
 <p-dialog [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="10000">
-    <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Origin Details</h1>
+    <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;" [translate]="'Tracker.Origin Details'" > </h1>
     <tr class=" form-control">
-        <th><span style="margin-right: 20px;">Origin Name : </span></th>
+        <th><span style="margin-right: 20px;"[translate]="'Tracker.Origin Name'"></span>:</th> 
         <td>{{OriginsObj.originName}}</td>
     </tr>
 </p-dialog>
 
 <form>
     <p-dialog [(visible)]="Editboolean" [style]="{width: '50vw'}" [baseZIndex]="10000">
-        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Update Origin</h1>
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;" [translate]="'Tracker.Update Origin'"></h1>
         <div class="row">
-            <span class="col-md-4" for="time">Origin Name</span>
+            <span class="col-md-4" for="time" [translate]="'Tracker.Origin Name'" ></span>
             <input name="originName" pInputText type="text" class="col-md-6 form-control"
                 [(ngModel)]="OriginsObj.originName" inputId="date">
         </div>
         <ng-template pTemplate="footer">
             <p-button (onClick)="update(OriginsObj.id)" type="submit" icon="pi pi-check"
-                styleClass="p-button-text">Submit</p-button>
-            <p-button icon="pi pi-times" (click)="Editboolean=false">Cancel</p-button>
+                styleClass="p-button-text">{{'Tracker.Submit' | translate}}</p-button>
+            <p-button icon="pi pi-times" (click)="Editboolean=false">{{'Tracker.Cancel' | translate}}</p-button>
         </ng-template>
 
     </p-dialog>
@@ -95,17 +95,17 @@
 
 <form #frm="ngForm" (ngSubmit)="onsubmit()" >
     <p-dialog [(visible)]="NewDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
-        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Add Origin</h1>
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;" [translate]="'Tracker.Add Origin'"></h1>
         <div class="row">
-            <span class="col-md-4" for="time">Origin Name</span>
+            <span class="col-md-4" for="time" [translate]="'Tracker.Origin Name'"></span>
             <input name="originName" pInputText type="text" class="col-md-6 form-control"
                 [(ngModel)]="OriginsObj.originName" inputId="date">
         </div>
         <ng-template pTemplate="footer">
             <p-button (onClick)="add()" [disabled]="frm.invalid" type="submit" icon="pi pi-check"
-                styleClass="p-button-text">Submit
+                styleClass="p-button-text">{{'Tracker.Submit' | translate}}
             </p-button>
-            <p-button icon="pi pi-times" (click)="NewDialogbool=false">Cancel</p-button>
+            <p-button icon="pi pi-times" (click)="NewDialogbool=false">{{'Tracker.Cancel' | translate}}</p-button>
         </ng-template>
 
     </p-dialog>

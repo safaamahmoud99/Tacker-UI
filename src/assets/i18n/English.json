@@ -256,6 +256,20 @@
     "EitSubCategory":"Eit Sub Category",
     "Reset":"reset",
     "Add Hospital":"Add Site ",
-    "Update Hospital":"Update Site "
+    "Update Hospital":"Update Site ",
+    "Client Manager":"Client Manager",
+    "Clientt":"Client",
+    "Origin Details":"Origin Details",
+    "Update Origin":"Update Origin",
+    "Add Origin":"Add Origin",
+    "Supplier Details":"Supplier Details",
+    "Update Supplier":"Update Supplier",
+    "Add Supplier":"Add Supplier",
+    "Add Brand":"Add Brand",
+    "Update Brand":"Update Brand",
+    "Brand Details":"Brand Details",
+    "Add ProjectType":"Add  ProjectType",
+    "Update ProjectType":"Update ProjectType",   
+    "Update Asset":"Update Asset"
   }
 }

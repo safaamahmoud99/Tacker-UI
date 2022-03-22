@@ -92,10 +92,10 @@ export class ProjectmangerRequestsComponent implements OnInit {
     this.lstRequests = []
     this.reqImages = []
 
-    this.requestService.GetAllRequests().subscribe(e => {
-      this.lstRequests = e
-      //console.log(this.lstRequests)
-    })
+    // this.requestService.GetAllRequests().subscribe(e => {
+    //   this.lstRequests = e
+    //   //console.log(this.lstRequests)
+    // })
     this.reqDescriptionObj = {descriptionDate:new Date(),
       description: '', id: 0, requestId: 0, userId: this.LoggedInUserString
     }

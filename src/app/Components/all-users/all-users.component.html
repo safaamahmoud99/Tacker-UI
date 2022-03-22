@@ -51,7 +51,7 @@
                 <th> {{ 'Tracker.UserName' | translate }}</th>
                 <th> {{ 'Tracker.Email' | translate }}</th>
                 <th> {{ 'Tracker.Role' | translate }}</th>
-                <th></th>
+                <th [translate]="'Tracker.Controls'"> </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-customer>
@@ -59,7 +59,7 @@
                 <td>{{customer.userName}}</td>
                 <td>{{customer.email}}</td>
                 <td>{{customer.roles}}</td>
-                <td><span (click)="confirm(customer.id)" class="p-button-icon pi pi-times" style="display: flex; color:red">
+                <td><span (click)="confirm(customer.id)" class="p-button-icon pi pi-times" style="color:red">
                 </span></td>
             </tr>
         </ng-template>
@@ -105,51 +105,52 @@
                 <div class="row">
                     <div class="form-check radio">
                         <input checked [(ngModel)]="NewUser.roles" class="form-check-input" type="radio"
-                            name="exampleRadios" id="exampleRadios2" value="SuperAdmin">
+                            name="exampleRadios" id="exampleRadios2" value="SuperAdmin"> &nbsp;
                         <label class="form-check-label" for="exampleRadios2">
                             {{ 'Tracker.SuperAdmin' | translate }}
                         </label>
                     </div>
                     <div class="form-check radio">
                         <input [(ngModel)]="NewUser.roles" class="form-check-input" type="radio" name="exampleRadios"
-                            id="exampleRadios1" value="Admin">
+                            id="exampleRadios1" value="Admin">&nbsp;
                         <label class="form-check-label" for="exampleRadios1">
                             {{ 'Tracker.Admin' | translate }}
                         </label>
                     </div>
                     <div class="form-check radio">
                         <input [(ngModel)]="NewUser.roles" class="form-check-input" type="radio" name="exampleRadios"
-                            id="exampleRadios1" value="PMO">
+                            id="exampleRadios1" value="PMO">&nbsp;
                         <label class="form-check-label" for="exampleRadios1">
                             {{ 'Tracker.PMO' | translate }}
                         </label>
                     </div>
                     <div class="form-check radio">
                         <input [(ngModel)]="NewUser.roles" class="form-check-input" type="radio" name="exampleRadios"
-                            id="exampleRadios1" value="PM">
+                            id="exampleRadios1" value="PM">&nbsp;
                         <label class="form-check-label" for="exampleRadios1">
                             {{ 'Tracker.PM' | translate }}
                         </label>
-                    </div>
+                    </div> 
                 </div>
                 <div class="row">
+                   
                     <div class="form-check radio">
                         <input [(ngModel)]="NewUser.roles" class="form-check-input" type="radio" name="exampleRadios"
-                            id="exampleRadios1" value="TL">
+                            id="exampleRadios1" value="TL">&nbsp;
                         <label class="form-check-label" for="exampleRadios1">
                             {{ 'Tracker.TL' | translate }}
                         </label>
                     </div>
                     <div class="form-check radio">
                         <input checked [(ngModel)]="NewUser.roles" class="form-check-input" type="radio"
-                            name="exampleRadios" id="exampleRadios2" value="Employee">
+                            name="exampleRadios" id="exampleRadios2" value="Employee">&nbsp;
                         <label class="form-check-label" for="exampleRadios2">
                             {{ 'Tracker.Employee' | translate }}
                         </label>
                     </div>
                     <div class="form-check radio">
                         <input [(ngModel)]="NewUser.roles" class="form-check-input" type="radio" name="exampleRadios"
-                            id="exampleRadios1" value="Receptionist">
+                            id="exampleRadios1" value="Receptionist">&nbsp;
                         <label class="form-check-label" for="exampleRadios1">
                             {{ 'Tracker.Receptionist' | translate }}
                         </label>
@@ -196,24 +197,24 @@
         </div>
         <br>
         <div class="row">
-             <span class="col-md-3" >Role</span>
+            <span class="col-md-3">{{ 'Tracker.Role' | translate }}</span>
             <br>
             <div class="p-field-radiobutton">
             <div class="form-check radio">
                 <div class="row">
                     <input checked [(ngModel)]="NewUser.roles" class="form-check-input" type="radio" name="exampleRadios"
-                     id="exampleRadiosClient" value="Client">
+                     id="exampleRadiosClient" value="Client">&nbsp;&nbsp;
                     <label class="form-check-label" for="exampleRadiosClient">
-                        Client
+                        {{ 'Tracker.Clientt' | translate }}
                     </label>
                 </div>
             </div> 
             <div class="form-check radio">
                 <div class="row">
                     <input checked [(ngModel)]="NewUser.roles" class="form-check-input" type="radio" name="exampleRadios"
-                     id="exampleRadiosClientManager" value="ClientManager">
+                     id="exampleRadiosClientManager" value="ClientManager">&nbsp;&nbsp;
                     <label class="form-check-label" for="exampleRadiosClientManager">
-                        ClientManager
+                        {{ 'Tracker.Client Manager' | translate }}
                     </label>
                 </div>
             </div> 

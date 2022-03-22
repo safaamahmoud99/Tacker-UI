@@ -120,6 +120,13 @@ export class AssignRequestsComponent implements OnInit {
   
               })
             }
+            else if (this.role=="PM")
+            {
+              this.requestservice.updateRequest(this.reqId, this.requestObj).subscribe(e => {
+                this.router.navigate(['home/projectmanagerRequests']);
+  
+              }) 
+            }
             else  
             {
               this.requestservice.updateRequest(this.reqId, this.requestObj).subscribe(e => {

@@ -51,7 +51,7 @@
             <div class="col-md-6">
                 <label for="Code" [translate]="'Tracker.Employee Code'"> </label>
                 <input type="text" #Code="ngModel" [class.is-invalid]="Code.invalid && Code.touched"
-                    [class.is-valid]="Code.valid" [(ngModel)]="Employee.employeeCode" required minlength="3" name="Code"
+                    [class.is-valid]="Code.valid" [(ngModel)]="Employee.employeeCode" required minlength="2" name="Code"
                     id="Codes" class="form-control" [placeholder]="'Tracker.Employee Code' | translate"
                     aria-describedby="helpId">
                     <small [hidden]="Code.valid || Code.untouched" id="helpId" class="text-danger" [translate]="'Tracker.messegecode'"></small>

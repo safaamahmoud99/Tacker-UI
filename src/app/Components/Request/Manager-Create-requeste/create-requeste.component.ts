@@ -425,8 +425,17 @@ export class CreateRequesteComponent implements OnInit {
 
   }
   CloseStipper() {
-    this.dialogAddRequest = false
-    this.router.navigate(['home/AllManagersReq'])
+    this.dialogAddRequest = false;
+    if (this.role=="PM")
+            {
+              
+                this.router.navigate(['home/projectmanagerRequests']);
+  
+            }
+    else    {
+      this.router.navigate(['home/AllManagersReq'])
+     }        
+    
 
   }
  

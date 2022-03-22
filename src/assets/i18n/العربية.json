@@ -254,7 +254,22 @@
     "Governorate":"المحافظة",
     "city":"المدينة",
    "Cancel":"اغلاق" ,
- "Update Hospital":"تعديل الموقع "
+ "Update Hospital":"تعديل الموقع ",
+ "Client Manager":"مدير العملاء ",
+ "Clientt":"عميل",
+ "Origin Details":"تفاصيل الأصل"  ,
+ "Update Origin":"تعديل الأصل",
+ "Add Origin":"إضافة الأصل",
+ "Supplier Details":"تفاصيل المورد" ,
+ "Update Supplier":" تعديل المورد",
+ "Add Supplier":" اضافة مورد",
+ "Add Brand":" اضافة علامة تجارية",
+ "Update Brand":" تعديل العلامه التجارية ",
+ "Brand Details": "تفاصيل العلامة التجارية",
+ "Add ProjectType":"اضافة نوع المشروع ",
+ "Update ProjectType":"تعديل نوع المشروع",
+ "Update Asset":"تعديل الأداة"
+
 
 
   }

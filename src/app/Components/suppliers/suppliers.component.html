@@ -40,16 +40,16 @@
                 </div>
                 <div class="col-md-2">
                     <button id="addEmpBtn" (click)="NewDialog()" class="btn btn-outline-primary btn-md btn-block">
-                        <span class="pi pi-plus">Add</span> </button>
+                        <span class="pi pi-plus"[translate]="'Tracker.Add'"></span> </button>
                 </div>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr style="height: 5px !important; ">
-                <th pSortableColumn="supplierName"><span>Supplier Name</span>
+                <th pSortableColumn="supplierName"><span [translate]="'Tracker.Supplier Name'"></span>
                     <p-sortIcon field="supplierName"></p-sortIcon>
                 </th>
-                <th>Controls</th>
+                <th [translate]="'Tracker.Controls'"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-Supplier>
@@ -68,25 +68,25 @@
 </div>
 
 <p-dialog [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="10000">
-    <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Supplier Details</h1>
+    <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;" [translate]="'Tracker.Supplier Details'"></h1>
     <tr class=" form-control">
-        <th><span style="margin-right: 20px;">Supplier Name : </span></th>
+        <th><span style="margin-right: 20px;" [translate]="'Tracker.Supplier Name'" >  </span>:</th>
         <td>{{SuppliersObj.supplierName}}</td>
     </tr>
 </p-dialog>
 
 <form>
     <p-dialog [(visible)]="Editboolean" [style]="{width: '50vw'}" [baseZIndex]="10000">
-        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Update Supplier</h1>
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;" [translate]="'Tracker.Update Supplier'"></h1>
         <div class="row">
-            <span class="col-md-4" for="time">Supplier Name</span>
+            <span class="col-md-4" for="time" [translate]="'Tracker.Supplier Name'" > </span>
             <input name="supplierName" pInputText type="text" class="col-md-6 form-control"
                 [(ngModel)]="SuppliersObj.supplierName" inputId="date">
         </div>
         <ng-template pTemplate="footer">
             <p-button (onClick)="update(SuppliersObj.id)" type="submit" icon="pi pi-check"
-                styleClass="p-button-text">Submit</p-button>
-            <p-button icon="pi pi-times" (click)="Editboolean=false">Cancel</p-button>
+                styleClass="p-button-text">{{'Tracker.Submit' | translate}}</p-button>
+            <p-button icon="pi pi-times" (click)="Editboolean=false">{{'Tracker.Cancel' | translate}}</p-button>
         </ng-template>
 
     </p-dialog>
@@ -94,18 +94,18 @@
 
 <form #frm="ngForm"  (ngSubmit)="onsubmit()">
     <p-dialog [(visible)]="NewDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
-        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Add Supplier</h1>
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;" [translate]="'Tracker.Add Supplier'"></h1>
         <div class="row">
-            <span class="col-md-4" for="time">Supplier Name</span>
+            <span class="col-md-4" for="time" [translate]="'Tracker.Supplier Name'" ></span>
             <input name="supplierName" required minlength="3"  pInputText type="text" class="col-md-6 form-control"
                 [(ngModel)]="SuppliersObj.supplierName" inputId="date" #supplierNameControl="ngModel">
              
         </div>
         <ng-template pTemplate="footer">
             <p-button (onClick)="add()" [disabled]="frm.invalid" type="submit" icon="pi pi-check"
-                styleClass="p-button-text">Submit
+                styleClass="p-button-text">{{'Tracker.Submit' | translate}}
             </p-button>
-            <p-button icon="pi pi-times" (click)="NewDialogbool=false">Cancel</p-button>
+            <p-button icon="pi pi-times" (click)="NewDialogbool=false">{{'Tracker.Cancel' | translate}}</p-button>
         </ng-template>
 
     </p-dialog>
