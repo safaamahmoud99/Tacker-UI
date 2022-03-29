@@ -53,7 +53,7 @@ export class ChangePaswwordComponent implements OnInit {
       this.empId = Number(localStorage.getItem('id'))
       this.empService.getEmpByID(this.empId).subscribe(w => {
         this.employeeEmail = w.email
-        console.log(this.employeeEmail)
+        console.log("this.employeeEmail",this.employeeEmail)
 
       })
     }
@@ -75,7 +75,7 @@ export class ChangePaswwordComponent implements OnInit {
     this.registerForm = this.formBuilder.group(
       {
         password: ["", [Validators.required, Validators.minLength(6),
-        Validators.pattern(/^(?=.*[A-Z])(?=.*[!@#\$%\^&\*])(?=.{9,})/)]],
+        Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{6,12}$")]],
 
         confirmPassword: ["", Validators.required]
       },
@@ -109,7 +109,7 @@ export class ChangePaswwordComponent implements OnInit {
   get f() { return this.registerForm.controls; }
   onSubmit() {
     this.submitted = true;
-
+ console.log("this.newPassword",this.Newpassword)
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       console.log(this.registerForm);
@@ -121,10 +121,12 @@ export class ChangePaswwordComponent implements OnInit {
         data => this.router.navigate(['/login']),
 
         error => console.log(error)
+
       )
+      alert("PASSWORD UPDATED SUCCESSFULLY!! :-)\n\n");
     }
 
-    alert("PASSWORD UPDATED SUCCESSFULLY!! :-)\n\n");
+  
   }
   onReset() {
     // this.submitted = false;

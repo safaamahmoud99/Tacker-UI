@@ -29,7 +29,7 @@ export class CategoryComponent implements OnInit {
     public dialogService: DialogService,
     private CategService: RequestCategoryService,private config: DynamicDialogConfig,
     public translate: TranslateService,private ref: DynamicDialogRef,
-    private departmentService: DepartmentService) { }
+    private departmentService: DepartmentService, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.lstCategories = []
@@ -76,25 +76,30 @@ export class CategoryComponent implements OnInit {
   }
   onSubmit()
   {
-    console.log(this.category)
+    console.log(this.category);
+    this.messageService.clear();
     if(this.config.data!==undefined)
     {
       this.Update(this.config.data.cateId)
     }
     else
     {
-      if(this.category.categoryName.trim().length>=3)
+      if(this.category.categoryName.trim().length>=3 &&this.category.departmentId!=0)
       {
         this.category.departmentId = Number(this.category.departmentId)
         this.CategService.inserCategory(this.category).subscribe(()=>{
           this.ref.close();
         });
       }
+      else
+      {
+        this.messageService.add({key:'tr', severity: 'error', summary: 'Error', detail: 'please complete data' });
+      }
     }
   }
   Update(id)
   {
-    if(this.category.categoryName.trim().length>=3)
+    if(this.category.categoryName.trim().length>=3 )
     {
       console.log("inside update")
       this.CategService.editCategory(id,this.category).subscribe(() => {
@@ -107,6 +112,7 @@ export class CategoryComponent implements OnInit {
     this.category = {
       categoryName: '', departmentId: 0, departmentName: '', id: 0
     }
+    this.ref.close();
   }
 
 }

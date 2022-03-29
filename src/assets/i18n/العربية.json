@@ -268,9 +268,27 @@
  "Brand Details": "تفاصيل العلامة التجارية",
  "Add ProjectType":"اضافة نوع المشروع ",
  "Update ProjectType":"تعديل نوع المشروع",
- "Update Asset":"تعديل الأداة"
-
-
-
+ "Update Asset":"تعديل الأداة",
+  "Update Department":"تعديل القسم",
+  "Plz Complete Data":"من فضلك اكمل ادخال البيانات" ,
+  "Code Name aleardy exits":"Code Name aleardy exits" ,
+  "Name aleardy exits,PLZ wirte another":"Name aleardy exits,PLZ wirte another",
+  "Attention":"انتبة !!!",
+  "Plz enter valid Name":"من فضلك ادخل اسم صحيح ",
+  "Plz enter Valid Code":"من فضلك ادخل كود صحيح",
+  "Plz select client":"من فضلك اختار عملاء ",
+  "Plz enter Valid  Address":"من فضلك ادخل عنوان صحيح",
+  "Success":"نجاح",
+  "Organization Added":"تم اضافة المنظمة",
+  "MessageDelete":"هل انت متاكد من القيام بعملية الحذف",
+  "Record Deleted!":"تم الحذف",
+  "Confirm Password": "تاكيد كلمة المرور",
+  "change":"حفظ التغييرات ",
+  "NewPassword":"كلمة المرور الجديدة ",
+  "requiredPassword":"Password is required",
+  "Confirmrequirdpassword":"Confirm Password is required",
+  "validpasswordLength" :"يجب ان يكون طول كلمة المرور على الاقل 6 حروف",
+  "StrongPassword":"يجب ان تكون كلمة المرور قوية ",
+  "Passwordmatch":"كلمة المرور يجب ان تتطابق"
   }
 }

@@ -55,7 +55,7 @@ export class SideNavComponent implements OnInit {
   ngOnInit(): void {
     this.getimage = environment.Domain
     this.role = localStorage.getItem('roles')
-    this.loggedInUserName = localStorage.getItem('userName')
+    this.loggedInUserName = localStorage.getItem('name')
     console.log(this.role)
     if (this.role == "Client" || this.role == "ClientManager") {
       this.clientId = Number(localStorage.getItem("clientId"))

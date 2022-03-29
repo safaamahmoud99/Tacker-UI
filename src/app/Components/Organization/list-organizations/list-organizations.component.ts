@@ -5,6 +5,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { client } from 'src/Shared/Models/client';
 import { OrganizationClientsService } from 'src/Shared/Services/organization-clients.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-list-organizations',
@@ -24,7 +25,7 @@ export class ListOrganizationsComponent implements OnInit {
   public curicon = "http://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png";
   constructor(private organizationService: OrganizationService, private messageService: MessageService,
     private confirmationService: ConfirmationService, private route: Router
-    , private organizationClientsService: OrganizationClientsService) { }
+    , private organizationClientsService: OrganizationClientsService,private translate:TranslateService) { }
 
   ngOnInit(): void {
     this.lstClients = []
@@ -84,14 +85,14 @@ export class ListOrganizationsComponent implements OnInit {
   }
   confirm(id) {
     this.confirmationService.confirm({
-      message: 'Are you sure that you want to perform this action?',
+      message:this.translate.instant('Tracker.MessageDelete'),
       accept: () => {
         this.organizationService.GetOrganizationByID(id).subscribe(res => {
           this.org = res
           this.organizationService.DeleteOrg(id, this.org).subscribe(
             data => {
               this.ngOnInit(),
-                this.messageService.add({ severity: 'info', summary: 'Record Deleted!', detail: 'Record Deleted!' });
+                this.messageService.add({ severity: 'info', summary:this.translate.instant('Tracker.Record Deleted!'), detail:this.translate.instant('Tracker.Record Deleted!') });
             }
           )
         })

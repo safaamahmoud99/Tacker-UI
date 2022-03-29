@@ -1,5 +1,6 @@
 <div class="card" #ejDialog >
     <div class="card-body">
+        <p-toast position="top-right" key="tr"></p-toast>
         <form #form="ngForm" (ngSubmit)="onSubmit()"> 
             <div class="row top-buffer">
                 <div class="col-12">
@@ -7,9 +8,9 @@
                     <input type="text" class="form-control" id="cityName" name="cityName" pTooltip="Enter city Name"
                         [placeholder]="'Tracker.CityName'| translate" tooltipPosition="bottom" [(ngModel)]="city.cityName"
                         #cityName="ngModel" [class.is-invalid]="
-                      (cityName.touched && cityName.errors) || form.submitted" [class.is-valid]="cityName.valid && form.submitted"
-                        required />
-                    <div *ngIf="(cityName.touched || form.submitted) && cityName.errors?.required">
+                      (cityName.touched && cityName.errors) " [class.is-valid]="cityName.valid"
+                        required minlength="3" />
+                    <div *ngIf="(cityName.touched) && cityName.errors?.required">
                         <span class="text-danger" [translate]="'Tracker.CityName'"></span>
                     </div>
                 </div>

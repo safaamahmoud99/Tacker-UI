@@ -159,31 +159,32 @@
     </ng-template>
 
 </p-table>
-
 <p-dialog [(visible)]="NewclientDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
     <div class="row">
-        <h1 [translate]="'Tracker.Documents'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+        <h1 [translate]="'Tracker.Documents'"
+            style="margin-bottom: 20px;margin-left:20px; font-size: 2em;color: #2674a8;"></h1>
         <p-table [value]="reqImages">
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="color: #2674a8; font-size: 20px; font: bold; text-align: center;">{{'Tracker.Document Name'|translate}} </th>
-                        
-
+                    <th style="color: #2674a8; font-size: 20px; font: bold;">{{'Tracker.Document Name'|translate}}
+                    </th>
+                    <th></th>
                 </tr>
 
             </ng-template>
             <ng-template pTemplate="body" let-i>
                 <tr>
-                    <td style="color: rgb(187, 12, 12);font-size: large;text-align: center;">{{i.imageName}}<button
-                            class="btn btn-info" style="margin-left: 30px;"
-                            (click)="viewSingleDoc(i)">{{'Tracker.View'|translate}} </button></td>
-
-
+                    <td style="color: rgb(187, 12, 12);font-size: large;">{{i.imageName}}
+                    </td>
+                    <td>
+                        <button class="btn btn-info" style="text-align:right;"
+                            (click)="viewSingleDoc(i)">{{'Tracker.View'|translate}} </button>
+                    </td>
                 </tr>
             </ng-template>
         </p-table>
     </div>
-
+    
 
 </p-dialog>
 <p-dialog [(visible)]="NewdecDialogForCloseRequest" [style]="{width: '50vw'}" [baseZIndex]="10000">

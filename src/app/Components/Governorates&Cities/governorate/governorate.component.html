@@ -7,9 +7,9 @@
                     <input type="text" class="form-control" id="GovName" name="GovName" pTooltip="Enter Governorate Name"
                         [placeholder]="'Tracker.GovernorateName' | translate" tooltipPosition="bottom" [(ngModel)]="governorate.governorateName"
                         #GovName="ngModel"  [class.is-invalid]="
-                        (GovName.touched && GovName.errors) || form.submitted" [class.is-valid]="GovName.valid && form.submitted"
-                          required >
-                    <div *ngIf="(GovName.touched || form.submitted) && GovName.errors?.required">
+                        (GovName.touched && GovName.errors)" [class.is-valid]="GovName.valid"
+                          required minlength="3" >
+                    <div *ngIf="(GovName.touched ) && GovName.errors?.required">
                         <span class="text-danger" [translate]="'Tracker.GovernorateName'"></span>
                     </div>
                 </div>
@@ -19,7 +19,7 @@
             <div class="row top-buffer">
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary pull-center btn-sm" [translate]="'Tracker.Save'"
-                        style="margin:0px 5px;background-color: #1483c2;border-color: #1483c2"></button>
+                        style="margin:0px 5px;background-color: #1483c2;border-color: #1483c2" [disabled]="form.invalid"></button>
 
                     <button class="btn btn-primary pull-center btn-sm" value="Reset" type="button"
                         style="margin: 0px 5px;background-color: #1483c2;border-color: #1483c2;width: 100px;"

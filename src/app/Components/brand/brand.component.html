@@ -27,7 +27,7 @@
 <div class="container">
     <p-table id="my-table" class="container card" #dt dataKey="id" [rows]="5" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[5,10,50]" styleClass="p-datatable-customers" [paginator]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+        currentPageReportTemplate="{{asd}}" [filterDelay]="0"
         [globalFilterFields]="['brandName']" [value]="lstBrand">
         <ng-template pTemplate="caption">
             <h1 style="margin-bottom: 20px; font-size: 2em;color: #2674a8;">{{ 'Tracker.Brand' |translate }}</h1>

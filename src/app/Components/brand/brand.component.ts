@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Brand } from 'src/Shared/Models/Brand';
 import { BrandService } from 'src/Shared/Services/brand.service';
@@ -15,7 +16,9 @@ export class BrandComponent implements OnInit {
   displayBasic: boolean;
   NewDialogbool: boolean;
   isFound:boolean=false;
-  constructor(private BrandService:BrandService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+  asd:string;
+  constructor(private BrandService:BrandService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService
+    ,public translate: TranslateService) { }
 
   ngOnInit(): void {
     this.BrandObj={id:0,brandName:''}
@@ -23,6 +26,14 @@ export class BrandComponent implements OnInit {
       res=>{this.lstBrand=res},
       err=>console.log(err)
     )
+    if (this.translate.currentLang == 'English')
+     {
+     this.asd="Showing {first} to {last} of {totalRecords} entries";
+     }
+     if (this.translate.currentLang == 'العربية')
+     {
+      this.asd="  مدخلات {totalRecords}   من {last}  الى  {first}  إظهار "  ;
+     }
   }
   showBasicDialog(id) {
     this.displayBasic = true;

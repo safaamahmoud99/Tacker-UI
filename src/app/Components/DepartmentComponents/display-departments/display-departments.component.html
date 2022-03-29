@@ -80,8 +80,8 @@
         </tr>
     </ng-template>
 </p-table>
-<p-dialog  [(visible)]="displayBasic" [style]="{width: '70vw'}" [baseZIndex]="10000">
-            <h1 [translate]="'Tracker.Department'" style="margin-bottom: 20px;margin-left:25px; font-size: 2em;color: #2674a8;"></h1><br>
+<p-dialog  [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="10000">
+            <h1 [translate]="'Tracker.Department'" style="margin-bottom: 20px;font-size: 2em;color: #2674a8;"></h1><br>
 
     <div class="row">
         <div class="col-md-6 form-control"><span class="bold">{{'Tracker.Department Name'|translate}} : </span>&nbsp;{{departmentObj.name}}
@@ -94,7 +94,7 @@
 
 <form #frm="ngForm">
     <p-dialog [(visible)]="Editboolean" [style]="{width: '50vw'}" [baseZIndex]="10000">
-        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Update Department</h1>
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;" [translate]="'Tracker.Update Department'"></h1>
         <div class="col-md-6">
             <label for="name">{{'Tracker.Department Name'|translate}}</label>
             <input type="text" #Dept="ngModel" [class.is-invalid]="Dept.invalid && Dept.touched"
@@ -103,8 +103,8 @@
         </div>
         <ng-template pTemplate="footer">
             <p-button (onClick)="update(departmentObj.id)" type="submit" [disabled]="frm.invalid" icon="pi pi-check" styleClass="p-button-text">
-                Submit</p-button>
-            <p-button icon="pi pi-times" (click)="Editboolean=false">Cancel</p-button>
+                {{'Tracker.Submit' | translate}}</p-button>
+            <p-button icon="pi pi-times" (click)="Editboolean=false">{{'Tracker.Cancel' | translate}}</p-button>
         </ng-template>
 
     </p-dialog>
@@ -112,7 +112,7 @@
 
 <form #frm="ngForm">
     <p-dialog [(visible)]="NewDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
-        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Add  Department</h1>
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;" [translate]="'Tracker.Add Department'"></h1>
         <div class="p-col-12 p-md-4">
             <div class="p-inputgroup">
                 <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
@@ -124,9 +124,9 @@
         </div>
         <ng-template pTemplate="footer">
             <p-button (onClick)="add()" [disabled]="frm.invalid" type="submit" icon="pi pi-check"
-                styleClass="p-button-text">Submit
+                styleClass="p-button-text">{{'Tracker.Submit' | translate}}
             </p-button>
-            <p-button icon="pi pi-times" (click)="NewDialogbool=false">Cancel</p-button>
+            <p-button icon="pi pi-times" (click)="NewDialogbool=false">{{'Tracker.Cancel' | translate}}</p-button>
         </ng-template>
 
     </p-dialog>

@@ -90,6 +90,7 @@ export class GovernorateComponent implements OnInit {
     this.governorate = {
       id: 0,  governorateName: ''  
     }
+    this.ref.close();
   }
 
 

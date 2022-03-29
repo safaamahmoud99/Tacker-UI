@@ -45,15 +45,15 @@
         <a class="active" class="pi pi-ticket" routerLink='projectmanagerRequests'> {{ 'Tracker.Clients Requests' | translate
           }}</a><br>
       </li>
-      <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'||role =='PM'" routerLinkActive="active">
+      <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'" routerLinkActive="active">
         <a class="active" class="pi pi-briefcase" routerLink='ProjectTypes'> {{ 'Tracker.All Project Types' | translate
           }}</a><br>
       </li>
-      <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'||role =='PM'" routerLinkActive="active">
+      <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'" routerLinkActive="active">
         <a class="active" class="pi pi-desktop" routerLink='DisplayAssets'> {{ 'Tracker.All Assets' | translate
           }}</a><br>
       </li>
-      <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'||role =='PM'" routerLinkActive="active">
+      <li *ngIf="role=='SuperAdmin'||role == 'Admin' ||role== 'PMO'" routerLinkActive="active">
         <!--  -->
         <a class="active" class="pi pi-book" routerLink='DisplayCategories'> {{ 'Tracker.Client Requests Category' |
           translate }}</a><br>
@@ -221,7 +221,7 @@
         </div>
       </div>
     </nav>
-    <div [ngStyle]="{'text-align': selectedlang === 'English' ? 'left': 'right'}">
+    <div  [ngStyle]="{'text-align': selectedlang === 'English' ? 'left': 'right'}" >
       <router-outlet></router-outlet>
    </div>
 

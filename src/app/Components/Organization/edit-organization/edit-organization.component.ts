@@ -10,6 +10,7 @@ import { client } from 'src/Shared/Models/client';
 import { OrganizationClientsService } from 'src/Shared/Services/organization-clients.service';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { OrganizationClients } from 'src/Shared/Models/OrganizationClients';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-organization',
@@ -21,6 +22,7 @@ export class EditOrganizationComponent implements OnInit {
   public a: string;
   OrgId: any;
   Orgs:organization[];
+  Codefound:boolean=false;
   ISfound:boolean=false;
   organizationObj: organization
   lat: number = 30.0634890000;
@@ -34,7 +36,7 @@ export class EditOrganizationComponent implements OnInit {
   constructor(private route: Router,
     private activeRoute: ActivatedRoute,
     private organizationService: OrganizationService, private organizationClientsService: OrganizationClientsService,
-    private ngZone: NgZone,private messageService: MessageService) { }
+    private ngZone: NgZone,private messageService: MessageService,private translate:TranslateService) { }
 
   ngOnInit() {
     this.lstSelectedClients = []
@@ -101,6 +103,7 @@ export class EditOrganizationComponent implements OnInit {
     console.log("this.Orgs|",this.Orgs);
  
     this.messageService.clear();
+    this.checkName();
     this.OrganizationClientsObj.clients=this.lstSelectedClients
     // if (this.organizationObj.organizationName == "") {
     //   this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Organization Name' });
@@ -108,7 +111,7 @@ export class EditOrganizationComponent implements OnInit {
     if(this.organizationObj.organizationName =="" ||this.organizationObj.organizationName.trim().length<3)
       {
         console.log("enter");
-        this.messageService.add({  key :'tr',severity: 'error', summary: 'Attention !!!', sticky:true, detail: 'Plz enter valid Organization Name' });        
+        this.messageService.add({  key :'tr',severity: 'error', summary:this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Plz enter valid Name') });      
       }
       
       // if (this.checkName())
@@ -118,14 +121,25 @@ export class EditOrganizationComponent implements OnInit {
       //   this.ISfound=false;
       // }
     if  (this.organizationObj.organizationCode== "" ||this.organizationObj.organizationCode.trim().length<2 ) {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Valid Organization Code' });
+      this.messageService.add({ key: 'tr', severity: 'error', summary:this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Plz select client') });
     }
     if (this.OrganizationClientsObj.clients.length == 0) {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz select client' });
+      this.messageService.add({ key: 'tr', severity: 'error', summary:this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Plz select client') });
     }
-
-    if (this.organizationObj.address == "" ) {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Address' });
+    if (this.ISfound)
+    {
+      this.messageService.add({ key:'tr', severity: 'error', summary:this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Name aleardy exits,PLZ wirte another') });
+      this.ISfound=false;
+      return false;
+    }
+    if (this.Codefound)
+    {
+      this.messageService.add({ key:'tr', severity: 'error', summary:this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Code Name aleardy exits')  });
+      this.Codefound=false;
+      return false;
+    }
+    if (this.organizationObj.address.trim() == "" ) {
+      this.messageService.add({ key: 'tr', severity: 'error', summary:this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Plz enter Valid  Address')});
      }
     if (this.organizationObj.organizationName != ""&& this.organizationObj.organizationName.trim().length>=3 && this.organizationObj.organizationCode != "" 
     && this.OrganizationClientsObj.clients.length!=0 &&this.organizationObj.address.trim().length>=3&& this.organizationObj.organizationCode.trim().length>=2) 
@@ -161,7 +175,7 @@ export class EditOrganizationComponent implements OnInit {
     ) 
   }   
 
-  checkName():boolean 
+  checkName()
   {
     this.LOadOrs();
     for (let index = 0; index < this.Orgs.length; index++)
@@ -169,13 +183,15 @@ export class EditOrganizationComponent implements OnInit {
         if(this.Orgs[index].organizationName==this.organizationObj.organizationName && this.Orgs[index].id!=this.organizationObj.id)
         {
           console.log(this.Orgs[index].organizationName);
-          
-        // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Supplier  Name aleardy exits' });
-          this.ISfound=true;
-          break;
+          this.ISfound=true;      
+        }
+        if(this.Orgs[index].organizationCode==this.organizationObj.organizationCode && this.Orgs[index].id!=this.organizationObj.id)
+        {
+          this.Codefound=true;
+          console.log(this.Orgs[index].organizationCode);
         }
     }
    
-    return this.ISfound;    
+      
   }
 }

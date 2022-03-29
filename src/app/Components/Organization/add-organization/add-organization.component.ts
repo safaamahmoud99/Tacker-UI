@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { OrganizationClients } from 'src/Shared/Models/OrganizationClients';
 import { OrganizationClientsService } from 'src/Shared/Services/organization-clients.service';
 import { client } from 'src/Shared/Models/client';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-organization',
@@ -28,11 +29,12 @@ export class AddOrganizationComponent implements OnInit {
   OrganizationId: number;
   lstClients: client[];
   ISfound:boolean=false;
+  Codefound:boolean=false;
    
 
   constructor(private router: Router, private organizationService: OrganizationService,
     private ngZone: NgZone, private messageService: MessageService
-    , private organizationClientsService: OrganizationClientsService,) { }
+    , private organizationClientsService: OrganizationClientsService,private translate:TranslateService) { }
 
   ngOnInit(): void {
   
@@ -61,6 +63,7 @@ export class AddOrganizationComponent implements OnInit {
   // } 
   onSubmit() {
       console.log("this.Orgs|",this.Orgs);
+    this.checkName();
     this.messageService.clear();
     this.OrganizationClientsObj.clients=this.lstSelectedClients
     // if (this.organizationObj.organizationName == "") {
@@ -69,30 +72,36 @@ export class AddOrganizationComponent implements OnInit {
     if(this.organizationObj.organizationName.trim()=="" ||this.organizationObj.organizationName.trim().length<3)
       {
         console.log("enter")
-        this.messageService.add({  key :'tr',severity: 'error', summary: 'Attention !!!', sticky:true, detail: 'Plz enter valid Organization Name' });
+        this.messageService.add({  key :'tr',severity: 'error', summary:this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Plz enter valid Name') });
         return false;
         
       }
-      if (this.checkName())
+      if (this.ISfound)
       {
-        this.messageService.add({ key:'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Organization Name aleardy exits' });
+        this.messageService.add({ key:'tr', severity: 'error', summary:this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Name aleardy exits,PLZ wirte another') });
         this.ISfound=false;
         return false;
       }
+      if (this.Codefound)
+      {
+        this.messageService.add({ key:'tr', severity: 'error', summary:this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Code Name aleardy exits')  });
+        this.Codefound=false;
+        return false;
+      }
     if  (this.organizationObj.organizationCode.trim() == "" ||this.organizationObj.organizationCode.trim().length<2 ) {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Valid Organization Code' });
+      this.messageService.add({ key: 'tr', severity: 'error', summary: this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Plz enter Valid Code')  });
       return false;
     }
     if (this.OrganizationClientsObj.clients.length == 0) {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz select client' });
+      this.messageService.add({ key: 'tr', severity: 'error', summary:this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Plz select client') });
       return false;
     }
 
-    if (this.organizationObj.address == "" ) {
-      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz enter Address' });
+    if (this.organizationObj.address.trim() == "" ) {
+      this.messageService.add({ key: 'tr', severity: 'error', summary:this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Plz enter Valid  Address')});
          return false; 
      }
-    if (this.organizationObj.organizationName != ""&& this.organizationObj.organizationName.trim().length>=3 && this.checkName()!=true&&this.organizationObj.organizationCode != "" 
+    if (this.organizationObj.organizationName != ""&& this.organizationObj.organizationName.trim().length>=3 && this.ISfound!=true&&this.organizationObj.organizationCode != "" 
     && this.OrganizationClientsObj.clients.length!=0 &&this.organizationObj.address.trim().length>=3&& this.organizationObj.organizationCode.trim().length>=2)
      {
       console.log(this.organizationObj);
@@ -104,7 +113,7 @@ export class AddOrganizationComponent implements OnInit {
         this.OrganizationClientsObj.organizationId=  this.OrganizationId
         this.organizationClientsService.insertOrganizationClient(this.OrganizationClientsObj).subscribe(
           res => {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Organization Added' });
+            this.messageService.add({ severity: 'success', summary:this.translate.instant('Tracker.Success'), detail:this.translate.instant('Tracker.Organization Added') });
             this.router.navigate(['home/organizations']);
           }
         )
@@ -152,7 +161,7 @@ export class AddOrganizationComponent implements OnInit {
     ) 
   }   
 
-  checkName():boolean 
+  checkName()
   {
     this.LOadOrs();
     for (let index = 0; index < this.Orgs.length; index++)
@@ -160,14 +169,16 @@ export class AddOrganizationComponent implements OnInit {
         if(this.Orgs[index].organizationName==this.organizationObj.organizationName && this.Orgs[index].id!=this.organizationObj.id)
         {
           console.log(this.Orgs[index].organizationName);
-          
-        // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Supplier  Name aleardy exits' });
-          this.ISfound=true;
-          break;
+          this.ISfound=true;      
+        }
+        if(this.Orgs[index].organizationCode==this.organizationObj.organizationCode && this.Orgs[index].id!=this.organizationObj.id)
+        {
+          this.Codefound=true;
+          console.log(this.Orgs[index].organizationCode);
         }
     }
    
-    return this.ISfound;    
+    
   }
     
 

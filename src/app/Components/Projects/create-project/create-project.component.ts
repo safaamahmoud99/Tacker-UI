@@ -178,7 +178,7 @@ export class CreateProjectComponent implements OnInit {
     private ProjectSitesService: ProjectSitesService, private ProjectSiteAssetService: ProjectSiteAssetService,
     private SiteClientsService: SiteClientsService, private translate: TranslateService, private _formBuilder: FormBuilder,
     private datePipe: DatePipe,private confirmationService: ConfirmationService,private userService:UsersService,
-    private router: Router) { }
+    private router: Router ) { }
 
   ngOnInit(): void {
     this.ProjectData = localStorage.getItem("ProjectData")
@@ -566,13 +566,13 @@ addEventenddateMile(event:MatDatepickerInputEvent<Date>)
       this.checkNameandCode();
       if (this.Namefound)
       {
-        this.messageService.add({ key:'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Project Name aleardy exits' });
+        this.messageService.add({ key:'tr', severity: 'error', summary:this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Name aleardy exits,PLZ wirte another') });
         this.Namefound=false;
         return false;
       }
       if (this.Codefound)
       {
-        this.messageService.add({ key:'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Code Name aleardy exits' });
+        this.messageService.add({ key:'tr', severity: 'error', summary:this.translate.instant('Tracker.Attention'), sticky:false, detail:this.translate.instant('Tracker.Code Name aleardy exits')  });
         this.Codefound=false;
         return false;
       }
@@ -620,17 +620,17 @@ addEventenddateMile(event:MatDatepickerInputEvent<Date>)
       this.IsSaveProject = false
      // this.activeIndex = this.activeIndex
       console.log('active index',this.activeIndex);
-      if(this.translate.currentLang=='English')
-          {
-            this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
-          }
-          else
-          {
-            this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه ', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
+      // if(this.translate.currentLang=='English')
+      //     {
+      //       this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky:false, detail: 'Plz Complete Data' });
+      //     }
+      //     else
+      //     {
+      //       this.messageService.add({ key: 'tr', severity: 'error', summary: 'انتبه ', sticky:false, detail: 'من فضلك ادخل البيانات كامله ' });
 
-          }
+      //     }
       
-     // this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail: 'Plz Complete Data' });
+      this.messageService.add({ key: 'tr', severity: 'error', summary: 'Attention !!!', sticky: true, detail:this.translate.instant('Tracker.Plz Complete Data') });
     }
   }
   Finish() {

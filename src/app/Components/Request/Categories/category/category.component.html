@@ -74,6 +74,7 @@
 
 <div class="card" #ejDialog>
     <div class="card-body">
+        <p-toast position="top-right" key="tr"></p-toast>
         <form #form="ngForm" (ngSubmit)="onSubmit()">
             <div class="row top-buffer">
                 <div class="col-12">
@@ -81,9 +82,9 @@
                     <input type="text" class="form-control" id="catName" name="catName" pTooltip="Enter category Name"
                         [placeholder]="'Tracker.Category Name' | translate" tooltipPosition="bottom" [(ngModel)]="category.categoryName"
                         #catName="ngModel" [class.is-invalid]="
-                      (catName.touched && catName.errors) || form.submitted" [class.is-valid]="catName.valid && form.submitted"
-                        required />
-                    <div *ngIf="(catName.touched || form.submitted) && catName.errors?.required">
+                      (catName.touched && catName.errors)" [class.is-valid]="catName.valid"
+                        required minlength="3" />
+                    <div *ngIf="(catName.touched ) && catName.errors?.required">
                         <span class="text-danger" [translate]="'Tracker.Category Name'"></span>
                     </div>
                 </div>
@@ -99,7 +100,7 @@
             <div class="row top-buffer">
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary pull-center btn-sm" [translate]="'Tracker.Save'"
-                        style="margin:0px 5px;background-color: #1483c2;border-color: #1483c2"></button>
+                        style="margin:0px 5px;background-color: #1483c2;border-color: #1483c2" [disabled]="form.invalid"></button>
 
                     <button class="btn btn-primary pull-center btn-sm" value="Reset" type="button"
                         style="margin: 0px 5px;background-color: #1483c2;border-color: #1483c2;width: 100px;"

@@ -158,7 +158,7 @@
                 </div>
                 <div class="col-md-2">
                     <!-- [disabled]="disabledButton"-->
-                    <button mat-stroked-button color="primary" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
+                    <button mat-stroked-button color="primary" [disabled]="disabledButton" mat-button matStepperNext>{{'Tracker.NEXT'|translate}}</button>
                 </div>
                 <!-- <div class="col-md-2">
                     <button mat-stroked-button [disabled]="disabledButton"  (click)="AddProject()" color="primary" mat-button>{{'Tracker.NEXT'|translate}}</button>

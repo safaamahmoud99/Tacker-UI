@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container"  style="height:50%;">
   <div class="row">
     <div class="col-md-10">
       <u> <a (click)="showMaximizableDialog()" class="btn" [translate]="'Tracker.Organizations'"
@@ -6,10 +6,10 @@
     </div>
     <div class="col-md-2">
       <button id="addEmpBtn" routerLink="/home/organization" class="btn btn-outline-primary btn-md btn-block">
-        <span class="pi pi-plus" [translate]="'Tracker.Add'">Add</span> </button>
+        <span class="pi pi-plus" [translate]="'Tracker.Add'"></span> </button>
     </div>
   </div>
-  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="15" style="height: 600px;">
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="15" style="height: 500px;">
     <agm-marker *ngFor="let m of lstOrganizationMarkers;let i = index; " [latitude]="m.lat" [longitude]="m.lng"
       (mapClick)="placeMarker(m)">
       <agm-info-window style="padding: 5px 5px;">
@@ -27,131 +27,124 @@
       </agm-info-window>
     </agm-marker>
   </agm-map>
-
-
-
-
-
-
-
-  <p-dialog id="PopupWindow" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}"
-    [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '70vw',height:'800vw'}" [maximizable]="true" [baseZIndex]="10000"
-    [draggable]="false" [resizable]="false">
-    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
-    <p-toast></p-toast>
-    <p-toast position="top-left" key="tl"></p-toast>
-    <p-toast position="top-center" key="tc"></p-toast>
-    <p-toast position="bottom-center" key="bc"></p-toast>
-
-    <p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
-      <ng-template let-message pTemplate="message">
-        <div class="p-flex p-flex-column" style="flex: 1">
-          <div class="p-text-center">
-            <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
-            <h4>{{message.summary}}</h4>
-            <p>{{message.detail}}</p>
-          </div>
-          <div class="p-grid p-fluid">
-            <div class="p-col-6">
-              <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
-            </div>
-            <div class="p-col-6">
-              <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-    </p-toast>
-    <form>
-      <div>
-        <h1 [translate]="'Tracker.Organizations'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
-
-      </div>
-      <br />
-      <p-table styleClass="p-datatable-responsive-demo" #dt [value]="lstOrganizationMarkers" dataKey="id" [rows]="5"
-        [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,50]" [loading]="loading" [paginator]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
-        [globalFilterFields]="['organizationName','organizationCode ','mobile','phone','responsiblePerson']">
-        <ng-template pTemplate="caption">
-          <!-- <h1 [translate]="'Tracker.All Employees'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1> -->
-
-          <div class="row">
-            <div class="table-header col-md-12">
-              <!-- List of Employees -->
-
-              <span class="p-input-icon-left">
-                <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                  [placeholder]="'Tracker.Global Search' | translate" />
-              </span>
-            </div>
-          </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-          <tr>
-            <th [translate]="'Tracker.OrganizationName'"></th>
-            <th [translate]="'Tracker.Code'"></th>
-            <th [translate]="'Tracker.Address'"></th>
-            <th [translate]="'Tracker.Client'"></th>
-            <th [translate]="'Tracker.Mobile'"></th>
-           <!-- <th [translate]="'Tracker.Email'"></th>
-            <th [translate]="'Tracker.ResponsiblePerson'"></th> -->
-            <th [translate]="'Tracker.Controls'"></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-org>
-          <tr>
-            <td>
-              {{org.organizationName}}
-            </td>
-            <td>
-              {{org.organizationCode}}
-            </td>
-            <td>
-              {{org.address}}
-            </td>
-            <td>
-              <div *ngFor="let cln of org.clients">
-                  <div>{{cln.clientName}}</div>
-                  <hr>
-              </div>
-            </td>
-            <td>
-              <div *ngFor="let cln of org.clients">
-                  <div>{{cln.phone}}</div><hr>
-              </div>
-            </td>
-            <!-- <td >
-              <div *ngFor="let cln of org.clients" >
-                  <div style="width: 50px;">{{cln.email}}</div>
-                  <hr>
-              </div>
-            </td> -->
-            <td>
-              <span class="pi pi-pencil" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"
-              (click)="updateOrganization(org.id)"></span>&nbsp;
-              <span class="p-button-icon pi pi-times" style="cursor: pointer;" (click)="confirm(org.id)"
-                aria-hidden="true"> </span>                
-            </td>            
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td colspan="6" [translate]="'Tracker.No data found'"></td>
-          </tr>
-          <tr>
-
-          </tr>
-        </ng-template>
-
-      </p-table>
-      <div [translate]="'Tracker.End'"></div>
-    </form>
-
-    <ng-template pTemplate="footer">
-      <p-button icon="pi pi-check" (click)="displayMaximizable=false" [label]="'Tracker.Ok' | translate"
-        styleClass="p-button-text">
-      </p-button>
-    </ng-template>
-  </p-dialog>
 </div>
+<p-dialog id="PopupWindow" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}"
+[(visible)]="displayMaximizable" [modal]="true" [style]="{width: '70vw',height:'800vw'}" [maximizable]="true" 
+[draggable]="false" [resizable]="false">
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+  <ng-template let-message pTemplate="message">
+    <div class="p-flex p-flex-column" style="flex: 1">
+      <div class="p-text-center">
+        <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+        <h4>{{message.summary}}</h4>
+        <p>{{message.detail}}</p>
+      </div>
+      <div class="p-grid p-fluid">
+        <div class="p-col-6">
+          <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+        </div>
+        <div class="p-col-6">
+          <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>
+<form>
+  <div>
+    <h1 [translate]="'Tracker.Organizations'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1>
+
+  </div>
+  <br />
+  <p-table styleClass="p-datatable-responsive-demo" #dt [value]="lstOrganizationMarkers" dataKey="id" [rows]="5"
+    [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,50]" [loading]="loading" [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+    [globalFilterFields]="['organizationName','organizationCode ','mobile','phone','responsiblePerson']">
+    <ng-template pTemplate="caption">
+      <!-- <h1 [translate]="'Tracker.All Employees'" style="margin-bottom: 20px; font-size: 2em;color: #2674a8;"></h1> -->
+      <!-- [style]="{width: '70vw',height:'30vw'}" -->
+      <div class="row">
+        <div class="table-header col-md-12">
+          <!-- List of Employees -->
+
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+              [placeholder]="'Tracker.Global Search' | translate" />
+          </span>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th [translate]="'Tracker.OrganizationName'"></th>
+        <th [translate]="'Tracker.Code'"></th>
+        <th [translate]="'Tracker.Address'"></th>
+        <th [translate]="'Tracker.Client'"></th>
+        <th [translate]="'Tracker.Mobile'"></th>
+       <!-- <th [translate]="'Tracker.Email'"></th>
+        <th [translate]="'Tracker.ResponsiblePerson'"></th> -->
+        <th [translate]="'Tracker.Controls'"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-org>
+      <tr>
+        <td>
+          {{org.organizationName}}
+        </td>
+        <td>
+          {{org.organizationCode}}
+        </td>
+        <td>
+          {{org.address}}
+        </td>
+        <td>
+          <div *ngFor="let cln of org.clients">
+              <div>{{cln.clientName}}</div>
+              <hr>
+          </div>
+        </td>
+        <td>
+          <div *ngFor="let cln of org.clients">
+              <div>{{cln.phone}}</div><hr>
+          </div>
+        </td>
+        <!-- <td >
+          <div *ngFor="let cln of org.clients" >
+              <div style="width: 50px;">{{cln.email}}</div>
+              <hr>
+          </div>
+        </td> -->
+        <td>
+          <span class="pi pi-pencil" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"
+          (click)="updateOrganization(org.id)"></span>&nbsp;
+          <span class="p-button-icon pi pi-times" style="cursor: pointer;" (click)="confirm(org.id)"
+            aria-hidden="true"> </span>                
+        </td>            
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" [translate]="'Tracker.No data found'"></td>
+      </tr>
+      <tr>
+
+      </tr>
+    </ng-template>
+
+  </p-table>
+  <div [translate]="'Tracker.End'"></div>
+</form>
+
+<ng-template pTemplate="footer">
+  <p-button icon="pi pi-check" (click)="displayMaximizable=false" [label]="'Tracker.Ok' | translate"
+    styleClass="p-button-text">
+  </p-button>
+</ng-template>
+</p-dialog>

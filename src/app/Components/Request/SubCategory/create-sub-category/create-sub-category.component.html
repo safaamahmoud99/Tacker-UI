@@ -4,6 +4,7 @@
             }} {{ 'Asset.Category' | translate }} </h4>
     </div> -->
     <div class="card-body">
+        <p-toast position="top-right" key="tr"></p-toast>
         <form #form="ngForm" (ngSubmit)="onSubmit()">
             <div class="row top-buffer">
                 <div class="col-12">
@@ -11,9 +12,9 @@
                     <input type="text" class="form-control" id="subCatName" name="subCatName" pTooltip="Enter category Name"
                         [placeholder]="'Tracker.Request Sub Category' | translate" tooltipPosition="bottom" [(ngModel)]="subCategory.subCategoryName"
                         #subCatName="ngModel" [class.is-invalid]="
-                      (subCatName.touched && subCatName.errors) || form.submitted" [class.is-valid]="subCatName.valid && form.submitted"
-                        required />
-                    <div *ngIf="(subCatName.touched || form.submitted) && subCatName.errors?.required">
+                      (subCatName.touched && subCatName.errors)" [class.is-valid]="subCatName.valid"
+                        required minlength="3" />
+                    <div *ngIf="(subCatName.touched) && subCatName.errors?.required">
                         <span class="text-danger" [translate]="'Tracker.Request Sub Category'"></span>
                     </div>
                 </div>
