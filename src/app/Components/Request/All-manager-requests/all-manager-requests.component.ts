@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
 import { environment } from 'src/environments/environment';
 import { client } from 'src/Shared/Models/client';
 import { Problem } from 'src/Shared/Models/problem';
@@ -15,7 +16,8 @@ import { RequestService } from 'src/Shared/Services/request.service';
 @Component({
   selector: 'app-all-manager-requests',
   templateUrl: './all-manager-requests.component.html',
-  styleUrls: ['./all-manager-requests.component.scss']
+  styleUrls: ['./all-manager-requests.component.scss'],
+  // encapsulation:ViewEncapsulation.None
 })
 export class AllManagerRequestsComponent implements OnInit {
   lstRequests: any[]
@@ -29,19 +31,22 @@ export class AllManagerRequestsComponent implements OnInit {
   reqDescriptionObj: requestDescription
   LoggedInUserString: string
   requestIDForCloseRequest: number
+  requestIDforSolvedRequest:number
   NewdecDialogForCloseRequest: boolean
+  DialogueForSolved:boolean;
   RequestObj: request
   clientObj:client
   role:string
   displayBasic: boolean;
   btnBoolean: boolean=false;
   btnBoolean2: boolean=false;
-  RequestId:number
+  RequestId:number;
+  RequestApproved:request;
 
   constructor(private requestService: RequestService,
      private requestProblemService: ProblemServiceService,
      private requestDescriptionService: RequestDescriptionService,
-     private clientService:ClientService,
+     private clientService:ClientService,private confirmationService: ConfirmationService,
     private router: Router
   ) { }
 
@@ -55,9 +60,10 @@ export class AllManagerRequestsComponent implements OnInit {
       address:'',id:0,clientCode:'',clientName:'',email:'',gender:'',organizationId:0,organizationName:'',phone:''
     }
     this.role = localStorage.getItem('roles');
+    this.LoggedInUserString = localStorage.getItem('loginedUserId');
     console.log("role" ,this.role);
     this.reqDescriptionObj = {descriptionDate:new Date,
-      description: '', id: 0, requestId: 0, userId: this.LoggedInUserString
+      description: '', id: 0, requestId: 0, userId:this.LoggedInUserString
     }
     this.requestService.GetAllRequests().subscribe(e => {
       this.lstRequests = e
@@ -112,6 +118,26 @@ export class AllManagerRequestsComponent implements OnInit {
     this.requestIDForCloseRequest = requestID
     this.NewdecDialogForCloseRequest = true
   }
+  
+  // OpenSolvedDialgoue(RequestId:number)
+  // {
+  //   this.requestIDforSolvedRequest=RequestId 
+  //   this.DialogueForSolved=true;
+    
+  //   console.log("soved request?rftrtrtrfirstt",this.RequestApproved);
+
+  // }
+  confirm(RequestId) {
+    this.confirmationService.confirm({
+        message: 'Are you sure that the request is Solved ?',
+        accept: () => {
+          this.solvedRequest(RequestId)
+        } 
+        
+
+      
+    });
+}
   CloseRequest() {
     this.reqDescriptionObj.requestId=this.requestIDForCloseRequest;
     this.requestDescriptionService.AddRequestDescription(this.reqDescriptionObj).subscribe(e => {
@@ -125,5 +151,23 @@ export class AllManagerRequestsComponent implements OnInit {
       })
     })
     this.NewdecDialogForCloseRequest = false
+  }
+  solvedRequest(RequestId)
+  {
+    this.requestIDforSolvedRequest=RequestId 
+    this.reqDescriptionObj.requestId=this.requestIDforSolvedRequest;
+    this.requestDescriptionService.AddRequestDescription(this.reqDescriptionObj).subscribe(e=>{
+    this.requestService.GetRequestByRequestId(this.requestIDforSolvedRequest).subscribe(res=>{
+    this.RequestApproved=res;
+    this.RequestApproved.requestStatusId=4;
+    this.RequestApproved.IsAssigned=true;
+    this.RequestApproved.IsSolved=true;
+    this.requestService.updateRequest(this.requestIDforSolvedRequest,this.RequestApproved).subscribe(e => {
+      console.log("soved request?",this.RequestApproved),
+      this.ngOnInit();
+    })
+  })
+})  
+       
   }
 }

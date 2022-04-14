@@ -17,4 +17,7 @@ button {
   background-image: none;
   padding-right: 0%;
 }
+::ng-deep .mat-horizontal-stepper-header {
+  pointer-events: none !important;
+}
 

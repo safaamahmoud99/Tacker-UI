@@ -118,11 +118,7 @@ export const environment = {
   GetProjectSiteAssetBySerialNumber:'http://localhost:50653/api/ProjectSiteAsset/GetProjectSiteAssetBySerialNumber',
   GetAllAssetsSerialsByProjectId:'http://localhost:50653/api/ProjectSiteAsset/GetAllAssetsSerialsbyProject',
   GetAllAssignesitesbyclient:'http://localhost:50653/api/SiteClients/GetAllAssignesitesbyclient',
-
-
-
-
-  
+  DaysForAutomaticApprovedStatus:'http://localhost:50653/api/DaysForAutomticApprovedStatus' ,
   production: false 
 
 };

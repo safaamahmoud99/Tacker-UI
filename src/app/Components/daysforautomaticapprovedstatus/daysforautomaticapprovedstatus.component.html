@@ -1,0 +1,52 @@
+ 
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+<br><br>
+<div class="container">
+    <p-table id="my-table" class="container card" #dt dataKey="id"  [value]="lstdaysforautomaticApprovedstatus">
+        <ng-template pTemplate="caption">
+            <h1 style="margin-bottom: 20px; font-size: 2em;color: #2674a8;">Days For Automatic Approved Status </h1>      
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr style="height: 5px !important; ">
+                <th> Days </th>  
+                 
+                <th>Controls</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr style="height: 5px !important;font-size: 17px;">
+                <td>{{item.days}} Days</td>
+                <td>
+                    
+                    <span class="pi pi-pencil" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"
+                        (click)="EditDialog(item.id)"></span>
+                    <!-- <span class="pi pi-times" style="cursor: pointer;margin-left: 15px;" (click)="confirm(dueDateCategory.id)" aria-hidden="true"></span> -->
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+
+
+<form>
+    <p-dialog [(visible)]="Editboolean" [style]="{width: '40vw'}" [baseZIndex]="10000">
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Update Days of Automatic Approved Status</h1>
+        <div class="row">
+            <span class="col-md-4" for="time">Days</span>
+            <input name="days" pInputText type="number" min="1"  class="col-md-6 form-control"
+                [(ngModel)]="DaysforautomaticapprovedStatusObj.days" inputId="date">
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button (onClick)="update(DaysforautomaticapprovedStatusObj.id)" type="submit" icon="pi pi-check"
+                styleClass="p-button-text">Submit</p-button>
+            <p-button icon="pi pi-times" (click)="Editboolean=false">Cancel</p-button>
+        </ng-template>
+
+    </p-dialog>
+</form>
+
+ 

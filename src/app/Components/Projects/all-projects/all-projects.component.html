@@ -512,9 +512,9 @@
                                 <p-columnFilter type="text" field="serialNumber" display="menu">
                                 </p-columnFilter>
                             </th>
-                            <th>{{'Tracker.DueDate' | translate}}
+                            <!-- <th>{{'Tracker.DueDate' | translate}}
                                 <p-columnFilter type="text" field="days" display="menu"></p-columnFilter>
-                            </th>
+                            </th> -->
                             <th>{{'Tracker.Warranty Period' | translate}}
                                 <p-columnFilter type="text" field="warrantyPeriod" display="menu">
                                 </p-columnFilter>
@@ -534,8 +534,8 @@
                             <td>{{i.sitename}}</td>
                             <td>{{i.assetName}}</td>
                             <td>{{i.serialNumber}}</td>
-                            <td>{{i.days}} Days</td>
-                            <td>{{i.warrantyPeriod}} Years</td>
+                            <!-- <td>{{i.days}} Days</td> -->
+                            <td>{{i.warrantyPeriod}} Days</td>
                             <td>{{i.warrantyStartDate | date:'MM/dd/yyyy'}}</td>
                             <td>{{i.supplierName}}</td>
                         </tr>

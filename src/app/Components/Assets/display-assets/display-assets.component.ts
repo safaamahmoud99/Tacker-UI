@@ -67,7 +67,9 @@ export class DisplayAssetsComponent implements OnInit {
     }
     NewDialog() {
         this.NewDialogbool = true;
-
+        this.assetObj = {
+            id: 0, assetCode: '', assetName: '', assetModel: '', brandId: 0, brandName: '', originId: 0, originName: ''
+        }
     }
     add() {
         this.messageService.clear();

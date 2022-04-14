@@ -99,6 +99,7 @@ export class AssignRequestsComponent implements OnInit {
 
   }
   saveAssignedRequest() {
+    console.log("this.assignedReqObj",this.assignedReqObj);
     if (this.assignedReqObj.projectPositionId != 0 && this.assignedReqObj.teamId != 0 
       && this.assignedReqObj.employeeId != 0 && this.reqDescriptionObj.description !="") {
       this.assignedReqObj.employeeId = Number(this.empId)

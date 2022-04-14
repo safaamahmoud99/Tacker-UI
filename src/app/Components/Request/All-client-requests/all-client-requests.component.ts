@@ -26,6 +26,8 @@ import { RequestPeriorityService } from 'src/Shared/Services/request-periority.s
 import { RequestSubCategoryService } from 'src/Shared/Services/request-sub-category.service';
 import { RequestService } from 'src/Shared/Services/request.service';
 import { SiteClientsService } from 'src/Shared/Services/site-clients.service';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
 
 @Component({
   selector: 'app-all-client-requests',
@@ -76,13 +78,14 @@ export class AllClientRequestsComponent implements OnInit {
   canreq:boolean;
   disableAddbth:boolean;
   siteID:any;
+  RequestObj:request;
   reqcodee:string;
   constructor(private requestService: RequestService, private projectteamservice: ProjectTeamService,
     private requestDescriptionService: RequestDescriptionService, private _formBuilder: FormBuilder,
     private organizationClientsService: OrganizationClientsService, private projectService: ProjectService,
     private ReqSubCatService: RequestSubCategoryService, private projectSiteAssetService: ProjectSiteAssetService,
     private reqPeriorityService:RequestPeriorityService,private siteClientsService: SiteClientsService,
-    private messageService: MessageService,private httpClient: HttpClient,private clientService:ClientService
+    private messageService: MessageService,private httpClient: HttpClient,private clientService:ClientService,private confirmationService: ConfirmationService
     ) { }
     ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
@@ -395,4 +398,50 @@ export class AllClientRequestsComponent implements OnInit {
     var filePath = `${environment.Domain}wwwroot/requestImage/${imgObj.imageName}`;
     window.open(filePath);
   }
+  confirm(RequestId) {
+    this.confirmationService.confirm({
+        message: 'Are you sure that you want to Approve this request ?',
+        accept: () => {
+          this.ConfirmSolvedRequest(RequestId)
+        },
+        reject:()=>{
+          this.requestRejected(RequestId)
+        }
+
+      
+    });
+}
+  ConfirmSolvedRequest(RequestId)
+  {
+    
+    this.reqDescriptionObj.requestId=RequestId;
+    this.requestDescriptionService.AddRequestDescription(this.reqDescriptionObj).subscribe(e=>{
+      this.requestService.GetRequestByRequestId(RequestId).subscribe(res=>{
+        this.RequestObj=res       
+        this.RequestObj.requestStatusId=5;
+        this.requestService.updateRequest(RequestId,this.RequestObj).subscribe(e => {
+          console.log("soved request?",this.RequestObj),
+          this.ngOnInit();
+        })
+      })
+    })
+  }
+ requestRejected(RequestId)
+  {
+    this.reqDescriptionObj.requestId=RequestId;
+    this.reqDescriptionObj.description="Request Rejected "
+    this.requestDescriptionService.AddRequestDescription(this.reqDescriptionObj).subscribe(e=>{
+      this.requestService.GetRequestByRequestId(RequestId).subscribe(res=>{
+        this.RequestObj=res;
+        this.RequestObj.IsSolved=false;
+        this.RequestObj.IsAssigned=false;
+        this.RequestObj.requestStatusId=3;
+        this.requestService.updateRequest(RequestId,this.RequestObj).subscribe(e => {
+          console.log("soved request?",this.RequestObj),
+          this.ngOnInit();
+        })
+      })
+    })
+  }
+   
 }

@@ -1,5 +1,20 @@
 <!-- Show all   Requests that belongs to specific client -->
 <div class="container card">
+<p-confirmDialog  [style]="{width: '40vw'}"  header="Confirm Request Approval" icon="pi pi-exclamation-triangle" acceptLabel="Approve" rejectLabel="Reject">
+
+
+
+
+</p-confirmDialog>
+<!-- <p-confirmDialog #cd [style]="{width: '40vw'}">
+    <ng-template pTemplate="header">
+        <h3>confirm</h3>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button type="button" pButton icon="pi pi-times" value="sure" (click)="cd.reject()"></button>
+        <button type="button" pButton icon="pi pi-check" label="Yes" (click)="cd.accept()"></button>
+    </ng-template>
+</p-confirmDialog> -->
     <!-- <p-toast></p-toast>
     <p-toast position="top-right" key="tr" [baseZIndex]="9999"></p-toast>
     <p-toast position="top-left" key="tl"></p-toast>
@@ -14,7 +29,7 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
         <div class="p-d-flex p-ai-center p-jc-between col-md-10">
             <h1 [translate]="'Tracker.Clients Requests'"  style="margin-bottom: 20px;margin-left:20px; font-size: 2em;color: #2674a8;"></h1>
             <!-- {{clientName}} {{ 'Tracker.Requests' | translate }} -->
-           <!--routerLink="/home/AllClientsReq" <span class="h3Header">  {{ 'Tracker.Clients Requests' | translate }}</span> -->
+            <!--routerLink="/home/AllClientsReq" <span class="h3Header">  {{ 'Tracker.Clients Requests' | translate }}</span> -->
         </div>
         <div class="col-md-2" >
             <button id="addEmpBtn"  (click)="OpendialogAddRequest()"  class="btn btn-outline-primary btn-md btn-block">
@@ -79,12 +94,16 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
             <td style="font-weight: bolder;color: #5c6305;" *ngIf="request.requestStatus=='InProgress'">
                 {{request.requestStatus}}
             </td>
-            <td style="font-weight: bolder;color: #1e5c13;" *ngIf="request.requestStatus=='Solved'">
+            <td style="font-weight: bolder;color: #1e5c13;" *ngIf="request.requestStatus=='Approved'">
                 {{request.requestStatus}}
             </td>
             <td style="font-weight: bolder;color: #5a6359;" *ngIf="request.requestStatus=='Closed'">
                 {{request.requestStatus}}
             </td>
+            <td style="font-weight: bolder;color: #8abe84;" *ngIf="request.requestStatus=='Solved'">
+                {{request.requestStatus}}
+            </td>
+          
             <td>
                 {{request.requestSubCategoryName}}
             </td>
@@ -93,6 +112,9 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
                 style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
             <span (click)="ViewMoreDesc(request.id)" class="pi pi-list" pTooltip="Descriptions"
                 style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
+             <span pTooltip="confirm solved process" *ngIf="request.requestStatusId==4" (click)="confirm(request.id)"
+             style="cursor: pointer;margin-left: 15px;" aria-hidden="true">
+             <i class="fa-solid fa-thumbs-up"></i> </span>
             </td>
         </tr>
     </ng-template>

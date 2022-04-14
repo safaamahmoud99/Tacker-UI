@@ -56,9 +56,7 @@ import { DueDateCategoryComponent } from './Components/due-date-category/due-dat
 import { BrandComponent } from './Components/brand/brand.component';
 import { ClientManagerRequestsComponent } from './Components/Request/client-manager-requests/client-manager-requests.component';
 import { ClientManagerComponent } from './Components/ClientComponents/client-manager/client-manager.component';
- 
- 
- 
+import { DaysforautomaticapprovedstatusComponent } from './Components/daysforautomaticapprovedstatus/daysforautomaticapprovedstatus.component';
 import { basic } from './helpers/basic.guard';
 import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
 import { Roles } from '../Shared/Models/Roles';
@@ -118,7 +116,8 @@ const routes: Routes = [
       { path: 'Brand', component: BrandComponent,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.Admin]} },
       { path: 'ClientManagerRequests/:projectId', component: ClientManagerRequestsComponent ,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.ClientManager]}},
       { path: 'ClientManagerComponent', component: ClientManagerComponent,canActivate:[basic],data:{roles:[Roles.SuperAdmin,Roles.Admin,Roles.ClientManager]} },
-      {path:'GovernoratesAndCities',component:GovernoratesComponent,canActivate:[basic],data:[Roles.SuperAdmin,Roles.Admin,Roles.PMO]}
+      {path:'GovernoratesAndCities',component:GovernoratesComponent,canActivate:[basic],data:[Roles.SuperAdmin,Roles.Admin,Roles.PMO]},
+      {path:'daysforautomaticapprovedstatus',component:DaysforautomaticapprovedstatusComponent,canActivate:[basic],data:[Roles.SuperAdmin]}
 
     ]
   }

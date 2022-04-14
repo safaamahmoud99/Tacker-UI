@@ -35,7 +35,7 @@
         <a class="active" class="pi pi-users" routerLink='projectManagerDashboard'> {{ 'Tracker.DashBoard' |
           translate }}</a><br>
       </li>
-      <li  *ngIf="role =='PM'||role== 'PMO'" routerLinkActive="active" >
+      <li  *ngIf="role =='PM'" routerLinkActive="active" >
         <a class="active pi pi-sitemap" routerLink='projectsForProjectManager'>
           {{ 'Tracker.Projects' | translate }} </a><br>
       </li>
@@ -108,7 +108,11 @@
           <li *ngIf="role=='SuperAdmin'||role == 'Admin'" routerLinkActive="active">
             <a class="pi pi-times" class="active" class="pi pi-shopping-cart" routerLink='Brand'> {{ 'Tracker.Brand' |translate }}</a>
           </li>
-        
+          <li *ngIf="role=='SuperAdmin'"  routerLinkActive="active">
+            <a class="pi pi-times" class="active" class="pi" routerLink='daysforautomaticapprovedstatus'><span style="margin-left:1%;margin-right:1%;" class="fa-solid fa-calendar-days">  </span> {{ 'Tracker.DaysForApproved' |translate }}</a>
+          </li>
+          
+          <!-- <i class="fa-solid fa-calendar-days"></i> -->
         </ul>
       </li>
     </ul>
@@ -128,7 +132,7 @@
 
           <ul class="navbar-nav">
 
-            <li style="margin-left: 20px; font-size: 20px; color: #2674a8;" *ngIf="role =='PM'||role== 'PMO'">
+            <li style="margin-left: 20px; font-size: 20px; color: #2674a8;" *ngIf="role =='PM'">
               <a class="active" routerLink='projectsForProjectManager'>
                 {{ 'Tracker.Projects' | translate }} </a><br>
             </li>

@@ -292,6 +292,7 @@
      "Confirmrequirdpassword":"Confirm Password is required",
      "validpasswordLength" :"Password must be at least 6 characters",
      "StrongPassword":"Password must be strong",
-     "Passwordmatch":"Password  must match"
+     "Passwordmatch":"Password  must match",
+     "DaysForApproved":"DaysForApproved"
   }
 }

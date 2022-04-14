@@ -15,10 +15,7 @@
     :host ::ng-deep {
         .p-datatable {
             &.p-datatable-responsive-demo {
-                .p-datatable-thead > tr > th,
-                .p-datatable-tfoot > tr > td {
-                    display: none !important;
-                }
+                 
 
                 .p-datatable-tbody > tr > td {
                     text-align: left;

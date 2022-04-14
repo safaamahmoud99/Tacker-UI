@@ -28,7 +28,7 @@ export const environment = {
   projectPositions: 'http://10.10.0.129/TrackerAPI/api/ProjectPositions/',
   getDepartmentByEmpID: 'http://10.10.0.129/TrackerAPI/api/Departments/GetDepartmentByEmployeeId/',
   projectTypes: 'http://10.10.0.129/TrackerAPI/api/ProjectTypes/',
-  asset: 'http://10.10.0.129/TrackerAPI/api/Assets',
+  asset: 'http://10.10.0.129/TrackerAPI/api/Assets/',
   GetAllRequestByClientId: 'http://10.10.0.129/TrackerAPI/api/Request/GetAllRequestByClientId/',
   reqMode: 'http://10.10.0.129/TrackerAPI/api/RequestModes/',
   GetAllMilestonsByProjectId: 'http://10.10.0.129/TrackerAPI/api/MileStones/GetMileStonesByProjectId/',

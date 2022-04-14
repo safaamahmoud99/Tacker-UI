@@ -16,7 +16,7 @@ export class BrandComponent implements OnInit {
   displayBasic: boolean;
   NewDialogbool: boolean;
   isFound:boolean=false;
-  asd:string;
+ 
   constructor(private BrandService:BrandService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService
     ,public translate: TranslateService) { }
 
@@ -26,14 +26,7 @@ export class BrandComponent implements OnInit {
       res=>{this.lstBrand=res},
       err=>console.log(err)
     )
-    if (this.translate.currentLang == 'English')
-     {
-     this.asd="Showing {first} to {last} of {totalRecords} entries";
-     }
-     if (this.translate.currentLang == 'العربية')
-     {
-      this.asd="  مدخلات {totalRecords}   من {last}  الى  {first}  إظهار "  ;
-     }
+   
   }
   showBasicDialog(id) {
     this.displayBasic = true;

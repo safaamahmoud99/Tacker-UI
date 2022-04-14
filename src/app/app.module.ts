@@ -145,6 +145,7 @@ import { ResetPasswordComponent } from './Components/reset-password/reset-passwo
 import { GovernoratesComponent } from './Components/Governorates&Cities/governorates/governorates.component';
 import { CityComponent } from './Components/Governorates&Cities/city/city.component';
 import { GovernorateComponent } from './Components/Governorates&Cities/governorate/governorate.component';
+import { DaysforautomaticapprovedstatusComponent } from './Components/daysforautomaticapprovedstatus/daysforautomaticapprovedstatus.component';
  
 
 
@@ -210,7 +211,8 @@ registerLocaleData(en);
    ResetPasswordComponent,
    GovernoratesComponent,
    CityComponent,
-   GovernorateComponent
+   GovernorateComponent,
+   DaysforautomaticapprovedstatusComponent
    
   //  PiechartComponent,
   ],
